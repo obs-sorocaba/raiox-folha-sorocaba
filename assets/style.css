@@ -29,10 +29,10 @@
 
   /* Cores dos 5 grupos auditaveis */
   --cor-efetivos:      #2a788e;
-  --cor-funcao:        #7ad151;
-  --cor-comissionados: #fde725;
+  --cor-funcao:        #5c9c2a;
+  --cor-comissionados: #d4a900;
   --cor-flexiveis:     #414487;
-  --cor-inativos:      #999999;
+  --cor-inativos:      #6b6b6b;
   --cor-nc:            #cc0000;
 
   /* Layout */
@@ -63,7 +63,47 @@ a { color: var(--azul-claro); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* -------------------------------------------------------------------------
-   Cabeçalho
+   Skip link (acessibilidade)
+   ------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--azul-escuro);
+  color: var(--branco);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 6px 0;
+  font-weight: 600;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 0;
+  outline: 3px solid var(--amarelo);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+   Foco visivel (acessibilidade de teclado)
+   ------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--azul-claro);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.menu a:focus-visible,
+.drawer-nav a:focus-visible,
+.botao:focus-visible,
+.botao-lateral:focus-visible,
+.menu-hamburguer:focus-visible,
+.drawer-fechar:focus-visible {
+  outline: 3px solid var(--amarelo);
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+   Cabecalho
    ------------------------------------------------------------------------- */
 .cabecalho {
   background: linear-gradient(135deg, var(--azul-escuro) 0%, #00509e 100%);
@@ -113,6 +153,13 @@ a:hover { text-decoration: underline; }
   margin-top: 0.2rem;
 }
 
+.cabecalho-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
 .cabecalho-periodo {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -123,6 +170,31 @@ a:hover { text-decoration: underline; }
 }
 
 .cabecalho-periodo strong { color: var(--amarelo); }
+
+/* Badge "atualizado em" */
+.badge-atualizacao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--amarelo);
+  color: var(--azul-escuro);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  box-shadow: var(--sombra-suave);
+}
+
+.badge-atualizacao::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--verde-escuro);
+}
 
 /* -------------------------------------------------------------------------
    Menu de navegacao (topo)
@@ -639,16 +711,16 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
 }
 
 .badge.efetivos      { background: rgba(42, 120, 142, 0.15);  color: var(--cor-efetivos); }
-.badge.funcao        { background: rgba(122, 209, 81, 0.18);  color: #4a8a2a; }
-.badge.comissionados { background: rgba(253, 231, 37, 0.25);  color: #806b00; }
+.badge.funcao        { background: rgba(92, 156, 42, 0.18);   color: #3a6b1a; }
+.badge.comissionados { background: rgba(212, 169, 0, 0.22);   color: #6b5300; }
 .badge.flexiveis     { background: rgba(65, 68, 135, 0.15);   color: var(--cor-flexiveis); }
-.badge.inativos      { background: rgba(153, 153, 153, 0.18); color: #555; }
+.badge.inativos      { background: rgba(107, 107, 107, 0.18); color: #555; }
 
 /* -------------------------------------------------------------------------
    Impressao
    ------------------------------------------------------------------------- */
 @media print {
-  .menu, .botao-lateral, .drawer, .backdrop, .filtros { display: none !important; }
+  .menu, .botao-lateral, .drawer, .backdrop, .filtros, .skip-link { display: none !important; }
   body { background: var(--branco); }
   .cartao { box-shadow: none; border: 1px solid var(--cinza-borda); }
 }
