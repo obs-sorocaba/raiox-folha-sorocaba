@@ -42,17 +42,19 @@ const CORES = {
   verdeEscuro:  "#00612f",
   verdeClaro:   "#7ab648",
   amarelo:      "#ffd200",
+  // Amarelo escurecido para uso em graficos (contraste >= 3:1 sobre branco)
+  amareloGrafico: "#d4a900",
   branco:       "#ffffff",
   cinzaFundo:   "#f5f7fa",
   cinzaBorda:   "#e0e4ea",
   cinzaTexto:   "#555c66",
   pretoSuave:   "#1a1a1a",
-  // Cores dos 5 grupos auditaveis
+  // Cores dos 5 grupos auditaveis (com ajustes de contraste)
   efetivos:      "#2a788e",
-  funcao:        "#7ad151",
-  comissionados: "#fde725",
+  funcao:        "#5c9c2a",   // verde escurecido (antes #7ad151)
+  comissionados: "#d4a900",   // amarelo escurecido (antes #fde725)
   flexiveis:     "#414487",
-  inativos:      "#999999",
+  inativos:      "#6b6b6b",   // cinza escurecido (antes #999999)
   nc:            "#cc0000",
   // Paleta viridis completa
   viridis: ["#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"],
@@ -102,7 +104,6 @@ async function carregarCSV(caminho) {
    Menu de navegacao
    ------------------------------------------------------------------------- */
 function inicializarMenu() {
-  // Marca o link ativo baseado na URL atual
   const paginaAtual = (location.pathname.split("/").pop() || "index.html");
   document.querySelectorAll(".menu a, .drawer-nav a").forEach((a) => {
     const destino = a.getAttribute("href");
@@ -111,7 +112,6 @@ function inicializarMenu() {
     }
   });
 
-  // Menu hamburguer (mobile)
   const botaoHamburguer = document.querySelector(".menu-hamburguer");
   if (botaoHamburguer) {
     botaoHamburguer.addEventListener("click", () => {
@@ -119,7 +119,6 @@ function inicializarMenu() {
     });
   }
 
-  // Drawer lateral
   const botaoLateral = document.querySelector(".botao-lateral");
   const drawer = document.querySelector(".drawer");
   const backdrop = document.querySelector(".backdrop");
@@ -208,6 +207,8 @@ function graficoLinha(ctx, labels, dados, opcoes = {}) {
 }
 
 function graficoBarras(ctx, labels, dados, opcoes = {}) {
+  // Adiciona borda escura em todas as barras para reforcar contraste WCAG
+  const corBase = opcoes.cor || CORES.azulClaro;
   return new Chart(ctx, {
     type: "bar",
     data: {
@@ -215,7 +216,9 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
       datasets: [{
         label: opcoes.label || "Valor",
         data: dados,
-        backgroundColor: opcoes.cor || CORES.azulClaro,
+        backgroundColor: corBase,
+        borderColor: "rgba(26,26,26,0.35)",
+        borderWidth: 1,
         borderRadius: 4,
         borderSkipped: false,
       }],
@@ -262,8 +265,8 @@ function graficoRosca(ctx, labels, dados, cores) {
       datasets: [{
         data: dados,
         backgroundColor: cores,
-        borderColor: CORES.branco,
-        borderWidth: 2,
+        borderColor: "rgba(26,26,26,0.4)",
+        borderWidth: 1.5,
       }],
     },
     options: {
@@ -290,29 +293,86 @@ function graficoRosca(ctx, labels, dados, cores) {
 
 /* -------------------------------------------------------------------------
    Renderizacao do selo de auditoria
+   Versao robusta contra campos ausentes (nunca mostra "undefined")
    ------------------------------------------------------------------------- */
 function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const el = document.querySelector(seletor);
   if (!el || !selo) return;
 
-  const semAlerta = !selo.alertas || selo.alertas.total_registros_nc === 0;
-  const blocoAlertas = semAlerta
-    ? `<div class="ok"><strong>Auditoria:</strong> nenhum código de regime fora do mapa. Base consistente.</div>`
-    : `<div class="alerta"><strong>Atenção:</strong> ${selo.alertas.total_registros_nc} registros com regime não classificado. Verifique o mapa.</div>`;
+  const fonte = selo.fonte || "-";
+  const per = selo.periodo_coberto || {};
+  const q = selo.qualidade || {};
+  const al = selo.alertas || {};
+
+  // Campos de qualidade (nomes novos, com fallbacks para nomes antigos)
+  const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
+  const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
+  const registrosLiquidos = q.registros_liquidos ?? 0;
+  const percentualMultivinculo = q.percentual_multivinculo ?? q.percentual_duplicatas ?? 0;
+  const matriculasUnicas = q.matriculas_unicas ?? 0;
+  const secretarias = q.secretarias ?? 0;
+
+  // Os 3 alertas estruturais
+  const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
+  const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
+  const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
+
+  const totalPendencias = regNc.length + secNc.length + escNc.length;
+  const semAlerta = totalPendencias === 0;
+
+  const dataFormatada = selo.gerado_em
+    ? new Date(selo.gerado_em).toLocaleString("pt-BR", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      })
+    : "-";
+
+  let blocoAlertas;
+  if (semAlerta) {
+    blocoAlertas = `
+      <div class="ok">
+        <strong>Auditoria em dia.</strong>
+        Todos os códigos de regime, secretarias e escolaridades do portal
+        foram mapeados. Nenhuma pendência de classificação.
+      </div>`;
+  } else {
+    const detalhes = [];
+    if (regNc.length) detalhes.push(`${regNc.length} código(s) de regime`);
+    if (secNc.length) detalhes.push(`${secNc.length} secretaria(s)`);
+    if (escNc.length) detalhes.push(`${escNc.length} escolaridade(s)`);
+    blocoAlertas = `
+      <div class="alerta">
+        <strong>Atenção:</strong>
+        foram detectadas pendências de classificação em ${detalhes.join(", ")}.
+        Consulte os mapas públicos na página Sobre para detalhes.
+      </div>`;
+  }
 
   el.innerHTML = `
     <dt>Fonte</dt>
-    <dd>${selo.fonte || "-"}</dd>
+    <dd>${fonte}</dd>
+
     <dt>Período coberto</dt>
-    <dd>${selo.periodo_coberto?.inicio || "-"} a ${selo.periodo_coberto?.fim || "-"} (${selo.periodo_coberto?.total_meses || 0} meses)</dd>
-    <dt>Registros totais</dt>
-    <dd>${fmtNum.format(selo.qualidade?.registros_totais || 0)}</dd>
-    <dt>Matrículas únicas</dt>
-    <dd>${fmtNum.format(selo.qualidade?.matriculas_unicas || 0)}</dd>
+    <dd>${per.inicio || "-"} a ${per.fim || "-"} · ${per.total_meses || 0} meses</dd>
+
+    <dt>Registros brutos</dt>
+    <dd>${fmtNum.format(registrosBrutos)}</dd>
+
+    <dt>Múltiplos vínculos por mês</dt>
+    <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)})</dd>
+
+    <dt>Registros únicos por mês</dt>
+    <dd>${fmtNum.format(registrosLiquidos)}</dd>
+
+    <dt>Servidores únicos</dt>
+    <dd>${fmtNum.format(matriculasUnicas)}</dd>
+
     <dt>Secretarias</dt>
-    <dd>${selo.qualidade?.secretarias || 0}</dd>
+    <dd>${secretarias}</dd>
+
     <dt>Última atualização</dt>
-    <dd>${selo.gerado_em ? new Date(selo.gerado_em).toLocaleString("pt-BR") : "-"}</dd>
+    <dd>${dataFormatada}</dd>
+
     ${blocoAlertas}
   `;
 }

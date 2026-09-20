@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-19T21:56:26",
+  "gerado_em": "2026-09-20T11:28:30",
   "fonte": "Portal da Transparencia de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "periodo_coberto": {
@@ -8,9 +8,10 @@
     "total_meses": 56
   },
   "qualidade": {
-    "registros_totais": 850517,
-    "registros_duplicados": 148852,
-    "percentual_duplicatas": 17.5,
+    "registros_brutos": 850517,
+    "registros_multivinculo": 148852,
+    "registros_liquidos": 701665,
+    "percentual_multivinculo": 17.5,
     "matriculas_unicas": 26377,
     "secretarias": 29,
     "secretarias_nomes_crus": 47,
@@ -59,12 +60,13 @@
   },
   "notas": [
     "Dados publicos extraidos do Portal da Transparencia de Sorocaba.",
-    "Registros duplicados por matricula+mes correspondem a multiplos vinculos ou pagamentos distintos.",
+    "Registros brutos = linhas do portal. Registros multivinculo = mesma matricula no mesmo mes com pagamentos distintos (ferias, 13o, rescisao). Nao sao erros.",
     "Valores nominais, sem correcao pelo IPCA.",
     "Regimes agrupados em 5 categorias (ver regime_map.csv).",
     "Secretarias agrupadas em 29 nomes canonicos (ver secretaria_map.csv).",
     "Escolaridades agrupadas em 10 niveis (ver escolaridade_map.csv).",
     "Genero inferido por primeiro nome, base do IBGE/Censo 2010 tratada por Alvaro Justen/Brasil.IO (CC-BY-SA).",
+    "Rankings de remuneracao sao sempre agregados por faixa - nenhum servidor e nomeado.",
     "Projeto sem julgamento: apenas organiza dados publicos para consulta."
   ]
 }
