@@ -62,6 +62,7 @@
 
   <main>
 
+    <!-- Apresentacao -->
     <section class="secao">
       <h2 class="secao-titulo">Gênero no quadro de pessoal</h2>
       <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
@@ -69,6 +70,22 @@
         partir do primeiro nome, com base no Censo 2010 do IBGE. Nomes ambíguos
         ficam como "indefinido" e não entram nos cruzamentos.
       </p>
+    </section>
+
+    <!-- Disclaimer metodologico -->
+    <section class="secao">
+      <div class="aviso-metodologico" style="font-size: 0.9rem; line-height: 1.6;">
+        <strong>Como o gênero é definido nesta análise.</strong>
+        O gênero de cada servidor é <strong>inferido</strong> a partir do primeiro nome,
+        com base no Censo 2010 do IBGE (tratado por Álvaro Justen/Brasil.IO, licença CC-BY-SA).
+        Não é autodeclaração. Nomes com classificação ambígua são agrupados como
+        <em>"indefinido"</em> e <strong>excluídos</strong> dos cruzamentos por cargo, secretaria,
+        escolaridade e faixa salarial.
+        <br><br>
+        Os números desta página descrevem <strong>padrões agregados</strong> do quadro municipal.
+        Não substituem a análise de casos individuais, que dependem de tempo de serviço,
+        progressão na carreira e outras variáveis não capturadas aqui.
+      </div>
     </section>
 
     <!-- Bloco 1: Destaques -->
@@ -86,13 +103,13 @@
         <div class="cartao">
           <div class="cartao-titulo">Distribuição por gênero (último mês)</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-geral"></canvas>
+            <canvas id="grafico-geral" aria-label="Gráfico de rosca mostrando a distribuição percentual de servidores por gênero no último mês"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Evolução da participação feminina</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-evolucao"></canvas>
+            <canvas id="grafico-evolucao" aria-label="Gráfico de linha mostrando a evolução da participação feminina na folha ao longo dos meses"></canvas>
           </div>
         </div>
       </div>
@@ -124,7 +141,7 @@
       <div class="aviso-metodologico" id="insight-lideranca">Carregando…</div>
       <div class="cartao">
         <div class="grafico-container baixo">
-          <canvas id="grafico-lideranca"></canvas>
+          <canvas id="grafico-lideranca" aria-label="Gráfico de barras comparando a participação feminina entre a base geral, funções não-liderança e cargos de liderança"></canvas>
         </div>
       </div>
     </section>
@@ -134,7 +151,7 @@
       <h2 class="secao-titulo">Composição por categoria de vínculo</h2>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-categoria"></canvas>
+          <canvas id="grafico-categoria" aria-label="Gráfico de barras horizontais mostrando o percentual feminino em cada categoria de vínculo: efetivos, função de confiança, comissionados, flexíveis e inativos"></canvas>
         </div>
       </div>
       <div class="cartao" style="margin-top:1.5rem;">
@@ -163,7 +180,7 @@
       <h2 class="secao-titulo">Participação feminina por secretaria</h2>
       <div class="cartao">
         <div class="grafico-container" style="height: 520px;">
-          <canvas id="grafico-secretaria"></canvas>
+          <canvas id="grafico-secretaria" aria-label="Gráfico de barras horizontais mostrando o percentual feminino em cada secretaria municipal"></canvas>
         </div>
       </div>
     </section>
@@ -174,7 +191,7 @@
       <div class="aviso-metodologico" id="insight-gap">Carregando…</div>
       <div class="cartao">
         <div class="grafico-container" style="height: 560px;">
-          <canvas id="grafico-gap"></canvas>
+          <canvas id="grafico-gap" aria-label="Gráfico de barras horizontais mostrando a diferença salarial entre homens e mulheres nos cargos com pelo menos 20 servidores de cada gênero"></canvas>
         </div>
       </div>
       <div class="cartao" style="margin-top:1.5rem;">
@@ -203,7 +220,7 @@
       <h2 class="secao-titulo">Distribuição por faixa salarial</h2>
       <div class="cartao">
         <div class="grafico-container baixo">
-          <canvas id="grafico-faixa"></canvas>
+          <canvas id="grafico-faixa" aria-label="Gráfico de barras comparando a distribuição de homens e mulheres em cada faixa salarial"></canvas>
         </div>
       </div>
     </section>
