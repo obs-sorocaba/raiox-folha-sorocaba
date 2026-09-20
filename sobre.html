@@ -13,21 +13,29 @@
 </head>
 <body>
 
+  <!-- Skip link -->
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- Cabecalho -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
-        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
         <div class="cabecalho-titulo">
           <h1>Raio-X do Quadro de Pessoal</h1>
           <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
         </div>
       </div>
-      <div class="cabecalho-periodo" id="cabecalho-periodo">
-        <span>Carregando período…</span>
+      <div class="cabecalho-meta">
+        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+        <div class="cabecalho-periodo" id="cabecalho-periodo">
+          <span>Carregando período…</span>
+        </div>
       </div>
     </div>
   </header>
 
+  <!-- Menu superior -->
   <nav class="menu" aria-label="Menu principal">
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
@@ -35,10 +43,11 @@
       <a href="quadro.html">Quadro</a>
       <a href="genero.html">Gênero</a>
       <a href="sobre.html">Sobre</a>
-      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
 
+  <!-- Botao flutuante + drawer -->
   <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
   <div class="backdrop" aria-hidden="true"></div>
   <aside class="drawer" aria-hidden="true">
@@ -60,7 +69,8 @@
     </div>
   </aside>
 
-  <main>
+  <!-- Conteudo -->
+  <main id="conteudo-principal">
 
     <!-- 1. Missao -->
     <section class="secao">
@@ -357,6 +367,7 @@
 
   </main>
 
+  <!-- Rodape -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <div>
