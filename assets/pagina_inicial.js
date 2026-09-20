@@ -28,9 +28,9 @@ function renderizarKPIs(kpis) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Ticket médio (último mês)</div>
+      <div class="rotulo">Custo médio por servidor</div>
       <div class="valor">${fmtBRL.format(ultimo.ticket_medio || 0)}</div>
-      <div class="detalhe">Folha bruta ÷ matrículas</div>
+      <div class="detalhe">Folha bruta do mês ÷ matrículas únicas</div>
     </div>
 
     <div class="kpi destaque">
@@ -42,7 +42,7 @@ function renderizarKPIs(kpis) {
     <div class="kpi positivo">
       <div class="rotulo">Variação no período</div>
       <div class="valor">${fmtPct(kpis.variacao_periodo_percentual || 0)}</div>
-      <div class="detalhe">Nominal, sem correção pelo IPCA</div>
+      <div class="detalhe">Nominal; em valores corrigidos pelo IPCA, ~+40%</div>
     </div>
 
     <div class="kpi">
