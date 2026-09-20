@@ -13,18 +13,24 @@
 </head>
 <body>
 
+  <!-- Skip link (acessibilidade) -->
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
   <!-- Cabecalho -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
-        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
         <div class="cabecalho-titulo">
           <h1>Raio-X do Quadro de Pessoal</h1>
           <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
         </div>
       </div>
-      <div class="cabecalho-periodo" id="cabecalho-periodo">
-        <span>Carregando período…</span>
+      <div class="cabecalho-meta">
+        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+        <div class="cabecalho-periodo" id="cabecalho-periodo">
+          <span>Carregando período…</span>
+        </div>
       </div>
     </div>
   </header>
@@ -37,7 +43,7 @@
       <a href="quadro.html">Quadro</a>
       <a href="genero.html">Gênero</a>
       <a href="sobre.html">Sobre</a>
-      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
 
@@ -64,7 +70,7 @@
   </aside>
 
   <!-- Conteudo -->
-  <main>
+  <main id="conteudo-principal">
 
     <!-- KPIs -->
     <section class="secao">
@@ -78,7 +84,7 @@
       <h2 class="secao-titulo">Evolução mensal da folha</h2>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-mensal"></canvas>
+          <canvas id="grafico-mensal" aria-label="Gráfico de linha mostrando a evolução mensal da folha de pagamento da Prefeitura de Sorocaba entre janeiro de 2022 e agosto de 2026, com picos sazonais em dezembro devido ao 13º salário"></canvas>
         </div>
         <div class="aviso-metodologico">
           Valores nominais, sem correção pelo IPCA. A série cobre o período disponível no
@@ -94,13 +100,13 @@
         <div class="cartao">
           <div class="cartao-titulo">Último mês disponível</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-rosca"></canvas>
+            <canvas id="grafico-categoria-rosca" aria-label="Gráfico de rosca mostrando a composição da folha do último mês por categoria de vínculo: efetivos, função de confiança, comissionados, flexíveis e inativos"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Evolução por categoria (R$ milhões)</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-linha"></canvas>
+            <canvas id="grafico-categoria-linha" aria-label="Gráfico de linhas mostrando a evolução mensal da folha por categoria de vínculo entre 2022 e 2026"></canvas>
           </div>
         </div>
       </div>
@@ -111,7 +117,7 @@
       <h2 class="secao-titulo">Top 15 secretarias por folha acumulada</h2>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-secretarias"></canvas>
+          <canvas id="grafico-secretarias" aria-label="Gráfico de barras horizontais mostrando as 15 secretarias com maior folha acumulada no período. A Secretaria da Educação lidera com cerca de 46% do total"></canvas>
         </div>
       </div>
     </section>
@@ -167,8 +173,8 @@
           <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">
             Portal da Transparência de Sorocaba
           </a><br>
-          <a href="https://pncp.gov.br/" target="_blank" rel="noopener">
-            PNCP
+          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">
+            Brasil.IO — Gênero de Nomes
           </a>
         </p>
       </div>
