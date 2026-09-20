@@ -70,7 +70,7 @@ code {
 }
 
 /* -------------------------------------------------------------------------
-   Skip link (acessibilidade)
+   Skip link
    ------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
@@ -548,7 +548,7 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
 }
 
 /* -------------------------------------------------------------------------
-   Rodape
+   Rodape (4 colunas)
    ------------------------------------------------------------------------- */
 .rodape {
   background: var(--azul-escuro);
@@ -562,11 +562,15 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
   max-width: var(--largura-max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .rodape-conteudo { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
   .rodape-conteudo { grid-template-columns: 1fr; }
 }
 
