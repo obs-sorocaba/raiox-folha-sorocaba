@@ -1,7 +1,17 @@
 /* =========================================================================
    Pagina inicial - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-   Le os agregados de dados/ e renderiza KPIs, graficos e selo de auditoria.
+   Le os agregados e renderiza KPIs, graficos e selo de auditoria.
+   Toggle: Total x Recorrente no grafico mensal.
    ========================================================================= */
+
+const estadoInicial = {
+  folhaMensalTotal: [],
+  folhaMensalRecorrente: [],
+  visaoAtual: "total",     // "total" | "recorrente"
+  graficoMensal: null,
+};
+
+const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
 /* -------------------------------------------------------------------------
    KPIs
@@ -52,7 +62,6 @@ function renderizarKPIs(kpis) {
     </div>
   `;
 
-  // Cabecalho com periodo
   const ch = document.getElementById("cabecalho-periodo");
   if (ch) {
     ch.innerHTML = `
@@ -64,39 +73,71 @@ function renderizarKPIs(kpis) {
 }
 
 /* -------------------------------------------------------------------------
-   Grafico de evolucao mensal
+   Grafico mensal (com toggle Total x Recorrente)
    ------------------------------------------------------------------------- */
-function renderizarGraficoMensal(dados) {
+function renderizarGraficoMensal() {
   const ctx = document.getElementById("grafico-mensal");
   if (!ctx) return;
 
-  const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
-  const valores = dados.map((d) => d.folha_total / 1e6); // em milhoes
+  const dados = estadoInicial.visaoAtual === "total"
+    ? estadoInicial.folhaMensalTotal
+    : estadoInicial.folhaMensalRecorrente;
 
-  graficoLinha(ctx, labels, valores, {
-    label: "Folha (R$ mi)",
-    cor: CORES.azulClaro,
-    corFundo: "rgba(0,113,206,0.08)",
+  if (!dados.length) return;
+
+  const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
+  const valores = dados.map((d) => d.folha_total / 1e6);
+
+  if (estadoInicial.graficoMensal) estadoInicial.graficoMensal.destroy();
+
+  const rotulo = estadoInicial.visaoAtual === "total"
+    ? "Folha total (R$ mi)"
+    : "Folha recorrente (R$ mi)";
+
+  estadoInicial.graficoMensal = graficoLinha(ctx, labels, valores, {
+    label: rotulo,
+    cor: estadoInicial.visaoAtual === "total" ? CORES.azulClaro : CORES.funcao,
+    corFundo: estadoInicial.visaoAtual === "total"
+      ? "rgba(0,113,206,0.08)"
+      : "rgba(92,156,42,0.10)",
     formatador: (v) => "R$ " + v.toFixed(1).replace(".", ",") + " mi",
     eixoYFormatador: (v) => "R$ " + v.toFixed(0) + " mi",
     inicioZero: false,
   });
 }
 
+function inicializarToggle() {
+  const botoes = document.querySelectorAll("[data-visao]");
+  botoes.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const visao = btn.getAttribute("data-visao");
+      if (visao === estadoInicial.visaoAtual) return;
+      estadoInicial.visaoAtual = visao;
+
+      // Marca o ativo
+      botoes.forEach((b) => b.classList.remove("ativo"));
+      btn.classList.add("ativo");
+
+      renderizarGraficoMensal();
+    });
+  });
+
+  // Marca "Total" como ativo na abertura
+  const btnTotal = document.querySelector('[data-visao="total"]');
+  if (btnTotal) btnTotal.classList.add("ativo");
+}
+
 /* -------------------------------------------------------------------------
-   Composicao por categoria (rosca e linha)
+   Composicao por categoria
    ------------------------------------------------------------------------- */
 function renderizarComposicaoCategoria(dados) {
   if (!dados || !dados.length) return;
 
-  // Ultimo mes disponivel
   const ultimoAno = Math.max(...dados.map((d) => d.ano));
   const mesesUltimoAno = dados.filter((d) => d.ano === ultimoAno).map((d) => d.mes);
   const ultimoMes = Math.max(...mesesUltimoAno);
 
   const ultimoSnapshot = dados.filter((d) => d.ano === ultimoAno && d.mes === ultimoMes);
-
-  // Ordena do maior para o menor
   ultimoSnapshot.sort((a, b) => b.folha_total - a.folha_total);
 
   const labelsRosca = ultimoSnapshot.map((d) => ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo);
@@ -108,18 +149,13 @@ function renderizarComposicaoCategoria(dados) {
     graficoRosca(ctxRosca, labelsRosca, valoresRosca, coresRosca);
   }
 
-  // Evolucao por categoria (linhas multiplas)
   const ctxLinha = document.getElementById("grafico-categoria-linha");
   if (!ctxLinha) return;
 
-  // Agrupa por subgrupo
   const subgrupos = [...new Set(dados.map((d) => d.regime_subgrupo))];
-
-  // Todos os periodos
   const periodosSet = new Set(dados.map((d) => `${d.ano}-${String(d.mes).padStart(2, "0")}`));
   const periodos = [...periodosSet].sort();
 
-  // Datasets
   const datasets = subgrupos.map((sg) => {
     const valores = periodos.map((p) => {
       const [ano, mes] = p.split("-").map(Number);
@@ -180,14 +216,12 @@ function renderizarComposicaoCategoria(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Top secretarias (grafico + tabela)
+   Top secretarias
    ------------------------------------------------------------------------- */
 function renderizarTopSecretarias(topSec, top = 15) {
   if (!topSec || !topSec.length) return;
 
   const recorte = topSec.slice(0, top);
-
-  // Ordena do maior para o menor para exibir barras horizontais
   const ordenado = [...recorte].sort((a, b) => a.folha_total - b.folha_total);
 
   const ctx = document.getElementById("grafico-secretarias");
@@ -201,7 +235,6 @@ function renderizarTopSecretarias(topSec, top = 15) {
     });
   }
 
-  // Tabela
   const tbody = document.querySelector("#tabela-secretarias tbody");
   if (tbody) {
     tbody.innerHTML = recorte
@@ -224,16 +257,30 @@ function renderizarTopSecretarias(topSec, top = 15) {
    ------------------------------------------------------------------------- */
 async function inicializar() {
   try {
-    const [kpis, auditoria, mensal, categoria, topSec] = await Promise.all([
+    const [kpis, auditoria, mensalTotal, mensalRecorrente, categoria, topSec] = await Promise.all([
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
       carregarCSV("dados/folha_mensal.csv"),
+      carregarCSV("dados/folha_mensal_recorrente.csv"),
       carregarCSV("dados/composicao_categoria_mes.csv"),
       carregarCSV("dados/top_secretarias.csv"),
     ]);
 
+    // Converte campos numericos
+    const camposNum = ["folha_total", "folha_liquida", "num_registros",
+                       "num_matriculas", "ticket_medio", "percentual"];
+    [mensalTotal, mensalRecorrente].forEach((arr) => {
+      arr.forEach((r) => {
+        camposNum.forEach((c) => { if (c in r) r[c] = num(r[c]); });
+      });
+    });
+
+    estadoInicial.folhaMensalTotal = mensalTotal;
+    estadoInicial.folhaMensalRecorrente = mensalRecorrente;
+
     renderizarKPIs(kpis);
-    renderizarGraficoMensal(mensal);
+    renderizarGraficoMensal();
+    inicializarToggle();
     renderizarComposicaoCategoria(categoria);
     renderizarTopSecretarias(topSec);
     renderizarSelo(auditoria);
@@ -241,7 +288,7 @@ async function inicializar() {
     console.error(e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML = `<div class="erro">
+      main.innerHTML = `<div class="erro" role="alert">
         <strong>Não foi possível carregar os dados.</strong><br>
         Verifique se a pasta <code>dados/</code> existe e contém os arquivos do pipeline.<br>
         <small>${e.message}</small>
