@@ -1,52 +1,90 @@
 /* =========================================================================
    Pagina Secretarias - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+
+   Modos de operacao:
+   - "municipio"   (padrao ao abrir): total do municipio, soma de todas as
+                    secretarias. KPIs e graficos gerais.
+   - "secretaria"  (apos selecao): recorte por secretaria especifica.
    ========================================================================= */
 
-/* -------------------------------------------------------------------------
-   Estado global
-   ------------------------------------------------------------------------- */
 const estado = {
   resumo: [],
-  folhaMes: [],
-  efetivoMes: [],
-  categoriaSecMes: [],   // NOVO: composicao_categoria_secretaria_mes.csv
+  folhaMes: [],              // folha por secretaria x mes
+  efetivoMes: [],            // efetivo por secretaria x mes
+  folhaMunicipalMes: [],     // folha_mensal.csv (total do municipio)
+  categoriaSecMes: [],
+  categoriaMunicipalMes: [], // composicao_categoria_mes.csv
+  kpis: null,
   auditoria: null,
   secretariaAtual: null,
   metricaAtual: "folha_total",
-  graficoFolha: null,
-  graficoEfetivo: null,
-  graficoCategoria: null,
+  modo: "municipio",         // "municipio" | "secretaria"
+  graficos: {},
 };
+
+const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
 /* -------------------------------------------------------------------------
    Inicializacao
    ------------------------------------------------------------------------- */
 async function inicializar() {
   try {
-    const [resumo, folhaMes, efetivoMes, categoriaSecMes, auditoria, kpis] = await Promise.all([
+    const [
+      resumo, folhaMes, efetivoMes, folhaMunicipalMes,
+      categoriaSecMes, categoriaMunicipalMes,
+      kpis, auditoria,
+    ] = await Promise.all([
       carregarCSV("dados/resumo_secretaria.csv"),
       carregarCSV("dados/folha_por_secretaria_mes.csv"),
       carregarCSV("dados/efetivo_por_secretaria_mes.csv"),
+      carregarCSV("dados/folha_mensal.csv"),
       carregarCSV("dados/composicao_categoria_secretaria_mes.csv"),
-      carregarJSON("dados/auditoria.json"),
+      carregarCSV("dados/composicao_categoria_mes.csv"),
       carregarJSON("dados/kpis.json"),
+      carregarJSON("dados/auditoria.json"),
     ]);
+
+    // Converte campos numericos
+    const camposNum = ["folha_total","folha_liquida","num_registros","num_matriculas",
+                       "ticket_medio","efetivo","folha_media","percentual",
+                       "percentual_na_secretaria"];
+
+    [resumo, folhaMes, efetivoMes, folhaMunicipalMes, categoriaSecMes, categoriaMunicipalMes]
+      .forEach((arr) => {
+        arr.forEach((r) => {
+          camposNum.forEach((c) => { if (c in r) r[c] = num(r[c]); });
+        });
+      });
 
     estado.resumo = resumo;
     estado.folhaMes = folhaMes;
     estado.efetivoMes = efetivoMes;
+    estado.folhaMunicipalMes = folhaMunicipalMes;
     estado.categoriaSecMes = categoriaSecMes;
+    estado.categoriaMunicipalMes = categoriaMunicipalMes;
+    estado.kpis = kpis;
     estado.auditoria = auditoria;
 
     renderizarCabecalhoPeriodo(kpis);
     popularSeletorSecretarias(resumo);
     renderizarSelo(auditoria);
     registrarEventos();
+
+    // Modo inicial: total do municipio (ou secretaria via URL)
+    const params = new URLSearchParams(location.search);
+    const secInicial = params.get("secretaria");
+    if (secInicial && resumo.some((s) => s.secretaria === secInicial)) {
+      const sel = document.getElementById("seletor-secretaria");
+      if (sel) sel.value = secInicial;
+      selecionarSecretaria(secInicial);
+    } else {
+      selecionarMunicipio();
+    }
   } catch (e) {
     console.error(e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML = `<div class="erro">
+      main.innerHTML = `<div class="erro" role="alert">
         <strong>Não foi possível carregar os dados.</strong><br>
         <small>${e.message}</small>
       </div>`;
@@ -77,20 +115,13 @@ function popularSeletorSecretarias(resumo) {
 
   const ordenado = [...resumo].sort((a, b) => b.folha_total - a.folha_total);
 
-  sel.innerHTML = `<option value="">— Selecione uma secretaria —</option>`;
+  sel.innerHTML = `<option value="">— Total do município (padrão) —</option>`;
   ordenado.forEach((s) => {
     const opt = document.createElement("option");
     opt.value = s.secretaria;
     opt.textContent = `${s.secretaria} (${fmtBRLCompacto(s.folha_total)})`;
     sel.appendChild(opt);
   });
-
-  const params = new URLSearchParams(location.search);
-  const secInicial = params.get("secretaria");
-  if (secInicial && ordenado.some((s) => s.secretaria === secInicial)) {
-    sel.value = secInicial;
-    selecionarSecretaria(secInicial);
-  }
 }
 
 /* -------------------------------------------------------------------------
@@ -104,7 +135,14 @@ function registrarEventos() {
   if (sel) {
     sel.addEventListener("change", (e) => {
       const nome = e.target.value;
-      if (!nome) return;
+      if (!nome) {
+        // Voltou para "Total do município"
+        const url = new URL(location.href);
+        url.searchParams.delete("secretaria");
+        history.replaceState(null, "", url.toString());
+        selecionarMunicipio();
+        return;
+      }
       selecionarSecretaria(nome);
       const url = new URL(location.href);
       url.searchParams.set("secretaria", nome);
@@ -115,7 +153,9 @@ function registrarEventos() {
   if (selMetrica) {
     selMetrica.addEventListener("change", (e) => {
       estado.metricaAtual = e.target.value;
-      if (estado.secretariaAtual) {
+      if (estado.modo === "municipio") {
+        renderizarKPIsMunicipio(estado.kpis);
+      } else if (estado.secretariaAtual) {
         renderizarKPIs(estado.resumo.find((s) => s.secretaria === estado.secretariaAtual));
       }
     });
@@ -127,9 +167,111 @@ function registrarEventos() {
 }
 
 /* -------------------------------------------------------------------------
-   Selecao de uma secretaria
+   Modo: Total do municipio
+   ------------------------------------------------------------------------- */
+function selecionarMunicipio() {
+  estado.modo = "municipio";
+  estado.secretariaAtual = null;
+
+  // Serie municipal
+  const folha = [...estado.folhaMunicipalMes].sort(
+    (a, b) => a.ano - b.ano || a.mes - b.mes
+  );
+
+  // Efetivo municipal: soma das matriculas de todas as secretarias por mes
+  // (evita double counting: matriculas unicas nao podem ser somadas, entao
+  // usamos num_matriculas do folha_mensal como proxy correto)
+  const efetivo = folha.map((f) => ({
+    ano: f.ano,
+    mes: f.mes,
+    efetivo: f.num_matriculas,
+  }));
+
+  renderizarKPIsMunicipio(estado.kpis);
+  renderizarTitulosCartoes("Total do município");
+  renderizarGraficoFolha(folha, "municipio");
+  renderizarGraficoEfetivo(efetivo, "municipio");
+  renderizarGraficoCategoria(estado.categoriaMunicipalMes, "municipio");
+  renderizarComparadoresMunicipio();
+  renderizarTabela(folha);
+
+  // Limpa comparadores (nao se aplica quando vemos o total)
+  const el = document.getElementById("comparadores");
+  if (el) {
+    el.innerHTML = `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <p style="color: var(--cinza-texto); font-size: 0.92rem; line-height: 1.6;">
+          Este é o <strong>total do município</strong>, soma de todas as secretarias.
+          Selecione uma secretaria acima para ver o recorte específico.
+        </p>
+        <p style="font-size: 0.85rem; color: var(--cinza-texto);">
+          <strong>${estado.resumo.length}</strong> secretarias canônicas ·
+          <strong>${fmtBRLCompacto(estado.kpis?.totais?.folha_bruta_total || 0)}</strong> acumulados no período.
+        </p>
+      </div>
+    `;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   KPIs do municipio
+   ------------------------------------------------------------------------- */
+function renderizarKPIsMunicipio(kpis) {
+  const el = document.getElementById("kpis-secretaria");
+  if (!el || !kpis) return;
+
+  const tot = kpis.totais || {};
+  const ult = kpis.ultimo_mes || {};
+  const per = kpis.periodo || {};
+
+  el.innerHTML = `
+    <div class="kpi destaque">
+      <div class="rotulo">Folha acumulada no período</div>
+      <div class="valor">${fmtBRLCompacto(tot.folha_bruta_total || 0)}</div>
+      <div class="detalhe">${per.meses_cobertos || 0} meses · total do município</div>
+    </div>
+
+    <div class="kpi">
+      <div class="rotulo">Folha do último mês</div>
+      <div class="valor">${fmtBRLCompacto(ult.folha_bruta || 0)}</div>
+      <div class="detalhe">${rotuloPeriodo(ult.ano, ult.mes)}</div>
+    </div>
+
+    <div class="kpi">
+      <div class="rotulo">Servidores (último mês)</div>
+      <div class="valor">${fmtNum.format(ult.matriculas || 0)}</div>
+      <div class="detalhe">Matrículas únicas no mês</div>
+    </div>
+
+    <div class="kpi">
+      <div class="rotulo">Custo médio por servidor</div>
+      <div class="valor">${fmtBRL.format(ult.ticket_medio || 0)}</div>
+      <div class="detalhe">Folha bruta ÷ matrículas (último mês)</div>
+    </div>
+
+    <div class="kpi">
+      <div class="rotulo">Secretarias</div>
+      <div class="valor">${fmtNum.format(tot.secretarias_unicas || 0)}</div>
+      <div class="detalhe">Órgãos canônicos na base</div>
+    </div>
+
+    <div class="kpi">
+      <div class="rotulo">Servidores únicos (período)</div>
+      <div class="valor">${fmtNum.format(tot.matriculas_unicas || 0)}</div>
+      <div class="detalhe">Distintos em todos os meses</div>
+    </div>
+  `;
+}
+
+function renderizarComparadoresMunicipio() {
+  // Ja tratado em selecionarMunicipio()
+}
+
+/* -------------------------------------------------------------------------
+   Modo: Secretaria especifica
    ------------------------------------------------------------------------- */
 function selecionarSecretaria(nome) {
+  estado.modo = "secretaria";
   estado.secretariaAtual = nome;
 
   const resumo = estado.resumo.find((s) => s.secretaria === nome);
@@ -148,15 +290,16 @@ function selecionarSecretaria(nome) {
     .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
 
   renderizarKPIs(resumo);
-  renderizarGraficoFolha(folhaSec);
-  renderizarGraficoEfetivo(efetivoSec);
-  renderizarGraficoCategoria(categoriaSec);
+  renderizarTitulosCartoes(nome);
+  renderizarGraficoFolha(folhaSec, "secretaria");
+  renderizarGraficoEfetivo(efetivoSec, "secretaria");
+  renderizarGraficoCategoria(categoriaSec, "secretaria");
   renderizarComparadores(resumo);
   renderizarTabela(folhaSec);
 }
 
 /* -------------------------------------------------------------------------
-   KPIs
+   KPIs da secretaria
    ------------------------------------------------------------------------- */
 function renderizarKPIs(resumo) {
   const el = document.getElementById("kpis-secretaria");
@@ -195,7 +338,7 @@ function renderizarKPIs(resumo) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Ticket médio</div>
+      <div class="rotulo">Custo médio por servidor</div>
       <div class="valor">${fmtBRL.format(resumo.folha_media_mensal / (resumo.num_matriculas || 1))}</div>
       <div class="detalhe">Folha acumulada ÷ matrículas únicas</div>
     </div>
@@ -215,18 +358,33 @@ function renderizarKPIs(resumo) {
 }
 
 /* -------------------------------------------------------------------------
+   Titulos dos cartoes de grafico
+   ------------------------------------------------------------------------- */
+function renderizarTitulosCartoes(contexto) {
+  const titulos = document.querySelectorAll(".cartao-titulo");
+  titulos.forEach((el) => {
+    if (el.textContent.startsWith("Evolução mensal da folha")) {
+      el.textContent = `Evolução mensal da folha — ${contexto}`;
+    }
+    if (el.textContent.startsWith("Evolução mensal do efetivo")) {
+      el.textContent = `Evolução mensal do efetivo — ${contexto}`;
+    }
+  });
+}
+
+/* -------------------------------------------------------------------------
    Grafico de folha
    ------------------------------------------------------------------------- */
-function renderizarGraficoFolha(dados) {
+function renderizarGraficoFolha(dados, contexto) {
   const ctx = document.getElementById("grafico-folha");
   if (!ctx) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
   const valores = dados.map((d) => d.folha_total / 1e6);
 
-  if (estado.graficoFolha) estado.graficoFolha.destroy();
+  if (estado.graficos.folha) estado.graficos.folha.destroy();
 
-  estado.graficoFolha = graficoLinha(ctx, labels, valores, {
+  estado.graficos.folha = graficoLinha(ctx, labels, valores, {
     label: "Folha (R$ mi)",
     cor: CORES.azulClaro,
     corFundo: "rgba(0,113,206,0.08)",
@@ -239,16 +397,16 @@ function renderizarGraficoFolha(dados) {
 /* -------------------------------------------------------------------------
    Grafico de efetivo
    ------------------------------------------------------------------------- */
-function renderizarGraficoEfetivo(dados) {
+function renderizarGraficoEfetivo(dados, contexto) {
   const ctx = document.getElementById("grafico-efetivo");
   if (!ctx) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
   const valores = dados.map((d) => d.efetivo);
 
-  if (estado.graficoEfetivo) estado.graficoEfetivo.destroy();
+  if (estado.graficos.efetivo) estado.graficos.efetivo.destroy();
 
-  estado.graficoEfetivo = graficoLinha(ctx, labels, valores, {
+  estado.graficos.efetivo = graficoLinha(ctx, labels, valores, {
     label: "Efetivo",
     cor: CORES.verdeClaro,
     corFundo: "rgba(122,182,72,0.10)",
@@ -259,50 +417,51 @@ function renderizarGraficoEfetivo(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Composicao por categoria - REAL (usando composicao_categoria_secretaria_mes)
+   Composicao por categoria
    ------------------------------------------------------------------------- */
-function renderizarGraficoCategoria(dados) {
+function renderizarGraficoCategoria(dados, contexto) {
   const ctx = document.getElementById("grafico-categoria");
   if (!ctx) return;
 
-  if (estado.graficoCategoria) estado.graficoCategoria.destroy();
+  if (estado.graficos.categoria) estado.graficos.categoria.destroy();
 
   if (!dados || !dados.length) {
     const container = ctx.parentElement;
-    container.innerHTML = `<div class="aviso-metodologico">Sem dados de categoria para esta secretaria.</div>`;
+    container.innerHTML = `<div class="aviso-metodologico">Sem dados de categoria.</div>`;
     return;
   }
 
-  // Ultimo mes disponivel para esta secretaria
+  // Pega o ultimo mes disponivel
   const ultima = dados.reduce((acc, d) => {
     const chave = d.ano * 100 + d.mes;
     if (!acc || chave > (acc.ano * 100 + acc.mes)) return d;
     return acc;
   }, null);
 
-  const snapshot = dados.filter((d) => d.ano === ultima.ano && d.mes === ultima.mes);
-  snapshot.sort((a, b) => b.folha_total - a.folha_total);
+  const snapshot = dados
+    .filter((d) => d.ano === ultima.ano && d.mes === ultima.mes)
+    .sort((a, b) => b.folha_total - a.folha_total);
 
   const labels = snapshot.map((d) => ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo);
   const valores = snapshot.map((d) => d.folha_total);
   const cores = snapshot.map((d) => CORES_GRUPO[d.regime_subgrupo] || CORES.cinzaTexto);
 
-  estado.graficoCategoria = graficoRosca(ctx, labels, valores, cores);
+  estado.graficos.categoria = graficoRosca(ctx, labels, valores, cores);
 
-  // Adiciona legenda do mes
+  // Atualiza aviso metodologico
   const container = ctx.parentElement;
-  const avisoExistente = container.querySelector(".aviso-metodologico");
-  if (!avisoExistente) {
-    const aviso = document.createElement("div");
+  let aviso = container.querySelector(".aviso-metodologico");
+  if (!aviso) {
+    aviso = document.createElement("div");
     aviso.className = "aviso-metodologico";
     aviso.style.marginTop = "1rem";
-    aviso.innerHTML = `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong>.`;
     container.appendChild(aviso);
   }
+  aviso.innerHTML = `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${contexto}.`;
 }
 
 /* -------------------------------------------------------------------------
-   Comparadores com a mediana municipal
+   Comparadores com a mediana municipal (modo secretaria)
    ------------------------------------------------------------------------- */
 function renderizarComparadores(resumo) {
   const el = document.getElementById("comparadores");
@@ -354,7 +513,7 @@ function renderizarComparadores(resumo) {
 
       <div>
         <div style="font-size: 0.78rem; color: var(--cinza-texto); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600;">
-          Ticket médio vs mediana municipal
+          Custo médio vs mediana municipal
         </div>
         <div style="font-size: 1.2rem; font-weight: 600;">
           ${fmtBRL.format(ticketSec)} ${comparar(ticketSec, medianaTicket)}
@@ -372,7 +531,7 @@ function renderizarTabela(dados) {
   if (!tbody) return;
 
   if (!dados.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="carregando">Sem dados para esta secretaria.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="carregando">Sem dados.</td></tr>`;
     return;
   }
 
@@ -384,10 +543,10 @@ function renderizarTabela(dados) {
     <tr>
       <td>${rotuloPeriodo(d.ano, d.mes)}</td>
       <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
-      <td class="numerico">${fmtBRL.format(d.folha_liquida)}</td>
-      <td class="numerico">${fmtNum.format(d.num_registros)}</td>
-      <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
-      <td class="numerico">${fmtBRL.format(d.ticket_medio)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_liquida || 0)}</td>
+      <td class="numerico">${fmtNum.format(d.num_registros || 0)}</td>
+      <td class="numerico">${fmtNum.format(d.num_matriculas || 0)}</td>
+      <td class="numerico">${fmtBRL.format(d.ticket_medio || 0)}</td>
     </tr>`
     )
     .join("");
@@ -397,14 +556,21 @@ function renderizarTabela(dados) {
    Exportar CSV do recorte atual
    ------------------------------------------------------------------------- */
 function exportarCSV() {
-  if (!estado.secretariaAtual) {
-    alert("Escolha uma secretaria antes de exportar.");
+  let dados;
+  let nomeArquivo;
+
+  if (estado.modo === "municipio") {
+    dados = [...estado.folhaMunicipalMes].sort((a, b) => a.ano - b.ano || a.mes - b.mes);
+    nomeArquivo = "total_municipio.csv";
+  } else if (estado.secretariaAtual) {
+    dados = estado.folhaMes
+      .filter((f) => f.secretaria === estado.secretariaAtual)
+      .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
+    nomeArquivo = `secretaria_${estado.secretariaAtual.replace(/[^a-zA-Z0-9]/g, "_")}.csv`;
+  } else {
+    alert("Nada para exportar.");
     return;
   }
-
-  const dados = estado.folhaMes
-    .filter((f) => f.secretaria === estado.secretariaAtual)
-    .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
 
   if (!dados.length) {
     alert("Sem dados para exportar.");
@@ -427,7 +593,6 @@ function exportarCSV() {
   const csv = linhas.join("\n");
   const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
-  const nomeArquivo = `secretaria_${estado.secretariaAtual.replace(/[^a-zA-Z0-9]/g, "_")}.csv`;
 
   const a = document.createElement("a");
   a.href = url;
@@ -439,6 +604,6 @@ function exportarCSV() {
 }
 
 /* -------------------------------------------------------------------------
-   Inicializacao no carregamento da pagina
+   Inicializacao
    ------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);
