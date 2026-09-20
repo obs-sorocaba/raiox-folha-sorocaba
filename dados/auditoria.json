@@ -1,0 +1,70 @@
+{
+  "gerado_em": "2026-09-19T21:56:26",
+  "fonte": "Portal da Transparencia de Sorocaba",
+  "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
+  "periodo_coberto": {
+    "inicio": "2022-01",
+    "fim": "2026-08",
+    "total_meses": 56
+  },
+  "qualidade": {
+    "registros_totais": 850517,
+    "registros_duplicados": 148852,
+    "percentual_duplicatas": 17.5,
+    "matriculas_unicas": 26377,
+    "secretarias": 29,
+    "secretarias_nomes_crus": 47,
+    "valor_bruto_total": 5856656503.71,
+    "genero_indefinido_registros": 11254,
+    "genero_indefinido_percentual": 1.32,
+    "escolaridade_nao_mapeada": 0
+  },
+  "composicao_por_grupo": [
+    {
+      "regime_grupo": "Comissionados e agentes politicos (sem vinculo de carreira)",
+      "registros": 8845,
+      "folha": 129279148.18,
+      "percentual": 2.21
+    },
+    {
+      "regime_grupo": "Efetivos e empregados publicos (carreira)",
+      "registros": 632634,
+      "folha": 4920971307.65,
+      "percentual": 84.02
+    },
+    {
+      "regime_grupo": "Efetivos em funcao de confianca (sobre vinculo de carreira)",
+      "registros": 40127,
+      "folha": 483117061.25,
+      "percentual": 8.25
+    },
+    {
+      "regime_grupo": "Inativos e pensionistas",
+      "registros": 14811,
+      "folha": 69765209.88,
+      "percentual": 1.19
+    },
+    {
+      "regime_grupo": "Temporarios, estagiarios e eventuais",
+      "registros": 154100,
+      "folha": 253523776.75,
+      "percentual": 4.33
+    }
+  ],
+  "alertas": {
+    "codigos_regime_nao_mapeados": [],
+    "secretarias_nao_mapeadas": [],
+    "escolaridades_nao_mapeadas": [],
+    "genero_indefinido_nomes": 217
+  },
+  "notas": [
+    "Dados publicos extraidos do Portal da Transparencia de Sorocaba.",
+    "Registros duplicados por matricula+mes correspondem a multiplos vinculos ou pagamentos distintos.",
+    "Valores nominais, sem correcao pelo IPCA.",
+    "Regimes agrupados em 5 categorias (ver regime_map.csv).",
+    "Secretarias agrupadas em 29 nomes canonicos (ver secretaria_map.csv).",
+    "Escolaridades agrupadas em 10 niveis (ver escolaridade_map.csv).",
+    "Genero inferido por primeiro nome, base do IBGE/Censo 2010 tratada por Alvaro Justen/Brasil.IO (CC-BY-SA).",
+    "Projeto sem julgamento: apenas organiza dados publicos para consulta."
+  ]
+}

@@ -1,0 +1,28 @@
+﻿escolaridade_canonica;genero_inferido;num_matriculas;folha_media
+Analfabeto;feminino;15;3232.282437417655
+Analfabeto;masculino;9;4890.813663911846
+Fundamental incompleto;feminino;55;3655.850968978738
+Fundamental incompleto;indefinido;2;6422.762500000001
+Fundamental incompleto;masculino;70;5716.802977993712
+Fundamental completo;feminino;227;3851.671832615716
+Fundamental completo;indefinido;8;3155.423731778426
+Fundamental completo;masculino;224;4954.925888888889
+Medio incompleto;feminino;34;4008.9030492898914
+Medio incompleto;masculino;20;7583.122842920354
+Medio completo;feminino;3728;4103.5961841193875
+Medio completo;indefinido;71;5035.80749005425
+Medio completo;masculino;1597;5881.653279580797
+Superior incompleto;feminino;3886;1631.819625193882
+Superior incompleto;indefinido;44;2360.052655538695
+Superior incompleto;masculino;960;2899.67851245283
+Superior completo;feminino;10444;6247.210986807952
+Superior completo;indefinido;140;8024.158480440337
+Superior completo;masculino;2210;10878.749570973947
+Pos-graduacao;feminino;2474;10631.299236579576
+Pos-graduacao;indefinido;47;9877.117733897509
+Pos-graduacao;masculino;331;16321.121172334955
+Mestrado;feminino;100;13599.404290440538
+Mestrado;indefinido;2;25492.188120805367
+Mestrado;masculino;43;15326.815169230767
+Doutorado;feminino;21;13902.322801276934
+Doutorado;masculino;16;16640.27856870229

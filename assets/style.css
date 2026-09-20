@@ -1,0 +1,654 @@
+/* =========================================================================
+   Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+   Observatorio Social do Brasil - Sorocaba
+   Estilo base - identidade visual extraida do cartaz institucional do OSB
+   ========================================================================= */
+
+:root {
+  /* Cores institucionais (extraidas do cartaz OSB) */
+  --azul-escuro:   #003a70;
+  --azul-claro:    #0071ce;
+  --verde-escuro:  #00612f;
+  --verde-claro:   #7ab648;
+  --amarelo:       #ffd200;
+
+  /* Neutros */
+  --branco:        #ffffff;
+  --cinza-fundo:   #f5f7fa;
+  --cinza-borda:   #e0e4ea;
+  --cinza-texto:   #555c66;
+  --preto-suave:   #1a1a1a;
+
+  /* Cores viridis (graficos) */
+  --viridis-1: #440154;
+  --viridis-2: #414487;
+  --viridis-3: #2a788e;
+  --viridis-4: #22a884;
+  --viridis-5: #7ad151;
+  --viridis-6: #fde725;
+
+  /* Cores dos 5 grupos auditaveis */
+  --cor-efetivos:      #2a788e;
+  --cor-funcao:        #7ad151;
+  --cor-comissionados: #fde725;
+  --cor-flexiveis:     #414487;
+  --cor-inativos:      #999999;
+  --cor-nc:            #cc0000;
+
+  /* Layout */
+  --largura-max: 1200px;
+  --raio-borda: 10px;
+  --sombra-suave: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --sombra-media: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* -------------------------------------------------------------------------
+   Reset basico
+   ------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  background: var(--cinza-fundo);
+  color: var(--preto-suave);
+  line-height: 1.55;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--azul-claro); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* -------------------------------------------------------------------------
+   Cabeçalho
+   ------------------------------------------------------------------------- */
+.cabecalho {
+  background: linear-gradient(135deg, var(--azul-escuro) 0%, #00509e 100%);
+  color: var(--branco);
+  padding: 2rem 1.5rem 1.5rem;
+  position: relative;
+}
+
+.cabecalho-conteudo {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.cabecalho-identidade {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cabecalho-logo {
+  width: 56px;
+  height: 56px;
+  background: var(--branco);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--azul-escuro);
+  font-weight: 800;
+}
+
+.cabecalho-titulo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cabecalho-titulo p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 0.2rem;
+}
+
+.cabecalho-periodo {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--raio-borda);
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: var(--branco);
+}
+
+.cabecalho-periodo strong { color: var(--amarelo); }
+
+/* -------------------------------------------------------------------------
+   Menu de navegacao (topo)
+   ------------------------------------------------------------------------- */
+.menu {
+  background: var(--azul-escuro);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--sombra-suave);
+}
+
+.menu-conteudo {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.menu a {
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.6rem 1rem;
+  border-radius: var(--raio-borda);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu a:hover { background: rgba(255, 255, 255, 0.1); color: var(--branco); text-decoration: none; }
+.menu a.ativo { background: var(--amarelo); color: var(--azul-escuro); font-weight: 600; }
+
+.menu-hamburguer {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--branco);
+  font-size: 1.4rem;
+}
+
+@media (max-width: 768px) {
+  .menu-conteudo { flex-wrap: wrap; }
+  .menu a { display: none; width: 100%; text-align: left; }
+  .menu a.visivel { display: block; }
+  .menu-hamburguer { display: block; }
+}
+
+/* -------------------------------------------------------------------------
+   Botao flutuante (drawer lateral)
+   ------------------------------------------------------------------------- */
+.botao-lateral {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--azul-escuro);
+  color: var(--branco);
+  border: 3px solid var(--amarelo);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--sombra-media);
+  z-index: 200;
+  transition: transform 0.15s;
+}
+
+.botao-lateral:hover { transform: scale(1.08); }
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 320px;
+  max-width: 85vw;
+  background: var(--branco);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.aberto { transform: translateX(0); }
+
+.drawer-cabecalho {
+  padding: 1.5rem 1.5rem 1rem;
+  background: var(--azul-escuro);
+  color: var(--branco);
+}
+
+.drawer-cabecalho h2 { font-size: 1.1rem; margin-bottom: 0.2rem; }
+.drawer-cabecalho p  { font-size: 0.8rem; opacity: 0.85; }
+
+.drawer-nav { flex: 1; padding: 1rem 0; overflow-y: auto; }
+
+.drawer-nav a {
+  display: block;
+  padding: 0.9rem 1.5rem;
+  color: var(--preto-suave);
+  font-size: 1rem;
+  border-left: 4px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.drawer-nav a:hover, .drawer-nav a.ativo {
+  background: var(--cinza-fundo);
+  border-left-color: var(--amarelo);
+  color: var(--azul-escuro);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.drawer-rodape {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--cinza-borda);
+  font-size: 0.75rem;
+  color: var(--cinza-texto);
+  background: var(--cinza-fundo);
+}
+
+.drawer-rodape strong { color: var(--azul-escuro); }
+
+.drawer-fechar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--branco);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 200;
+}
+
+.backdrop.aberto { opacity: 1; pointer-events: auto; }
+
+/* -------------------------------------------------------------------------
+   Conteudo principal
+   ------------------------------------------------------------------------- */
+main {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.secao { margin-bottom: 2.5rem; }
+
+.secao-titulo {
+  font-size: 1.25rem;
+  color: var(--azul-escuro);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--cinza-borda);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.secao-titulo::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: var(--amarelo);
+  border-radius: 2px;
+}
+
+/* -------------------------------------------------------------------------
+   Cards de KPI
+   ------------------------------------------------------------------------- */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.kpi {
+  background: var(--branco);
+  border-radius: var(--raio-borda);
+  padding: 1.25rem 1.25rem 1rem;
+  box-shadow: var(--sombra-suave);
+  border-left: 4px solid var(--azul-escuro);
+  transition: transform 0.15s;
+}
+
+.kpi:hover { transform: translateY(-2px); }
+
+.kpi.destaque  { border-left-color: var(--amarelo); }
+.kpi.positivo  { border-left-color: var(--verde-claro); }
+.kpi.alerta    { border-left-color: var(--cor-nc); }
+
+.kpi .rotulo {
+  font-size: 0.78rem;
+  color: var(--cinza-texto);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.kpi .valor {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--azul-escuro);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi .detalhe {
+  font-size: 0.78rem;
+  color: var(--cinza-texto);
+  margin-top: 0.35rem;
+}
+
+/* -------------------------------------------------------------------------
+   Cartoes
+   ------------------------------------------------------------------------- */
+.cartao {
+  background: var(--branco);
+  border-radius: var(--raio-borda);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-suave);
+  margin-bottom: 1.5rem;
+}
+
+.cartao-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--azul-escuro);
+  margin-bottom: 1rem;
+}
+
+.grade-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) { .grade-2 { grid-template-columns: 1fr; } }
+
+/* -------------------------------------------------------------------------
+   Graficos
+   ------------------------------------------------------------------------- */
+.grafico-container {
+  position: relative;
+  height: 320px;
+  margin-top: 0.5rem;
+}
+
+.grafico-container.baixo { height: 260px; }
+
+/* -------------------------------------------------------------------------
+   Tabelas
+   ------------------------------------------------------------------------- */
+.tabela-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th, td {
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--cinza-borda);
+}
+
+th {
+  background: var(--cinza-fundo);
+  font-weight: 600;
+  color: var(--azul-escuro);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  position: sticky;
+  top: 0;
+}
+
+tbody tr:hover { background: #fafbfd; }
+
+td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* -------------------------------------------------------------------------
+   Selo de auditoria
+   ------------------------------------------------------------------------- */
+.selo {
+  background: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--raio-borda);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem 1.2rem;
+}
+
+.selo dt {
+  font-weight: 600;
+  color: var(--cinza-texto);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.selo dd { color: var(--preto-suave); }
+
+.selo .alerta {
+  grid-column: 1 / -1;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff8dc;
+  border-left: 4px solid var(--amarelo);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #6b5300;
+}
+
+.selo .ok {
+  grid-column: 1 / -1;
+  margin-top: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  background: #eaf7ea;
+  border-left: 4px solid var(--verde-claro);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--verde-escuro);
+}
+
+/* -------------------------------------------------------------------------
+   Rodape
+   ------------------------------------------------------------------------- */
+.rodape {
+  background: var(--azul-escuro);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 2rem 1.5rem 1rem;
+  font-size: 0.85rem;
+  margin-top: 3rem;
+}
+
+.rodape-conteudo {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .rodape-conteudo { grid-template-columns: 1fr; }
+}
+
+.rodape h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--amarelo);
+  margin-bottom: 0.6rem;
+}
+
+.rodape a { color: rgba(255, 255, 255, 0.9); }
+.rodape a:hover { color: var(--amarelo); }
+
+.rodape-final {
+  max-width: var(--largura-max);
+  margin: 1.5rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* -------------------------------------------------------------------------
+   Botoes de acao
+   ------------------------------------------------------------------------- */
+.botao {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--raio-borda);
+  border: none;
+  background: var(--azul-claro);
+  color: var(--branco);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.botao:hover { background: var(--azul-escuro); text-decoration: none; }
+.botao.secundario { background: var(--cinza-borda); color: var(--preto-suave); }
+.botao.secundario:hover { background: #cfd6e0; }
+
+/* -------------------------------------------------------------------------
+   Filtros
+   ------------------------------------------------------------------------- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--branco);
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-suave);
+}
+
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 160px;
+  flex: 1;
+}
+
+.filtro-item label {
+  font-size: 0.75rem;
+  color: var(--cinza-texto);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+
+.filtro-item select, .filtro-item input {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 6px;
+  font-size: 0.92rem;
+  background: var(--branco);
+  color: var(--preto-suave);
+  font-family: inherit;
+}
+
+.filtro-item select:focus, .filtro-item input:focus {
+  outline: 2px solid var(--azul-claro);
+  outline-offset: 1px;
+  border-color: var(--azul-claro);
+}
+
+/* -------------------------------------------------------------------------
+   Estados
+   ------------------------------------------------------------------------- */
+.erro {
+  background: #fdecea;
+  border-left: 4px solid var(--cor-nc);
+  color: #7a1c14;
+  padding: 1rem 1.25rem;
+  border-radius: var(--raio-borda);
+  font-size: 0.9rem;
+}
+
+.carregando {
+  text-align: center;
+  padding: 2rem;
+  color: var(--cinza-texto);
+  font-size: 0.9rem;
+}
+
+.carregando::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--azul-claro);
+  border-top-color: transparent;
+  animation: girar 0.8s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* -------------------------------------------------------------------------
+   Ajustes finais
+   ------------------------------------------------------------------------- */
+.aviso-metodologico {
+  background: #eef4fb;
+  border-left: 4px solid var(--azul-claro);
+  padding: 0.9rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  color: #1a3a5c;
+  margin: 1rem 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.badge.efetivos      { background: rgba(42, 120, 142, 0.15);  color: var(--cor-efetivos); }
+.badge.funcao        { background: rgba(122, 209, 81, 0.18);  color: #4a8a2a; }
+.badge.comissionados { background: rgba(253, 231, 37, 0.25);  color: #806b00; }
+.badge.flexiveis     { background: rgba(65, 68, 135, 0.15);   color: var(--cor-flexiveis); }
+.badge.inativos      { background: rgba(153, 153, 153, 0.18); color: #555; }
+
+/* -------------------------------------------------------------------------
+   Impressao
+   ------------------------------------------------------------------------- */
+@media print {
+  .menu, .botao-lateral, .drawer, .backdrop, .filtros { display: none !important; }
+  body { background: var(--branco); }
+  .cartao { box-shadow: none; border: 1px solid var(--cinza-borda); }
+}

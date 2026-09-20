@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quadro — Raio-X do Quadro de Pessoal</title>
+  <meta name="description" content="Perfil do quadro de pessoal da Prefeitura de Sorocaba: escolaridade, tempo de casa, composição por categoria e gênero.">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/pagina_quadro.js" defer></script>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <div class="cabecalho-identidade">
+        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-titulo">
+          <h1>Raio-X do Quadro de Pessoal</h1>
+          <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
+        </div>
+      </div>
+      <div class="cabecalho-periodo" id="cabecalho-periodo">
+        <span>Carregando período…</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="menu-conteudo">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+    </div>
+  </nav>
+
+  <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
+  <div class="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" aria-hidden="true">
+    <div class="drawer-cabecalho">
+      <h2>Navegação</h2>
+      <p>Raio-X do Quadro de Pessoal</p>
+      <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="drawer-nav" aria-label="Menu lateral">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+    <div class="drawer-rodape">
+      <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
+      Dados públicos, organizados pelo OSB Sorocaba.
+    </div>
+  </aside>
+
+  <main>
+
+    <section class="secao">
+      <h2 class="secao-titulo">Perfil do quadro de pessoal</h2>
+      <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
+        Quem são as pessoas que prestam os serviços públicos em Sorocaba. Esta página
+        reúne três eixos: nível de instrução, tempo de casa e composição por categoria
+        de vínculo.
+      </p>
+      <div class="filtros">
+        <div class="filtro-item">
+          <label for="seletor-ano">Ano</label>
+          <select id="seletor-ano">
+            <option value="todos">Todos os anos (acumulado)</option>
+          </select>
+        </div>
+        <div class="filtro-item">
+          <label for="seletor-secretaria-quadro">Secretaria (opcional)</label>
+          <select id="seletor-secretaria-quadro">
+            <option value="todas">Todas as secretarias</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bloco 1: Escolaridade -->
+    <section class="secao">
+      <h2 class="secao-titulo">Nível de instrução do quadro</h2>
+      <div class="aviso-metodologico" id="narrativa-escolaridade">
+        Carregando…
+      </div>
+      <div class="grade-2">
+        <div class="cartao">
+          <div class="cartao-titulo">Servidores por nível de instrução</div>
+          <div class="grafico-container">
+            <canvas id="grafico-escolaridade-contagem"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Remuneração média por nível de instrução</div>
+          <div class="grafico-container">
+            <canvas id="grafico-escolaridade-folha"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-escolaridade">
+            <thead>
+              <tr>
+                <th>Nível de instrução</th>
+                <th class="numerico">Servidores</th>
+                <th class="numerico">Folha total</th>
+                <th class="numerico">Folha média</th>
+                <th class="numerico">Folha mediana</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bloco 2: Tempo de servico -->
+    <section class="secao">
+      <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
+      <div class="aviso-metodologico" id="narrativa-tempo">
+        Carregando…
+      </div>
+      <div class="grade-2">
+        <div class="cartao">
+          <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
+          <div class="grafico-container">
+            <canvas id="grafico-tempo-contagem"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Remuneração média por tempo de casa</div>
+          <div class="grafico-container">
+            <canvas id="grafico-tempo-folha"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-tempo">
+            <thead>
+              <tr>
+                <th>Faixa</th>
+                <th class="numerico">Servidores</th>
+                <th class="numerico">Folha total</th>
+                <th class="numerico">Folha média</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="4" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bloco 3: Composicao por categoria -->
+    <section class="secao">
+      <h2 class="secao-titulo">Composição da folha por categoria</h2>
+      <div class="grade-2">
+        <div class="cartao">
+          <div class="cartao-titulo">Último mês disponível</div>
+          <div class="grafico-container baixo">
+            <canvas id="grafico-categoria-rosca"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Evolução por categoria (R$ milhões)</div>
+          <div class="grafico-container baixo">
+            <canvas id="grafico-categoria-linha"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bloco 4: Escolaridade x categoria -->
+    <section class="secao">
+      <h2 class="secao-titulo">Nível de instrução por categoria</h2>
+      <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">
+        Carregando…
+      </div>
+      <div class="cartao">
+        <div class="grafico-container">
+          <canvas id="grafico-escolaridade-categoria"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bloco 5: Genero x escolaridade -->
+    <section class="secao">
+      <h2 class="secao-titulo">Gênero por nível de instrução</h2>
+      <div class="aviso-metodologico" id="narrativa-genero-escolaridade">
+        Comparação entre servidores e servidoras em cada nível de instrução.
+      </div>
+      <div class="cartao">
+        <div class="grafico-container">
+          <canvas id="grafico-genero-escolaridade"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao">
+      <h2 class="secao-titulo">Selo de auditoria</h2>
+      <dl class="selo" id="selo-conteudo">
+        <div class="carregando">Carregando selo…</div>
+      </dl>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div>
+        <h3>Sobre este painel</h3>
+        <p>
+          Painel público, histórico e comparável da folha de pessoal da Prefeitura de
+          Sorocaba. Os dados são extraídos do Portal da Transparência e organizados pelo
+          Observatório Social do Brasil — Sorocaba. Nenhum dado sensível é publicado:
+          apenas agregados.
+        </p>
+      </div>
+      <div>
+        <h3>Fontes</h3>
+        <p>
+          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">
+            Portal da Transparência de Sorocaba
+          </a>
+        </p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <p>
+          <a href="index.html">Início</a><br>
+          <a href="secretarias.html">Secretarias</a><br>
+          <a href="quadro.html">Quadro</a><br>
+          <a href="genero.html">Gênero</a><br>
+          <a href="sobre.html">Sobre</a>
+        </p>
+      </div>
+    </div>
+    <div class="rodape-final">
+      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+    </div>
+  </footer>
+
+</body>
+</html>

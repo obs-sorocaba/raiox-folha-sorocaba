@@ -1,0 +1,29 @@
+{
+  "periodo": {
+    "inicio": "2022-01",
+    "fim": "2026-08",
+    "meses_cobertos": 56,
+    "anos_cobertos": 5
+  },
+  "totais": {
+    "folha_bruta_total": 5856656503.71,
+    "folha_liquida_total": 3773432967.91,
+    "registros_totais": 850517,
+    "matriculas_unicas": 26377,
+    "secretarias_unicas": 29
+  },
+  "ultimo_mes": {
+    "ano": 2026,
+    "mes": 8,
+    "folha_bruta": 124784562.77,
+    "matriculas": 13916,
+    "ticket_medio": 8966.98
+  },
+  "primeiro_mes": {
+    "ano": 2022,
+    "mes": 1,
+    "folha_bruta": 70274692.34
+  },
+  "variacao_periodo_percentual": 77.57,
+  "gerado_em": "2026-09-19T21:56:25"
+}

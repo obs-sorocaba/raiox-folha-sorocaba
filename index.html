@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raio-X do Quadro de Pessoal — Prefeitura de Sorocaba</title>
+  <meta name="description" content="Painel público e histórico da folha de pagamento da Prefeitura de Sorocaba. Dados do Portal da Transparência, organizados pelo Observatório Social do Brasil — Sorocaba.">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/pagina_inicial.js" defer></script>
+</head>
+<body>
+
+  <!-- Cabecalho -->
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <div class="cabecalho-identidade">
+        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-titulo">
+          <h1>Raio-X do Quadro de Pessoal</h1>
+          <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
+        </div>
+      </div>
+      <div class="cabecalho-periodo" id="cabecalho-periodo">
+        <span>Carregando período…</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu superior -->
+  <nav class="menu" aria-label="Menu principal">
+    <div class="menu-conteudo">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Botao flutuante + drawer -->
+  <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
+  <div class="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" aria-hidden="true">
+    <div class="drawer-cabecalho">
+      <h2>Navegação</h2>
+      <p>Raio-X do Quadro de Pessoal</p>
+      <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="drawer-nav" aria-label="Menu lateral">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+    <div class="drawer-rodape">
+      <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
+      Dados públicos, organizados pelo OSB Sorocaba.
+    </div>
+  </aside>
+
+  <!-- Conteudo -->
+  <main>
+
+    <!-- KPIs -->
+    <section class="secao">
+      <div class="kpis" id="kpis">
+        <div class="carregando">Carregando indicadores…</div>
+      </div>
+    </section>
+
+    <!-- Evolucao mensal -->
+    <section class="secao">
+      <h2 class="secao-titulo">Evolução mensal da folha</h2>
+      <div class="cartao">
+        <div class="grafico-container">
+          <canvas id="grafico-mensal"></canvas>
+        </div>
+        <div class="aviso-metodologico">
+          Valores nominais, sem correção pelo IPCA. A série cobre o período disponível no
+          Portal da Transparência no momento da extração.
+        </div>
+      </div>
+    </section>
+
+    <!-- Composicao por categoria -->
+    <section class="secao">
+      <h2 class="secao-titulo">Composição da folha por categoria</h2>
+      <div class="grade-2">
+        <div class="cartao">
+          <div class="cartao-titulo">Último mês disponível</div>
+          <div class="grafico-container baixo">
+            <canvas id="grafico-categoria-rosca"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Evolução por categoria (R$ milhões)</div>
+          <div class="grafico-container baixo">
+            <canvas id="grafico-categoria-linha"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top secretarias -->
+    <section class="secao">
+      <h2 class="secao-titulo">Top 15 secretarias por folha acumulada</h2>
+      <div class="cartao">
+        <div class="grafico-container">
+          <canvas id="grafico-secretarias"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabela top secretarias -->
+    <section class="secao">
+      <h2 class="secao-titulo">Detalhamento das maiores secretarias</h2>
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-secretarias">
+            <thead>
+              <tr>
+                <th>Secretaria</th>
+                <th class="numerico">Folha total</th>
+                <th class="numerico">Média mensal</th>
+                <th class="numerico">% do total</th>
+                <th class="numerico">Servidores (únicos)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando dados…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selo de auditoria -->
+    <section class="secao">
+      <h2 class="secao-titulo">Selo de auditoria</h2>
+      <dl class="selo" id="selo-conteudo">
+        <div class="carregando">Carregando selo…</div>
+      </dl>
+    </section>
+
+  </main>
+
+  <!-- Rodape -->
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div>
+        <h3>Sobre este painel</h3>
+        <p>
+          Painel público, histórico e comparável da folha de pessoal da Prefeitura de
+          Sorocaba. Os dados são extraídos do Portal da Transparência e organizados pelo
+          Observatório Social do Brasil — Sorocaba. Nenhum dado sensível é publicado:
+          apenas agregados. O projeto não emite juízo sobre pessoas ou gestões.
+        </p>
+      </div>
+      <div>
+        <h3>Fontes</h3>
+        <p>
+          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">
+            Portal da Transparência de Sorocaba
+          </a><br>
+          <a href="https://pncp.gov.br/" target="_blank" rel="noopener">
+            PNCP
+          </a>
+        </p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <p>
+          <a href="index.html">Início</a><br>
+          <a href="secretarias.html">Secretarias</a><br>
+          <a href="quadro.html">Quadro</a><br>
+          <a href="genero.html">Gênero</a><br>
+          <a href="sobre.html">Sobre</a>
+        </p>
+      </div>
+    </div>
+    <div class="rodape-final">
+      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+    </div>
+  </footer>
+
+</body>
+</html>

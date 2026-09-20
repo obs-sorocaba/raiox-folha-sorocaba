@@ -1,0 +1,184 @@
+{
+  "gerado_em": "2026-09-19T22:06:03",
+  "fonte": "Portal da Transparencia de Sorocaba",
+  "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
+  "publicado_por": "Observatorio Social do Brasil - Sorocaba",
+  "total_arquivos": 29,
+  "tamanho_total_kb": 792.6,
+  "arquivos": [
+    {
+      "arquivo": "auditoria.json",
+      "origem": "agregados",
+      "tamanho_bytes": 2348,
+      "tamanho_kb": 2.3
+    },
+    {
+      "arquivo": "composicao_categoria_mes.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 25315,
+      "tamanho_kb": 24.7
+    },
+    {
+      "arquivo": "composicao_categoria_secretaria_mes.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 387756,
+      "tamanho_kb": 378.7
+    },
+    {
+      "arquivo": "composicao_regime_mes.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 113052,
+      "tamanho_kb": 110.4
+    },
+    {
+      "arquivo": "efetivo_por_secretaria_mes.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 63386,
+      "tamanho_kb": 61.9
+    },
+    {
+      "arquivo": "escolaridade_map.csv",
+      "origem": "scripts",
+      "tamanho_bytes": 821,
+      "tamanho_kb": 0.8
+    },
+    {
+      "arquivo": "folha_mensal.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 3023,
+      "tamanho_kb": 3.0
+    },
+    {
+      "arquivo": "folha_por_secretaria_mes.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 108324,
+      "tamanho_kb": 105.8
+    },
+    {
+      "arquivo": "genero_evolucao_mensal.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 2444,
+      "tamanho_kb": 2.4
+    },
+    {
+      "arquivo": "genero_faixa_salarial.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 686,
+      "tamanho_kb": 0.7
+    },
+    {
+      "arquivo": "genero_gap_salarial.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 4247,
+      "tamanho_kb": 4.1
+    },
+    {
+      "arquivo": "genero_geral.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 346,
+      "tamanho_kb": 0.3
+    },
+    {
+      "arquivo": "genero_lideranca.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 125,
+      "tamanho_kb": 0.1
+    },
+    {
+      "arquivo": "genero_por_categoria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 1261,
+      "tamanho_kb": 1.2
+    },
+    {
+      "arquivo": "genero_por_escolaridade.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 1388,
+      "tamanho_kb": 1.4
+    },
+    {
+      "arquivo": "genero_por_secretaria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 7820,
+      "tamanho_kb": 7.6
+    },
+    {
+      "arquivo": "kpis.json",
+      "origem": "agregados",
+      "tamanho_bytes": 645,
+      "tamanho_kb": 0.6
+    },
+    {
+      "arquivo": "quadro_escolaridade.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 760,
+      "tamanho_kb": 0.7
+    },
+    {
+      "arquivo": "quadro_escolaridade_categoria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 2643,
+      "tamanho_kb": 2.6
+    },
+    {
+      "arquivo": "quadro_escolaridade_categoria_secretaria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 32540,
+      "tamanho_kb": 31.8
+    },
+    {
+      "arquivo": "quadro_escolaridade_por_ano.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 3126,
+      "tamanho_kb": 3.1
+    },
+    {
+      "arquivo": "quadro_escolaridade_secretaria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 18314,
+      "tamanho_kb": 17.9
+    },
+    {
+      "arquivo": "quadro_tempo_servico.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 413,
+      "tamanho_kb": 0.4
+    },
+    {
+      "arquivo": "quadro_tempo_servico_por_ano.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 1920,
+      "tamanho_kb": 1.9
+    },
+    {
+      "arquivo": "quadro_tempo_servico_secretaria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 13599,
+      "tamanho_kb": 13.3
+    },
+    {
+      "arquivo": "regime_map.csv",
+      "origem": "tratados",
+      "tamanho_bytes": 5116,
+      "tamanho_kb": 5.0
+    },
+    {
+      "arquivo": "resumo_secretaria.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 2727,
+      "tamanho_kb": 2.7
+    },
+    {
+      "arquivo": "secretaria_map.csv",
+      "origem": "scripts",
+      "tamanho_bytes": 4996,
+      "tamanho_kb": 4.9
+    },
+    {
+      "arquivo": "top_secretarias.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 2362,
+      "tamanho_kb": 2.3
+    }
+  ]
+}

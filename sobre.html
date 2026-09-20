@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — Raio-X do Quadro de Pessoal</title>
+  <meta name="description" content="Metodologia, base legal, roadmap e mapas públicos do Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba.">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/pagina_sobre.js" defer></script>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <div class="cabecalho-identidade">
+        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-titulo">
+          <h1>Raio-X do Quadro de Pessoal</h1>
+          <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
+        </div>
+      </div>
+      <div class="cabecalho-periodo" id="cabecalho-periodo">
+        <span>Carregando período…</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="menu-conteudo">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+    </div>
+  </nav>
+
+  <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
+  <div class="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" aria-hidden="true">
+    <div class="drawer-cabecalho">
+      <h2>Navegação</h2>
+      <p>Raio-X do Quadro de Pessoal</p>
+      <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="drawer-nav" aria-label="Menu lateral">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+    <div class="drawer-rodape">
+      <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
+      Dados públicos, organizados pelo OSB Sorocaba.
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- 1. Missao -->
+    <section class="secao">
+      <h2 class="secao-titulo">Missão do projeto</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem;">
+          O <strong>Raio-X do Quadro de Pessoal</strong> é um painel público, histórico e
+          comparável da folha de pagamento da Prefeitura de Sorocaba. Ele transforma os
+          dados publicados no Portal da Transparência em informação legível para o
+          cidadão, com séries temporais, comparadores e indicadores que o portal oficial
+          não oferece.
+        </p>
+        <p style="margin-bottom: 1rem;">
+          O projeto é mantido pelo <strong>Observatório Social do Brasil — Sorocaba</strong>,
+          uma organização da sociedade civil dedicada ao controle social e à transparência
+          pública. O painel não julga pessoas nem gestões: apenas organiza dados públicos
+          para consulta.
+        </p>
+        <p>
+          Todos os dados são abertos e podem ser baixados no formato CSV. O código-fonte
+          do pipeline também é aberto e está disponível para outros observatórios e
+          pesquisadores.
+        </p>
+      </div>
+    </section>
+
+    <!-- 2. Como usar -->
+    <section class="secao">
+      <h2 class="secao-titulo">Como usar este painel</h2>
+      <div class="cartao">
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li>Quer ver <strong>quanto a folha custou ao longo do tempo</strong>? Vá em <a href="index.html">Início</a>.</li>
+          <li>Quer ver <strong>quanto sua secretaria gasta</strong> e como evoluiu? Vá em <a href="secretarias.html">Secretarias</a>.</li>
+          <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa)? Vá em <a href="quadro.html">Quadro</a>.</li>
+          <li>Quer saber sobre <strong>gênero, liderança e gap salarial</strong>? Vá em <a href="genero.html">Gênero</a>.</li>
+          <li>Quer baixar os dados abertos? Todos os arquivos CSV estão em <code>dados/</code> e podem ser acessados diretamente.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3. Fonte dos dados -->
+    <section class="secao">
+      <h2 class="secao-titulo">Fonte dos dados</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem;">
+          Todos os dados vêm do <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a>,
+          nas telas <em>"Funcionários — Detalhe"</em> e <em>"Número de Servidores por Cargo"</em>.
+          A extração é mensal e automatizada.
+        </p>
+        <dl class="selo" id="fonte-dados">
+          <div class="carregando">Carregando…</div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 4. Metodologia -->
+    <section class="secao">
+      <h2 class="secao-titulo">Metodologia</h2>
+      <div class="cartao">
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Tratamento dos dados</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><strong>Regimes:</strong> os 43 códigos de regime usados pelo portal são agrupados em 5 categorias auditáveis (Efetivos, Função de confiança, Comissionados, Flexíveis, Inativos). O mapeamento está em <code>regime_map.csv</code>.</li>
+          <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
+          <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
+          <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li>Os valores são <strong>nominais</strong>, sem correção pelo IPCA. A evolução real precisa considerar a inflação do período.</li>
+          <li>Registros duplicados por matrícula+mês correspondem a <strong>múltiplos vínculos</strong> ou pagamentos distintos (férias, 13º, rescisão). Não são erros.</li>
+          <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
+          <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. Mapas publicos -->
+    <section class="secao">
+      <h2 class="secao-titulo">Mapas públicos de metodologia</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          Estes são os arquivos que usamos para agrupar as categorias. Eles são públicos
+          para que qualquer cidadão, jornalista ou pesquisador possa auditar nossa
+          metodologia. Digite abaixo para filtrar cada tabela.
+        </p>
+
+        <!-- Mapa de regimes -->
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de regimes</h3>
+        <div class="filtros" style="margin-bottom: 0.75rem;">
+          <div class="filtro-item">
+            <label for="busca-regime">Buscar regime</label>
+            <input type="text" id="busca-regime" placeholder="Ex: COMIS, EST, APOS...">
+          </div>
+        </div>
+        <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
+          <table id="tabela-regimes">
+            <thead>
+              <tr>
+                <th>Regime (cru)</th>
+                <th>Regime base</th>
+                <th>Grupo auditável</th>
+                <th>Subgrupo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="4" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mapa de secretarias -->
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de secretarias</h3>
+        <div class="filtros" style="margin-bottom: 0.75rem;">
+          <div class="filtro-item">
+            <label for="busca-secretaria">Buscar secretaria</label>
+            <input type="text" id="busca-secretaria" placeholder="Ex: Saúde, Educação, I-...">
+          </div>
+        </div>
+        <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
+          <table id="tabela-secretarias-mapa">
+            <thead>
+              <tr>
+                <th>Nome (cru)</th>
+                <th>Nome canônico</th>
+                <th>Sigla</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mapa de escolaridades -->
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de escolaridades</h3>
+        <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
+          <table id="tabela-escolaridades">
+            <thead>
+              <tr>
+                <th>Escolaridade (crua)</th>
+                <th>Escolaridade canônica</th>
+                <th>Ordem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Selo de auditoria -->
+    <section class="secao">
+      <h2 class="secao-titulo">Selo de auditoria</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          Cada geração do pipeline passa por uma esteira de validação. O resultado é o
+          selo abaixo — uma fotografia dos dados publicados no site.
+        </p>
+        <dl class="selo" id="selo-conteudo">
+          <div class="carregando">Carregando selo…</div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 7. Base legal -->
+    <section class="secao">
+      <h2 class="secao-titulo">Base legal e limites</h2>
+      <div class="cartao">
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">O que pode ser publicado</h3>
+        <p style="margin-bottom: 1rem;">
+          Nome, cargo e remuneração de servidor público podem ser publicados nominalmente.
+          O Supremo Tribunal Federal decidiu, por unanimidade, que isso é legítimo e não
+          fere a privacidade, por se tratar de dinheiro público
+          (<a href="https://portal.stf.jus.br/processos/detalhe.asp?incidente=4235707" target="_blank" rel="noopener">ARE 652.777, Tema 483, 2015</a>).
+        </p>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">O que NÃO publicamos</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li>CPF, RG ou qualquer documento de identificação individual.</li>
+          <li>Endereço, telefone, e-mail ou dado de contato pessoal.</li>
+          <li>Dados bancários, financeiros ou de saúde.</li>
+          <li>Nome individual associado a qualquer alerta de anomalia.</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">LGPD</h3>
+        <p>
+          O projeto segue os princípios da Lei Geral de Proteção de Dados (Lei 13.709/2018).
+          Todos os dados publicados são agregados ou estritamente públicos, conforme
+          decisão do STF. Não publicamos microdados individuais identificáveis em nenhuma
+          página do site.
+        </p>
+      </div>
+    </section>
+
+    <!-- 8. Roadmap -->
+    <section class="secao">
+      <h2 class="secao-titulo">Roadmap público</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1.25rem; color: var(--cinza-texto);">
+          O painel está em construção permanente. Abaixo, o que já foi entregue e o que
+          vem nas próximas ondas.
+        </p>
+
+        <div style="display: grid; gap: 1rem;">
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-escuro);">Onda 1 — Concluída</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Série histórica da folha (56 meses)</li>
+              <li>Ranking de secretarias</li>
+              <li>Composição por categoria</li>
+              <li>Análise por secretaria</li>
+              <li>Quadro: escolaridade e tempo de casa</li>
+              <li>Análise de gênero (representação, liderança, gap salarial)</li>
+            </ul>
+          </div>
+
+          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
+            <strong style="color: var(--azul-escuro);">Onda 2 — Próxima</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Distribuição salarial (percentis e índice de Gini)</li>
+              <li>Evolução nominal vs. corrigida pelo IPCA</li>
+              <li>Simulador de reajuste</li>
+              <li>Ranking por cargo</li>
+            </ul>
+          </div>
+
+          <div style="padding: 1rem; background: #fff8dc; border-left: 4px solid var(--amarelo); border-radius: 6px;">
+            <strong style="color: #6b5300;">Onda 3 — Em estudo</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Nível de unidade (escola, UBS, prédio)</li>
+              <li>Distribuição de carga horária e detecção de acúmulos</li>
+              <li>Projeção de aposentadorias (2027–2032)</li>
+              <li>Fluxos entre secretarias (Sankey)</li>
+            </ul>
+          </div>
+
+          <div style="padding: 1rem; background: #f5eaf7; border-left: 4px solid #7a4ba8; border-radius: 6px;">
+            <strong style="color: #7a4ba8;">Onda 4 — Longo prazo</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Folha per capita (IBGE)</li>
+              <li>Custo por aluno (INEP)</li>
+              <li>Folha como % da receita (LRF)</li>
+              <li>Comparação com municípios pares</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Creditos -->
+    <section class="secao">
+      <h2 class="secao-titulo">Créditos e licenças</h2>
+      <div class="cartao">
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><strong>Dados primários:</strong> Portal da Transparência de Sorocaba.</li>
+          <li><strong>Base de gênero por nome:</strong> IBGE/Censo 2010, dados tratados por Álvaro Justen/Brasil.IO (licença CC-BY-SA).</li>
+          <li><strong>Bibliotecas usadas:</strong> Chart.js, PapaParse, pandas, Python.</li>
+          <li><strong>Projeto e código:</strong> Observatório Social do Brasil — Sorocaba. Código aberto.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div>
+        <h3>Sobre este painel</h3>
+        <p>
+          Painel público, histórico e comparável da folha de pessoal da Prefeitura de
+          Sorocaba. Os dados são extraídos do Portal da Transparência e organizados pelo
+          Observatório Social do Brasil — Sorocaba. Nenhum dado sensível é publicado:
+          apenas agregados.
+        </p>
+      </div>
+      <div>
+        <h3>Fontes</h3>
+        <p>
+          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência</a><br>
+          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
+        </p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <p>
+          <a href="index.html">Início</a><br>
+          <a href="secretarias.html">Secretarias</a><br>
+          <a href="quadro.html">Quadro</a><br>
+          <a href="genero.html">Gênero</a><br>
+          <a href="sobre.html">Sobre</a>
+        </p>
+      </div>
+    </div>
+    <div class="rodape-final">
+      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+    </div>
+  </footer>
+
+</body>
+</html>

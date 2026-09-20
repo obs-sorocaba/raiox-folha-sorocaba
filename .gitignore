@@ -1,0 +1,15 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+.spyproject/
+*.swp
+
+# Temporarios
+*.tmp
+*.bak
+*.log

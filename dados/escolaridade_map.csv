@@ -1,0 +1,17 @@
+escolaridade_crua;escolaridade_canonica;ordem;observacao
+ANALFABETO;Analfabeto;1;
+FUNDAMENTAL INCOMPLETO(ATE 5o);Fundamental incompleto;2;Unificado
+FUNDAMENTAL INCOMPLETO (ATE 5o);Fundamental incompleto;2;Unificado
+FUNDAMENTAL INCOMPLETO (6o-9o);Fundamental incompleto;2;Unificado
+FUNDAMENTAL INCOMPLETO(6o-9o);Fundamental incompleto;2;Unificado
+FUNDAMENTAL COMPLETO;Fundamental completo;3;Unificado
+FUNDAMENTAL COMPLETO (5o.ANO);Fundamental completo;3;Unificado
+ENSINO MEDIO INCOMPLETO;Medio incompleto;4;
+ENSINO MEDIO COMPLETO;Medio completo;5;Unificado
+MEDIO COMPLETO;Medio completo;5;Unificado
+SUPERIOR INCOMPLETO;Superior incompleto;6;
+SUPERIOR COMPLETO;Superior completo;7;
+POS-GRADUADO;Pos-graduacao;8;Unificado
+POS-GRADUACAO;Pos-graduacao;8;Unificado
+MESTRADO COMPLETO;Mestrado;9;
+DOUTORADO COMPLETO;Doutorado;10;
