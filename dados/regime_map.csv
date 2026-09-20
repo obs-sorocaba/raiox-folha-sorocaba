@@ -1,45 +1,45 @@
-﻿regime_cru;regime_base;regime_grupo;regime_subgrupo
-AGENTE POLITICO              S;AGENTE POLITICO              S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-AGENTE POLITICO - EDUCACAO   S;AGENTE POLITICO - EDUCACAO   S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-AGENTE POLITICO RPPS NOVOS;AGENTE POLITICO RPPS NOVOS;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-COMIS.ESTAT.INT.             S;COMIS.ESTAT.INT.             S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-COMISSAO/EXTERNO             S;COMISSAO/EXTERNO             S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-COMISSAO/EXTERNO - EDUCACAO  S;COMISSAO/EXTERNO - EDUCACAO  S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-COMISSIONADO SPPREV;COMISSIONADO SPPREV;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-CONS.TUTELAR RPPS;CONS.TUTELAR RPPS;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-PREFEITO                     S;PREFEITO                     S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-VICE PREFEITO                S;VICE PREFEITO                S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados
-ACUM FG-ANT.COM.EST.HR.C.ORIG;ACUM FG-ANT.COM.EST.HR.C.ORIG;Efetivos e empregados publicos (carreira);efetivos
-ACUMULO DE GRATIF-ESTAT NOVOS;ACUMULO DE GRATIF-ESTAT NOVOS;Efetivos e empregados publicos (carreira);efetivos
-ACUMULO DE GRATTIFICACAO-ESTAT;ACUMULO DE GRATTIFICACAO-ESTAT;Efetivos e empregados publicos (carreira);efetivos
-C.L.T.                     C;C.L.T.                     C;Efetivos e empregados publicos (carreira);efetivos
-C.L.T./PROF/TMP/HORISTA;C.L.T./PROF/TMP/HORISTA;Efetivos e empregados publicos (carreira);efetivos
-EST HOR PEB RPC;EST HOR PEB;Efetivos e empregados publicos (carreira);efetivos
-EST HOR RPC;EST HOR;Efetivos e empregados publicos (carreira);efetivos
-EST MENS RPC;EST MENS;Efetivos e empregados publicos (carreira);efetivos
-ESTAT. HORISTAS/NOVOS 8336/07;ESTAT. HORISTAS/NOVOS 8336/07;Efetivos e empregados publicos (carreira);efetivos
-ESTATUTARIO                  E;ESTATUTARIO                  E;Efetivos e empregados publicos (carreira);efetivos
-ESTATUTARIO/HORISTAS         E;ESTATUTARIO/HORISTAS         E;Efetivos e empregados publicos (carreira);efetivos
-ESTATUTARIOS MEN/ LEI 8336/07;ESTATUTARIOS MEN/ LEI 8336/07;Efetivos e empregados publicos (carreira);efetivos
-MED.PLANT.ESTAT -LEI 8336/2007;MED.PLANT.ESTAT -LEI 8336/2007;Efetivos e empregados publicos (carreira);efetivos
-MEDICOS PLANTONISTAS/ESTATUT.;MEDICOS PLANTONISTAS/ESTATUT.;Efetivos e empregados publicos (carreira);efetivos
-PROF/HOR/ESTAT - LEI 8336/2007;PROF/HOR/ESTAT - LEI 8336/2007;Efetivos e empregados publicos (carreira);efetivos
-PROF/HORISTAS/ESTATUTARIOS   E;PROF/HORISTAS/ESTATUTARIOS   E;Efetivos e empregados publicos (carreira);efetivos
-COMIS ESTAT MENS(CARGO ORIGEM);COMIS ESTAT MENS(CARGO ORIGEM);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS ESTAT MENS(ORIGEM) NOVOS;COMIS ESTAT MENS(ORIGEM) NOVOS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS ESTAT/MENSAL(INCORPORAN);COMIS ESTAT/MENSAL(INCORPORAN);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS. ESTAT. INT. NOVO;COMIS. ESTAT. INT. NOVO;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS.ESTAT/HOR(INCORP)NOVOS;COMIS.ESTAT/HOR(INCORP)NOVOS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS.ESTAT/HOR(INCORPORANDO);COMIS.ESTAT/HOR(INCORPORANDO);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS.ESTAT/MENSAL NOVOS (INC);COMIS.ESTAT/MENSAL NOVOS (INC);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-COMIS.ESTAT/MENSAL(INCORPORAN);COMIS.ESTAT/MENSAL(INCORPORAN);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-EST HOR COMISS/FG RPC;EST HOR COMISS/FG;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-EST MEN COMISS RPC;EST MEN COMISS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-EST MEN FG RPC;EST MEN FG;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca
-APOS/INAT-CLT/COMPL.INSS     P;APOS/INAT-CLT/COMPL.INSS     P;Inativos e pensionistas;inativos
-APOS/PENS-CLT/COMPL.INSS     P;APOS/PENS-CLT/COMPL.INSS     P;Inativos e pensionistas;inativos
-AGENTE HONORIFICO;AGENTE HONORIFICO;Temporarios, estagiarios e eventuais;flexiveis
-C.L.T. MENSAL/TEMP;C.L.T. MENSAL/TEMP;Temporarios, estagiarios e eventuais;flexiveis
-C.L.T./TEMP/HORISTA;C.L.T./TEMP/HORISTA;Temporarios, estagiarios e eventuais;flexiveis
-ESTAGIARIOS;ESTAGIARIOS;Temporarios, estagiarios e eventuais;flexiveis
-PROF/EVENT/SUBST/AUTONOMOS   A;PROF/EVENT/SUBST/AUTONOMOS   A;Temporarios, estagiarios e eventuais;flexiveis
+﻿regime_cru;regime_base;regime_grupo;regime_subgrupo;fundamentacao;observacao
+AGENTE POLITICO              S;AGENTE POLITICO              S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Agente politico (mandato eletivo ou nomeacao de alto escalao);Secretario municipal ou equivalente
+AGENTE POLITICO - EDUCACAO   S;AGENTE POLITICO - EDUCACAO   S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Agente politico (mandato eletivo ou nomeacao de alto escalao);Nomeacao na pasta da Educacao
+AGENTE POLITICO RPPS NOVOS;AGENTE POLITICO RPPS NOVOS;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Agente politico (mandato eletivo ou nomeacao de alto escalao);RPC = Regime Proprio de Previdencia
+COMIS.ESTAT.INT.             S;COMIS.ESTAT.INT.             S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 37, II, CF (cargo em comissao interino);Sem vinculo de carreira
+COMISSAO/EXTERNO             S;COMISSAO/EXTERNO             S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 37, II, CF (cargo em comissao de livre nomeacao);Nomeacao externa
+COMISSAO/EXTERNO - EDUCACAO  S;COMISSAO/EXTERNO - EDUCACAO  S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 37, II, CF (cargo em comissao de livre nomeacao);Nomeacao externa na pasta da Educacao
+COMISSIONADO SPPREV;COMISSIONADO SPPREV;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 37, II, CF (cargo em comissao de livre nomeacao);Vinculado ao SPPREV
+CONS.TUTELAR RPPS;CONS.TUTELAR RPPS;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 227, CF + Lei 8.069/90 (conselheiro tutelar);Mandato eletivo, investidura sem concurso
+PREFEITO                     S;PREFEITO                     S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 29, CF (chefe do Executivo municipal);Cargo politico eletivo
+VICE PREFEITO                S;VICE PREFEITO                S;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;Art. 29, CF (vice-chefe do Executivo municipal);Cargo politico eletivo
+ACUM FG-ANT.COM.EST.HR.C.ORIG;ACUM FG-ANT.COM.EST.HR.C.ORIG;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + incorporacao de gratificacao;Cargo de origem preservado
+ACUMULO DE GRATIF-ESTAT NOVOS;ACUMULO DE GRATIF-ESTAT NOVOS;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + incorporacao de gratificacao;22,6% dos cargos tem nomenclatura de chefia
+ACUMULO DE GRATTIFICACAO-ESTAT;ACUMULO DE GRATTIFICACAO-ESTAT;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + incorporacao de gratificacao;19,2% dos cargos tem nomenclatura de chefia
+C.L.T.                     C;C.L.T.                     C;Efetivos e empregados publicos (carreira);efetivos;CLT + concurso publico;Celetista efetivo
+C.L.T./PROF/TMP/HORISTA;C.L.T./PROF/TMP/HORISTA;Efetivos e empregados publicos (carreira);efetivos;CLT + concurso publico;Professor horista CLT
+EST HOR PEB RPC;EST HOR PEB;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + RPC;PEB = Professor Educacao Basica
+EST HOR RPC;EST HOR;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + RPC;RPC = Regime Proprio de Previdencia
+EST MENS RPC;EST MENS;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico) + RPC;RPC = Regime Proprio de Previdencia
+ESTAT. HORISTAS/NOVOS 8336/07;ESTAT. HORISTAS/NOVOS 8336/07;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Professor horista estatutario (novos)
+ESTATUTARIO                  E;ESTATUTARIO                  E;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Estatutario
+ESTATUTARIO/HORISTAS         E;ESTATUTARIO/HORISTAS         E;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Estatutario horista
+ESTATUTARIOS MEN/ LEI 8336/07;ESTATUTARIOS MEN/ LEI 8336/07;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Estatutario mensalista
+MED.PLANT.ESTAT -LEI 8336/2007;MED.PLANT.ESTAT -LEI 8336/2007;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Medico plantonista estatutario
+MEDICOS PLANTONISTAS/ESTATUT.;MEDICOS PLANTONISTAS/ESTATUT.;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Medico plantonista estatutario
+PROF/HOR/ESTAT - LEI 8336/2007;PROF/HOR/ESTAT - LEI 8336/2007;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Professor horista estatutario
+PROF/HORISTAS/ESTATUTARIOS   E;PROF/HORISTAS/ESTATUTARIOS   E;Efetivos e empregados publicos (carreira);efetivos;Art. 37, II, CF (concurso publico);Professor horista estatutario
+COMIS ESTAT MENS(CARGO ORIGEM);COMIS ESTAT MENS(CARGO ORIGEM);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);Cargo de origem preservado
+COMIS ESTAT MENS(ORIGEM) NOVOS;COMIS ESTAT MENS(ORIGEM) NOVOS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);Cargo de origem preservado
+COMIS ESTAT/MENSAL(INCORPORAN);COMIS ESTAT/MENSAL(INCORPORAN);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);Cargo de origem preservado
+COMIS. ESTAT. INT. NOVO;COMIS. ESTAT. INT. NOVO;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);71,4% dos cargos tem nomenclatura de chefia
+COMIS.ESTAT/HOR(INCORP)NOVOS;COMIS.ESTAT/HOR(INCORP)NOVOS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);52,5% dos cargos tem nomenclatura de chefia
+COMIS.ESTAT/HOR(INCORPORANDO);COMIS.ESTAT/HOR(INCORPORANDO);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);63,6% dos cargos tem nomenclatura de chefia
+COMIS.ESTAT/MENSAL NOVOS (INC);COMIS.ESTAT/MENSAL NOVOS (INC);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);84,2% dos cargos tem nomenclatura de chefia
+COMIS.ESTAT/MENSAL(INCORPORAN);COMIS.ESTAT/MENSAL(INCORPORAN);Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo);54,3% dos cargos tem nomenclatura de chefia
+EST HOR COMISS/FG RPC;EST HOR COMISS/FG;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo) + RPC;FG = Funcao Gratificada
+EST MEN COMISS RPC;EST MEN COMISS;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo) + RPC;RPC = Regime Proprio de Previdencia
+EST MEN FG RPC;EST MEN FG;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;Art. 37, V, CF (funcao de confianca sobre efetivo) + RPC;FG = Funcao Gratificada
+APOS/INAT-CLT/COMPL.INSS     P;APOS/INAT-CLT/COMPL.INSS     P;Inativos e pensionistas;inativos;Provento de aposentadoria/pensao (RPPS ou INSS);Prefixo INAT/PENS no cargo confirma
+APOS/PENS-CLT/COMPL.INSS     P;APOS/PENS-CLT/COMPL.INSS     P;Inativos e pensionistas;inativos;Provento de aposentadoria/pensao (RPPS ou INSS);Prefixo INAT/PENS no cargo confirma
+AGENTE HONORIFICO;AGENTE HONORIFICO;Temporarios, estagiarios e eventuais;flexiveis;Agente honorifico (sem vinculo);Nao integra quadro efetivo
+C.L.T. MENSAL/TEMP;C.L.T. MENSAL/TEMP;Temporarios, estagiarios e eventuais;flexiveis;CLT por prazo determinado;Contrato temporario
+C.L.T./TEMP/HORISTA;C.L.T./TEMP/HORISTA;Temporarios, estagiarios e eventuais;flexiveis;CLT por prazo determinado;Professor horista temporario
+ESTAGIARIOS;ESTAGIARIOS;Temporarios, estagiarios e eventuais;flexiveis;Lei 11.788/2008 (estagio);Sem vinculo empregaticio
+PROF/EVENT/SUBST/AUTONOMOS   A;PROF/EVENT/SUBST/AUTONOMOS   A;Temporarios, estagiarios e eventuais;flexiveis;Contrato temporario (Lei 8.745/93 analogo ou CLT por prazo determinado);Professor eventual/autonomo
