@@ -13,21 +13,29 @@
 </head>
 <body>
 
+  <!-- Skip link -->
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- Cabecalho -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
-        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
         <div class="cabecalho-titulo">
           <h1>Raio-X do Quadro de Pessoal</h1>
           <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
         </div>
       </div>
-      <div class="cabecalho-periodo" id="cabecalho-periodo">
-        <span>Carregando período…</span>
+      <div class="cabecalho-meta">
+        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+        <div class="cabecalho-periodo" id="cabecalho-periodo">
+          <span>Carregando período…</span>
+        </div>
       </div>
     </div>
   </header>
 
+  <!-- Menu superior -->
   <nav class="menu" aria-label="Menu principal">
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
@@ -35,10 +43,11 @@
       <a href="quadro.html">Quadro</a>
       <a href="genero.html">Gênero</a>
       <a href="sobre.html">Sobre</a>
-      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
 
+  <!-- Botao flutuante + drawer -->
   <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
   <div class="backdrop" aria-hidden="true"></div>
   <aside class="drawer" aria-hidden="true">
@@ -60,7 +69,8 @@
     </div>
   </aside>
 
-  <main>
+  <!-- Conteudo -->
+  <main id="conteudo-principal">
 
     <section class="secao">
       <h2 class="secao-titulo">Perfil do quadro de pessoal</h2>
@@ -95,13 +105,13 @@
         <div class="cartao">
           <div class="cartao-titulo">Servidores por nível de instrução</div>
           <div class="grafico-container">
-            <canvas id="grafico-escolaridade-contagem"></canvas>
+            <canvas id="grafico-escolaridade-contagem" aria-label="Gráfico de barras horizontais mostrando a quantidade de servidores em cada nível de instrução"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Remuneração média por nível de instrução</div>
           <div class="grafico-container">
-            <canvas id="grafico-escolaridade-folha"></canvas>
+            <canvas id="grafico-escolaridade-folha" aria-label="Gráfico de barras horizontais mostrando a remuneração média em cada nível de instrução. A remuneração cresce conforme o nível de escolaridade"></canvas>
           </div>
         </div>
       </div>
@@ -135,13 +145,13 @@
         <div class="cartao">
           <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
           <div class="grafico-container">
-            <canvas id="grafico-tempo-contagem"></canvas>
+            <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa, em anos"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Remuneração média por tempo de casa</div>
           <div class="grafico-container">
-            <canvas id="grafico-tempo-folha"></canvas>
+            <canvas id="grafico-tempo-folha" aria-label="Gráfico de barras verticais mostrando a remuneração média por faixa de tempo de casa. A remuneração tende a crescer com a antiguidade"></canvas>
           </div>
         </div>
       </div>
@@ -171,13 +181,13 @@
         <div class="cartao">
           <div class="cartao-titulo">Último mês disponível</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-rosca"></canvas>
+            <canvas id="grafico-categoria-rosca" aria-label="Gráfico de rosca mostrando a composição da folha do último mês por categoria de vínculo"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Evolução por categoria (R$ milhões)</div>
           <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-linha"></canvas>
+            <canvas id="grafico-categoria-linha" aria-label="Gráfico de linhas mostrando a evolução da folha por categoria de vínculo ao longo dos meses"></canvas>
           </div>
         </div>
       </div>
@@ -191,7 +201,7 @@
       </div>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-escolaridade-categoria"></canvas>
+          <canvas id="grafico-escolaridade-categoria" aria-label="Gráfico de barras empilhadas mostrando como cada nível de instrução se reparte entre as categorias de vínculo"></canvas>
         </div>
       </div>
     </section>
@@ -204,7 +214,7 @@
       </div>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-genero-escolaridade"></canvas>
+          <canvas id="grafico-genero-escolaridade" aria-label="Gráfico de barras agrupadas comparando homens e mulheres em cada nível de instrução"></canvas>
         </div>
       </div>
     </section>
@@ -218,6 +228,7 @@
 
   </main>
 
+  <!-- Rodape -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <div>
@@ -234,6 +245,9 @@
         <p>
           <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">
             Portal da Transparência de Sorocaba
+          </a><br>
+          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">
+            Brasil.IO — Gênero de Nomes
           </a>
         </p>
       </div>
