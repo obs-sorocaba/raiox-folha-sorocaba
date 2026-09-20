@@ -1,25 +1,21 @@
 /* =========================================================================
    Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
    Observatorio Social do Brasil - Sorocaba
-   Estilo base - identidade visual extraida do cartaz institucional do OSB
    ========================================================================= */
 
 :root {
-  /* Cores institucionais (extraidas do cartaz OSB) */
   --azul-escuro:   #003a70;
   --azul-claro:    #0071ce;
   --verde-escuro:  #00612f;
   --verde-claro:   #7ab648;
   --amarelo:       #ffd200;
 
-  /* Neutros */
   --branco:        #ffffff;
   --cinza-fundo:   #f5f7fa;
   --cinza-borda:   #e0e4ea;
   --cinza-texto:   #555c66;
   --preto-suave:   #1a1a1a;
 
-  /* Cores viridis (graficos) */
   --viridis-1: #440154;
   --viridis-2: #414487;
   --viridis-3: #2a788e;
@@ -27,7 +23,6 @@
   --viridis-5: #7ad151;
   --viridis-6: #fde725;
 
-  /* Cores dos 5 grupos auditaveis */
   --cor-efetivos:      #2a788e;
   --cor-funcao:        #5c9c2a;
   --cor-comissionados: #d4a900;
@@ -35,7 +30,6 @@
   --cor-inativos:      #6b6b6b;
   --cor-nc:            #cc0000;
 
-  /* Layout */
   --largura-max: 1200px;
   --raio-borda: 10px;
   --sombra-suave: 0 1px 3px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -62,6 +56,19 @@ body {
 a { color: var(--azul-claro); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* Inline code (evita colagem ao texto ao redor) */
+code {
+  display: inline-block;
+  padding: 0.1em 0.35em;
+  margin: 0 0.15em;
+  background: var(--cinza-fundo);
+  border: 1px solid var(--cinza-borda);
+  border-radius: 4px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88em;
+  color: var(--preto-suave);
+}
+
 /* -------------------------------------------------------------------------
    Skip link (acessibilidade)
    ------------------------------------------------------------------------- */
@@ -84,7 +91,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------------------------------------------------------------
-   Foco visivel (acessibilidade de teclado)
+   Foco visivel
    ------------------------------------------------------------------------- */
 :focus-visible {
   outline: 3px solid var(--azul-claro);
@@ -171,7 +178,6 @@ a:hover { text-decoration: underline; }
 
 .cabecalho-periodo strong { color: var(--amarelo); }
 
-/* Badge "atualizado em" */
 .badge-atualizacao {
   display: inline-flex;
   align-items: center;
@@ -197,7 +203,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------------------------------------------------------------
-   Menu de navegacao (topo)
+   Menu
    ------------------------------------------------------------------------- */
 .menu {
   background: var(--azul-escuro);
@@ -248,7 +254,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------------------------------------------------------------
-   Botao flutuante (drawer lateral)
+   Botao flutuante + drawer
    ------------------------------------------------------------------------- */
 .botao-lateral {
   position: fixed;
@@ -349,7 +355,7 @@ a:hover { text-decoration: underline; }
 .backdrop.aberto { opacity: 1; pointer-events: auto; }
 
 /* -------------------------------------------------------------------------
-   Conteudo principal
+   Main / secoes
    ------------------------------------------------------------------------- */
 main {
   max-width: var(--largura-max);
@@ -380,7 +386,7 @@ main {
 }
 
 /* -------------------------------------------------------------------------
-   Cards de KPI
+   KPIs
    ------------------------------------------------------------------------- */
 .kpis {
   display: grid;
@@ -399,7 +405,6 @@ main {
 }
 
 .kpi:hover { transform: translateY(-2px); }
-
 .kpi.destaque  { border-left-color: var(--amarelo); }
 .kpi.positivo  { border-left-color: var(--verde-claro); }
 .kpi.alerta    { border-left-color: var(--cor-nc); }
@@ -497,7 +502,7 @@ tbody tr:hover { background: #fafbfd; }
 td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
 
 /* -------------------------------------------------------------------------
-   Selo de auditoria
+   Selo
    ------------------------------------------------------------------------- */
 .selo {
   background: var(--branco);
@@ -587,7 +592,7 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
 }
 
 /* -------------------------------------------------------------------------
-   Botoes de acao
+   Botoes
    ------------------------------------------------------------------------- */
 .botao {
   display: inline-block;
