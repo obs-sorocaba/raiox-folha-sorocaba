@@ -44,7 +44,7 @@ async function inicializar() {
     console.error(e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML = `<div class="erro">
+      main.innerHTML = `<div class="erro" role="alert">
         <strong>Não foi possível carregar os dados da página Sobre.</strong><br>
         <small>${e.message}</small>
       </div>`;
@@ -67,7 +67,7 @@ function renderizarCabecalho(kpis) {
 }
 
 /* -------------------------------------------------------------------------
-   Fonte dos dados (resumo do auditoria.json em formato dl/selo)
+   Fonte dos dados (leitura robusta: aceita nomes novos e antigos)
    ------------------------------------------------------------------------- */
 function renderizarFonte(auditoria) {
   const el = document.getElementById("fonte-dados");
@@ -76,21 +76,48 @@ function renderizarFonte(auditoria) {
   const q = auditoria.qualidade || {};
   const per = auditoria.periodo_coberto || {};
 
+  // Leitura robusta com fallback para nomes antigos
+  const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
+  const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
+  const percentualMultivinculo = q.percentual_multivinculo ?? q.percentual_duplicatas ?? 0;
+  const registrosLiquidos = q.registros_liquidos ?? 0;
+  const matriculasUnicas = q.matriculas_unicas ?? 0;
+  const secretarias = q.secretarias ?? 0;
+
+  const dataFormatada = auditoria.gerado_em
+    ? new Date(auditoria.gerado_em).toLocaleString("pt-BR", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      })
+    : "-";
+
   el.innerHTML = `
     <dt>Fonte</dt>
     <dd>${auditoria.fonte || "-"}</dd>
+
     <dt>URL da fonte</dt>
     <dd><a href="${auditoria.url_fonte || '#'}" target="_blank" rel="noopener">${auditoria.url_fonte || '-'}</a></dd>
+
     <dt>Período coberto</dt>
     <dd>${per.inicio || "-"} a ${per.fim || "-"} (${per.total_meses || 0} meses)</dd>
-    <dt>Registros totais</dt>
-    <dd>${fmtNum.format(q.registros_totais || 0)}</dd>
+
+    <dt>Registros brutos</dt>
+    <dd>${fmtNum.format(registrosBrutos)}</dd>
+
+    <dt>Múltiplos vínculos por mês</dt>
+    <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)})</dd>
+
+    <dt>Registros únicos por mês</dt>
+    <dd>${fmtNum.format(registrosLiquidos)}</dd>
+
     <dt>Matrículas únicas</dt>
-    <dd>${fmtNum.format(q.matriculas_unicas || 0)}</dd>
+    <dd>${fmtNum.format(matriculasUnicas)}</dd>
+
     <dt>Secretarias (canônicas)</dt>
-    <dd>${q.secretarias || 0}</dd>
+    <dd>${secretarias}</dd>
+
     <dt>Última atualização</dt>
-    <dd>${auditoria.gerado_em ? new Date(auditoria.gerado_em).toLocaleString("pt-BR") : "-"}</dd>
+    <dd>${dataFormatada}</dd>
   `;
 }
 
@@ -118,8 +145,8 @@ function desenharTabelaRegimes(dados, tbody, filtro = "") {
 
   tbody.innerHTML = linhas.map((d) => `
     <tr>
-      <td><code style="font-size:0.82rem;">${d.regime_cru || ""}</code></td>
-      <td><code style="font-size:0.82rem;">${d.regime_base || ""}</code></td>
+      <td><code>${d.regime_cru || ""}</code></td>
+      <td><code>${d.regime_base || ""}</code></td>
       <td>${d.regime_grupo || ""}</td>
       <td><span class="badge ${badgeClasse(d.regime_subgrupo)}">${d.regime_subgrupo || ""}</span></td>
     </tr>`).join("");
@@ -162,7 +189,7 @@ function desenharTabelaSecretarias(dados, tbody, filtro = "") {
     <tr>
       <td>${d.secretaria_crua || ""}</td>
       <td><strong>${d.secretaria_canonica || ""}</strong></td>
-      <td>${d.sigla || ""}</td>
+      <td>${d.sigla || "—"}</td>
     </tr>`).join("");
 }
 
@@ -177,14 +204,14 @@ function renderizarMapaEscolaridades(dados) {
 
   tbody.innerHTML = ordenado.map((d) => `
     <tr>
-      <td><code style="font-size:0.82rem;">${d.escolaridade_crua || ""}</code></td>
+      <td><code>${d.escolaridade_crua || ""}</code></td>
       <td><strong>${d.escolaridade_canonica || ""}</strong></td>
       <td class="numerico">${d.ordem || ""}</td>
     </tr>`).join("");
 }
 
 /* -------------------------------------------------------------------------
-   Eventos (busca nas tabelas)
+   Eventos
    ------------------------------------------------------------------------- */
 function registrarEventos() {
   const buscaRegime = document.getElementById("busca-regime");
