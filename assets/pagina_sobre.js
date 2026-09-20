@@ -76,7 +76,6 @@ function renderizarFonte(auditoria) {
   const q = auditoria.qualidade || {};
   const per = auditoria.periodo_coberto || {};
 
-  // Leitura robusta com fallback para nomes antigos
   const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
   const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
   const percentualMultivinculo = q.percentual_multivinculo ?? q.percentual_duplicatas ?? 0;
@@ -122,7 +121,7 @@ function renderizarFonte(auditoria) {
 }
 
 /* -------------------------------------------------------------------------
-   Mapa de regimes
+   Mapa de regimes (5 colunas: cru, base, subgrupo, fundamentacao, observacao)
    ------------------------------------------------------------------------- */
 function renderizarMapaRegimes(dados) {
   const tbody = document.querySelector("#tabela-regimes tbody");
@@ -134,12 +133,19 @@ function desenharTabelaRegimes(dados, tbody, filtro = "") {
   const f = filtro.trim().toUpperCase();
   const linhas = dados.filter((d) => {
     if (!f) return true;
-    const alvo = `${d.regime_cru || ""} ${d.regime_base || ""} ${d.regime_grupo || ""} ${d.regime_subgrupo || ""}`.toUpperCase();
+    const alvo = [
+      d.regime_cru || "",
+      d.regime_base || "",
+      d.regime_grupo || "",
+      d.regime_subgrupo || "",
+      d.fundamentacao || "",
+      d.observacao || "",
+    ].join(" ").toUpperCase();
     return alvo.includes(f);
   });
 
   if (!linhas.length) {
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--cinza-texto);">Nenhum resultado</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--cinza-texto);">Nenhum resultado</td></tr>`;
     return;
   }
 
@@ -147,8 +153,9 @@ function desenharTabelaRegimes(dados, tbody, filtro = "") {
     <tr>
       <td><code>${d.regime_cru || ""}</code></td>
       <td><code>${d.regime_base || ""}</code></td>
-      <td>${d.regime_grupo || ""}</td>
       <td><span class="badge ${badgeClasse(d.regime_subgrupo)}">${d.regime_subgrupo || ""}</span></td>
+      <td style="font-size:0.85rem;">${d.fundamentacao || "—"}</td>
+      <td style="font-size:0.82rem; color: var(--cinza-texto);">${d.observacao || "—"}</td>
     </tr>`).join("");
 }
 
@@ -211,7 +218,7 @@ function renderizarMapaEscolaridades(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Eventos
+   Eventos (busca)
    ------------------------------------------------------------------------- */
 function registrarEventos() {
   const buscaRegime = document.getElementById("busca-regime");
