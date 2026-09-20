@@ -42,21 +42,18 @@ const CORES = {
   verdeEscuro:  "#00612f",
   verdeClaro:   "#7ab648",
   amarelo:      "#ffd200",
-  // Amarelo escurecido para uso em graficos (contraste >= 3:1 sobre branco)
   amareloGrafico: "#d4a900",
   branco:       "#ffffff",
   cinzaFundo:   "#f5f7fa",
   cinzaBorda:   "#e0e4ea",
   cinzaTexto:   "#555c66",
   pretoSuave:   "#1a1a1a",
-  // Cores dos 5 grupos auditaveis (com ajustes de contraste)
   efetivos:      "#2a788e",
-  funcao:        "#5c9c2a",   // verde escurecido (antes #7ad151)
-  comissionados: "#d4a900",   // amarelo escurecido (antes #fde725)
+  funcao:        "#5c9c2a",
+  comissionados: "#d4a900",
   flexiveis:     "#414487",
-  inativos:      "#6b6b6b",   // cinza escurecido (antes #999999)
+  inativos:      "#6b6b6b",
   nc:            "#cc0000",
-  // Paleta viridis completa
   viridis: ["#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"],
 };
 
@@ -101,6 +98,37 @@ async function carregarCSV(caminho) {
 }
 
 /* -------------------------------------------------------------------------
+   Badge "atualizado em" (cabecalho de todas as paginas)
+   Le o auditoria.json e preenche o span #badge-atualizacao
+   ------------------------------------------------------------------------- */
+async function atualizarBadgeAtualizacao() {
+  const el = document.getElementById("badge-atualizacao");
+  if (!el) return;
+
+  try {
+    const auditoria = await carregarJSON("dados/auditoria.json");
+    const data = auditoria.gerado_em ? new Date(auditoria.gerado_em) : null;
+
+    if (!data || isNaN(data.getTime())) {
+      el.textContent = "Atualização pendente";
+      el.classList.add("indisponivel");
+      return;
+    }
+
+    const dataFormatada = data.toLocaleDateString("pt-BR", {
+      day: "2-digit", month: "2-digit", year: "numeric"
+    });
+
+    el.textContent = `Atualizado em ${dataFormatada}`;
+    el.title = `Última extração do pipeline: ${data.toLocaleString("pt-BR")}`;
+  } catch (e) {
+    console.warn("Não foi possível carregar o badge de atualização:", e);
+    el.textContent = "Atualização pendente";
+    el.classList.add("indisponivel");
+  }
+}
+
+/* -------------------------------------------------------------------------
    Menu de navegacao
    ------------------------------------------------------------------------- */
 function inicializarMenu() {
@@ -115,6 +143,8 @@ function inicializarMenu() {
   const botaoHamburguer = document.querySelector(".menu-hamburguer");
   if (botaoHamburguer) {
     botaoHamburguer.addEventListener("click", () => {
+      const aberto = botaoHamburguer.getAttribute("aria-expanded") === "true";
+      botaoHamburguer.setAttribute("aria-expanded", String(!aberto));
       document.querySelectorAll(".menu a").forEach((a) => a.classList.toggle("visivel"));
     });
   }
@@ -127,10 +157,12 @@ function inicializarMenu() {
   function abrirDrawer() {
     if (drawer) drawer.classList.add("aberto");
     if (backdrop) backdrop.classList.add("aberto");
+    if (drawer) drawer.setAttribute("aria-hidden", "false");
   }
   function fecharDrawer() {
     if (drawer) drawer.classList.remove("aberto");
     if (backdrop) backdrop.classList.remove("aberto");
+    if (drawer) drawer.setAttribute("aria-hidden", "true");
   }
 
   if (botaoLateral) botaoLateral.addEventListener("click", abrirDrawer);
@@ -146,7 +178,7 @@ function inicializarMenu() {
    ------------------------------------------------------------------------- */
 function mostrarErro(container, mensagem) {
   if (!container) return;
-  container.innerHTML = `<div class="erro"><strong>Erro ao carregar dados.</strong><br>${mensagem}</div>`;
+  container.innerHTML = `<div class="erro" role="alert"><strong>Erro ao carregar dados.</strong><br>${mensagem}</div>`;
 }
 
 function mostrarCarregando(container) {
@@ -207,7 +239,6 @@ function graficoLinha(ctx, labels, dados, opcoes = {}) {
 }
 
 function graficoBarras(ctx, labels, dados, opcoes = {}) {
-  // Adiciona borda escura em todas as barras para reforcar contraste WCAG
   const corBase = opcoes.cor || CORES.azulClaro;
   return new Chart(ctx, {
     type: "bar",
@@ -293,7 +324,6 @@ function graficoRosca(ctx, labels, dados, cores) {
 
 /* -------------------------------------------------------------------------
    Renderizacao do selo de auditoria
-   Versao robusta contra campos ausentes (nunca mostra "undefined")
    ------------------------------------------------------------------------- */
 function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const el = document.querySelector(seletor);
@@ -304,7 +334,6 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const q = selo.qualidade || {};
   const al = selo.alertas || {};
 
-  // Campos de qualidade (nomes novos, com fallbacks para nomes antigos)
   const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
   const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
   const registrosLiquidos = q.registros_liquidos ?? 0;
@@ -312,7 +341,6 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const matriculasUnicas = q.matriculas_unicas ?? 0;
   const secretarias = q.secretarias ?? 0;
 
-  // Os 3 alertas estruturais
   const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
   const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
   const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
@@ -382,4 +410,5 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
    ------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
+  atualizarBadgeAtualizacao();
 });
