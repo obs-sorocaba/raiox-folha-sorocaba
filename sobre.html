@@ -131,7 +131,7 @@
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li>Os valores são <strong>nominais</strong>, sem correção pelo IPCA. A evolução real precisa considerar a inflação do período.</li>
-          <li>Registros duplicados por matrícula+mês correspondem a <strong>múltiplos vínculos</strong> ou pagamentos distintos (férias, 13º, rescisão). Não são erros.</li>
+          <li>Registros com <strong>múltiplos vínculos</strong> no mesmo mês (férias, 13º, rescisão) aparecem como linhas separadas por matrícula. Não são erros.</li>
           <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
         </ul>
@@ -249,11 +249,19 @@
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">LGPD</h3>
-        <p>
+        <p style="margin-bottom: 1rem;">
           O projeto segue os princípios da Lei Geral de Proteção de Dados (Lei 13.709/2018).
           Todos os dados publicados são agregados ou estritamente públicos, conforme
           decisão do STF. Não publicamos microdados individuais identificáveis em nenhuma
           página do site.
+        </p>
+        <p style="margin-bottom: 1rem;">
+          <strong>Sobre a análise de gênero:</strong> a inferência de gênero por primeiro
+          nome é feita exclusivamente sobre a base agregada do IBGE/Censo 2010. Nenhum
+          servidor é classificado individualmente na interface do painel. Nomes com
+          classificação ambígua (nem masculino nem feminino predominante) são agrupados
+          como "indefinido" e excluídos dos cruzamentos, garantindo que nenhuma
+          conclusão se apoie em inferências incertas.
         </p>
       </div>
     </section>
@@ -313,15 +321,36 @@
       </div>
     </section>
 
-    <!-- 9. Creditos -->
+    <!-- 9. Creditos e licencas -->
     <section class="secao">
       <h2 class="secao-titulo">Créditos e licenças</h2>
       <div class="cartao">
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Código</h3>
+        <p style="margin-bottom: 1rem;">
+          O código deste painel é aberto sob licença <strong>MIT</strong>. Você pode usá-lo,
+          modificá-lo e distribuí-lo livremente, desde que mantenha a atribuição ao
+          Observatório Social do Brasil — Sorocaba.
+          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/blob/main/LICENSE" target="_blank" rel="noopener">Ver licença completa</a>.
+        </p>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Dados</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><strong>Dados primários:</strong> Portal da Transparência de Sorocaba.</li>
-          <li><strong>Base de gênero por nome:</strong> IBGE/Censo 2010, dados tratados por Álvaro Justen/Brasil.IO (licença CC-BY-SA).</li>
-          <li><strong>Bibliotecas usadas:</strong> Chart.js, PapaParse, pandas, Python.</li>
-          <li><strong>Projeto e código:</strong> Observatório Social do Brasil — Sorocaba. Código aberto.</li>
+          <li>
+            <strong>Portal da Transparência de Sorocaba</strong> — dados públicos oficiais,
+            de uso livre por se tratar de informação pública.
+          </li>
+          <li>
+            <strong>Base de gênero por nome</strong> — IBGE/Censo 2010, tratada por Álvaro
+            Justen/Brasil.IO, sob licença <strong>Creative Commons CC-BY-SA</strong>.
+            Ao reutilizar, cite: <em>"Fonte: IBGE/Censo 2010, dados tratados por Álvaro Justen/Brasil.IO"</em>.
+          </li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Bibliotecas usadas</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener">Chart.js</a> (MIT)</li>
+          <li><a href="https://www.papaparse.com/" target="_blank" rel="noopener">PapaParse</a> (MIT)</li>
+          <li>pandas, Python (BSD)</li>
         </ul>
       </div>
     </section>
