@@ -127,6 +127,33 @@
       </div>
     </section>
 
+    <section class="secao" id="evolucao-real">
+      <h2 class="secao-titulo">Evolução real da folha (corrigida pelo IPCA)</h2>
+      <div class="cartao">
+        <div class="cartao-titulo">Folha nominal × folha real (a preços de jan/2022)</div>
+        <div class="grafico-container">
+          <canvas id="grafico-mensal-ipca" aria-label="Gráfico de linhas comparando a folha nominal com a folha real corrigida pelo IPCA entre 2022 e 2026"></canvas>
+        </div>
+        <div class="aviso-metodologico">
+          <p style="margin-bottom: 0.5rem;">
+            <strong>Sobre a correção:</strong> a linha <em>nominal</em> mostra os valores
+            como pagos. A linha <em>real</em> corrige cada mês pelo IPCA acumulado até
+            jan/2022, permitindo comparar o poder de compra ao longo do tempo.
+          </p>
+          <p>
+            <strong>Leitura:</strong> quando a linha real fica <em>abaixo</em> da nominal,
+            significa que o aumento nominal foi menor que a inflação do período — ou seja,
+            houve <strong>perda de poder de compra</strong>. Quando a real sobe acima da
+            nominal, houve <strong>ganho real</strong>.
+          </p>
+          <p>
+            <strong>Fonte do IPCA:</strong> IBGE/SIDRA, série 1737, variável 63 (número-índice).
+            O fator de correção é calculado como <code>IPCA(jan/2022) / IPCA(mês)</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section class="secao" id="composicao-categoria">
       <h2 class="secao-titulo">Composição da folha por categoria</h2>
       <div class="grade-2">

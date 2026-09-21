@@ -2,13 +2,16 @@
    Pagina inicial - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
    Le os agregados e renderiza KPIs, graficos e selo de auditoria.
    Toggle: Total x Recorrente no grafico mensal.
+   NOVO: Grafico de folha nominal x real (corrigida pelo IPCA).
    ========================================================================= */
 
 const estadoInicial = {
   folhaMensalTotal: [],
   folhaMensalRecorrente: [],
-  visaoAtual: "total",     // "total" | "recorrente"
+  folhaMensalIPCA: [],       // NOVO
+  visaoAtual: "total",       // "total" | "recorrente"
   graficoMensal: null,
+  graficoMensalIPCA: null,   // NOVO
 };
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
@@ -125,6 +128,83 @@ function inicializarToggle() {
   // Marca "Total" como ativo na abertura
   const btnTotal = document.querySelector('[data-visao="total"]');
   if (btnTotal) btnTotal.classList.add("ativo");
+}
+
+/* -------------------------------------------------------------------------
+   Grafico mensal nominal x real (IPCA) — NOVO
+   ------------------------------------------------------------------------- */
+function renderizarGraficoMensalIPCA() {
+  const ctx = document.getElementById("grafico-mensal-ipca");
+  if (!ctx) return;
+
+  const dados = estadoInicial.folhaMensalIPCA;
+  if (!dados || !dados.length) return;
+
+  const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
+  const nominal = dados.map((d) => d.folha_nominal / 1e6);
+  const real = dados.map((d) => d.folha_real / 1e6);
+
+  if (estadoInicial.graficoMensalIPCA) estadoInicial.graficoMensalIPCA.destroy();
+
+  estadoInicial.graficoMensalIPCA = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Folha nominal (R$ mi)",
+          data: nominal,
+          borderColor: CORES.azulClaro,
+          backgroundColor: "rgba(0,113,206,0.08)",
+          borderWidth: 2,
+          fill: false,
+          tension: 0.25,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+        },
+        {
+          label: "Folha real — corrigida pelo IPCA (R$ mi)",
+          data: real,
+          borderColor: CORES.nc,
+          backgroundColor: "rgba(204,0,0,0.08)",
+          borderWidth: 2,
+          fill: false,
+          tension: 0.25,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { color: CORES.pretoSuave, font: { size: 11 }, boxWidth: 12, padding: 10 },
+        },
+        tooltip: {
+          callbacks: {
+            label: (item) => `${item.dataset.label}: R$ ${item.parsed.y.toFixed(1).replace(".", ",")} mi`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 },
+        },
+        y: {
+          beginAtZero: false,
+          grid: { color: CORES.cinzaBorda },
+          ticks: {
+            color: CORES.cinzaTexto,
+            callback: (v) => "R$ " + v.toFixed(0) + " mi",
+          },
+        },
+      },
+    },
+  });
 }
 
 /* -------------------------------------------------------------------------
@@ -257,11 +337,12 @@ function renderizarTopSecretarias(topSec, top = 15) {
    ------------------------------------------------------------------------- */
 async function inicializar() {
   try {
-    const [kpis, auditoria, mensalTotal, mensalRecorrente, categoria, topSec] = await Promise.all([
+    const [kpis, auditoria, mensalTotal, mensalRecorrente, mensalIPCA, categoria, topSec] = await Promise.all([
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
       carregarCSV("dados/folha_mensal.csv"),
       carregarCSV("dados/folha_mensal_recorrente.csv"),
+      carregarCSV("dados/folha_mensal_ipca.csv"),   // NOVO
       carregarCSV("dados/composicao_categoria_mes.csv"),
       carregarCSV("dados/top_secretarias.csv"),
     ]);
@@ -275,11 +356,21 @@ async function inicializar() {
       });
     });
 
+    // NOVO: campos especificos do IPCA
+    mensalIPCA.forEach((r) => {
+      r.folha_nominal = num(r.folha_nominal);
+      r.indice_ipca = num(r.indice_ipca);
+      r.fator_correcao = num(r.fator_correcao);
+      r.folha_real = num(r.folha_real);
+    });
+
     estadoInicial.folhaMensalTotal = mensalTotal;
     estadoInicial.folhaMensalRecorrente = mensalRecorrente;
+    estadoInicial.folhaMensalIPCA = mensalIPCA;   // NOVO
 
     renderizarKPIs(kpis);
     renderizarGraficoMensal();
+    renderizarGraficoMensalIPCA();   // NOVO
     inicializarToggle();
     renderizarComposicaoCategoria(categoria);
     renderizarTopSecretarias(topSec);

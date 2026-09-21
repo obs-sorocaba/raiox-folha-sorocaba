@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-21T13:28:36",
+  "gerado_em": "2026-09-21T13:58:27",
   "fonte": "Portal da Transparência de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "periodo_coberto": {
@@ -70,5 +70,7 @@
     "Genero inferido por primeiro nome, base do IBGE/Censo 2010 tratada por Alvaro Justen/Brasil.IO (CC-BY-SA).",
     "Rankings de remuneracao sao sempre agregados por faixa - nenhum servidor e nomeado.",
     "Projeto sem julgamento: apenas organiza dados publicos para consulta."
-  ]
+  ],
+  "ipca_fonte": "api_sidra",
+  "ipca_ultima_atualizacao": "2026-09-21T13:58:03"
 }
