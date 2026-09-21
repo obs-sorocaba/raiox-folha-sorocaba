@@ -34,7 +34,7 @@ const nomeMes = ["jan", "fev", "mar", "abr", "mai", "jun",
 const rotuloPeriodo = (ano, mes) => `${nomeMes[mes - 1]}/${ano}`;
 
 /* -------------------------------------------------------------------------
-   Cores institucionais (identidade OSB + viridis)
+   Cores institucionais
    ------------------------------------------------------------------------- */
 const CORES = {
   azulEscuro:   "#003a70",
@@ -98,8 +98,7 @@ async function carregarCSV(caminho) {
 }
 
 /* -------------------------------------------------------------------------
-   Badge "atualizado em" (cabecalho de todas as paginas)
-   Le o auditoria.json e preenche o span #badge-atualizacao
+   Badge "atualizado em"
    ------------------------------------------------------------------------- */
 async function atualizarBadgeAtualizacao() {
   const el = document.getElementById("badge-atualizacao");
@@ -171,6 +170,55 @@ function inicializarMenu() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") fecharDrawer();
   });
+}
+
+/* -------------------------------------------------------------------------
+   Breadcrumb
+   Preenche o elemento #breadcrumb com base na pagina atual.
+   O elemento deve estar logo abaixo do menu, no topo do <main>.
+   ------------------------------------------------------------------------- */
+function inicializarBreadcrumb() {
+  const el = document.getElementById("breadcrumb");
+  if (!el) return;
+
+  // Mapa de páginas: arquivo -> [rótulo legível, pai (opcional)]
+  const PAGINAS = {
+    "index.html":       { nome: "Início", pai: null },
+    "secretarias.html": { nome: "Secretarias", pai: "index.html" },
+    "quadro.html":      { nome: "Quadro", pai: "index.html" },
+    "genero.html":      { nome: "Gênero", pai: "index.html" },
+    "sobre.html":       { nome: "Sobre", pai: "index.html" },
+  };
+
+  const paginaAtual = (location.pathname.split("/").pop() || "index.html");
+  const info = PAGINAS[paginaAtual];
+
+  // Só mostra breadcrumb se não for a home
+  if (!info || paginaAtual === "index.html") {
+    el.style.display = "none";
+    return;
+  }
+
+  // Se houver ?secretaria= na URL, adiciona um nível extra
+  const params = new URLSearchParams(location.search);
+  const secretariaSelecionada = params.get("secretaria");
+
+  let html = `<a href="index.html">Início</a>`;
+  if (info.pai) {
+    html += ` <span class="separador">›</span> <a href="${paginaAtual}">${info.nome}</a>`;
+  }
+  if (secretariaSelecionada) {
+    html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
+  } else {
+    // Substitui o último link pelo texto simples (página atual)
+    html = `<a href="index.html">Início</a> <span class="separador">›</span> <span class="atual">${info.nome}</span>`;
+    if (secretariaSelecionada) {
+      html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
+    }
+  }
+
+  el.innerHTML = html;
+  el.style.display = "";
 }
 
 /* -------------------------------------------------------------------------
@@ -338,6 +386,8 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
   const registrosLiquidos = q.registros_liquidos ?? 0;
   const percentualMultivinculo = q.percentual_multivinculo ?? q.percentual_duplicatas ?? 0;
+  const valorMultivinculo = q.valor_multivinculo ?? 0;
+  const percentualValorMultivinculo = q.percentual_valor_multivinculo ?? 0;
   const matriculasUnicas = q.matriculas_unicas ?? 0;
   const secretarias = q.secretarias ?? 0;
 
@@ -387,7 +437,8 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
     <dd>${fmtNum.format(registrosBrutos)}</dd>
 
     <dt>Múltiplos vínculos por mês</dt>
-    <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)})</dd>
+    <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)}) ·
+        ${fmtBRLCompacto(valorMultivinculo)} (${fmtPct(percentualValorMultivinculo)})</dd>
 
     <dt>Registros únicos por mês</dt>
     <dd>${fmtNum.format(registrosLiquidos)}</dd>
@@ -410,5 +461,6 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
    ------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
+  inicializarBreadcrumb();
   atualizarBadgeAtualizacao();
 });

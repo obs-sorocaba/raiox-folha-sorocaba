@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gênero — Raio-X do Quadro de Pessoal</title>
   <meta name="description" content="Análise de gênero no quadro de pessoal da Prefeitura de Sorocaba: representação, liderança, gap salarial e evolução temporal.">
+
+  <meta property="og:title" content="Gênero no quadro de pessoal — Sorocaba">
+  <meta property="og:description" content="Análise de representação, liderança e gap salarial por gênero no quadro da Prefeitura de Sorocaba.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/genero.html">
+  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
+  <meta property="og:locale" content="pt_BR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gênero no quadro de pessoal — Sorocaba">
+  <meta name="twitter:description" content="Análise de representação, liderança e gap salarial no quadro municipal.">
+
   <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -13,17 +25,22 @@
 </head>
 <body>
 
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
-        <div class="cabecalho-logo">OSB</div>
+        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
         <div class="cabecalho-titulo">
           <h1>Raio-X do Quadro de Pessoal</h1>
           <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
         </div>
       </div>
-      <div class="cabecalho-periodo" id="cabecalho-periodo">
-        <span>Carregando período…</span>
+      <div class="cabecalho-meta">
+        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+        <div class="cabecalho-periodo" id="cabecalho-periodo">
+          <span>Carregando período…</span>
+        </div>
       </div>
     </div>
   </header>
@@ -35,7 +52,7 @@
       <a href="quadro.html">Quadro</a>
       <a href="genero.html">Gênero</a>
       <a href="sobre.html">Sobre</a>
-      <button class="menu-hamburguer" aria-label="Abrir menu">☰</button>
+      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
 
@@ -60,10 +77,11 @@
     </div>
   </aside>
 
-  <main>
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
 
-    <!-- Apresentacao -->
-    <section class="secao">
+  <main id="conteudo-principal">
+
+    <section class="secao" id="apresentacao">
       <h2 class="secao-titulo">Gênero no quadro de pessoal</h2>
       <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
         Análise da composição por gênero da folha municipal. O gênero é inferido a
@@ -72,8 +90,7 @@
       </p>
     </section>
 
-    <!-- Disclaimer metodologico -->
-    <section class="secao">
+    <section class="secao" id="disclaimer">
       <div class="aviso-metodologico" style="font-size: 0.9rem; line-height: 1.6;">
         <strong>Como o gênero é definido nesta análise.</strong>
         O gênero de cada servidor é <strong>inferido</strong> a partir do primeiro nome,
@@ -85,19 +102,23 @@
         Os números desta página descrevem <strong>padrões agregados</strong> do quadro municipal.
         Não substituem a análise de casos individuais, que dependem de tempo de serviço,
         progressão na carreira e outras variáveis não capturadas aqui.
+        <br><br>
+        <strong>Aviso:</strong> estes dados são agregados para análise de padrões.
+        Não refletem necessariamente diferenças salariais por gênero para casos
+        individuais, que dependem de tempo de serviço, escolaridade e progressão
+        na carreira. Não devem ser usados como prova em processos individuais
+        sem apuração específica.
       </div>
     </section>
 
-    <!-- Bloco 1: Destaques -->
-    <section class="secao">
+    <section class="secao" id="achados">
       <h2 class="secao-titulo">Achados principais</h2>
       <div class="kpis" id="insights">
         <div class="carregando">Carregando achados…</div>
       </div>
     </section>
 
-    <!-- Bloco 2: Panorama geral -->
-    <section class="secao">
+    <section class="secao" id="panorama">
       <h2 class="secao-titulo">Panorama geral</h2>
       <div class="grade-2">
         <div class="cartao">
@@ -135,8 +156,7 @@
       </div>
     </section>
 
-    <!-- Bloco 3: Lideranca -->
-    <section class="secao">
+    <section class="secao" id="lideranca">
       <h2 class="secao-titulo">Representação em cargos de liderança</h2>
       <div class="aviso-metodologico" id="insight-lideranca">Carregando…</div>
       <div class="cartao">
@@ -146,12 +166,11 @@
       </div>
     </section>
 
-    <!-- Bloco 4: Por categoria -->
-    <section class="secao">
+    <section class="secao" id="categoria">
       <h2 class="secao-titulo">Composição por categoria de vínculo</h2>
       <div class="cartao">
         <div class="grafico-container">
-          <canvas id="grafico-categoria" aria-label="Gráfico de barras horizontais mostrando o percentual feminino em cada categoria de vínculo: efetivos, função de confiança, comissionados, flexíveis e inativos"></canvas>
+          <canvas id="grafico-categoria" aria-label="Gráfico de barras horizontais mostrando o percentual feminino em cada categoria de vínculo"></canvas>
         </div>
       </div>
       <div class="cartao" style="margin-top:1.5rem;">
@@ -175,8 +194,7 @@
       </div>
     </section>
 
-    <!-- Bloco 5: Por secretaria -->
-    <section class="secao">
+    <section class="secao" id="secretaria">
       <h2 class="secao-titulo">Participação feminina por secretaria</h2>
       <div class="cartao">
         <div class="grafico-container" style="height: 520px;">
@@ -185,13 +203,12 @@
       </div>
     </section>
 
-    <!-- Bloco 6: Gap salarial -->
-    <section class="secao">
+    <section class="secao" id="gap-salarial">
       <h2 class="secao-titulo">Diferença salarial por cargo</h2>
       <div class="aviso-metodologico" id="insight-gap">Carregando…</div>
       <div class="cartao">
         <div class="grafico-container" style="height: 560px;">
-          <canvas id="grafico-gap" aria-label="Gráfico de barras horizontais mostrando a diferença salarial entre homens e mulheres nos cargos com pelo menos 20 servidores de cada gênero"></canvas>
+          <canvas id="grafico-gap" aria-label="Gráfico de barras horizontais mostrando a diferença salarial entre homens e mulheres nos cargos com pelo menos 10 servidores de cada gênero"></canvas>
         </div>
       </div>
       <div class="cartao" style="margin-top:1.5rem;">
@@ -215,8 +232,7 @@
       </div>
     </section>
 
-    <!-- Bloco 7: Faixa salarial -->
-    <section class="secao">
+    <section class="secao" id="faixa-salarial">
       <h2 class="secao-titulo">Distribuição por faixa salarial</h2>
       <div class="cartao">
         <div class="grafico-container baixo">
@@ -225,8 +241,7 @@
       </div>
     </section>
 
-    <!-- Selo -->
-    <section class="secao">
+    <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <dl class="selo" id="selo-conteudo">
         <div class="carregando">Carregando selo…</div>
@@ -253,7 +268,7 @@
           <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
         </p>
       </div>
-            <div>
+      <div>
         <h3>Encontrou um erro?</h3>
         <p>
           <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">

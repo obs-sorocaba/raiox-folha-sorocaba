@@ -17,7 +17,7 @@ const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
    KPIs
    ------------------------------------------------------------------------- */
 function renderizarKPIs(kpis) {
-  const el = document.getElementById("kpis");
+  const el = document.getElementById("kpis-container");
   if (!el) return;
 
   const ultimo = kpis.ultimo_mes || {};

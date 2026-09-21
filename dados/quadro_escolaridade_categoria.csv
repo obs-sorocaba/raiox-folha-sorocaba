@@ -1,6 +1,6 @@
 ﻿escolaridade_canonica;regime_subgrupo;num_registros;num_matriculas;folha_total;folha_media
-Analfabeto;inativos;764;15;2493835.89;3264.183102094241
-Analfabeto;efetivos;358;9;1734831.84;4845.898994413408
+Sem escolaridade formal registrada;inativos;764;15;2493835.89;3264.183102094241
+Sem escolaridade formal registrada;efetivos;358;9;1734831.84;4845.898994413408
 Fundamental incompleto;efetivos;3100;64;18614875.22;6004.798458064516
 Fundamental incompleto;inativos;3369;63;12489802.53;3707.2729385574353
 Fundamental incompleto;funcao_confianca;23;1;183474.85;7977.167391304348

@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre — Raio-X do Quadro de Pessoal</title>
   <meta name="description" content="Metodologia, base legal, roadmap e mapas públicos do Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba.">
+
+  <meta property="og:title" content="Sobre — Raio-X do Quadro de Pessoal">
+  <meta property="og:description" content="Metodologia, base legal, roadmap e mapas públicos do painel da folha de Sorocaba.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
+  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
+  <meta property="og:locale" content="pt_BR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sobre — Raio-X do Quadro de Pessoal">
+  <meta name="twitter:description" content="Metodologia, base legal e mapas públicos do painel de Sorocaba.">
+
   <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -13,10 +25,8 @@
 </head>
 <body>
 
-  <!-- Skip link -->
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
-  <!-- Cabecalho -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
@@ -35,7 +45,6 @@
     </div>
   </header>
 
-  <!-- Menu -->
   <nav class="menu" aria-label="Menu principal">
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
@@ -47,7 +56,6 @@
     </div>
   </nav>
 
-  <!-- Botao flutuante + drawer -->
   <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
   <div class="backdrop" aria-hidden="true"></div>
   <aside class="drawer" aria-hidden="true">
@@ -69,11 +77,11 @@
     </div>
   </aside>
 
-  <!-- Conteudo -->
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
+
   <main id="conteudo-principal">
 
-    <!-- 1. Missao -->
-    <section class="secao">
+    <section class="secao" id="missao">
       <h2 class="secao-titulo">Missão do projeto</h2>
       <div class="cartao">
         <p style="margin-bottom: 1rem;">
@@ -97,8 +105,7 @@
       </div>
     </section>
 
-    <!-- 2. Como usar -->
-    <section class="secao">
+    <section class="secao" id="como-usar">
       <h2 class="secao-titulo">Como usar este painel</h2>
       <div class="cartao">
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
@@ -111,8 +118,7 @@
       </div>
     </section>
 
-    <!-- 3. Fonte dos dados -->
-    <section class="secao">
+    <section class="secao" id="fonte">
       <h2 class="secao-titulo">Fonte dos dados</h2>
       <div class="cartao">
         <p style="margin-bottom: 1rem;">
@@ -126,8 +132,7 @@
       </div>
     </section>
 
-    <!-- 4. Metodologia -->
-    <section class="secao">
+    <section class="secao" id="metodologia">
       <h2 class="secao-titulo">Metodologia</h2>
       <div class="cartao">
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Tratamento dos dados</h3>
@@ -143,13 +148,13 @@
           <li>Os valores são <strong>nominais</strong>, sem correção pelo IPCA. A evolução real precisa considerar a inflação do período.</li>
           <li>Registros com <strong>múltiplos vínculos</strong> no mesmo mês (férias, 13º, rescisão) aparecem como linhas separadas por matrícula. Não são erros.</li>
           <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
+          <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
         </ul>
       </div>
     </section>
 
-    <!-- 5. Mapas publicos -->
-    <section class="secao">
+    <section class="secao" id="mapas">
       <h2 class="secao-titulo">Mapas públicos de metodologia</h2>
       <div class="cartao">
         <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
@@ -158,7 +163,6 @@
           metodologia. Digite abaixo para filtrar cada tabela.
         </p>
 
-        <!-- Mapa de regimes -->
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de regimes</h3>
         <div class="filtros" style="margin-bottom: 0.75rem;">
           <div class="filtro-item">
@@ -183,7 +187,6 @@
           </table>
         </div>
 
-        <!-- Mapa de secretarias -->
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de secretarias</h3>
         <div class="filtros" style="margin-bottom: 0.75rem;">
           <div class="filtro-item">
@@ -206,7 +209,6 @@
           </table>
         </div>
 
-        <!-- Mapa de escolaridades -->
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de escolaridades</h3>
         <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
           <table id="tabela-escolaridades">
@@ -225,8 +227,7 @@
       </div>
     </section>
 
-    <!-- 6. Selo de auditoria -->
-    <section class="secao">
+    <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <div class="cartao">
         <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
@@ -239,8 +240,7 @@
       </div>
     </section>
 
-    <!-- 7. Base legal -->
-    <section class="secao">
+    <section class="secao" id="base-legal">
       <h2 class="secao-titulo">Base legal e limites</h2>
       <div class="cartao">
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">O que pode ser publicado</h3>
@@ -277,8 +277,7 @@
       </div>
     </section>
 
-    <!-- 8. Roadmap -->
-    <section class="secao">
+    <section class="secao" id="roadmap">
       <h2 class="secao-titulo">Roadmap público</h2>
       <div class="cartao">
         <p style="margin-bottom: 1.25rem; color: var(--cinza-texto);">
@@ -332,8 +331,7 @@
       </div>
     </section>
 
-    <!-- 9. Creditos e licencas -->
-    <section class="secao">
+    <section class="secao" id="creditos">
       <h2 class="secao-titulo">Créditos e licenças</h2>
       <div class="cartao">
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Código</h3>
@@ -368,7 +366,6 @@
 
   </main>
 
-  <!-- Rodape -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <div>
@@ -387,7 +384,7 @@
           <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
         </p>
       </div>
-            <div>
+      <div>
         <h3>Encontrou um erro?</h3>
         <p>
           <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">

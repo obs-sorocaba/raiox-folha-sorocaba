@@ -1,16 +1,16 @@
 {
-  "gerado_em": "2026-09-20T16:43:48",
+  "gerado_em": "2026-09-21T12:15:22",
   "fonte": "Portal da Transparencia de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "publicado_por": "Observatorio Social do Brasil - Sorocaba",
   "total_arquivos": 30,
-  "tamanho_total_kb": 799.0,
+  "tamanho_total_kb": 799.6,
   "arquivos": [
     {
       "arquivo": "auditoria.json",
       "origem": "agregados",
-      "tamanho_bytes": 2538,
-      "tamanho_kb": 2.5
+      "tamanho_bytes": 2625,
+      "tamanho_kb": 2.6
     },
     {
       "arquivo": "composicao_categoria_mes.csv",
@@ -39,8 +39,8 @@
     {
       "arquivo": "escolaridade_map.csv",
       "origem": "scripts",
-      "tamanho_bytes": 821,
-      "tamanho_kb": 0.8
+      "tamanho_bytes": 924,
+      "tamanho_kb": 0.9
     },
     {
       "arquivo": "folha_mensal.csv",
@@ -99,7 +99,7 @@
     {
       "arquivo": "genero_por_escolaridade.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1388,
+      "tamanho_bytes": 1436,
       "tamanho_kb": 1.4
     },
     {
@@ -117,32 +117,32 @@
     {
       "arquivo": "quadro_escolaridade.csv",
       "origem": "agregados",
-      "tamanho_bytes": 760,
-      "tamanho_kb": 0.7
+      "tamanho_bytes": 784,
+      "tamanho_kb": 0.8
     },
     {
       "arquivo": "quadro_escolaridade_categoria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 2643,
+      "tamanho_bytes": 2691,
       "tamanho_kb": 2.6
     },
     {
       "arquivo": "quadro_escolaridade_categoria_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 32540,
-      "tamanho_kb": 31.8
+      "tamanho_bytes": 32684,
+      "tamanho_kb": 31.9
     },
     {
       "arquivo": "quadro_escolaridade_por_ano.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3126,
-      "tamanho_kb": 3.1
+      "tamanho_bytes": 3246,
+      "tamanho_kb": 3.2
     },
     {
       "arquivo": "quadro_escolaridade_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 18314,
-      "tamanho_kb": 17.9
+      "tamanho_bytes": 18458,
+      "tamanho_kb": 18.0
     },
     {
       "arquivo": "quadro_tempo_servico.csv",

@@ -1,5 +1,5 @@
 {
-  "gerado_em": "2026-09-20T16:43:45",
+  "gerado_em": "2026-09-21T12:15:16",
   "fonte": "Portal da Transparência de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "periodo_coberto": {
@@ -12,6 +12,8 @@
     "registros_multivinculo": 148852,
     "registros_liquidos": 701665,
     "percentual_multivinculo": 17.5,
+    "valor_multivinculo": 1785211204.82,
+    "percentual_valor_multivinculo": 30.48,
     "matriculas_unicas": 26377,
     "secretarias": 29,
     "secretarias_nomes_crus": 47,

@@ -4,7 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Raio-X do Quadro de Pessoal — Prefeitura de Sorocaba</title>
-  <meta name="description" content="Painel público e histórico da folha de pagamento da Prefeitura de Sorocaba. Dados do Portal da Transparência, organizados pelo Observatório Social do Brasil — Sorocaba.">
+  <meta name="description" content="Painel público e histórico da folha de pagamento da Prefeitura de Sorocaba. 56 meses de dados abertos, com séries temporais e comparadores.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Raio-X do Quadro de Pessoal — Sorocaba">
+  <meta property="og:description" content="Painel público, histórico e comparável da folha de pagamento da Prefeitura de Sorocaba. 56 meses de dados abertos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/">
+  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Raio-X do Quadro de Pessoal — Sorocaba">
+  <meta name="twitter:description" content="Painel público da folha de pagamento da Prefeitura de Sorocaba.">
+
   <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -65,15 +79,17 @@
     </div>
   </aside>
 
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
+
   <main id="conteudo-principal">
 
-    <section class="secao">
-      <div class="kpis" id="kpis">
+    <section class="secao" id="kpis">
+      <div class="kpis" id="kpis-container">
         <div class="carregando">Carregando indicadores…</div>
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="evolucao-mensal">
       <h2 class="secao-titulo">Evolução mensal da folha</h2>
       <div class="cartao">
         <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.75rem;">
@@ -109,7 +125,7 @@
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="composicao-categoria">
       <h2 class="secao-titulo">Composição da folha por categoria</h2>
       <div class="grade-2">
         <div class="cartao">
@@ -127,7 +143,7 @@
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="top-secretarias">
       <h2 class="secao-titulo">Top 15 secretarias por folha acumulada</h2>
       <div class="cartao">
         <div class="grafico-container">
@@ -136,11 +152,11 @@
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="tabela-secretarias">
       <h2 class="secao-titulo">Detalhamento das maiores secretarias</h2>
       <div class="cartao">
         <div class="tabela-wrap">
-          <table id="tabela-secretarias">
+          <table id="tabela-secretarias-tbl">
             <thead>
               <tr>
                 <th>Secretaria</th>
@@ -158,7 +174,7 @@
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <dl class="selo" id="selo-conteudo">
         <div class="carregando">Carregando selo…</div>

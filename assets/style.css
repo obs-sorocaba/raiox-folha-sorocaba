@@ -56,7 +56,6 @@ body {
 a { color: var(--azul-claro); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* Inline code (evita colagem ao texto ao redor) */
 code {
   display: inline-block;
   padding: 0.1em 0.35em;
@@ -202,6 +201,15 @@ code {
   background: var(--verde-escuro);
 }
 
+.badge-atualizacao.indisponivel {
+  background: var(--cinza-borda);
+  color: var(--cinza-texto);
+}
+
+.badge-atualizacao.indisponivel::before {
+  background: var(--cinza-texto);
+}
+
 /* -------------------------------------------------------------------------
    Menu
    ------------------------------------------------------------------------- */
@@ -251,6 +259,41 @@ code {
   .menu a { display: none; width: 100%; text-align: left; }
   .menu a.visivel { display: block; }
   .menu-hamburguer { display: block; }
+}
+
+/* -------------------------------------------------------------------------
+   Breadcrumb
+   ------------------------------------------------------------------------- */
+.breadcrumb {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem 0;
+  font-size: 0.85rem;
+  color: var(--cinza-texto);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.breadcrumb a {
+  color: var(--azul-claro);
+  font-weight: 500;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb .separador {
+  color: var(--cinza-texto);
+  margin: 0 0.2rem;
+  font-weight: 400;
+}
+
+.breadcrumb .atual {
+  color: var(--preto-suave);
+  font-weight: 600;
 }
 
 /* -------------------------------------------------------------------------
@@ -363,7 +406,7 @@ main {
   padding: 2rem 1.5rem 4rem;
 }
 
-.secao { margin-bottom: 2.5rem; }
+.secao { margin-bottom: 2.5rem; scroll-margin-top: 80px; }
 
 .secao-titulo {
   font-size: 1.25rem;
@@ -615,6 +658,13 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
 .botao.secundario { background: var(--cinza-borda); color: var(--preto-suave); }
 .botao.secundario:hover { background: #cfd6e0; }
 
+.botao.ativo,
+.botao.secundario.ativo {
+  background: var(--azul-escuro);
+  color: var(--branco);
+  font-weight: 700;
+}
+
 /* -------------------------------------------------------------------------
    Filtros
    ------------------------------------------------------------------------- */
@@ -729,7 +779,7 @@ td.numerico { text-align: right; font-variant-numeric: tabular-nums; }
    Impressao
    ------------------------------------------------------------------------- */
 @media print {
-  .menu, .botao-lateral, .drawer, .backdrop, .filtros, .skip-link { display: none !important; }
+  .menu, .botao-lateral, .drawer, .backdrop, .filtros, .skip-link, .breadcrumb { display: none !important; }
   body { background: var(--branco); }
   .cartao { box-shadow: none; border: 1px solid var(--cinza-borda); }
 }

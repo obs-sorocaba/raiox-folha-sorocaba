@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quadro — Raio-X do Quadro de Pessoal</title>
   <meta name="description" content="Perfil do quadro de pessoal da Prefeitura de Sorocaba: escolaridade, tempo de casa, composição por categoria e gênero.">
+
+  <meta property="og:title" content="Perfil do quadro de pessoal — Sorocaba">
+  <meta property="og:description" content="Escolaridade, tempo de casa e composição do quadro de pessoal da Prefeitura de Sorocaba.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
+  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
+  <meta property="og:locale" content="pt_BR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Perfil do quadro de pessoal — Sorocaba">
+  <meta name="twitter:description" content="Escolaridade, tempo de casa e composição do quadro municipal.">
+
   <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
@@ -13,10 +25,8 @@
 </head>
 <body>
 
-  <!-- Skip link -->
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
-  <!-- Cabecalho -->
   <header class="cabecalho">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
@@ -35,7 +45,6 @@
     </div>
   </header>
 
-  <!-- Menu superior -->
   <nav class="menu" aria-label="Menu principal">
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
@@ -47,7 +56,6 @@
     </div>
   </nav>
 
-  <!-- Botao flutuante + drawer -->
   <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
   <div class="backdrop" aria-hidden="true"></div>
   <aside class="drawer" aria-hidden="true">
@@ -69,10 +77,11 @@
     </div>
   </aside>
 
-  <!-- Conteudo -->
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
+
   <main id="conteudo-principal">
 
-    <section class="secao">
+    <section class="secao" id="apresentacao">
       <h2 class="secao-titulo">Perfil do quadro de pessoal</h2>
       <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
         Quem são as pessoas que prestam os serviços públicos em Sorocaba. Esta página
@@ -95,12 +104,9 @@
       </div>
     </section>
 
-    <!-- Bloco 1: Escolaridade -->
-    <section class="secao">
+    <section class="secao" id="escolaridade">
       <h2 class="secao-titulo">Nível de instrução do quadro</h2>
-      <div class="aviso-metodologico" id="narrativa-escolaridade">
-        Carregando…
-      </div>
+      <div class="aviso-metodologico" id="narrativa-escolaridade">Carregando…</div>
       <div class="grade-2">
         <div class="cartao">
           <div class="cartao-titulo">Servidores por nível de instrução</div>
@@ -111,7 +117,7 @@
         <div class="cartao">
           <div class="cartao-titulo">Remuneração média por nível de instrução</div>
           <div class="grafico-container">
-            <canvas id="grafico-escolaridade-folha" aria-label="Gráfico de barras horizontais mostrando a remuneração média em cada nível de instrução. A remuneração cresce conforme o nível de escolaridade"></canvas>
+            <canvas id="grafico-escolaridade-folha" aria-label="Gráfico de barras horizontais mostrando a remuneração média em cada nível de instrução"></canvas>
           </div>
         </div>
       </div>
@@ -135,23 +141,20 @@
       </div>
     </section>
 
-    <!-- Bloco 2: Tempo de servico -->
-    <section class="secao">
+    <section class="secao" id="tempo-servico">
       <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
-      <div class="aviso-metodologico" id="narrativa-tempo">
-        Carregando…
-      </div>
+      <div class="aviso-metodologico" id="narrativa-tempo">Carregando…</div>
       <div class="grade-2">
         <div class="cartao">
           <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
           <div class="grafico-container">
-            <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa, em anos"></canvas>
+            <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa"></canvas>
           </div>
         </div>
         <div class="cartao">
           <div class="cartao-titulo">Remuneração média por tempo de casa</div>
           <div class="grafico-container">
-            <canvas id="grafico-tempo-folha" aria-label="Gráfico de barras verticais mostrando a remuneração média por faixa de tempo de casa. A remuneração tende a crescer com a antiguidade"></canvas>
+            <canvas id="grafico-tempo-folha" aria-label="Gráfico de barras verticais mostrando a remuneração média por faixa de tempo de casa"></canvas>
           </div>
         </div>
       </div>
@@ -174,8 +177,7 @@
       </div>
     </section>
 
-    <!-- Bloco 3: Composicao por categoria -->
-    <section class="secao">
+    <section class="secao" id="categoria">
       <h2 class="secao-titulo">Composição da folha por categoria</h2>
       <div class="grade-2">
         <div class="cartao">
@@ -193,12 +195,9 @@
       </div>
     </section>
 
-    <!-- Bloco 4: Escolaridade x categoria -->
-    <section class="secao">
+    <section class="secao" id="escolaridade-categoria">
       <h2 class="secao-titulo">Nível de instrução por categoria</h2>
-      <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">
-        Carregando…
-      </div>
+      <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">Carregando…</div>
       <div class="cartao">
         <div class="grafico-container">
           <canvas id="grafico-escolaridade-categoria" aria-label="Gráfico de barras empilhadas mostrando como cada nível de instrução se reparte entre as categorias de vínculo"></canvas>
@@ -206,8 +205,7 @@
       </div>
     </section>
 
-    <!-- Bloco 5: Genero x escolaridade -->
-    <section class="secao">
+    <section class="secao" id="genero-escolaridade">
       <h2 class="secao-titulo">Gênero por nível de instrução</h2>
       <div class="aviso-metodologico" id="narrativa-genero-escolaridade">
         Comparação entre servidores e servidoras em cada nível de instrução.
@@ -219,7 +217,7 @@
       </div>
     </section>
 
-    <section class="secao">
+    <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <dl class="selo" id="selo-conteudo">
         <div class="carregando">Carregando selo…</div>
@@ -228,7 +226,6 @@
 
   </main>
 
-  <!-- Rodape -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <div>
@@ -243,15 +240,11 @@
       <div>
         <h3>Fontes</h3>
         <p>
-          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">
-            Portal da Transparência de Sorocaba
-          </a><br>
-          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">
-            Brasil.IO — Gênero de Nomes
-          </a>
+          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a><br>
+          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
         </p>
       </div>
-            <div>
+      <div>
         <h3>Encontrou um erro?</h3>
         <p>
           <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">
