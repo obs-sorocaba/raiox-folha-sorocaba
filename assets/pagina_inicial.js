@@ -17,6 +17,18 @@ const estadoInicial = {
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
 /* -------------------------------------------------------------------------
+   Normaliza nomes de colunas (remove BOM, espacos)
+   ------------------------------------------------------------------------- */
+function normalizarRegistro(obj) {
+  const out = {};
+  Object.keys(obj || {}).forEach((k) => {
+    const chaveLimpa = String(k).replace(/^\ufeff/, "").trim();
+    out[chaveLimpa] = obj[k];
+  });
+  return out;
+}
+
+/* -------------------------------------------------------------------------
    KPIs
    ------------------------------------------------------------------------- */
 function renderizarKPIs(kpis) {
@@ -117,7 +129,6 @@ function inicializarToggle() {
       if (visao === estadoInicial.visaoAtual) return;
       estadoInicial.visaoAtual = visao;
 
-      // Marca o ativo
       botoes.forEach((b) => b.classList.remove("ativo"));
       btn.classList.add("ativo");
 
@@ -125,24 +136,43 @@ function inicializarToggle() {
     });
   });
 
-  // Marca "Total" como ativo na abertura
   const btnTotal = document.querySelector('[data-visao="total"]');
   if (btnTotal) btnTotal.classList.add("ativo");
 }
 
 /* -------------------------------------------------------------------------
-   Grafico mensal nominal x real (IPCA) — NOVO
+   Grafico mensal nominal x real (IPCA) — versao robusta
    ------------------------------------------------------------------------- */
 function renderizarGraficoMensalIPCA() {
   const ctx = document.getElementById("grafico-mensal-ipca");
   if (!ctx) return;
 
   const dados = estadoInicial.folhaMensalIPCA;
-  if (!dados || !dados.length) return;
+  if (!dados || !dados.length) {
+    console.warn("[IPCA] folhaMensalIPCA vazio ou indefinido:", dados);
+    return;
+  }
 
-  const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
-  const nominal = dados.map((d) => d.folha_nominal / 1e6);
-  const real = dados.map((d) => d.folha_real / 1e6);
+  const registros = dados
+    .map(normalizarRegistro)
+    .filter((d) => d.ano !== undefined && d.ano !== null && d.mes !== undefined && d.mes !== null)
+    .map((d) => ({
+      ano: num(d.ano),
+      mes: num(d.mes),
+      folha_nominal: num(d.folha_nominal),
+      folha_real: num(d.folha_real),
+    }))
+    .filter((d) => d.ano > 0 && d.mes > 0)
+    .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
+
+  if (!registros.length) {
+    console.warn("[IPCA] Nenhum registro valido em folha_mensal_ipca.csv", dados[0]);
+    return;
+  }
+
+  const labels = registros.map((d) => rotuloPeriodo(d.ano, d.mes));
+  const nominal = registros.map((d) => d.folha_nominal / 1e6);
+  const real = registros.map((d) => d.folha_real / 1e6);
 
   if (estadoInicial.graficoMensalIPCA) estadoInicial.graficoMensalIPCA.destroy();
 
@@ -213,12 +243,14 @@ function renderizarGraficoMensalIPCA() {
 function renderizarComposicaoCategoria(dados) {
   if (!dados || !dados.length) return;
 
-  const ultimoAno = Math.max(...dados.map((d) => d.ano));
-  const mesesUltimoAno = dados.filter((d) => d.ano === ultimoAno).map((d) => d.mes);
+  const ultimoAno = Math.max(...dados.map((d) => num(d.ano)));
+  const mesesUltimoAno = dados.filter((d) => num(d.ano) === ultimoAno).map((d) => num(d.mes));
   const ultimoMes = Math.max(...mesesUltimoAno);
 
-  const ultimoSnapshot = dados.filter((d) => d.ano === ultimoAno && d.mes === ultimoMes);
-  ultimoSnapshot.sort((a, b) => b.folha_total - a.folha_total);
+  const ultimoSnapshot = dados
+    .filter((d) => num(d.ano) === ultimoAno && num(d.mes) === ultimoMes)
+    .map((d) => ({ ...d, folha_total: num(d.folha_total) }))
+    .sort((a, b) => b.folha_total - a.folha_total);
 
   const labelsRosca = ultimoSnapshot.map((d) => ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo);
   const valoresRosca = ultimoSnapshot.map((d) => d.folha_total);
@@ -233,14 +265,14 @@ function renderizarComposicaoCategoria(dados) {
   if (!ctxLinha) return;
 
   const subgrupos = [...new Set(dados.map((d) => d.regime_subgrupo))];
-  const periodosSet = new Set(dados.map((d) => `${d.ano}-${String(d.mes).padStart(2, "0")}`));
+  const periodosSet = new Set(dados.map((d) => `${num(d.ano)}-${String(num(d.mes)).padStart(2, "0")}`));
   const periodos = [...periodosSet].sort();
 
   const datasets = subgrupos.map((sg) => {
     const valores = periodos.map((p) => {
       const [ano, mes] = p.split("-").map(Number);
-      const linha = dados.find((d) => d.ano === ano && d.mes === mes && d.regime_subgrupo === sg);
-      return linha ? linha.folha_total / 1e6 : 0;
+      const linha = dados.find((d) => num(d.ano) === ano && num(d.mes) === mes && d.regime_subgrupo === sg);
+      return linha ? num(linha.folha_total) / 1e6 : 0;
     });
     return {
       label: ROTULOS_GRUPO[sg] || sg,
@@ -301,7 +333,13 @@ function renderizarComposicaoCategoria(dados) {
 function renderizarTopSecretarias(topSec, top = 15) {
   if (!topSec || !topSec.length) return;
 
-  const recorte = topSec.slice(0, top);
+  const recorte = topSec.slice(0, top).map((s) => ({
+    ...s,
+    folha_total: num(s.folha_total),
+    folha_media_mensal: num(s.folha_media_mensal),
+    percentual_folha: num(s.percentual_folha),
+    num_matriculas: num(s.num_matriculas),
+  }));
   const ordenado = [...recorte].sort((a, b) => a.folha_total - b.folha_total);
 
   const ctx = document.getElementById("grafico-secretarias");
@@ -342,7 +380,7 @@ async function inicializar() {
       carregarJSON("dados/auditoria.json"),
       carregarCSV("dados/folha_mensal.csv"),
       carregarCSV("dados/folha_mensal_recorrente.csv"),
-      carregarCSV("dados/folha_mensal_ipca.csv"),   // NOVO
+      carregarCSV("dados/folha_mensal_ipca.csv"),
       carregarCSV("dados/composicao_categoria_mes.csv"),
       carregarCSV("dados/top_secretarias.csv"),
     ]);
@@ -356,7 +394,7 @@ async function inicializar() {
       });
     });
 
-    // NOVO: campos especificos do IPCA
+    // Campos especificos do IPCA
     mensalIPCA.forEach((r) => {
       r.folha_nominal = num(r.folha_nominal);
       r.indice_ipca = num(r.indice_ipca);
@@ -366,11 +404,11 @@ async function inicializar() {
 
     estadoInicial.folhaMensalTotal = mensalTotal;
     estadoInicial.folhaMensalRecorrente = mensalRecorrente;
-    estadoInicial.folhaMensalIPCA = mensalIPCA;   // NOVO
+    estadoInicial.folhaMensalIPCA = mensalIPCA;
 
     renderizarKPIs(kpis);
     renderizarGraficoMensal();
-    renderizarGraficoMensalIPCA();   // NOVO
+    renderizarGraficoMensalIPCA();
     inicializarToggle();
     renderizarComposicaoCategoria(categoria);
     renderizarTopSecretarias(topSec);
