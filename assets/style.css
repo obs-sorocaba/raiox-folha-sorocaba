@@ -56,10 +56,9 @@ body {
 a { color: var(--azul-claro); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* Inline code (display inline para respeitar espacos do HTML) */
 code {
-  display: inline-block;
   padding: 0.1em 0.35em;
-  margin: 0 0.15em;
   background: var(--cinza-fundo);
   border: 1px solid var(--cinza-borda);
   border-radius: 4px;
