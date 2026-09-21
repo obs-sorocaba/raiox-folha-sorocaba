@@ -78,20 +78,48 @@ const ROTULOS_GRUPO = {
 /* -------------------------------------------------------------------------
    Carregamento de dados
    ------------------------------------------------------------------------- */
+
+/**
+ * Carrega um arquivo JSON.
+ */
 async function carregarJSON(caminho) {
   const r = await fetch(caminho, { cache: "no-store" });
   if (!r.ok) throw new Error(`Falha ao carregar ${caminho} (HTTP ${r.status})`);
   return r.json();
 }
 
+/**
+ * Carrega um CSV de forma robusta:
+ *  - Baixa via fetch (nao usa o download interno do PapaParse)
+ *  - Remove BOM (\ufeff) do inicio da resposta
+ *  - Auto-detecta o delimitador (; ou ,)
+ *  - Normaliza os nomes das colunas (trim + remove BOM)
+ *  - Converte campos numericos automaticamente
+ */
 async function carregarCSV(caminho) {
+  const r = await fetch(caminho, { cache: "no-store" });
+  if (!r.ok) throw new Error(`Falha ao carregar ${caminho} (HTTP ${r.status})`);
+
+  // Remove BOM do inicio do texto, se houver
+  let texto = await r.text();
+  if (texto.charCodeAt(0) === 0xFEFF) {
+    texto = texto.slice(1);
+  }
+
   return new Promise((resolve, reject) => {
-    Papa.parse(caminho, {
-      download: true,
+    Papa.parse(texto, {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
-      complete: (r) => resolve(r.data),
+      delimiter: "", // auto-detecta ; ou ,
+      transformHeader: (h) => h.replace(/^\ufeff/, "").trim(),
+      complete: (res) => {
+        // Remove linhas onde todas as colunas sao vazias
+        const limpos = res.data.filter((linha) =>
+          Object.values(linha).some((v) => v !== null && v !== "" && v !== undefined)
+        );
+        resolve(limpos);
+      },
       error: (e) => reject(e),
     });
   });
@@ -174,32 +202,28 @@ function inicializarMenu() {
 
 /* -------------------------------------------------------------------------
    Breadcrumb
-   Preenche o elemento #breadcrumb com base na pagina atual.
-   O elemento deve estar logo abaixo do menu, no topo do <main>.
    ------------------------------------------------------------------------- */
 function inicializarBreadcrumb() {
   const el = document.getElementById("breadcrumb");
   if (!el) return;
 
-  // Mapa de páginas: arquivo -> [rótulo legível, pai (opcional)]
   const PAGINAS = {
     "index.html":       { nome: "Início", pai: null },
     "secretarias.html": { nome: "Secretarias", pai: "index.html" },
     "quadro.html":      { nome: "Quadro", pai: "index.html" },
     "genero.html":      { nome: "Gênero", pai: "index.html" },
+    "salarios.html":    { nome: "Salários", pai: "index.html" },
     "sobre.html":       { nome: "Sobre", pai: "index.html" },
   };
 
   const paginaAtual = (location.pathname.split("/").pop() || "index.html");
   const info = PAGINAS[paginaAtual];
 
-  // Só mostra breadcrumb se não for a home
   if (!info || paginaAtual === "index.html") {
     el.style.display = "none";
     return;
   }
 
-  // Se houver ?secretaria= na URL, adiciona um nível extra
   const params = new URLSearchParams(location.search);
   const secretariaSelecionada = params.get("secretaria");
 
@@ -210,7 +234,6 @@ function inicializarBreadcrumb() {
   if (secretariaSelecionada) {
     html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
   } else {
-    // Substitui o último link pelo texto simples (página atual)
     html = `<a href="index.html">Início</a> <span class="separador">›</span> <span class="atual">${info.nome}</span>`;
     if (secretariaSelecionada) {
       html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
