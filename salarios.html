@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salários — Raio-X do Quadro de Pessoal</title>
+  <meta name="description" content="Distribuição salarial do quadro de pessoal da Prefeitura de Sorocaba: percentis, mediana, índice de Gini e histograma por faixa de remuneração.">
+
+  <meta property="og:title" content="Distribuição salarial — Sorocaba">
+  <meta property="og:description" content="Percentis, mediana, índice de Gini e histograma da folha recorrente da Prefeitura de Sorocaba.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/salarios.html">
+  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
+  <meta property="og:locale" content="pt_BR">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distribuição salarial — Sorocaba">
+  <meta name="twitter:description" content="Análise da distribuição salarial do quadro municipal.">
+
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/pagina_salarios.js" defer></script>
+</head>
+<body>
+
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header class="cabecalho">
+    <div class="cabecalho-conteudo">
+      <div class="cabecalho-identidade">
+        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
+        <div class="cabecalho-titulo">
+          <h1>Raio-X do Quadro de Pessoal</h1>
+          <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
+        </div>
+      </div>
+      <div class="cabecalho-meta">
+        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+        <div class="cabecalho-periodo" id="cabecalho-periodo">
+          <span>Carregando período…</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="menu-conteudo">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="salarios.html">Salários</a>
+      <a href="sobre.html">Sobre</a>
+      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+
+  <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
+  <div class="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" aria-hidden="true">
+    <div class="drawer-cabecalho">
+      <h2>Navegação</h2>
+      <p>Raio-X do Quadro de Pessoal</p>
+      <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="drawer-nav" aria-label="Menu lateral">
+      <a href="index.html">Início</a>
+      <a href="secretarias.html">Secretarias</a>
+      <a href="quadro.html">Quadro</a>
+      <a href="genero.html">Gênero</a>
+      <a href="salarios.html">Salários</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+    <div class="drawer-rodape">
+      <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
+      Dados públicos, organizados pelo OSB Sorocaba.
+    </div>
+  </aside>
+
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
+
+  <main id="conteudo-principal">
+
+    <section class="secao" id="apresentacao">
+      <h2 class="secao-titulo">Distribuição salarial do quadro</h2>
+      <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
+        Como os salários se distribuem entre os servidores municipais. Esta análise usa
+        apenas a rubrica <strong>Pagamento Mensal</strong> — o valor recorrente da folha,
+        sem adiantamentos, férias, 13º ou rescisões.
+      </p>
+    </section>
+
+    <section class="secao" id="disclaimer">
+      <div class="aviso-metodologico" style="font-size: 0.9rem; line-height: 1.6;">
+        <strong>Como ler estes números.</strong>
+        Consideramos <strong>apenas registros de Pagamento Mensal com valor bruto maior que zero</strong>.
+        Adiantamentos, férias, 13º salário e rescisões são <strong>excluídos</strong>, porque inflariam
+        artificialmente a cauda dos meses com eventos de pagamento em massa.
+        <br><br>
+        O <strong>índice de Gini</strong> mede a desigualdade interna: 0 significa folha perfeitamente
+        igualitária, 1 significa concentração total em uma pessoa. Valores entre <strong>0,35 e 0,55</strong>
+        são típicos de folhas municipais brasileiras.
+        <br><br>
+        <strong>Limitação:</strong> se o portal da transparência publica o valor bruto já abatido do
+        teto constitucional, o Gini pode <strong>subestimar</strong> a desigualdade no topo. Esta é uma
+        limitação da fonte, não do cálculo.
+      </div>
+    </section>
+
+    <section class="secao" id="panorama">
+      <h2 class="secao-titulo">Panorama do último mês</h2>
+      <div class="kpis" id="kpis-salarios">
+        <div class="carregando">Carregando indicadores…</div>
+      </div>
+    </section>
+
+    <section class="secao" id="evolucao-percentis">
+      <h2 class="secao-titulo">Evolução dos percentis</h2>
+      <div class="cartao">
+        <div class="cartao-titulo">p10, mediana (p50) e p90 ao longo do tempo</div>
+        <div class="grafico-container" style="height: 380px;">
+          <canvas id="grafico-percentis" aria-label="Gráfico de linhas mostrando a evolução dos percentis p10, p50 e p90 da folha recorrente ao longo dos meses"></canvas>
+        </div>
+        <div class="aviso-metodologico">
+          O <strong>p10</strong> representa o valor abaixo do qual 10% dos servidores estão;
+          o <strong>p50</strong> (mediana) divide o quadro ao meio; o <strong>p90</strong> é o topo 10%.
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="evolucao-gini">
+      <h2 class="secao-titulo">Evolução do índice de Gini</h2>
+      <div class="cartao">
+        <div class="cartao-titulo">Desigualdade interna da folha</div>
+        <div class="grafico-container" style="height: 320px;">
+          <canvas id="grafico-gini" aria-label="Gráfico de linhas mostrando a evolução do índice de Gini da folha recorrente ao longo dos meses"></canvas>
+        </div>
+        <div class="aviso-metodologico">
+          Quanto maior o Gini, mais concentrada é a folha em poucos servidores.
+          A estabilidade ao longo do tempo indica que a estrutura de remuneração
+          não mudou significativamente no período.
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="histograma">
+      <h2 class="secao-titulo">Distribuição por faixa salarial</h2>
+      <div class="cartao">
+        <div class="cartao-titulo" id="titulo-histograma">Servidores por faixa de remuneração mensal</div>
+        <div class="grafico-container" style="height: 380px;">
+          <canvas id="grafico-histograma" aria-label="Gráfico de barras verticais mostrando quantos servidores estão em cada faixa de remuneração mensal no último mês"></canvas>
+        </div>
+        <div class="aviso-metodologico">
+          Faixas em reais. Exclui valores iguais a zero (ex: Prefeito, cuja remuneração
+          é registrada à parte). As barras não se sobrepõem.
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="tabela-percentis">
+      <h2 class="secao-titulo">Série detalhada de percentis</h2>
+      <div class="cartao">
+        <div class="tabela-wrap" style="max-height: 480px; overflow-y: auto;">
+          <table id="tabela-percentis">
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th class="numerico">Servidores</th>
+                <th class="numerico">Média</th>
+                <th class="numerico">p10</th>
+                <th class="numerico">p25</th>
+                <th class="numerico">Mediana</th>
+                <th class="numerico">p75</th>
+                <th class="numerico">p90</th>
+                <th class="numerico">p99</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="9" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="selo">
+      <h2 class="secao-titulo">Selo de auditoria</h2>
+      <dl class="selo" id="selo-conteudo">
+        <div class="carregando">Carregando selo…</div>
+      </dl>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div>
+        <h3>Sobre esta análise</h3>
+        <p>
+          Distribuição salarial calculada a partir da rubrica Pagamento Mensal, excluindo
+          adiantamentos, férias, 13º e rescisões. Valores nominais, sem correção pelo IPCA.
+        </p>
+      </div>
+      <div>
+        <h3>Fontes</h3>
+        <p>
+          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência</a><br>
+          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
+        </p>
+      </div>
+      <div>
+        <h3>Encontrou um erro?</h3>
+        <p>
+          <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">
+            Envie um e-mail
+          </a><br>
+          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">
+            Abra uma issue no GitHub
+          </a>
+        </p>
+      </div>
+      <div>
+        <h3>Navegação</h3>
+        <p>
+          <a href="index.html">Início</a><br>
+          <a href="secretarias.html">Secretarias</a><br>
+          <a href="quadro.html">Quadro</a><br>
+          <a href="genero.html">Gênero</a><br>
+          <a href="salarios.html">Salários</a><br>
+          <a href="sobre.html">Sobre</a>
+        </p>
+      </div>
+    </div>
+    <div class="rodape-final">
+      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+    </div>
+  </footer>
+
+</body>
+</html>

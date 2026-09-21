@@ -1,10 +1,10 @@
 {
-  "gerado_em": "2026-09-21T12:15:22",
+  "gerado_em": "2026-09-21T13:34:07",
   "fonte": "Portal da Transparencia de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "publicado_por": "Observatorio Social do Brasil - Sorocaba",
-  "total_arquivos": 30,
-  "tamanho_total_kb": 799.6,
+  "total_arquivos": 33,
+  "tamanho_total_kb": 805.5,
   "arquivos": [
     {
       "arquivo": "auditoria.json",
@@ -29,6 +29,12 @@
       "origem": "agregados",
       "tamanho_bytes": 113052,
       "tamanho_kb": 110.4
+    },
+    {
+      "arquivo": "distribuicao_salarial.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 4528,
+      "tamanho_kb": 4.4
     },
     {
       "arquivo": "efetivo_por_secretaria_mes.csv",
@@ -107,6 +113,18 @@
       "origem": "agregados",
       "tamanho_bytes": 7820,
       "tamanho_kb": 7.6
+    },
+    {
+      "arquivo": "gini_mensal.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 1195,
+      "tamanho_kb": 1.2
+    },
+    {
+      "arquivo": "histograma_salarial.csv",
+      "origem": "agregados",
+      "tamanho_bytes": 310,
+      "tamanho_kb": 0.3
     },
     {
       "arquivo": "kpis.json",
