@@ -115,6 +115,7 @@
           <li>Quer ver <strong>quanto sua secretaria gasta</strong> e como evoluiu? Vá em <a href="secretarias.html">Secretarias</a>.</li>
           <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa)? Vá em <a href="quadro.html">Quadro</a>.</li>
           <li>Quer saber sobre <strong>gênero, liderança e gap salarial</strong>? Vá em <a href="genero.html">Gênero</a>.</li>
+          <li>Quer ver <strong>como os salários se distribuem</strong> (percentis, Gini)? Vá em <a href="salarios.html">Salários</a>.</li>
           <li>Quer baixar os dados abertos? Todos os arquivos CSV estão em <code>dados/</code> e podem ser acessados diretamente.</li>
         </ul>
       </div>
@@ -143,15 +144,17 @@
           <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
           <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
           <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
+          <li><strong>Correção pelo IPCA:</strong> a série "folha real" é calculada dividindo o valor nominal pelo fator de correção do IPCA (IBGE/SIDRA, série 1737), com base em jan/2022. Permite comparar o poder de compra ao longo do tempo.</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li>Os valores são <strong>nominais</strong>, sem correção pelo IPCA. A evolução real precisa considerar a inflação do período.</li>
+          <li>Os valores da série principal são <strong>nominais</strong>, sem correção pelo IPCA. A série corrigida está disponível em <code>folha_mensal_ipca.csv</code>.</li>
           <li>Registros com <strong>múltiplos vínculos</strong> no mesmo mês (férias, 13º, rescisão) aparecem como linhas separadas por matrícula. Não são erros.</li>
           <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
+          <li>Se o portal publica valores <strong>já abatidos do teto constitucional</strong>, a análise de distribuição salarial (Gini, percentis) pode <strong>subestimar</strong> a desigualdade real no topo. Veja a seção sobre o teto remuneratório abaixo.</li>
         </ul>
       </div>
     </section>
@@ -229,6 +232,68 @@
       </div>
     </section>
 
+    <section class="secao" id="teto-remuneratorio">
+      <h2 class="secao-titulo">Teto remuneratório</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem;">
+          O <strong>teto remuneratório</strong> é o limite máximo que um agente público pode
+          receber como remuneração, conforme o <strong>art. 37, XI, da Constituição Federal</strong>.
+          No âmbito municipal, o teto é o <strong>subsídio do Prefeito</strong>, que serve de
+          referência para todos os servidores do município.
+        </p>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Como o teto afeta a leitura dos dados</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li>
+            <strong>Valores acima do teto não aparecem.</strong> Se um servidor tem
+            remuneração superior ao subsídio do Prefeito, o valor excedente é
+            constitucionalmente cortado. O que o portal publica é o valor
+            <strong>já limitado</strong>.
+          </li>
+          <li>
+            <strong>Efeito no Gini e nos percentis.</strong> Como o topo da distribuição
+            é artificialmente "achatado", o <strong>índice de Gini pode subestimar</strong>
+            a desigualdade real. O mesmo vale para o <strong>p90</strong> e o
+            <strong>p99</strong>, que podem ficar abaixo do que seriam sem o teto.
+          </li>
+          <li>
+            <strong>Não é erro do cálculo.</strong> É uma limitação da fonte: o dado
+            publicado já vem com a restrição aplicada. O painel apenas reflete o que
+            está no Portal da Transparência.
+          </li>
+          <li>
+            <strong>Vencimentos vs. remuneração.</strong> O teto incide sobre a
+            <em>remuneração total</em> (vencimento + gratificações + vantagens pessoais).
+            O portal pode publicar apenas parte dessas rubricas, o que também afeta
+            a leitura.
+          </li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Base legal</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li>
+            <strong>Constituição Federal, art. 37, XI</strong> — estabelece o teto
+            remuneratório e a vedação de acumulação de cargos.
+          </li>
+          <li>
+            <strong>Emenda Constitucional nº 19/1998</strong> — introduziu o conceito
+            de subsídio e a vinculação do teto ao subsídio do Prefeito no âmbito municipal.
+          </li>
+          <li>
+            <strong>Lei de Responsabilidade Fiscal (LC 101/2000)</strong> — impõe limites
+            de despesa com pessoal, mas não se confunde com o teto remuneratório individual.
+          </li>
+        </ul>
+
+        <div class="aviso-metodologico" style="margin-top: 1.25rem;">
+          <strong>Nota técnica:</strong> para uma análise mais precisa da desigualdade
+          no topo, seria necessário acessar a <em>remuneração bruta antes do abate do teto</em>,
+          que nem sempre é publicada. O painel sinaliza essa limitação para que o leitor
+          interprete os números com cautela.
+        </div>
+      </div>
+    </section>
+
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <div class="cartao">
@@ -301,10 +366,10 @@
           </div>
 
           <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
-            <strong style="color: var(--azul-escuro);">Onda 2 — Próxima</strong>
+            <strong style="color: var(--azul-escuro);">Onda 2 — Em andamento</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Distribuição salarial (percentis e índice de Gini)</li>
-              <li>Evolução nominal vs. corrigida pelo IPCA</li>
+              <li>Distribuição salarial (percentis e índice de Gini) — <strong>concluído</strong></li>
+              <li>Evolução nominal vs. corrigida pelo IPCA — <strong>concluído</strong></li>
               <li>Simulador de reajuste</li>
               <li>Ranking por cargo</li>
             </ul>
@@ -354,6 +419,10 @@
             <strong>Base de gênero por nome</strong> — IBGE/Censo 2010, tratada por Álvaro
             Justen/Brasil.IO, sob licença <strong>Creative Commons CC-BY-SA</strong>.
             Ao reutilizar, cite: <em>"Fonte: IBGE/Censo 2010, dados tratados por Álvaro Justen/Brasil.IO"</em>.
+          </li>
+          <li>
+            <strong>IPCA</strong> — IBGE/SIDRA, série 1737, variável 63 (número-índice).
+            Uso livre mediante citação da fonte.
           </li>
         </ul>
 
