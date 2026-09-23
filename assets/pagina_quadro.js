@@ -301,10 +301,9 @@ function renderizarBlocoEscolaridade(dados) {
    ------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
-
-  // Mapeia os rótulos das faixas (o CSV armazena o índice numérico)
+  
   const labelsTempo = dados.map((d) => ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`);
-
+  
   const ctxCont = document.getElementById("grafico-tempo-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.tempoContagem) estadoQuadro.graficos.tempoContagem.destroy();
@@ -320,7 +319,7 @@ function renderizarBlocoTempo(dados) {
       }
     );
   }
-
+  
   const ctxFolha = document.getElementById("grafico-tempo-folha");
   if (ctxFolha) {
     if (estadoQuadro.graficos.tempoFolha) estadoQuadro.graficos.tempoFolha.destroy();
@@ -336,7 +335,7 @@ function renderizarBlocoTempo(dados) {
       }
     );
   }
-
+  
   const tbody = document.querySelector("#tabela-tempo tbody");
   if (tbody) {
     tbody.innerHTML = dados.map((d) => `
@@ -347,7 +346,7 @@ function renderizarBlocoTempo(dados) {
         <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
       </tr>`).join("");
   }
-
+  
   const elNarr = document.getElementById("narrativa-tempo");
   if (elNarr) {
     const total = dados.reduce((s, d) => s + d.num_matriculas, 0);
