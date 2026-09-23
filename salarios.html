@@ -138,9 +138,15 @@
           <canvas id="grafico-gini" aria-label="Gráfico de linhas mostrando a evolução do índice de Gini da folha recorrente ao longo dos meses"></canvas>
         </div>
         <div class="aviso-metodologico">
-          Quanto maior o Gini, mais concentrada é a folha em poucos servidores.
-          A estabilidade ao longo do tempo indica que a estrutura de remuneração
-          não mudou significativamente no período.
+          <p style="margin-bottom: 0.5rem;">
+            Quanto maior o Gini, mais concentrada é a folha em poucos servidores.
+          </p>
+          <p>
+            A série apresenta <strong>picos recorrentes em janeiro</strong>, que refletem
+            <strong>pagamentos residuais</strong> (valores mínimos de complementação) e não um
+            aumento real da desigualdade. A estrutura de remuneração permanece estável no
+            restante do ano.
+          </p>
         </div>
       </div>
     </section>
@@ -166,15 +172,15 @@
           <table id="tabela-percentis">
             <thead>
               <tr>
-                <th>Mês</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">Média</th>
-                <th class="numerico">p10</th>
-                <th class="numerico">p25</th>
-                <th class="numerico">Mediana</th>
-                <th class="numerico">p75</th>
-                <th class="numerico">p90</th>
-                <th class="numerico">p99</th>
+                <th scope="col">Mês</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">Média</th>
+                <th scope="col" class="numerico">p10</th>
+                <th scope="col" class="numerico">p25</th>
+                <th scope="col" class="numerico">Mediana</th>
+                <th scope="col" class="numerico">p75</th>
+                <th scope="col" class="numerico">p90</th>
+                <th scope="col" class="numerico">p99</th>
               </tr>
             </thead>
             <tbody>

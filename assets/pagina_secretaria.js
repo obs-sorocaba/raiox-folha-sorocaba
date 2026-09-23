@@ -150,11 +150,16 @@ function registrarEventos() {
   if (selMetrica) {
     selMetrica.addEventListener("change", (e) => {
       estado.metricaAtual = e.target.value;
+
+      // Atualiza os KPIs
       if (estado.modo === "municipio") {
         renderizarKPIsMunicipio(estado.kpis);
       } else if (estado.secretariaAtual) {
         renderizarKPIs(estado.resumo.find((s) => s.secretaria === estado.secretariaAtual));
       }
+
+      // Atualiza o grafico com a metrica selecionada
+      renderizarGraficoMetrica();
     });
   }
 
@@ -167,7 +172,6 @@ function registrarEventos() {
    Helpers de layout
    ------------------------------------------------------------------------- */
 function expandirGradeCategoria() {
-  // Em modo municipio, a rosca ocupa largura total
   const secao = document.querySelector('section:has(#grafico-categoria)');
   if (!secao) return;
   const grade = secao.querySelector(".grade-2");
@@ -199,20 +203,17 @@ function selecionarMunicipio() {
   }));
 
   renderizarKPIsMunicipio(estado.kpis);
-  renderizarTitulosCartoes("Total do município");
-  renderizarGraficoFolha(folha, "municipio");
+  renderizarGraficoMetrica();
   renderizarGraficoEfetivo(efetivo, "municipio");
   renderizarGraficoCategoria(estado.categoriaMunicipalMes, "municipio");
   renderizarTabela(folha);
 
-  // Esconde o card de comparadores em modo municipio
   const comparadores = document.getElementById("comparadores");
   if (comparadores) {
     const cartao = comparadores.closest(".cartao");
     if (cartao) cartao.style.display = "none";
   }
 
-  // Expande a grade da composicao para largura total
   expandirGradeCategoria();
 }
 
@@ -273,14 +274,12 @@ function selecionarSecretaria(nome) {
   estado.modo = "secretaria";
   estado.secretariaAtual = nome;
 
-  // Reexibe o card de comparadores
   const comparadores = document.getElementById("comparadores");
   if (comparadores) {
     const cartao = comparadores.closest(".cartao");
     if (cartao) cartao.style.display = "";
   }
 
-  // Restaura a grade de 2 colunas
   restaurarGradeCategoria();
 
   const resumo = estado.resumo.find((s) => s.secretaria === nome);
@@ -299,8 +298,7 @@ function selecionarSecretaria(nome) {
     .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
 
   renderizarKPIs(resumo);
-  renderizarTitulosCartoes(nome);
-  renderizarGraficoFolha(folhaSec, "secretaria");
+  renderizarGraficoMetrica();
   renderizarGraficoEfetivo(efetivoSec, "secretaria");
   renderizarGraficoCategoria(categoriaSec, nome);
   renderizarComparadores(resumo);
@@ -367,40 +365,76 @@ function renderizarKPIs(resumo) {
 }
 
 /* -------------------------------------------------------------------------
-   Titulos dos cartoes de grafico
+   Grafico de metrica (folha / efetivo / ticket medio)
    ------------------------------------------------------------------------- */
-function renderizarTitulosCartoes(contexto) {
-  const titulos = document.querySelectorAll(".cartao-titulo");
-  titulos.forEach((el) => {
-    if (el.textContent.startsWith("Evolução mensal da folha")) {
-      el.textContent = `Evolução mensal da folha — ${contexto}`;
-    }
-    if (el.textContent.startsWith("Evolução mensal do efetivo")) {
-      el.textContent = `Evolução mensal do efetivo — ${contexto}`;
-    }
-  });
-}
-
-/* -------------------------------------------------------------------------
-   Grafico de folha
-   ------------------------------------------------------------------------- */
-function renderizarGraficoFolha(dados, contexto) {
+function renderizarGraficoMetrica() {
   const ctx = document.getElementById("grafico-folha");
   if (!ctx) return;
 
+  const dados = estado.modo === "municipio"
+    ? estado.folhaMunicipalMes
+    : estado.folhaMes.filter((f) => f.secretaria === estado.secretariaAtual);
+
+  if (!dados || !dados.length) return;
+
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
-  const valores = dados.map((d) => d.folha_total / 1e6);
+
+  let valores, rotulo, formatador, eixoFormatador, inicioZero;
+
+  switch (estado.metricaAtual) {
+    case "num_matriculas":
+      valores = dados.map((d) => num(d.num_matriculas));
+      rotulo = "Efetivo (matrículas)";
+      formatador = (v) => fmtNum.format(v) + " servidores";
+      eixoFormatador = (v) => fmtNumCompacto(v);
+      inicioZero = false;
+      break;
+
+    case "ticket_medio":
+      valores = dados.map((d) => num(d.ticket_medio));
+      rotulo = "Custo médio por servidor (R$)";
+      formatador = (v) => fmtBRL.format(v);
+      eixoFormatador = (v) => fmtBRLCompacto(v);
+      inicioZero = false;
+      break;
+
+    case "folha_total":
+    default:
+      valores = dados.map((d) => num(d.folha_total) / 1e6);
+      rotulo = "Folha bruta (R$ mi)";
+      formatador = (v) => "R$ " + v.toFixed(1).replace(".", ",") + " mi";
+      eixoFormatador = (v) => "R$ " + v.toFixed(0) + " mi";
+      inicioZero = true;
+      break;
+  }
 
   if (estado.graficos.folha) estado.graficos.folha.destroy();
 
   estado.graficos.folha = graficoLinha(ctx, labels, valores, {
-    label: "Folha (R$ mi)",
+    label: rotulo,
     cor: CORES.azulClaro,
     corFundo: "rgba(0,113,206,0.08)",
-    formatador: (v) => "R$ " + v.toFixed(1).replace(".", ",") + " mi",
-    eixoYFormatador: (v) => "R$ " + v.toFixed(0) + " mi",
-    inicioZero: true,
+    formatador: formatador,
+    eixoYFormatador: eixoFormatador,
+    inicioZero: inicioZero,
   });
+
+  // Atualiza o titulo do cartao
+  const cartao = ctx.closest(".cartao");
+  if (cartao) {
+    const titulo = cartao.querySelector(".cartao-titulo");
+    if (titulo) {
+      const contexto = estado.modo === "municipio"
+        ? "Total do município"
+        : estado.secretariaAtual;
+      titulo.textContent = `Evolução mensal — ${rotulo} — ${contexto}`;
+    }
+  }
+}
+
+// Mantem compatibilidade com chamadas antigas
+function renderizarGraficoFolha(dados, contexto) {
+  renderizarGraficoMetrica();
 }
 
 /* -------------------------------------------------------------------------
@@ -456,7 +490,6 @@ function renderizarGraficoCategoria(dados, contexto) {
 
   estado.graficos.categoria = graficoRosca(ctx, labels, valores, cores);
 
-  // Titulo dinamico do cartao com mes de referencia e contexto
   const cartao = ctx.closest(".cartao");
   if (cartao) {
     const titulo = cartao.querySelector(".cartao-titulo");
