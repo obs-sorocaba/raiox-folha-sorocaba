@@ -2,18 +2,18 @@
    Pagina Quadro - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
    Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
    e genero x escolaridade.
-   Correcao: eixo Y do grafico de tempo de casa com formato de moeda.
+   Correcao: rotulos das faixas de tempo de casa no grafico.
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
   "Sem escolaridade formal registrada",
   "Fundamental incompleto",
   "Fundamental completo",
-  "Médio incompleto",
-  "Médio completo",
+  "Medio incompleto",
+  "Medio completo",
   "Superior incompleto",
   "Superior completo",
-  "Pós-graduação",
+  "Pos-graduacao",
   "Mestrado",
   "Doutorado",
 ];
@@ -75,6 +75,7 @@ async function inicializar() {
       carregarJSON("dados/auditoria.json"),
     ]);
 
+    // Converte campos numericos
     const camposNumEsc = ["num_registros", "num_matriculas", "folha_total", "folha_media", "folha_mediana"];
     const camposNumTempo = ["num_registros", "num_matriculas", "folha_total", "folha_media"];
 
@@ -300,115 +301,41 @@ function renderizarBlocoEscolaridade(dados) {
    ------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
-
+  
   const labelsTempo = dados.map((d) => ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`);
-
-  // ── Grafico 1: Servidores por faixa (EIXO Y = numeros) ──
+  
   const ctxCont = document.getElementById("grafico-tempo-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.tempoContagem) estadoQuadro.graficos.tempoContagem.destroy();
-    estadoQuadro.graficos.tempoContagem = new Chart(ctxCont, {
-      type: "bar",
-      data: {
-        labels: labelsTempo,
-        datasets: [{
-          label: "Servidores",
-          data: dados.map((d) => d.num_matriculas),
-          backgroundColor: CORES.azulClaro,
-          borderColor: "rgba(26,26,26,0.35)",
-          borderWidth: 1,
-          borderRadius: 4,
-          borderSkipped: false,
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (item) => `${fmtNum.format(item.parsed.y)} servidores`,
-            },
-          },
-        },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: CORES.cinzaTexto },
-            title: { display: true, text: "Tempo de casa (anos)" },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: CORES.cinzaBorda },
-            ticks: {
-              color: CORES.cinzaTexto,
-              callback: (v) => fmtNumCompacto(v),
-            },
-            title: { display: true, text: "Servidores" },
-          },
-        },
-      },
-    });
+    estadoQuadro.graficos.tempoContagem = graficoBarras(
+      ctxCont,
+      labelsTempo,
+      dados.map((d) => d.num_matriculas),
+      {
+        label: "Servidores",
+        cor: CORES.azulClaro,
+        formatador: (v) => fmtNum.format(v) + " servidores",
+        eixoFormatador: (v) => fmtNumCompacto(v),
+      }
+    );
   }
-
-  // ── Grafico 2: Remuneracao media (EIXO Y = R$) ──
+  
   const ctxFolha = document.getElementById("grafico-tempo-folha");
   if (ctxFolha) {
     if (estadoQuadro.graficos.tempoFolha) estadoQuadro.graficos.tempoFolha.destroy();
-    estadoQuadro.graficos.tempoFolha = new Chart(ctxFolha, {
-      type: "bar",
-      data: {
-        labels: labelsTempo,
-        datasets: [{
-          label: "Folha média",
-          data: dados.map((d) => d.folha_media),
-          backgroundColor: CORES.verdeClaro,
-          borderColor: "rgba(26,26,26,0.35)",
-          borderWidth: 1,
-          borderRadius: 4,
-          borderSkipped: false,
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (item) => fmtBRL.format(item.parsed.y),
-            },
-          },
-        },
-        scales: {
-          x: {
-            // SEM callback de formatacao: apenas os rotulos das faixas
-            grid: { display: false },
-            ticks: { color: CORES.cinzaTexto },
-            title: { display: true, text: "Tempo de casa (anos)" },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: CORES.cinzaBorda },
-            ticks: {
-              color: CORES.cinzaTexto,
-              callback: function (value) {
-                return new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                  maximumFractionDigits: 0,
-                }).format(value);
-              },
-            },
-            title: { display: true, text: "Remuneração média" },
-          },
-        },
-      },
-    });
+    estadoQuadro.graficos.tempoFolha = graficoBarras(
+      ctxFolha,
+      labelsTempo,
+      dados.map((d) => d.folha_media),
+      {
+        label: "Folha média",
+        cor: CORES.verdeClaro,
+        formatador: (v) => fmtBRL.format(v),
+        eixoFormatador: (v) => fmtBRLCompacto(v),
+      }
+    );
   }
-
-  // ── Tabela ──
+  
   const tbody = document.querySelector("#tabela-tempo tbody");
   if (tbody) {
     tbody.innerHTML = dados.map((d) => `
@@ -419,8 +346,7 @@ function renderizarBlocoTempo(dados) {
         <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
       </tr>`).join("");
   }
-
-  // ── Narrativa ──
+  
   const elNarr = document.getElementById("narrativa-tempo");
   if (elNarr) {
     const total = dados.reduce((s, d) => s + d.num_matriculas, 0);
