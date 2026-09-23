@@ -2,16 +2,17 @@
    Pagina inicial - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
    Le os agregados e renderiza KPIs, graficos e selo de auditoria.
    Toggle: Total x Recorrente no grafico mensal.
-   NOVO: Grafico de folha nominal x real (corrigida pelo IPCA).
+   Correcao: hardcodes substituidos por calculo dinamico.
    ========================================================================= */
 
 const estadoInicial = {
   folhaMensalTotal: [],
   folhaMensalRecorrente: [],
-  folhaMensalIPCA: [],       // NOVO
-  visaoAtual: "total",       // "total" | "recorrente"
+  folhaMensalIPCA: [],
+  visaoAtual: "total",
   graficoMensal: null,
-  graficoMensalIPCA: null,   // NOVO
+  graficoMensalIPCA: null,
+  kpis: null,
 };
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
@@ -26,6 +27,30 @@ function normalizarRegistro(obj) {
     out[chaveLimpa] = obj[k];
   });
   return out;
+}
+
+/* -------------------------------------------------------------------------
+   Calcula a variacao real (IPCA) dinamicamente
+   ------------------------------------------------------------------------- */
+function calcularVariacaoReal() {
+  const dados = estadoInicial.folhaMensalIPCA;
+  if (!dados || dados.length < 2) return "—";
+  const primeiro = num(dados[0].folha_real);
+  const ultimo = num(dados[dados.length - 1].folha_real);
+  if (primeiro === 0) return "—";
+  return ((ultimo / primeiro - 1) * 100).toFixed(1).replace(".", ",");
+}
+
+/* -------------------------------------------------------------------------
+   Calcula a variacao nominal dinamicamente
+   ------------------------------------------------------------------------- */
+function calcularVariacaoNominal() {
+  const dados = estadoInicial.folhaMensalTotal;
+  if (!dados || dados.length < 2) return "—";
+  const primeiro = num(dados[0].folha_total);
+  const ultimo = num(dados[dados.length - 1].folha_total);
+  if (primeiro === 0) return "—";
+  return ((ultimo / primeiro - 1) * 100).toFixed(2).replace(".", ",");
 }
 
 /* -------------------------------------------------------------------------
@@ -65,9 +90,9 @@ function renderizarKPIs(kpis) {
     </div>
 
     <div class="kpi positivo">
-      <div class="rotulo">Variação no período</div>
-      <div class="valor">${fmtPct(kpis.variacao_periodo_percentual || 0)}</div>
-      <div class="detalhe">Nominal; em valores corrigidos pelo IPCA, ~+40%</div>
+      <div class="rotulo">Variação nominal no período</div>
+      <div class="valor">${calcularVariacaoNominal()}%</div>
+      <div class="detalhe">Nominal; em valores corrigidos pelo IPCA, ${calcularVariacaoReal()}%</div>
     </div>
 
     <div class="kpi">
@@ -405,6 +430,7 @@ async function inicializar() {
     estadoInicial.folhaMensalTotal = mensalTotal;
     estadoInicial.folhaMensalRecorrente = mensalRecorrente;
     estadoInicial.folhaMensalIPCA = mensalIPCA;
+    estadoInicial.kpis = kpis;
 
     renderizarKPIs(kpis);
     renderizarGraficoMensal();

@@ -108,17 +108,9 @@
           </p>
           <p>
             <strong>Sobre os picos de lançamento:</strong> a série conta <em>pagamentos</em>,
-            não servidores. Picos em dezembro refletem o 13º salário. Os picos de mar/2025
-            e jul/2026 foram investigados e são eventos legítimos de pagamento:
+            não servidores. Picos em novembro refletem o 13º salário, pago até 30/11.
+            Os picos de nov/2024 (R$ 164,8 mi) e nov/2025 (R$ 147,4 mi) são os maiores da série.
           </p>
-          <ul style="margin: 0.5rem 0 0.5rem 1.25rem; padding-left: 1rem;">
-            <li><strong>mar/2025</strong> — pagamento coletivo a ~9,8 mil servidores, com valor
-              médio de 4% do salário mensal. Padrão típico de reajuste retroativo ou
-              diferença de piso, sem recorrência em meses vizinhos (apenas 1% dos casos).</li>
-            <li><strong>jul/2026</strong> — férias de recesso escolar (R$ 9 mi) somadas a
-              adiantamento sazonal (R$ 6 mi). O efetivo ficou estável (+0,3% de matrículas),
-              confirmando que o aumento é composicional, não de contratação.</li>
-          </ul>
           <p>
             Para ler <strong>efetivo</strong>, use a série de matrículas. Para acompanhar o
             <strong>custo recorrente</strong>, alterne para a visão "Recorrente" acima do gráfico.
@@ -141,14 +133,16 @@
             jan/2022, permitindo comparar o poder de compra ao longo do tempo.
           </p>
           <p>
-            <strong>Leitura:</strong> quando a linha real fica <em>abaixo</em> da nominal,
-            significa que o aumento nominal foi menor que a inflação do período — ou seja,
-            houve <strong>perda de poder de compra</strong>. Quando a real sobe acima da
-            nominal, houve <strong>ganho real</strong>.
+            <strong>Leitura:</strong> a linha real mostra o poder de compra da folha a
+            preços de jan/2022. Quando a linha real <strong>sobe</strong>, houve ganho
+            real; quando <strong>cai</strong>, houve perda real. A comparação deve ser
+            feita pela <strong>inclinação da linha real</strong> ao longo do tempo,
+            não pela posição em relação à linha nominal.
           </p>
           <p>
             <strong>Fonte do IPCA:</strong> IBGE/SIDRA, série 1737, variável 63 (número-índice).
             O fator de correção é calculado como <code>IPCA(jan/2022) / IPCA(mês)</code>.
+            O primeiro mês da série é jan/2022 (fator = 1,0).
           </p>
         </div>
       </div>
@@ -188,11 +182,11 @@
           <table id="tabela-secretarias-tbl">
             <thead>
               <tr>
-                <th>Secretaria</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Média mensal</th>
-                <th class="numerico">% do total</th>
-                <th class="numerico">Servidores (únicos)</th>
+                <th scope="col">Secretaria</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Média mensal</th>
+                <th scope="col" class="numerico">% do total</th>
+                <th scope="col" class="numerico">Servidores (únicos)</th>
               </tr>
             </thead>
             <tbody>
