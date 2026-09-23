@@ -1,4 +1,4 @@
-﻿ano;mes_detectado;matriculas_anual;matriculas_mensal;divergencia_pct;eventuais_anual;eventuais_mensal;divergencia_eventuais_pct;status
+﻿ano;mes_detectado;matriculas_anual;matriculas_mensal;divergencia_matriculas_pct;eventuais_anual;eventuais_mensal;divergencia_eventuais_pct;status
 2022;9;13848;12028;15.1;3412;1524;123.9;bloqueado_grave
 2023;6;15374;12705;21.0;4235;1521;178.4;bloqueado_grave
 2024;10;16143;13288;21.5;5176;2214;133.8;bloqueado_grave
