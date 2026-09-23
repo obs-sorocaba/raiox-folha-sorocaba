@@ -369,7 +369,7 @@
       <div class="cartao">
         <p style="margin-bottom: 1.25rem;">
           Todos os dados usados por este painel estão disponíveis publicamente em formato
-          CSV e JSON. Você pode baixá-los, reutilizá-los e auditá-los livremente.
+          CSV, JSON e Excel. Você pode baixá-los, reutilizá-los e auditá-los livremente.
         </p>
         <div class="aviso-metodologico" style="margin-bottom: 1.25rem;">
           <strong>Licença:</strong> os dados são de origem pública e estão disponíveis sob
@@ -425,104 +425,35 @@
           <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
           <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
         </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Versões Excel (para leitura amigável)</h3>
+        <p style="margin-bottom: 0.5rem; color: var(--cinza-texto);">
+          Para quem prefere abrir direto no Excel, com formatação pronta e cabeçalhos em maiúsculas:
+        </p>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/excel/folha_mensal.xlsx" download>folha_mensal.xlsx</a> — folha bruta mensal</li>
+          <li><a href="dados/excel/folha_mensal_ipca.xlsx" download>folha_mensal_ipca.xlsx</a> — folha nominal × real (IPCA)</li>
+          <li><a href="dados/excel/top_secretarias.xlsx" download>top_secretarias.xlsx</a> — ranking de secretarias</li>
+          <li><a href="dados/excel/resumo_secretaria.xlsx" download>resumo_secretaria.xlsx</a> — resumo por secretaria</li>
+          <li><a href="dados/excel/distribuicao_salarial.xlsx" download>distribuicao_salarial.xlsx</a> — percentis</li>
+          <li><a href="dados/excel/gini_mensal.xlsx" download>gini_mensal.xlsx</a> — índice de Gini</li>
+          <li><a href="dados/excel/quadro_escolaridade.xlsx" download>quadro_escolaridade.xlsx</a> — escolaridade</li>
+          <li><a href="dados/excel/quadro_tempo_servico.xlsx" download>quadro_tempo_servico.xlsx</a> — tempo de casa</li>
+          <li><a href="dados/excel/genero_geral.xlsx" download>genero_geral.xlsx</a> — gênero</li>
+          <li><a href="dados/excel/genero_gap_salarial.xlsx" download>genero_gap_salarial.xlsx</a> — gap salarial</li>
+        </ul>
       </div>
     </section>
 
     <section class="secao" id="roadmap">
-      <h2 class="secao-titulo">Roadmap público</h2>
+      <h2 class="secao-titulo">Roadmap</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1.25rem; color: var(--cinza-texto);">
-          O painel está em construção permanente. Abaixo, o que já foi entregue e o que
-          vem nas próximas ondas.
-        </p>
-
-        <div style="display: grid; gap: 1rem;">
-          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
-            <strong style="color: var(--verde-escuro);">Onda 1 — Concluída</strong>
-            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Série histórica da folha (56 meses)</li>
-              <li>Ranking de secretarias</li>
-              <li>Composição por categoria</li>
-              <li>Análise por secretaria</li>
-              <li>Quadro: escolaridade e tempo de casa</li>
-              <li>Análise de gênero (representação, liderança, gap salarial)</li>
-            </ul>
-          </div>
-
-          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
-            <strong style="color: var(--azul-escuro);">Onda 2 — Em andamento</strong>
-            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Distribuição salarial (percentis e índice de Gini) — <strong>concluído</strong></li>
-              <li>Evolução nominal vs. corrigida pelo IPCA — <strong>concluído</strong></li>
-              <li>Simulador de reajuste</li>
-              <li>Ranking por cargo</li>
-            </ul>
-          </div>
-
-          <div style="padding: 1rem; background: #fff8dc; border-left: 4px solid var(--amarelo); border-radius: 6px;">
-            <strong style="color: #6b5300;">Onda 3 — Em estudo</strong>
-            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Nível de unidade (escola, UBS, prédio)</li>
-              <li>Distribuição de carga horária e detecção de acúmulos</li>
-              <li>Projeção de aposentadorias (2027–2032)</li>
-              <li>Fluxos entre secretarias (Sankey)</li>
-            </ul>
-          </div>
-
-          <div style="padding: 1rem; background: #f5eaf7; border-left: 4px solid #7a4ba8; border-radius: 6px;">
-            <strong style="color: #7a4ba8;">Onda 4 — Longo prazo</strong>
-            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Folha per capita (IBGE)</li>
-              <li>Custo por aluno (INEP)</li>
-              <li>Folha como % da receita (LRF)</li>
-              <li>Comparação com municípios pares</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="creditos">
-      <h2 class="secao-titulo">Créditos e licenças</h2>
-      <div class="cartao">
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Código</h3>
-        <p style="margin-bottom: 1rem;">
-          O código deste painel é aberto sob licença <strong>MIT</strong>. Você pode usá-lo,
-          modificá-lo e distribuí-lo livremente, desde que mantenha a atribuição ao
-          Observatório Social do Brasil — Sorocaba.
-          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/blob/main/LICENSE" target="_blank" rel="noopener">Ver licença completa</a>.
-        </p>
-
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Dados</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li>
-            <strong>Portal da Transparência de Sorocaba</strong> — dados públicos oficiais,
-            de uso livre por se tratar de informação pública.
-          </li>
-          <li>
-            <strong>Base de gênero por nome</strong> — IBGE/Censo 2010, tratada por Álvaro
-            Justen/Brasil.IO, sob licença <strong>Creative Commons CC-BY-SA</strong>.
-            Ao reutilizar, cite: <em>"Fonte: IBGE/Censo 2010, dados tratados por Álvaro Justen/Brasil.IO"</em>.
-          </li>
-          <li>
-            <strong>IPCA</strong> — IBGE/SIDRA, série 1737, variável 63 (número-índice).
-            Uso livre mediante citação da fonte.
-          </li>
-        </ul>
-
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Licença dos dados</h3>
-        <p style="margin-bottom: 1rem;">
-          Os dados publicados neste painel são de origem pública e estão disponíveis sob
-          licença <strong>Creative Commons CC-BY 4.0</strong>. Você pode reutilizá-los,
-          desde que cite a fonte: "Portal da Transparência de Sorocaba, organizado pelo
-          Observatório Social do Brasil — Sorocaba".
-        </p>
-
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Bibliotecas usadas</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener">Chart.js</a> (MIT)</li>
-          <li><a href="https://www.papaparse.com/" target="_blank" rel="noopener">PapaParse</a> (MIT)</li>
-          <li>pandas, Python (BSD)</li>
+          <li><strong>Onda 1 (concluída):</strong> Série histórica da folha, composição por categoria e por secretaria.</li>
+          <li><strong>Onda 2 (concluída):</strong> Distribuição salarial (percentis, Gini, histograma), quadro de pessoal (escolaridade, tempo de casa), gênero.</li>
+          <li><strong>Onda 3 (em andamento):</strong> Correção pelo IPCA, painel de salários nominal × real, nota sobre teto remuneratório.</li>
+          <li><strong>Onda 4 (planejada):</strong> Alertas de anomalias, comparador de secretarias, exportação em Excel.</li>
+          <li><strong>Onda 5 (futuro):</strong> API pública, integração com outros observatórios, mapa geográfico dos servidores.</li>
         </ul>
       </div>
     </section>
@@ -531,47 +462,14 @@
 
   <footer class="rodape">
     <div class="rodape-conteudo">
-      <div>
-        <h3>Sobre este painel</h3>
-        <p>
-          Painel público, histórico e comparável da folha de pessoal da Prefeitura de
-          Sorocaba. Os dados são extraídos do Portal da Transparência e organizados pelo
-          Observatório Social do Brasil — Sorocaba. Nenhum dado sensível é publicado:
-          apenas agregados.
-        </p>
-      </div>
-      <div>
-        <h3>Fontes</h3>
-        <p>
-          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência</a><br>
-          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
-        </p>
-      </div>
-      <div>
-        <h3>Encontrou um erro?</h3>
-        <p>
-          <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">
-            Envie um e-mail
-          </a><br>
-          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">
-            Abra uma issue no GitHub
-          </a>
-        </p>
-      </div>
-      <div>
-        <h3>Navegação</h3>
-        <p>
-          <a href="index.html">Início</a><br>
-          <a href="secretarias.html">Secretarias</a><br>
-          <a href="quadro.html">Quadro de Pessoal</a><br>
-          <a href="genero.html">Gênero</a><br>
-          <a href="salarios.html">Salários</a><br>
-          <a href="sobre.html">Sobre</a>
-        </p>
-      </div>
-    </div>
-    <div class="rodape-final">
-      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+      <p>
+        <strong>Observatório Social do Brasil — Sorocaba</strong><br>
+        Dados públicos organizados para controle social.<br>
+        Fonte: <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a>.
+      </p>
+      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--cinza-texto);">
+        Última atualização: <span id="rodape-atualizacao">—</span>
+      </p>
     </div>
   </footer>
 
