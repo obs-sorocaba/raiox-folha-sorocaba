@@ -25,6 +25,13 @@
 </head>
 <body>
 
+  <noscript>
+    <div class="erro" role="alert">
+      <strong>Este painel requer JavaScript.</strong>
+      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
+    </div>
+  </noscript>
+
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
   <header class="cabecalho">
@@ -125,14 +132,17 @@
       </div>
       <div class="cartao">
         <div class="tabela-wrap">
-          <table id="tabela-escolaridade">
+          <table id="tabela-escolaridade" aria-describedby="descricao-tabela-escolaridade">
+            <caption id="descricao-tabela-escolaridade">
+              Servidores e remuneração por nível de instrução no período de janeiro de 2022 a agosto de 2026.
+            </caption>
             <thead>
               <tr>
-                <th>Nível de instrução</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Folha média</th>
-                <th class="numerico">Folha mediana</th>
+                <th scope="col">Nível de instrução</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Folha média</th>
+                <th scope="col" class="numerico">Folha mediana</th>
               </tr>
             </thead>
             <tbody>
@@ -162,13 +172,16 @@
       </div>
       <div class="cartao">
         <div class="tabela-wrap">
-          <table id="tabela-tempo">
+          <table id="tabela-tempo" aria-describedby="descricao-tabela-tempo">
+            <caption id="descricao-tabela-tempo">
+              Servidores e remuneração por faixa de tempo de casa no período de janeiro de 2022 a agosto de 2026.
+            </caption>
             <thead>
               <tr>
-                <th>Faixa</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Folha média</th>
+                <th scope="col">Faixa</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Folha média</th>
               </tr>
             </thead>
             <tbody>

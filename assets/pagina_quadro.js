@@ -2,6 +2,7 @@
    Pagina Quadro - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
    Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
    e genero x escolaridade.
+   Correcao: rotulos das faixas de tempo de casa no grafico.
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
@@ -16,6 +17,16 @@ const ORDEM_ESCOLARIDADE = [
   "Mestrado",
   "Doutorado",
 ];
+
+const ROTULOS_TEMPO = {
+  0: "0-5 anos",
+  1: "6-10 anos",
+  2: "11-15 anos",
+  3: "16-20 anos",
+  4: "21-25 anos",
+  5: "26-30 anos",
+  6: "30+ anos",
+};
 
 const estadoQuadro = {
   escolaridade: [],
@@ -197,7 +208,6 @@ function renderizarTudo(ano, secretaria) {
 }
 
 function filtrarEscolaridade(ano, secretaria) {
-  // Se secretaria != "todas", usa o agregado por secretaria
   if (secretaria && secretaria !== "todas") {
     return estadoQuadro.escolaridadeSecretaria.filter((r) => r.secretaria === secretaria);
   }
@@ -209,7 +219,6 @@ function filtrarEscolaridade(ano, secretaria) {
 
 function filtrarTempo(ano, secretaria) {
   if (secretaria && secretaria !== "todas") {
-    // Nao temos tempo x secretaria aqui; usamos o total
     return estadoQuadro.tempoServico;
   }
   if (ano && ano !== "todos") {
@@ -224,14 +233,12 @@ function filtrarTempo(ano, secretaria) {
 function renderizarBlocoEscolaridade(dados) {
   if (!dados.length) return;
 
-  // Ordena pela ordem canonica de escolaridade
   const ordenado = [...dados].sort(
     (a, b) =>
       ORDEM_ESCOLARIDADE.indexOf(a.escolaridade_canonica) -
       ORDEM_ESCOLARIDADE.indexOf(b.escolaridade_canonica)
   );
 
-  // Grafico de contagem
   const ctxCont = document.getElementById("grafico-escolaridade-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.escContagem) estadoQuadro.graficos.escContagem.destroy();
@@ -249,7 +256,6 @@ function renderizarBlocoEscolaridade(dados) {
     );
   }
 
-  // Grafico de folha media
   const ctxFolha = document.getElementById("grafico-escolaridade-folha");
   if (ctxFolha) {
     if (estadoQuadro.graficos.escFolha) estadoQuadro.graficos.escFolha.destroy();
@@ -267,7 +273,6 @@ function renderizarBlocoEscolaridade(dados) {
     );
   }
 
-  // Tabela sem "Registros"
   const tbody = document.querySelector("#tabela-escolaridade tbody");
   if (tbody) {
     tbody.innerHTML = ordenado.map((d) => `
@@ -280,7 +285,6 @@ function renderizarBlocoEscolaridade(dados) {
       </tr>`).join("");
   }
 
-  // Narrativa
   const elNarr = document.getElementById("narrativa-escolaridade");
   if (elNarr) {
     const total = ordenado.reduce((s, d) => s + d.num_matriculas, 0);
@@ -293,17 +297,20 @@ function renderizarBlocoEscolaridade(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 2: Tempo de servico
+   Bloco 2: Tempo de servico (CORRIGIDO)
    ------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
+
+  // Mapeia os rótulos das faixas (o CSV armazena o índice numérico)
+  const labelsTempo = dados.map((d) => ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`);
 
   const ctxCont = document.getElementById("grafico-tempo-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.tempoContagem) estadoQuadro.graficos.tempoContagem.destroy();
     estadoQuadro.graficos.tempoContagem = graficoBarras(
       ctxCont,
-      dados.map((d) => d.faixa_tempo),
+      labelsTempo,
       dados.map((d) => d.num_matriculas),
       {
         label: "Servidores",
@@ -319,10 +326,10 @@ function renderizarBlocoTempo(dados) {
     if (estadoQuadro.graficos.tempoFolha) estadoQuadro.graficos.tempoFolha.destroy();
     estadoQuadro.graficos.tempoFolha = graficoBarras(
       ctxFolha,
-      dados.map((d) => d.faixa_tempo),
+      labelsTempo,
       dados.map((d) => d.folha_media),
       {
-        label: "Folha media",
+        label: "Folha média",
         cor: CORES.verdeClaro,
         formatador: (v) => fmtBRL.format(v),
         eixoFormatador: (v) => fmtBRLCompacto(v),
@@ -334,7 +341,7 @@ function renderizarBlocoTempo(dados) {
   if (tbody) {
     tbody.innerHTML = dados.map((d) => `
       <tr>
-        <td>${d.faixa_tempo} anos</td>
+        <td>${ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`}</td>
         <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
         <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
         <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
@@ -347,7 +354,8 @@ function renderizarBlocoTempo(dados) {
     const top = [...dados].sort((a, b) => b.num_matriculas - a.num_matriculas)[0];
     if (top && total > 0) {
       const pct = ((top.num_matriculas / total) * 100).toFixed(1).replace(".", ",");
-      elNarr.innerHTML = `A faixa <strong>${top.faixa_tempo} anos</strong> concentra <strong>${pct}%</strong> dos servidores. A remuneração média tende a crescer com o tempo de casa.`;
+      const rotuloTop = ROTULOS_TEMPO[top.faixa_tempo] || `${top.faixa_tempo} anos`;
+      elNarr.innerHTML = `A faixa <strong>${rotuloTop}</strong> concentra <strong>${pct}%</strong> dos servidores. A remuneração média tende a crescer com o tempo de casa.`;
     }
   }
 }
@@ -455,7 +463,6 @@ function renderizarBlocoEscolaridadeCategoria() {
 
   if (estadoQuadro.graficos.escCategoria) estadoQuadro.graficos.escCategoria.destroy();
 
-  // Ordena escolaridades por ordem canonica
   const escolaridades = [...new Set(dados.map((d) => d.escolaridade_canonica))]
     .sort((a, b) => ORDEM_ESCOLARIDADE.indexOf(a) - ORDEM_ESCOLARIDADE.indexOf(b));
 
@@ -517,7 +524,6 @@ function renderizarBlocoGeneroEscolaridade() {
   const ctx = document.getElementById("grafico-genero-escolaridade");
   if (!ctx || !dados || !dados.length) return;
 
-  // Se o canvas nao existir no HTML, criamos dinamicamente
   const escolaridades = [...new Set(dados.map((d) => d.escolaridade_canonica))]
     .sort((a, b) => ORDEM_ESCOLARIDADE.indexOf(a) - ORDEM_ESCOLARIDADE.indexOf(b));
 
