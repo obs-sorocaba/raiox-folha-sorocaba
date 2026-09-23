@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre — Raio-X do Quadro de Pessoal</title>
+  <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
   <meta name="description" content="Metodologia, base legal, roadmap e mapas públicos do Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba.">
 
   <meta property="og:title" content="Sobre — Raio-X do Quadro de Pessoal">
@@ -12,6 +13,9 @@
   <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
   <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
   <meta property="og:locale" content="pt_BR">
+  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
+  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
+
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sobre — Raio-X do Quadro de Pessoal">
@@ -151,8 +155,17 @@
           <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
           <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
           <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
-          <li><strong>Correção pelo IPCA:</strong> a série "folha real" é calculada dividindo o valor nominal pelo fator de correção do IPCA (IBGE/SIDRA, série 1737), com base em jan/2022. Permite comparar o poder de compra ao longo do tempo.</li>
+          <li>
+            <strong>Correção pelo IPCA:</strong> a folha real é calculada convertendo cada mês para o poder de compra de
+            <strong>janeiro de 2022</strong>. Se <code>I(mês)</code> é o número-índice do IPCA no mês e
+            <code>I(jan/2022)</code> é o índice da base, então:
+            <br>
+            <code>valor_real = valor_nominal × I(jan/2022) / I(mês)</code>.
+            <br>
+            Assim, janeiro de 2022 tem valor real igual ao valor nominal (fator = 1,0).
+          </li>
           <li><strong>Média mensal por secretaria:</strong> calculada como <code>folha_total / meses_reais</code>, onde <code>meses_reais</code> é o número de meses em que a secretaria teve pagamento. Isso evita subestimar secretarias criadas ou extintas no período.</li>
+          <li><strong>Ticket médio:</strong> calculado como <code>folha bruta do mês / matrículas únicas do mês</code>. Não usa registros (que incluem 13º, férias, rescisão, adiantamento e múltiplos vínculos).</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
@@ -163,7 +176,7 @@
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
           <li>Se o portal publica valores <strong>já abatidos do teto constitucional</strong>, a análise de distribuição salarial (Gini, percentis) pode <strong>subestimar</strong> a desigualdade real no topo. Veja a seção sobre o teto remuneratório abaixo.</li>
-          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas.</li>
+          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas. A tabela de validação cruzada entre arquivos anuais e base mensal está disponível em <code>dados/validacao_anual_mensal.csv</code>.</li>
         </ul>
       </div>
     </section>
