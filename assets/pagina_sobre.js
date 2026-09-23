@@ -347,10 +347,10 @@
   }
 
   /* ============================================================
-     6. Rodapé
+     6. Rodapé (opcional — só age se existir o elemento)
      ============================================================ */
   async function atualizarRodape() {
-    const alvo = $("#rodape-atualizacao");
+    const alvo = document.querySelector("#rodape-atualizacao");
     if (!alvo) return;
     try {
       const kpis = await carregarJSON("dados/kpis.json");

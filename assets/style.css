@@ -1,6 +1,6 @@
 /* ============================================================
    Raio-X do Quadro de Pessoal — OSB Sorocaba
-   style.css — Etapa 3E + correções de auditoria
+   style.css — base consolidada + aditivos da Etapa 3E
    ============================================================ */
 
 /* ---------- Variáveis ---------- */
@@ -13,9 +13,11 @@
   --cinza-claro: #f4f6f9;
   --cinza-borda: #d8dee6;
   --branco: #ffffff;
-  --verde: #2e7d32;
+  --verde-claro: #66bb6a;
+  --verde-escuro: #2e7d32;
   --amarelo: #f9a825;
   --vermelho: #c62828;
+  --roxo: #7a4ba8;
   --sombra: 0 2px 8px rgba(13, 43, 78, 0.08);
   --sombra-forte: 0 4px 16px rgba(13, 43, 78, 0.14);
   --raio: 8px;
@@ -95,12 +97,15 @@ code {
   padding: 1.5rem;
 }
 
+/* ============================================================
+   ADITIVO 3E — fallback noscript e estados de tabela
+   ============================================================ */
+
 /* Esconde o placeholder "Carregando…" quando JS está desligado */
 .no-js .linha-carregando {
   display: none;
 }
 
-/* ---------- Fallbacks <noscript> ---------- */
 .aviso-noscript {
   background: #fff8e1;
   color: #5d4a00;
@@ -116,7 +121,6 @@ code {
   font-weight: 600;
 }
 
-/* ---------- Estados de erro/vazio nas tabelas ---------- */
 .aviso-erro {
   background: #fdecea;
   color: var(--vermelho);
@@ -141,7 +145,10 @@ code {
   text-align: left;
 }
 
-/* ---------- Cabeçalho ---------- */
+/* ============================================================
+   Estrutura — cabeçalho, menu, drawer, breadcrumb
+   ============================================================ */
+
 .cabecalho {
   background: linear-gradient(135deg, var(--azul-escuro), var(--azul-medio));
   color: var(--branco);
@@ -215,7 +222,6 @@ code {
   font-size: 0.75rem;
 }
 
-/* ---------- Menu principal ---------- */
 .menu {
   background: var(--branco);
   border-bottom: 1px solid var(--cinza-borda);
@@ -267,7 +273,6 @@ code {
   margin-left: auto;
 }
 
-/* ---------- Botão lateral / drawer ---------- */
 .botao-lateral {
   display: none;
 }
@@ -368,7 +373,6 @@ code {
   line-height: 1.5;
 }
 
-/* ---------- Breadcrumb ---------- */
 .breadcrumb {
   max-width: 1280px;
   margin: 0 auto;
@@ -430,43 +434,6 @@ main {
   margin-top: 0;
 }
 
-/* ---------- Listas ---------- */
-.lista-simples {
-  list-style: disc;
-  padding-left: 1.25rem;
-  line-height: 1.9;
-}
-
-.lista-simples li {
-  margin-bottom: 0.25rem;
-}
-
-.lista-links {
-  list-style: disc;
-  padding-left: 1.25rem;
-  line-height: 1.9;
-}
-
-.lista-links li {
-  margin-bottom: 0.25rem;
-}
-
-.lista-links li a {
-  color: var(--azul-medio);
-  font-weight: 500;
-  word-break: break-all;
-}
-
-.lista-links li a:hover {
-  color: var(--azul-escuro);
-  text-decoration: underline;
-}
-
-.lista-links li::marker,
-.lista-simples li::marker {
-  color: var(--azul-claro);
-}
-
 /* ---------- Aviso metodológico ---------- */
 .aviso-metodologico {
   background: #fff8e1;
@@ -475,7 +442,6 @@ main {
   border-radius: var(--raio-pequeno);
   font-size: 0.9rem;
   color: #5d4a00;
-  margin-top: 1rem;
 }
 
 .aviso-metodologico strong {
@@ -519,7 +485,6 @@ main {
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: flex-end;
-  margin-bottom: 0.75rem;
 }
 
 .filtro-item {
@@ -560,16 +525,6 @@ main {
   border-radius: var(--raio-pequeno);
   border: 1px solid var(--cinza-borda);
   background: var(--branco);
-}
-
-.tabela-alta {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.tabela-media {
-  max-height: 400px;
-  overflow-y: auto;
 }
 
 table {
@@ -622,16 +577,30 @@ tbody td.numero {
 .rodape {
   background: var(--azul-escuro);
   color: var(--branco);
-  padding: 1.5rem 1rem;
-  margin-top: 2rem;
+  padding: 2rem 1.5rem 1rem;
+  margin-top: 3rem;
 }
 
 .rodape-conteudo {
   max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
   font-size: 0.85rem;
   line-height: 1.6;
+}
+
+.rodape-conteudo h3 {
+  font-size: 0.9rem;
+  color: var(--branco);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rodape-conteudo p {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .rodape a {
@@ -642,19 +611,22 @@ tbody td.numero {
   color: var(--branco);
 }
 
-.rodape-data {
-  margin-top: 0.5rem;
+.rodape-final {
+  max-width: 1280px;
+  margin: 1.5rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
   font-size: 0.75rem;
-  opacity: 0.75;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* ---------- Utilidades ---------- */
 .texto-intro {
   color: var(--cinza-texto);
-  margin-bottom: 1rem;
 }
 
-/* ---------- Gráficos (preparado para Onda 3D) ---------- */
+/* ---------- Gráficos ---------- */
 .grafico-wrap {
   position: relative;
   width: 100%;
@@ -703,7 +675,7 @@ tbody td.numero {
 }
 
 .variacao.positiva { color: var(--vermelho); }
-.variacao.negativa { color: var(--verde); }
+.variacao.negativa { color: var(--verde-escuro); }
 .variacao.neutra   { color: var(--cinza-texto); }
 
 /* ---------- Responsivo ---------- */
@@ -785,6 +757,10 @@ tbody td.numero {
     width: 40px;
     height: 40px;
     font-size: 0.85rem;
+  }
+
+  .rodape-conteudo {
+    grid-template-columns: 1fr;
   }
 }
 
