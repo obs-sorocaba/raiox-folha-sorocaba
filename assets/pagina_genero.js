@@ -20,9 +20,9 @@ const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
 const ROTULOS_CATEGORIA = {
   efetivos: "Efetivos e empregados públicos",
-  funcao_confianca: "Efunção de confiança",
+  funcao_confianca: "Efetivos em função de confiança",
   comissionados: "Cargos em comissão",
-  flexiveis: "Temporários, estágio e eventuais",
+  flexiveis: "Temporários, estagiários e eventuais",
   inativos: "Inativos e pensionistas",
 };
 
