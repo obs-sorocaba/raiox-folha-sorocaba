@@ -6,7 +6,7 @@
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
-  "Analfabeto",
+  "Sem escolaridade formal registrada",
   "Fundamental incompleto",
   "Fundamental completo",
   "Medio incompleto",
