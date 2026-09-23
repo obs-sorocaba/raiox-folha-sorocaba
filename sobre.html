@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +20,13 @@
   <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
 
   <link rel="stylesheet" href="assets/style.css">
+
+  <!-- Remove a classe "no-js" o mais cedo possível, evitando FOUC -->
+  <script>
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js");
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="assets/app.js" defer></script>
@@ -30,7 +37,9 @@
   <noscript>
     <div class="erro" role="alert">
       <strong>Este painel requer JavaScript.</strong>
-      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
+      Ative o JavaScript no seu navegador para visualizar os gráficos interativos.
+      Os mapas de metodologia e os dados abertos continuam acessíveis abaixo,
+      com links diretos para download dos arquivos CSV.
     </div>
   </noscript>
 
@@ -61,7 +70,7 @@
       <a href="quadro.html">Quadro de Pessoal</a>
       <a href="genero.html">Gênero</a>
       <a href="salarios.html">Salários</a>
-      <a href="sobre.html">Sobre</a>
+      <a href="sobre.html" aria-current="page">Sobre</a>
       <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
@@ -80,7 +89,7 @@
       <a href="quadro.html">Quadro de Pessoal</a>
       <a href="genero.html">Gênero</a>
       <a href="salarios.html">Salários</a>
-      <a href="sobre.html">Sobre</a>
+      <a href="sobre.html" aria-current="page">Sobre</a>
     </nav>
     <div class="drawer-rodape">
       <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
@@ -92,17 +101,20 @@
 
   <main id="conteudo-principal">
 
+    <!-- ============================================================
+         MISSÃO
+         ============================================================ -->
     <section class="secao" id="missao">
       <h2 class="secao-titulo">Missão do projeto</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1rem;">
+        <p>
           O <strong>Raio-X do Quadro de Pessoal</strong> é um painel público, histórico e
           comparável da folha de pagamento da Prefeitura de Sorocaba. Ele transforma os
           dados publicados no Portal da Transparência em informação legível para o
           cidadão, com séries temporais, comparadores e indicadores que o portal oficial
           não oferece.
         </p>
-        <p style="margin-bottom: 1rem;">
+        <p>
           O projeto é mantido pelo <strong>Observatório Social do Brasil — Sorocaba</strong>,
           uma organização da sociedade civil dedicada ao controle social e à transparência
           pública. O painel não julga pessoas nem gestões: apenas organiza dados públicos
@@ -116,10 +128,13 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         COMO USAR
+         ============================================================ -->
     <section class="secao" id="como-usar">
       <h2 class="secao-titulo">Como usar este painel</h2>
       <div class="cartao">
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <ul class="lista-simples">
           <li>Quer ver <strong>quanto a folha custou ao longo do tempo</strong>? Vá em <a href="index.html">Início</a>.</li>
           <li>Quer ver <strong>quanto sua secretaria gasta</strong> e como evoluiu? Vá em <a href="secretarias.html">Secretarias</a>.</li>
           <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa)? Vá em <a href="quadro.html">Quadro de Pessoal</a>.</li>
@@ -130,10 +145,13 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         FONTE DOS DADOS
+         ============================================================ -->
     <section class="secao" id="fonte">
       <h2 class="secao-titulo">Fonte dos dados</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1rem;">
+        <p>
           Todos os dados vêm do <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a>,
           nas telas <em>"Funcionários — Detalhe"</em> e <em>"Número de Servidores por Cargo"</em>.
           A extração é mensal e automatizada.
@@ -141,14 +159,23 @@
         <dl class="selo" id="fonte-dados">
           <div class="carregando">Carregando…</div>
         </dl>
+        <noscript>
+          <div class="aviso-noscript">
+            Para ver os metadados da fonte, baixe diretamente o arquivo
+            <a href="dados/kpis.json" download>kpis.json</a>.
+          </div>
+        </noscript>
       </div>
     </section>
 
+    <!-- ============================================================
+         METODOLOGIA
+         ============================================================ -->
     <section class="secao" id="metodologia">
       <h2 class="secao-titulo">Metodologia</h2>
       <div class="cartao">
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Tratamento dos dados</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Tratamento dos dados</h3>
+        <ul class="lista-simples">
           <li><strong>Regimes:</strong> os 43 códigos de regime usados pelo portal são agrupados em 5 categorias auditáveis (Efetivos, Função de confiança, Comissionados, Flexíveis, Inativos). O mapeamento está em <code>regime_map.csv</code>.</li>
           <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
           <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
@@ -166,8 +193,8 @@
           <li><strong>Ticket médio:</strong> calculado como <code>folha bruta do mês / matrículas únicas do mês</code>. Não usa registros (que incluem 13º, férias, rescisão, adiantamento e múltiplos vínculos).</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Limitações conhecidas</h3>
+        <ul class="lista-simples">
           <li>Os valores da série principal são <strong>nominais</strong>, sem correção pelo IPCA. A série corrigida está disponível em <code>folha_mensal_ipca.csv</code>.</li>
           <li>Registros com <strong>múltiplos vínculos</strong> no mesmo mês (férias, 13º, rescisão) aparecem como linhas separadas por matrícula. Não são erros.</li>
           <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
@@ -179,23 +206,27 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         MAPAS PÚBLICOS DE METODOLOGIA
+         ============================================================ -->
     <section class="secao" id="mapas">
       <h2 class="secao-titulo">Mapas públicos de metodologia</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+        <p class="texto-intro">
           Estes são os arquivos que usamos para agrupar as categorias. Eles são públicos
           para que qualquer cidadão, jornalista ou pesquisador possa auditar nossa
           metodologia. Digite abaixo para filtrar cada tabela.
         </p>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de regimes</h3>
-        <div class="filtros" style="margin-bottom: 0.75rem;">
+        <!-- Mapa de regimes -->
+        <h3>Mapa de regimes</h3>
+        <div class="filtros">
           <div class="filtro-item">
             <label for="busca-regime">Buscar regime</label>
             <input type="text" id="busca-regime" placeholder="Ex: COMIS, EST, APOS...">
           </div>
         </div>
-        <div class="tabela-wrap" style="max-height: 500px; overflow-y: auto;">
+        <div class="tabela-wrap tabela-alta">
           <table id="tabela-regimes">
             <thead>
               <tr>
@@ -207,19 +238,29 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+              <tr class="linha-carregando"><td colspan="5" class="carregando">Carregando…</td></tr>
+              <noscript>
+                <tr>
+                  <td colspan="5" class="aviso-noscript">
+                    ⚠️ Ative o JavaScript para visualizar o mapa de regimes.
+                    Enquanto isso, você pode baixar o arquivo diretamente:
+                    <a href="dados/regime_map.csv" download>regime_map.csv</a>.
+                  </td>
+                </tr>
+              </noscript>
             </tbody>
           </table>
         </div>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de secretarias</h3>
-        <div class="filtros" style="margin-bottom: 0.75rem;">
+        <!-- Mapa de secretarias -->
+        <h3>Mapa de secretarias</h3>
+        <div class="filtros">
           <div class="filtro-item">
             <label for="busca-secretaria">Buscar secretaria</label>
             <input type="text" id="busca-secretaria" placeholder="Ex: Saúde, Educação, I-...">
           </div>
         </div>
-        <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
+        <div class="tabela-wrap tabela-media">
           <table id="tabela-secretarias-mapa">
             <thead>
               <tr>
@@ -229,13 +270,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+              <tr class="linha-carregando"><td colspan="3" class="carregando">Carregando…</td></tr>
+              <noscript>
+                <tr>
+                  <td colspan="3" class="aviso-noscript">
+                    ⚠️ Ative o JavaScript para visualizar o mapa de secretarias.
+                    Enquanto isso, baixe o arquivo diretamente:
+                    <a href="dados/secretaria_map.csv" download>secretaria_map.csv</a>.
+                  </td>
+                </tr>
+              </noscript>
             </tbody>
           </table>
         </div>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de escolaridades</h3>
-        <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
+        <!-- Mapa de escolaridades -->
+        <h3>Mapa de escolaridades</h3>
+        <div class="tabela-wrap tabela-media">
           <table id="tabela-escolaridades">
             <thead>
               <tr>
@@ -245,25 +296,37 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+              <tr class="linha-carregando"><td colspan="3" class="carregando">Carregando…</td></tr>
+              <noscript>
+                <tr>
+                  <td colspan="3" class="aviso-noscript">
+                    ⚠️ Ative o JavaScript para visualizar o mapa de escolaridades.
+                    Enquanto isso, baixe o arquivo diretamente:
+                    <a href="dados/escolaridade_map.csv" download>escolaridade_map.csv</a>.
+                  </td>
+                </tr>
+              </noscript>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
+    <!-- ============================================================
+         TETO REMUNERATÓRIO
+         ============================================================ -->
     <section class="secao" id="teto-remuneratorio">
       <h2 class="secao-titulo">Teto remuneratório</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1rem;">
+        <p>
           O <strong>teto remuneratório</strong> é o limite máximo que um agente público pode
           receber como remuneração, conforme o <strong>art. 37, XI, da Constituição Federal</strong>.
           No âmbito municipal, o teto é o <strong>subsídio do Prefeito</strong>, que serve de
           referência para todos os servidores do município.
         </p>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Como o teto afeta a leitura dos dados</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Como o teto afeta a leitura dos dados</h3>
+        <ul class="lista-simples">
           <li>
             <strong>Valores acima do teto não aparecem.</strong> Se um servidor tem
             remuneração superior ao subsídio do Prefeito, o valor excedente é
@@ -289,23 +352,14 @@
           </li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Base legal</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li>
-            <strong>Constituição Federal, art. 37, XI</strong> — estabelece o teto
-            remuneratório e a vedação de acumulação de cargos.
-          </li>
-          <li>
-            <strong>Emenda Constitucional nº 19/1998</strong> — introduziu o conceito
-            de subsídio e a vinculação do teto ao subsídio do Prefeito no âmbito municipal.
-          </li>
-          <li>
-            <strong>Lei de Responsabilidade Fiscal (LC 101/2000)</strong> — impõe limites
-            de despesa com pessoal, mas não se confunde com o teto remuneratório individual.
-          </li>
+        <h3>Base legal</h3>
+        <ul class="lista-simples">
+          <li><strong>Constituição Federal, art. 37, XI</strong> — estabelece o teto remuneratório e a vedação de acumulação de cargos.</li>
+          <li><strong>Emenda Constitucional nº 19/1998</strong> — introduziu o conceito de subsídio e a vinculação do teto ao subsídio do Prefeito no âmbito municipal.</li>
+          <li><strong>Lei de Responsabilidade Fiscal (LC 101/2000)</strong> — impõe limites de despesa com pessoal, mas não se confunde com o teto remuneratório individual.</li>
         </ul>
 
-        <div class="aviso-metodologico" style="margin-top: 1.25rem;">
+        <div class="aviso-metodologico">
           <strong>Nota técnica:</strong> para uma análise mais precisa da desigualdade
           no topo, seria necessário acessar a <em>remuneração bruta antes do abate do teto</em>,
           que nem sempre é publicada. O painel sinaliza essa limitação para que o leitor
@@ -314,46 +368,58 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         SELO DE AUDITORIA
+         ============================================================ -->
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+        <p class="texto-intro">
           Cada geração do pipeline passa por uma esteira de validação. O resultado é o
           selo abaixo — uma fotografia dos dados publicados no site.
         </p>
         <dl class="selo" id="selo-conteudo">
           <div class="carregando">Carregando selo…</div>
         </dl>
+        <noscript>
+          <div class="aviso-noscript">
+            Para ver o selo de auditoria, baixe diretamente o arquivo
+            <a href="dados/auditoria.json" download>auditoria.json</a>.
+          </div>
+        </noscript>
       </div>
     </section>
 
+    <!-- ============================================================
+         BASE LEGAL E LIMITES
+         ============================================================ -->
     <section class="secao" id="base-legal">
       <h2 class="secao-titulo">Base legal e limites</h2>
       <div class="cartao">
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">O que pode ser publicado</h3>
-        <p style="margin-bottom: 1rem;">
+        <h3>O que pode ser publicado</h3>
+        <p>
           Nome, cargo e remuneração de servidor público podem ser publicados nominalmente.
           O Supremo Tribunal Federal decidiu, por unanimidade, que isso é legítimo e não
           fere a privacidade, por se tratar de dinheiro público
           (<a href="https://portal.stf.jus.br/processos/detalhe.asp?incidente=4235707" target="_blank" rel="noopener">ARE 652.777, Tema 483, 2015</a>).
         </p>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">O que NÃO publicamos</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>O que NÃO publicamos</h3>
+        <ul class="lista-simples">
           <li>CPF, RG ou qualquer documento de identificação individual.</li>
           <li>Endereço, telefone, e-mail ou dado de contato pessoal.</li>
           <li>Dados bancários, financeiros ou de saúde.</li>
           <li>Nome individual associado a qualquer alerta de anomalia.</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">LGPD</h3>
-        <p style="margin-bottom: 1rem;">
+        <h3>LGPD</h3>
+        <p>
           O projeto segue os princípios da Lei Geral de Proteção de Dados (Lei 13.709/2018).
           Todos os dados publicados são agregados ou estritamente públicos, conforme
           decisão do STF. Não publicamos microdados individuais identificáveis em nenhuma
           página do site.
         </p>
-        <p style="margin-bottom: 1rem;">
+        <p>
           <strong>Sobre a análise de gênero:</strong> a inferência de gênero por primeiro
           nome é feita exclusivamente sobre a base agregada do IBGE/Censo 2010. Nenhum
           servidor é classificado individualmente na interface do painel. Nomes com
@@ -364,59 +430,62 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         DADOS ABERTOS
+         ============================================================ -->
     <section class="secao" id="dados-abertos">
       <h2 class="secao-titulo">Dados abertos</h2>
       <div class="cartao">
-        <p style="margin-bottom: 1.25rem;">
+        <p>
           Todos os dados usados por este painel estão disponíveis publicamente em formato
           CSV, JSON e Excel. Você pode baixá-los, reutilizá-los e auditá-los livremente.
         </p>
-        <div class="aviso-metodologico" style="margin-bottom: 1.25rem;">
+        <div class="aviso-metodologico">
           <strong>Licença:</strong> os dados são de origem pública e estão disponíveis sob
           <strong>Creative Commons CC-BY 4.0</strong>. Ao reutilizar, cite:
           "Portal da Transparência de Sorocaba, organizado pelo Observatório Social do Brasil — Sorocaba".
         </div>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Série histórica da folha</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Série histórica da folha</h3>
+        <ul class="lista-links">
           <li><a href="dados/folha_mensal.csv" download>folha_mensal.csv</a> — folha bruta mensal (56 meses)</li>
           <li><a href="dados/folha_mensal_recorrente.csv" download>folha_mensal_recorrente.csv</a> — folha recorrente mensal</li>
           <li><a href="dados/folha_mensal_ipca.csv" download>folha_mensal_ipca.csv</a> — folha nominal × real (corrigida pelo IPCA)</li>
           <li><a href="dados/composicao_categoria_mes.csv" download>composicao_categoria_mes.csv</a> — composição por categoria de vínculo</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Secretarias</h3>
+        <ul class="lista-links">
           <li><a href="dados/top_secretarias.csv" download>top_secretarias.csv</a> — ranking de secretarias por folha acumulada</li>
           <li><a href="dados/resumo_secretaria.csv" download>resumo_secretaria.csv</a> — resumo por secretaria (média mensal, meses reais)</li>
           <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
           <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Distribuição salarial</h3>
+        <ul class="lista-links">
           <li><a href="dados/distribuicao_salarial.csv" download>distribuicao_salarial.csv</a> — percentis da folha recorrente</li>
           <li><a href="dados/gini_mensal.csv" download>gini_mensal.csv</a> — índice de Gini mensal</li>
           <li><a href="dados/histograma_salarial.csv" download>histograma_salarial.csv</a> — distribuição por faixa salarial</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Quadro de pessoal</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Quadro de pessoal</h3>
+        <ul class="lista-links">
           <li><a href="dados/quadro_escolaridade.csv" download>quadro_escolaridade.csv</a> — servidores por escolaridade</li>
           <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
           <li><a href="dados/quadro_escolaridade_categoria.csv" download>quadro_escolaridade_categoria.csv</a> — escolaridade × categoria</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Gênero</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Gênero</h3>
+        <ul class="lista-links">
           <li><a href="dados/genero_geral.csv" download>genero_geral.csv</a> — distribuição geral por gênero</li>
           <li><a href="dados/genero_por_secretaria.csv" download>genero_por_secretaria.csv</a> — gênero por secretaria</li>
           <li><a href="dados/genero_por_categoria.csv" download>genero_por_categoria.csv</a> — gênero por categoria</li>
           <li><a href="dados/genero_gap_salarial.csv" download>genero_gap_salarial.csv</a> — gap salarial por cargo</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados e auditoria</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <h3>Metadados e auditoria</h3>
+        <ul class="lista-links">
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
           <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
           <li><a href="dados/regime_map.csv" download>regime_map.csv</a> — mapa de regimes</li>
@@ -426,11 +495,11 @@
           <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Versões Excel (para leitura amigável)</h3>
-        <p style="margin-bottom: 0.5rem; color: var(--cinza-texto);">
+        <h3>Versões Excel (para leitura amigável)</h3>
+        <p class="texto-intro">
           Para quem prefere abrir direto no Excel, com formatação pronta e cabeçalhos em maiúsculas:
         </p>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <ul class="lista-links">
           <li><a href="dados/excel/folha_mensal.xlsx" download>folha_mensal.xlsx</a> — folha bruta mensal</li>
           <li><a href="dados/excel/folha_mensal_ipca.xlsx" download>folha_mensal_ipca.xlsx</a> — folha nominal × real (IPCA)</li>
           <li><a href="dados/excel/top_secretarias.xlsx" download>top_secretarias.xlsx</a> — ranking de secretarias</li>
@@ -445,14 +514,17 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         ROADMAP
+         ============================================================ -->
     <section class="secao" id="roadmap">
       <h2 class="secao-titulo">Roadmap</h2>
       <div class="cartao">
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+        <ul class="lista-simples">
           <li><strong>Onda 1 (concluída):</strong> Série histórica da folha, composição por categoria e por secretaria.</li>
           <li><strong>Onda 2 (concluída):</strong> Distribuição salarial (percentis, Gini, histograma), quadro de pessoal (escolaridade, tempo de casa), gênero.</li>
           <li><strong>Onda 3 (em andamento):</strong> Correção pelo IPCA, painel de salários nominal × real, nota sobre teto remuneratório.</li>
-          <li><strong>Onda 4 (planejada):</strong> Alertas de anomalias, comparador de secretarias, exportação em Excel.</li>
+          <li><strong>Onda 4 (planejada):</strong> Alertas de anomalias, comparador de secretarias, exportação em Excel, renderização estática dos mapas (SSG).</li>
           <li><strong>Onda 5 (futuro):</strong> API pública, integração com outros observatórios, mapa geográfico dos servidores.</li>
         </ul>
       </div>
@@ -467,7 +539,7 @@
         Dados públicos organizados para controle social.<br>
         Fonte: <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a>.
       </p>
-      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--cinza-texto);">
+      <p class="rodape-data">
         Última atualização: <span id="rodape-atualizacao">—</span>
       </p>
     </div>

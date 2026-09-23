@@ -1,6 +1,6 @@
 /* ============================================================
    Raio-X do Quadro de Pessoal — OSB Sorocaba
-   style.css
+   style.css — Etapa 3E + correções de auditoria
    ============================================================ */
 
 /* ---------- Variáveis ---------- */
@@ -93,6 +93,52 @@ code {
   font-style: italic;
   text-align: center;
   padding: 1.5rem;
+}
+
+/* Esconde o placeholder "Carregando…" quando JS está desligado */
+.no-js .linha-carregando {
+  display: none;
+}
+
+/* ---------- Fallbacks <noscript> ---------- */
+.aviso-noscript {
+  background: #fff8e1;
+  color: #5d4a00;
+  border-left: 4px solid var(--amarelo);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.aviso-noscript a {
+  color: var(--azul-medio);
+  font-weight: 600;
+}
+
+/* ---------- Estados de erro/vazio nas tabelas ---------- */
+.aviso-erro {
+  background: #fdecea;
+  color: var(--vermelho);
+  border-left: 4px solid var(--vermelho);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.aviso-erro a,
+.aviso-vazio a {
+  color: var(--azul-medio);
+  font-weight: 600;
+}
+
+.aviso-vazio {
+  background: var(--azul-suave);
+  color: var(--azul-escuro);
+  border-left: 4px solid var(--azul-claro);
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  text-align: left;
 }
 
 /* ---------- Cabeçalho ---------- */
@@ -204,8 +250,7 @@ code {
   text-decoration: none;
 }
 
-.menu-conteudo a[aria-current="page"],
-.menu-conteudo a.ativo {
+.menu-conteudo a[aria-current="page"] {
   color: var(--azul-escuro);
   border-bottom-color: var(--azul-claro);
   font-weight: 600;
@@ -371,10 +416,55 @@ main {
   margin-bottom: 0.75rem;
 }
 
+.cartao p:last-child {
+  margin-bottom: 0;
+}
+
 .cartao h3 {
   font-size: 1rem;
   color: var(--azul-escuro);
-  margin-bottom: 0.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.cartao h3:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Listas ---------- */
+.lista-simples {
+  list-style: disc;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+}
+
+.lista-simples li {
+  margin-bottom: 0.25rem;
+}
+
+.lista-links {
+  list-style: disc;
+  padding-left: 1.25rem;
+  line-height: 1.9;
+}
+
+.lista-links li {
+  margin-bottom: 0.25rem;
+}
+
+.lista-links li a {
+  color: var(--azul-medio);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.lista-links li a:hover {
+  color: var(--azul-escuro);
+  text-decoration: underline;
+}
+
+.lista-links li::marker,
+.lista-simples li::marker {
+  color: var(--azul-claro);
 }
 
 /* ---------- Aviso metodológico ---------- */
@@ -385,6 +475,7 @@ main {
   border-radius: var(--raio-pequeno);
   font-size: 0.9rem;
   color: #5d4a00;
+  margin-top: 1rem;
 }
 
 .aviso-metodologico strong {
@@ -396,6 +487,7 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .selo > div {
@@ -427,6 +519,7 @@ main {
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: flex-end;
+  margin-bottom: 0.75rem;
 }
 
 .filtro-item {
@@ -467,6 +560,16 @@ main {
   border-radius: var(--raio-pequeno);
   border: 1px solid var(--cinza-borda);
   background: var(--branco);
+}
+
+.tabela-alta {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.tabela-media {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 table {
@@ -515,30 +618,6 @@ tbody td.numero {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Links de dados abertos ---------- */
-#dados-abertos ul {
-  list-style: disc;
-}
-
-#dados-abertos ul li {
-  margin-bottom: 0.25rem;
-}
-
-#dados-abertos ul li a {
-  color: var(--azul-medio);
-  font-weight: 500;
-  word-break: break-all;
-}
-
-#dados-abertos ul li a:hover {
-  color: var(--azul-escuro);
-  text-decoration: underline;
-}
-
-#dados-abertos ul li::marker {
-  color: var(--azul-claro);
-}
-
 /* ---------- Rodapé ---------- */
 .rodape {
   background: var(--azul-escuro);
@@ -563,7 +642,19 @@ tbody td.numero {
   color: var(--branco);
 }
 
-/* ---------- Gráficos ---------- */
+.rodape-data {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* ---------- Utilidades ---------- */
+.texto-intro {
+  color: var(--cinza-texto);
+  margin-bottom: 1rem;
+}
+
+/* ---------- Gráficos (preparado para Onda 3D) ---------- */
 .grafico-wrap {
   position: relative;
   width: 100%;
@@ -575,7 +666,7 @@ tbody td.numero {
   height: 420px;
 }
 
-/* ---------- Grid de cartões ---------- */
+/* ---------- Grid de cartões KPI ---------- */
 .grid-cartoes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -611,17 +702,9 @@ tbody td.numero {
   font-weight: 600;
 }
 
-.variacao.positiva {
-  color: var(--vermelho);
-}
-
-.variacao.negativa {
-  color: var(--verde);
-}
-
-.variacao.neutra {
-  color: var(--cinza-texto);
-}
+.variacao.positiva { color: var(--vermelho); }
+.variacao.negativa { color: var(--verde); }
+.variacao.neutra   { color: var(--cinza-texto); }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
@@ -711,8 +794,9 @@ tbody td.numero {
   .drawer,
   .backdrop,
   .botao-lateral,
-  .rodape {
-    display: none;
+  .rodape,
+  noscript {
+    display: none !important;
   }
 
   .cartao {
@@ -722,5 +806,9 @@ tbody td.numero {
 
   body {
     background: #fff;
+  }
+
+  .linha-carregando {
+    display: none;
   }
 }
