@@ -25,6 +25,13 @@
 </head>
 <body>
 
+  <noscript>
+    <div class="erro" role="alert">
+      <strong>Este painel requer JavaScript.</strong>
+      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
+    </div>
+  </noscript>
+
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
   <header class="cabecalho">
@@ -142,10 +149,10 @@
             Quanto maior o Gini, mais concentrada é a folha em poucos servidores.
           </p>
           <p>
-            A série apresenta <strong>picos recorrentes em janeiro</strong>, que refletem
-            <strong>pagamentos residuais</strong> (valores mínimos de complementação) e não um
-            aumento real da desigualdade. A estrutura de remuneração permanece estável no
-            restante do ano.
+            A série apresenta <strong>picos recorrentes em janeiro</strong>, compatíveis com
+            <strong>pagamentos residuais ou lançamentos de complementação de valores mínimos</strong>,
+            e não necessariamente com aumento real da desigualdade. A estrutura de remuneração
+            permanece estável no restante do ano.
           </p>
         </div>
       </div>
@@ -169,7 +176,10 @@
       <h2 class="secao-titulo">Série detalhada de percentis</h2>
       <div class="cartao">
         <div class="tabela-wrap" style="max-height: 480px; overflow-y: auto;">
-          <table id="tabela-percentis">
+          <table id="tabela-percentis" aria-describedby="descricao-tabela-percentis">
+            <caption id="descricao-tabela-percentis">
+              Percentis da folha recorrente (Pagamento Mensal) no período de janeiro de 2022 a agosto de 2026.
+            </caption>
             <thead>
               <tr>
                 <th scope="col">Mês</th>
