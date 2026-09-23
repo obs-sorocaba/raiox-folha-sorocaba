@@ -27,6 +27,13 @@
 </head>
 <body>
 
+  <noscript>
+    <div class="erro" role="alert">
+      <strong>Este painel requer JavaScript.</strong>
+      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
+    </div>
+  </noscript>
+
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
   <header class="cabecalho">
@@ -91,6 +98,15 @@
       </div>
     </section>
 
+    <section class="secao" id="download">
+      <div class="cartao" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <strong>Dados abertos:</strong> todos os arquivos CSV estão disponíveis para download.
+        </div>
+        <a href="dados/" class="botao" download>Baixar CSVs</a>
+      </div>
+    </section>
+
     <section class="secao" id="evolucao-mensal">
       <h2 class="secao-titulo">Evolução mensal da folha</h2>
       <div class="cartao">
@@ -108,7 +124,8 @@
           </p>
           <p>
             <strong>Sobre os picos de lançamento:</strong> a série conta <em>pagamentos</em>,
-            não servidores. Picos em novembro refletem o 13º salário, pago até 30/11.
+            não servidores. Picos em <strong>novembro</strong> e <strong>dezembro</strong>
+            refletem o 13º salário (pago até 30/11), férias, rescisões e fechamento de folha.
             Os picos de nov/2024 (R$ 164,8 mi) e nov/2025 (R$ 147,4 mi) são os maiores da série.
           </p>
           <p>
@@ -179,14 +196,17 @@
       <h2 class="secao-titulo">Detalhamento das maiores secretarias</h2>
       <div class="cartao">
         <div class="tabela-wrap">
-          <table id="tabela-secretarias-tbl">
+          <table id="tabela-secretarias-tbl" aria-describedby="descricao-tabela-secretarias">
+            <caption id="descricao-tabela-secretarias">
+              Maiores secretarias por folha acumulada no período de janeiro de 2022 a agosto de 2026.
+            </caption>
             <thead>
               <tr>
                 <th scope="col">Secretaria</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Média mensal</th>
-                <th scope="col" class="numerico">% do total</th>
-                <th scope="col" class="numerico">Servidores (únicos)</th>
+                <th scope="col" class="numerico">Folha acumulada no período</th>
+                <th scope="col" class="numerico">Média mensal (R$/mês)</th>
+                <th scope="col" class="numerico">Participação na folha acumulada</th>
+                <th scope="col" class="numerico">Matrículas únicas no período</th>
               </tr>
             </thead>
             <tbody>

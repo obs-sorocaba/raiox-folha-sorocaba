@@ -25,6 +25,13 @@
 </head>
 <body>
 
+  <noscript>
+    <div class="erro" role="alert">
+      <strong>Este painel requer JavaScript.</strong>
+      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
+    </div>
+  </noscript>
+
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
   <header class="cabecalho">
@@ -145,6 +152,7 @@
           <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
           <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
           <li><strong>Correção pelo IPCA:</strong> a série "folha real" é calculada dividindo o valor nominal pelo fator de correção do IPCA (IBGE/SIDRA, série 1737), com base em jan/2022. Permite comparar o poder de compra ao longo do tempo.</li>
+          <li><strong>Média mensal por secretaria:</strong> calculada como <code>folha_total / meses_reais</code>, onde <code>meses_reais</code> é o número de meses em que a secretaria teve pagamento. Isso evita subestimar secretarias criadas ou extintas no período.</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
@@ -155,6 +163,7 @@
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
           <li>Se o portal publica valores <strong>já abatidos do teto constitucional</strong>, a análise de distribuição salarial (Gini, percentis) pode <strong>subestimar</strong> a desigualdade real no topo. Veja a seção sobre o teto remuneratório abaixo.</li>
+          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas.</li>
         </ul>
       </div>
     </section>
@@ -179,11 +188,11 @@
           <table id="tabela-regimes">
             <thead>
               <tr>
-                <th>Regime (cru)</th>
-                <th>Regime base</th>
-                <th>Subgrupo</th>
-                <th>Fundamentação</th>
-                <th>Observação</th>
+                <th scope="col">Regime (cru)</th>
+                <th scope="col">Regime base</th>
+                <th scope="col">Subgrupo</th>
+                <th scope="col">Fundamentação</th>
+                <th scope="col">Observação</th>
               </tr>
             </thead>
             <tbody>
@@ -203,9 +212,9 @@
           <table id="tabela-secretarias-mapa">
             <thead>
               <tr>
-                <th>Nome (cru)</th>
-                <th>Nome canônico</th>
-                <th>Sigla</th>
+                <th scope="col">Nome (cru)</th>
+                <th scope="col">Nome canônico</th>
+                <th scope="col">Sigla</th>
               </tr>
             </thead>
             <tbody>
@@ -219,9 +228,9 @@
           <table id="tabela-escolaridades">
             <thead>
               <tr>
-                <th>Escolaridade (crua)</th>
-                <th>Escolaridade canônica</th>
-                <th>Ordem</th>
+                <th scope="col">Escolaridade (crua)</th>
+                <th scope="col">Escolaridade canônica</th>
+                <th scope="col">Ordem</th>
               </tr>
             </thead>
             <tbody>
@@ -425,6 +434,14 @@
             Uso livre mediante citação da fonte.
           </li>
         </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Licença dos dados</h3>
+        <p style="margin-bottom: 1rem;">
+          Os dados publicados neste painel são de origem pública e estão disponíveis sob
+          licença <strong>Creative Commons CC-BY 4.0</strong>. Você pode reutilizá-los,
+          desde que cite a fonte: "Portal da Transparência de Sorocaba, organizado pelo
+          Observatório Social do Brasil — Sorocaba".
+        </p>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Bibliotecas usadas</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
