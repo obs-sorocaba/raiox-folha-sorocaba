@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre — Raio-X do Quadro de Pessoal</title>
-  <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
   <meta name="description" content="Metodologia, base legal, roadmap e mapas públicos do Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba.">
 
   <meta property="og:title" content="Sobre — Raio-X do Quadro de Pessoal">
@@ -13,13 +12,12 @@
   <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
   <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
-  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
-
-
+  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sobre — Raio-X do Quadro de Pessoal">
   <meta name="twitter:description" content="Metodologia, base legal e mapas públicos do painel de Sorocaba.">
+  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/og-image.png">
+  <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
 
   <link rel="stylesheet" href="assets/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
@@ -92,7 +90,7 @@
 
   <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
 
-  <main id="conteudo-principal" aria-live="polite">
+  <main id="conteudo-principal">
 
     <section class="secao" id="missao">
       <h2 class="secao-titulo">Missão do projeto</h2>
@@ -199,7 +197,7 @@
         </div>
         <div class="tabela-wrap" style="max-height: 500px; overflow-y: auto;">
           <table id="tabela-regimes">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Regime (cru)</th>
                 <th scope="col">Regime base</th>
@@ -223,7 +221,7 @@
         </div>
         <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
           <table id="tabela-secretarias-mapa">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Nome (cru)</th>
                 <th scope="col">Nome canônico</th>
@@ -239,7 +237,7 @@
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapa de escolaridades</h3>
         <div class="tabela-wrap" style="max-height: 400px; overflow-y: auto;">
           <table id="tabela-escolaridades">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Escolaridade (crua)</th>
                 <th scope="col">Escolaridade canônica</th>
@@ -366,7 +364,6 @@
       </div>
     </section>
 
-
     <section class="secao" id="dados-abertos">
       <h2 class="secao-titulo">Dados abertos</h2>
       <div class="cartao">
@@ -379,7 +376,7 @@
           <strong>Creative Commons CC-BY 4.0</strong>. Ao reutilizar, cite:
           "Portal da Transparência de Sorocaba, organizado pelo Observatório Social do Brasil — Sorocaba".
         </div>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Série histórica da folha</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/folha_mensal.csv" download>folha_mensal.csv</a> — folha bruta mensal (56 meses)</li>
@@ -387,7 +384,7 @@
           <li><a href="dados/folha_mensal_ipca.csv" download>folha_mensal_ipca.csv</a> — folha nominal × real (corrigida pelo IPCA)</li>
           <li><a href="dados/composicao_categoria_mes.csv" download>composicao_categoria_mes.csv</a> — composição por categoria de vínculo</li>
         </ul>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/top_secretarias.csv" download>top_secretarias.csv</a> — ranking de secretarias por folha acumulada</li>
@@ -395,21 +392,21 @@
           <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
           <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
         </ul>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/distribuicao_salarial.csv" download>distribuicao_salarial.csv</a> — percentis da folha recorrente</li>
           <li><a href="dados/gini_mensal.csv" download>gini_mensal.csv</a> — índice de Gini mensal</li>
           <li><a href="dados/histograma_salarial.csv" download>histograma_salarial.csv</a> — distribuição por faixa salarial</li>
         </ul>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Quadro de pessoal</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/quadro_escolaridade.csv" download>quadro_escolaridade.csv</a> — servidores por escolaridade</li>
           <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
           <li><a href="dados/quadro_escolaridade_categoria.csv" download>quadro_escolaridade_categoria.csv</a> — escolaridade × categoria</li>
         </ul>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Gênero</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/genero_geral.csv" download>genero_geral.csv</a> — distribuição geral por gênero</li>
@@ -417,7 +414,7 @@
           <li><a href="dados/genero_por_categoria.csv" download>genero_por_categoria.csv</a> — gênero por categoria</li>
           <li><a href="dados/genero_gap_salarial.csv" download>genero_gap_salarial.csv</a> — gap salarial por cargo</li>
         </ul>
-        
+
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados e auditoria</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
@@ -431,137 +428,6 @@
       </div>
     </section>
 
-
-    <section class="secao" id="dados-abertos">
-      <h2 class="secao-titulo">Dados abertos</h2>
-      <div class="cartao">
-        <p style="margin-bottom: 1.25rem;">
-          Todos os dados usados por este painel estão disponíveis publicamente em formato
-          CSV e JSON. Você pode baixá-los, reutilizá-los e auditá-los livremente.
-        </p>
-        <div class="aviso-metodologico" style="margin-bottom: 1.25rem;">
-          <strong>Licença:</strong> os dados são de origem pública e estão disponíveis sob
-          <strong>Creative Commons CC-BY 4.0</strong>. Ao reutilizar, cite:
-          "Portal da Transparência de Sorocaba, organizado pelo Observatório Social do Brasil — Sorocaba".
-        </div>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Série histórica da folha</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/folha_mensal.csv" download>folha_mensal.csv</a> — folha bruta mensal (56 meses)</li>
-          <li><a href="dados/folha_mensal_recorrente.csv" download>folha_mensal_recorrente.csv</a> — folha recorrente mensal</li>
-          <li><a href="dados/folha_mensal_ipca.csv" download>folha_mensal_ipca.csv</a> — folha nominal × real (corrigida pelo IPCA)</li>
-          <li><a href="dados/composicao_categoria_mes.csv" download>composicao_categoria_mes.csv</a> — composição por categoria de vínculo</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/top_secretarias.csv" download>top_secretarias.csv</a> — ranking de secretarias por folha acumulada</li>
-          <li><a href="dados/resumo_secretaria.csv" download>resumo_secretaria.csv</a> — resumo por secretaria (média mensal, meses reais)</li>
-          <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
-          <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/distribuicao_salarial.csv" download>distribuicao_salarial.csv</a> — percentis da folha recorrente</li>
-          <li><a href="dados/gini_mensal.csv" download>gini_mensal.csv</a> — índice de Gini mensal</li>
-          <li><a href="dados/histograma_salarial.csv" download>histograma_salarial.csv</a> — distribuição por faixa salarial</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Quadro de pessoal</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/quadro_escolaridade.csv" download>quadro_escolaridade.csv</a> — servidores por escolaridade</li>
-          <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
-          <li><a href="dados/quadro_escolaridade_categoria.csv" download>quadro_escolaridade_categoria.csv</a> — escolaridade × categoria</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Gênero</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/genero_geral.csv" download>genero_geral.csv</a> — distribuição geral por gênero</li>
-          <li><a href="dados/genero_por_secretaria.csv" download>genero_por_secretaria.csv</a> — gênero por secretaria</li>
-          <li><a href="dados/genero_por_categoria.csv" download>genero_por_categoria.csv</a> — gênero por categoria</li>
-          <li><a href="dados/genero_gap_salarial.csv" download>genero_gap_salarial.csv</a> — gap salarial por cargo</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados e auditoria</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
-          <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
-          <li><a href="dados/regime_map.csv" download>regime_map.csv</a> — mapa de regimes</li>
-          <li><a href="dados/secretaria_map.csv" download>secretaria_map.csv</a> — mapa de secretarias</li>
-          <li><a href="dados/escolaridade_map.csv" download>escolaridade_map.csv</a> — mapa de escolaridades</li>
-          <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
-          <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
-        </ul>
-      </div>
-    </section>
-
-<section class="secao" id="dados-abertos">
-      <h2 class="secao-titulo">Dados abertos</h2>
-      <div class="cartao">
-        <p style="margin-bottom: 1.25rem;">
-          Todos os dados usados por este painel estão disponíveis publicamente em formato
-          CSV e JSON. Você pode baixá-los, reutilizá-los e auditá-los livremente.
-        </p>
-        <div class="aviso-metodologico" style="margin-bottom: 1.25rem;">
-          <strong>Licença:</strong> os dados são de origem pública e estão disponíveis sob
-          <strong>Creative Commons CC-BY 4.0</strong>. Ao reutilizar, cite:
-          "Portal da Transparência de Sorocaba, organizado pelo Observatório Social do Brasil — Sorocaba".
-        </div>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Série histórica da folha</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/folha_mensal.csv" download>folha_mensal.csv</a> — folha bruta mensal (56 meses)</li>
-          <li><a href="dados/folha_mensal_recorrente.csv" download>folha_mensal_recorrente.csv</a> — folha recorrente mensal</li>
-          <li><a href="dados/folha_mensal_ipca.csv" download>folha_mensal_ipca.csv</a> — folha nominal × real (corrigida pelo IPCA)</li>
-          <li><a href="dados/composicao_categoria_mes.csv" download>composicao_categoria_mes.csv</a> — composição por categoria de vínculo</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/top_secretarias.csv" download>top_secretarias.csv</a> — ranking de secretarias por folha acumulada</li>
-          <li><a href="dados/resumo_secretaria.csv" download>resumo_secretaria.csv</a> — resumo por secretaria (média mensal, meses reais)</li>
-          <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
-          <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/distribuicao_salarial.csv" download>distribuicao_salarial.csv</a> — percentis da folha recorrente</li>
-          <li><a href="dados/gini_mensal.csv" download>gini_mensal.csv</a> — índice de Gini mensal</li>
-          <li><a href="dados/histograma_salarial.csv" download>histograma_salarial.csv</a> — distribuição por faixa salarial</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Quadro de pessoal</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/quadro_escolaridade.csv" download>quadro_escolaridade.csv</a> — servidores por escolaridade</li>
-          <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
-          <li><a href="dados/quadro_escolaridade_categoria.csv" download>quadro_escolaridade_categoria.csv</a> — escolaridade × categoria</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Gênero</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/genero_geral.csv" download>genero_geral.csv</a> — distribuição geral por gênero</li>
-          <li><a href="dados/genero_por_secretaria.csv" download>genero_por_secretaria.csv</a> — gênero por secretaria</li>
-          <li><a href="dados/genero_por_categoria.csv" download>genero_por_categoria.csv</a> — gênero por categoria</li>
-          <li><a href="dados/genero_gap_salarial.csv" download>genero_gap_salarial.csv</a> — gap salarial por cargo</li>
-        </ul>
-        
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados e auditoria</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
-          <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
-          <li><a href="dados/regime_map.csv" download>regime_map.csv</a> — mapa de regimes</li>
-          <li><a href="dados/secretaria_map.csv" download>secretaria_map.csv</a> — mapa de secretarias</li>
-          <li><a href="dados/escolaridade_map.csv" download>escolaridade_map.csv</a> — mapa de escolaridades</li>
-          <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
-          <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
-        </ul>
-      </div>
-    </section>
-
-
-    
     <section class="secao" id="roadmap">
       <h2 class="secao-titulo">Roadmap público</h2>
       <div class="cartao">
