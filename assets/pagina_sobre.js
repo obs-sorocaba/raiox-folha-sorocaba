@@ -1,381 +1,244 @@
-/* ============================================================
-   pagina_sobre.js — versão robusta (Etapa 3E + auditoria)
-   Carrega selo, fonte e mapas de metodologia.
-   Nunca deixa estado "Carregando…" pendurado.
-   ============================================================ */
+/* =========================================================================
+   Pagina Sobre - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+   Le auditoria.json e os 3 mapas publicos (regime, secretaria, escolaridade)
+   e renderiza tabelas interativas com filtros.
+   ========================================================================= */
 
-(function () {
-  "use strict";
+const estadoSobre = {
+  auditoria: null,
+  regimes: [],
+  secretarias: [],
+  escolaridades: [],
+  kpis: null,
+};
 
-  /* ---------- Constantes ---------- */
-  const TIMEOUT_MS = 8000;
-  const TENTATIVAS = 2;
+const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
-  /* ---------- Helpers DOM ---------- */
-  const $  = (sel, ctx) => (ctx || document).querySelector(sel);
+/* -------------------------------------------------------------------------
+   Inicializacao
+   ------------------------------------------------------------------------- */
+async function inicializar() {
+  try {
+    const [auditoria, kpis, regimes, secretarias, escolaridades] = await Promise.all([
+      carregarJSON("dados/auditoria.json"),
+      carregarJSON("dados/kpis.json"),
+      carregarCSV("dados/regime_map.csv"),
+      carregarCSV("dados/secretaria_map.csv"),
+      carregarCSV("dados/escolaridade_map.csv"),
+    ]);
 
-  function $$(sel, ctx) {
-    return Array.from((ctx || document).querySelectorAll(sel));
-  }
+    estadoSobre.auditoria = auditoria;
+    estadoSobre.kpis = kpis;
+    estadoSobre.regimes = regimes;
+    estadoSobre.secretarias = secretarias;
+    estadoSobre.escolaridades = escolaridades;
 
-  /* ---------- Formatadores ---------- */
-  function formatarNumero(n) {
-    if (n === null || n === undefined || n === "" || isNaN(n)) return "—";
-    return Number(n).toLocaleString("pt-BR");
-  }
-
-  function formatarData(iso) {
-    if (!iso) return "—";
-    try {
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return iso;
-      return d.toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } catch (e) {
-      return iso;
+    renderizarCabecalho(kpis);
+    renderizarFonte(auditoria);
+    renderizarSelo(auditoria);
+    renderizarMapaRegimes(regimes);
+    renderizarMapaSecretarias(secretarias);
+    renderizarMapaEscolaridades(escolaridades);
+    registrarEventos();
+  } catch (e) {
+    console.error(e);
+    const main = document.querySelector("main");
+    if (main) {
+      main.innerHTML = `<div class="erro" role="alert">
+        <strong>Não foi possível carregar os dados da página Sobre.</strong><br>
+        <small>${e.message}</small>
+      </div>`;
     }
   }
+}
 
-  function textoCelula(v) {
-    if (v === null || v === undefined || v === "") return "—";
-    return String(v);
+/* -------------------------------------------------------------------------
+   Cabecalho
+   ------------------------------------------------------------------------- */
+function renderizarCabecalho(kpis) {
+  const el = document.getElementById("cabecalho-periodo");
+  if (!el || !kpis) return;
+  const p = kpis.periodo || {};
+  el.innerHTML = `
+    <strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"}
+    &nbsp;·&nbsp;
+    <strong>${p.meses_cobertos || 0} meses</strong>
+  `;
+}
+
+/* -------------------------------------------------------------------------
+   Fonte dos dados (leitura robusta: aceita nomes novos e antigos)
+   ------------------------------------------------------------------------- */
+function renderizarFonte(auditoria) {
+  const el = document.getElementById("fonte-dados");
+  if (!el || !auditoria) return;
+
+  const q = auditoria.qualidade || {};
+  const per = auditoria.periodo_coberto || {};
+
+  const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
+  const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
+  const percentualMultivinculo = q.percentual_multivinculo ?? q.percentual_duplicatas ?? 0;
+  const registrosLiquidos = q.registros_liquidos ?? 0;
+  const matriculasUnicas = q.matriculas_unicas ?? 0;
+  const secretarias = q.secretarias ?? 0;
+
+  const dataFormatada = auditoria.gerado_em
+    ? new Date(auditoria.gerado_em).toLocaleString("pt-BR", {
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      })
+    : "-";
+
+  el.innerHTML = `
+    <dt>Fonte</dt>
+    <dd>${auditoria.fonte || "-"}</dd>
+
+    <dt>URL da fonte</dt>
+    <dd><a href="${auditoria.url_fonte || '#'}" target="_blank" rel="noopener">${auditoria.url_fonte || '-'}</a></dd>
+
+    <dt>Período coberto</dt>
+    <dd>${per.inicio || "-"} a ${per.fim || "-"} (${per.total_meses || 0} meses)</dd>
+
+    <dt>Registros brutos</dt>
+    <dd>${fmtNum.format(registrosBrutos)}</dd>
+
+    <dt>Múltiplos vínculos por mês</dt>
+    <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)})</dd>
+
+    <dt>Registros únicos por mês</dt>
+    <dd>${fmtNum.format(registrosLiquidos)}</dd>
+
+    <dt>Matrículas únicas</dt>
+    <dd>${fmtNum.format(matriculasUnicas)}</dd>
+
+    <dt>Secretarias (canônicas)</dt>
+    <dd>${secretarias}</dd>
+
+    <dt>Última atualização</dt>
+    <dd>${dataFormatada}</dd>
+  `;
+}
+
+/* -------------------------------------------------------------------------
+   Mapa de regimes (5 colunas: cru, base, subgrupo, fundamentacao, observacao)
+   ------------------------------------------------------------------------- */
+function renderizarMapaRegimes(dados) {
+  const tbody = document.querySelector("#tabela-regimes tbody");
+  if (!tbody) return;
+  desenharTabelaRegimes(dados, tbody);
+}
+
+function desenharTabelaRegimes(dados, tbody, filtro = "") {
+  const f = filtro.trim().toUpperCase();
+  const linhas = dados.filter((d) => {
+    if (!f) return true;
+    const alvo = [
+      d.regime_cru || "",
+      d.regime_base || "",
+      d.regime_grupo || "",
+      d.regime_subgrupo || "",
+      d.fundamentacao || "",
+      d.observacao || "",
+    ].join(" ").toUpperCase();
+    return alvo.includes(f);
+  });
+
+  if (!linhas.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--cinza-texto);">Nenhum resultado</td></tr>`;
+    return;
   }
 
-  function escaparHTML(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+  tbody.innerHTML = linhas.map((d) => `
+    <tr>
+      <td><code>${d.regime_cru || ""}</code></td>
+      <td><code>${d.regime_base || ""}</code></td>
+      <td><span class="badge ${badgeClasse(d.regime_subgrupo)}">${d.regime_subgrupo || ""}</span></td>
+      <td style="font-size:0.85rem;">${d.fundamentacao || "—"}</td>
+      <td style="font-size:0.82rem; color: var(--cinza-texto);">${d.observacao || "—"}</td>
+    </tr>`).join("");
+}
+
+function badgeClasse(subgrupo) {
+  const mapa = {
+    efetivos: "efetivos",
+    funcao_confianca: "funcao",
+    comissionados: "comissionados",
+    flexiveis: "flexiveis",
+    inativos: "inativos",
+  };
+  return mapa[subgrupo] || "";
+}
+
+/* -------------------------------------------------------------------------
+   Mapa de secretarias
+   ------------------------------------------------------------------------- */
+function renderizarMapaSecretarias(dados) {
+  const tbody = document.querySelector("#tabela-secretarias-mapa tbody");
+  if (!tbody) return;
+  desenharTabelaSecretarias(dados, tbody);
+}
+
+function desenharTabelaSecretarias(dados, tbody, filtro = "") {
+  const f = filtro.trim().toUpperCase();
+  const linhas = dados.filter((d) => {
+    if (!f) return true;
+    const alvo = `${d.secretaria_crua || ""} ${d.secretaria_canonica || ""} ${d.sigla || ""}`.toUpperCase();
+    return alvo.includes(f);
+  });
+
+  if (!linhas.length) {
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--cinza-texto);">Nenhum resultado</td></tr>`;
+    return;
   }
 
-  /* ---------- Fetch com timeout e retry ---------- */
-  function fetchComTimeout(url, opts) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    return fetch(url, Object.assign({}, opts || {}, { signal: controller.signal }))
-      .finally(() => clearTimeout(timer));
-  }
+  tbody.innerHTML = linhas.map((d) => `
+    <tr>
+      <td>${d.secretaria_crua || ""}</td>
+      <td><strong>${d.secretaria_canonica || ""}</strong></td>
+      <td>${d.sigla || "—"}</td>
+    </tr>`).join("");
+}
 
-  async function fetchComRetry(url, opts) {
-    let ultimoErro;
-    for (let i = 1; i <= TENTATIVAS; i++) {
-      try {
-        const resp = await fetchComTimeout(url, opts);
-        if (!resp.ok) throw new Error("HTTP " + resp.status + " em " + url);
-        return resp;
-      } catch (e) {
-        ultimoErro = e;
-        if (i < TENTATIVAS) {
-          await new Promise((r) => setTimeout(r, 500 * i));
-        }
-      }
-    }
-    throw ultimoErro;
-  }
+/* -------------------------------------------------------------------------
+   Mapa de escolaridades
+   ------------------------------------------------------------------------- */
+function renderizarMapaEscolaridades(dados) {
+  const tbody = document.querySelector("#tabela-escolaridades tbody");
+  if (!tbody) return;
 
-  async function carregarJSON(caminho) {
-    const resp = await fetchComRetry(caminho, { cache: "no-store" });
-    return resp.json();
-  }
+  const ordenado = [...dados].sort((a, b) => num(a.ordem) - num(b.ordem));
 
-  async function carregarCSV(caminho) {
-    const resp = await fetchComRetry(caminho, { cache: "no-store" });
-    const texto = await resp.text();
+  tbody.innerHTML = ordenado.map((d) => `
+    <tr>
+      <td><code>${d.escolaridade_crua || ""}</code></td>
+      <td><strong>${d.escolaridade_canonica || ""}</strong></td>
+      <td class="numerico">${d.ordem || ""}</td>
+    </tr>`).join("");
+}
 
-    return new Promise((resolve, reject) => {
-      Papa.parse(texto, {
-        header: true,
-        skipEmptyLines: true,
-        dynamicTyping: false,
-        complete: (res) => {
-          if (res.errors && res.errors.length) {
-            if (!res.data || res.data.length === 0) {
-              return reject(new Error(
-                "Falha ao interpretar " + caminho + ": " + res.errors[0].message
-              ));
-            }
-          }
-          resolve(res.data || []);
-        },
-        error: (err) => reject(err),
-      });
+/* -------------------------------------------------------------------------
+   Eventos (busca)
+   ------------------------------------------------------------------------- */
+function registrarEventos() {
+  const buscaRegime = document.getElementById("busca-regime");
+  if (buscaRegime) {
+    buscaRegime.addEventListener("input", (e) => {
+      const tbody = document.querySelector("#tabela-regimes tbody");
+      if (tbody) desenharTabelaRegimes(estadoSobre.regimes, tbody, e.target.value);
     });
   }
 
-  /* ---------- Estado visual de cada tabela ---------- */
-  function colspanDe(tbody) {
-    const tabela = tbody.closest("table");
-    if (!tabela) return 1;
-    const ths = $$("thead th", tabela);
-    return ths.length || 1;
-  }
-
-  function mostrarCarregando(tbody) {
-    if (!tbody) return;
-    tbody.innerHTML =
-      '<tr class="linha-carregando"><td colspan="' + colspanDe(tbody) +
-      '" class="carregando">Carregando…</td></tr>';
-  }
-
-  function mostrarErro(tbody, mensagem, arquivo) {
-    if (!tbody) return;
-    const link = arquivo
-      ? ' Você pode baixar o arquivo diretamente: <a href="' +
-        escaparHTML(arquivo) + '" download>' + escaparHTML(arquivo) + "</a>."
-      : "";
-    tbody.innerHTML =
-      '<tr><td colspan="' + colspanDe(tbody) + '" class="aviso-erro">' +
-      "⚠️ " + escaparHTML(mensagem) + link + "</td></tr>";
-  }
-
-  function mostrarVazio(tbody, arquivo) {
-    if (!tbody) return;
-    const link = arquivo
-      ? ' Baixe o arquivo para conferir: <a href="' +
-        escaparHTML(arquivo) + '" download>' + escaparHTML(arquivo) + "</a>."
-      : "";
-    tbody.innerHTML =
-      '<tr><td colspan="' + colspanDe(tbody) + '" class="aviso-vazio">' +
-      "Nenhum registro encontrado." + link + "</td></tr>";
-  }
-
-  /* ============================================================
-     1. Selo de auditoria
-     ============================================================ */
-  async function renderizarSelo() {
-    const alvo = $("#selo-conteudo");
-    if (!alvo) return;
-
-    try {
-      const aud = await carregarJSON("dados/auditoria.json");
-      const d = aud.dados || aud;
-      const itens = [
-        ["Última extração",    formatarData(d.ultima_extracao || d.gerado_em)],
-        ["Meses cobertos",     formatarNumero(d.meses_cobertos || d.total_meses)],
-        ["Registros",          formatarNumero(d.total_registros)],
-        ["Matrículas únicas",  formatarNumero(d.matriculas_unicas)],
-        ["Status",             d.status || "OK"],
-        ["Versão do pipeline", d.versao || "—"],
-      ];
-      alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd></div>";
-      }).join("");
-    } catch (e) {
-      console.error("[sobre] Erro ao carregar auditoria:", e);
-      alvo.innerHTML =
-        '<div class="carregando">Não foi possível carregar o selo de auditoria. ' +
-        '<a href="dados/auditoria.json" download>Baixar JSON</a>.</div>';
-    }
-  }
-
-  /* ============================================================
-     2. Fonte dos dados
-     ============================================================ */
-  async function renderizarFonte() {
-    const alvo = $("#fonte-dados");
-    if (!alvo) return;
-
-    try {
-      const kpis = await carregarJSON("dados/kpis.json");
-      const d = kpis.dados || kpis;
-      const itens = [
-        ["Período coberto",    (d.periodo_inicio || "—") + " a " + (d.periodo_fim || "—")],
-        ["Última atualização", formatarData(d.ultima_atualizacao || d.gerado_em)],
-        ["Total de meses",     formatarNumero(d.total_meses)],
-        ["Fonte",              "Portal da Transparência de Sorocaba"],
-      ];
-      alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd></div>";
-      }).join("");
-    } catch (e) {
-      console.error("[sobre] Erro ao carregar kpis:", e);
-      alvo.innerHTML =
-        '<div class="carregando">Não foi possível carregar os metadados. ' +
-        '<a href="dados/kpis.json" download>Baixar JSON</a>.</div>';
-    }
-  }
-
-  /* ============================================================
-     3. Mapa de regimes
-     ============================================================ */
-  let regimesDados = [];
-
-  async function carregarRegimes() {
-    const tbody = $("#tabela-regimes tbody");
-    if (!tbody) return;
-    mostrarCarregando(tbody);
-
-    try {
-      const dados = await carregarCSV("dados/regime_map.csv");
-      if (!dados.length) return mostrarVazio(tbody, "dados/regime_map.csv");
-
-      regimesDados = dados;
-      renderizarTabelaRegimes(dados);
-    } catch (e) {
-      console.error("[sobre] Erro regimes:", e);
-      mostrarErro(tbody, "Não foi possível carregar o mapa de regimes.", "dados/regime_map.csv");
-    }
-  }
-
-  function renderizarTabelaRegimes(lista) {
-    const tbody = $("#tabela-regimes tbody");
-    if (!tbody) return;
-    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/regime_map.csv");
-
-    tbody.innerHTML = lista.map(function (r) {
-      const cru  = r.regime_cru || r.regime || r.codigo || "";
-      const base = r.regime_base || r.base || "";
-      const sub  = r.subgrupo || "";
-      const fund = r.fundamentacao || r.fundamento || "";
-      const obs  = r.observacao || r.obs || "";
-      return "<tr>" +
-        "<td>" + escaparHTML(textoCelula(cru))  + "</td>" +
-        "<td>" + escaparHTML(textoCelula(base)) + "</td>" +
-        "<td>" + escaparHTML(textoCelula(sub))  + "</td>" +
-        "<td>" + escaparHTML(textoCelula(fund)) + "</td>" +
-        "<td>" + escaparHTML(textoCelula(obs))  + "</td>" +
-        "</tr>";
-    }).join("");
-  }
-
-  function configurarBuscaRegime() {
-    const input = $("#busca-regime");
-    if (!input) return;
-    input.addEventListener("input", function () {
-      const termo = input.value.trim().toLowerCase();
-      if (!termo) return renderizarTabelaRegimes(regimesDados);
-      const filtrado = regimesDados.filter(function (r) {
-        return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
-      });
-      renderizarTabelaRegimes(filtrado);
+  const buscaSec = document.getElementById("busca-secretaria");
+  if (buscaSec) {
+    buscaSec.addEventListener("input", (e) => {
+      const tbody = document.querySelector("#tabela-secretarias-mapa tbody");
+      if (tbody) desenharTabelaSecretarias(estadoSobre.secretarias, tbody, e.target.value);
     });
   }
+}
 
-  /* ============================================================
-     4. Mapa de secretarias
-     ============================================================ */
-  let secretariasDados = [];
-
-  async function carregarSecretarias() {
-    const tbody = $("#tabela-secretarias-mapa tbody");
-    if (!tbody) return;
-    mostrarCarregando(tbody);
-
-    try {
-      const dados = await carregarCSV("dados/secretaria_map.csv");
-      if (!dados.length) return mostrarVazio(tbody, "dados/secretaria_map.csv");
-
-      secretariasDados = dados;
-      renderizarTabelaSecretarias(dados);
-    } catch (e) {
-      console.error("[sobre] Erro secretarias:", e);
-      mostrarErro(tbody, "Não foi possível carregar o mapa de secretarias.", "dados/secretaria_map.csv");
-    }
-  }
-
-  function renderizarTabelaSecretarias(lista) {
-    const tbody = $("#tabela-secretarias-mapa tbody");
-    if (!tbody) return;
-    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/secretaria_map.csv");
-
-    tbody.innerHTML = lista.map(function (r) {
-      const cru   = r.secretaria_cru || r.nome_cru || r.nome_original || "";
-      const canon = r.secretaria_canonica || r.nome_canonico || r.canonico || "";
-      const sigla = r.sigla || "";
-      return "<tr>" +
-        "<td>" + escaparHTML(textoCelula(cru))   + "</td>" +
-        "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
-        "<td>" + escaparHTML(textoCelula(sigla)) + "</td>" +
-        "</tr>";
-    }).join("");
-  }
-
-  function configurarBuscaSecretaria() {
-    const input = $("#busca-secretaria");
-    if (!input) return;
-    input.addEventListener("input", function () {
-      const termo = input.value.trim().toLowerCase();
-      if (!termo) return renderizarTabelaSecretarias(secretariasDados);
-      const filtrado = secretariasDados.filter(function (r) {
-        return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
-      });
-      renderizarTabelaSecretarias(filtrado);
-    });
-  }
-
-  /* ============================================================
-     5. Mapa de escolaridades
-     ============================================================ */
-  async function carregarEscolaridades() {
-    const tbody = $("#tabela-escolaridades tbody");
-    if (!tbody) return;
-    mostrarCarregando(tbody);
-
-    try {
-      const dados = await carregarCSV("dados/escolaridade_map.csv");
-      if (!dados.length) return mostrarVazio(tbody, "dados/escolaridade_map.csv");
-
-      dados.sort(function (a, b) {
-        const oa = Number(a.ordem || a.order || 0);
-        const ob = Number(b.ordem || b.order || 0);
-        return oa - ob;
-      });
-
-      tbody.innerHTML = dados.map(function (r) {
-        const cru   = r.escolaridade_crua || r.escolaridade_cru || r.nome_cru || "";
-        const canon = r.escolaridade_canonica || r.escolaridade_canon || r.canonico || "";
-        const ordem = r.ordem || r.order || "";
-        return "<tr>" +
-          "<td>" + escaparHTML(textoCelula(cru))   + "</td>" +
-          "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
-          '<td class="numero">' + escaparHTML(textoCelula(ordem)) + "</td>" +
-          "</tr>";
-      }).join("");
-    } catch (e) {
-      console.error("[sobre] Erro escolaridades:", e);
-      mostrarErro(tbody, "Não foi possível carregar o mapa de escolaridades.", "dados/escolaridade_map.csv");
-    }
-  }
-
-  /* ============================================================
-     6. Rodapé (opcional — só age se existir o elemento)
-     ============================================================ */
-  async function atualizarRodape() {
-    const alvo = document.querySelector("#rodape-atualizacao");
-    if (!alvo) return;
-    try {
-      const kpis = await carregarJSON("dados/kpis.json");
-      const d = kpis.dados || kpis;
-      alvo.textContent = formatarData(d.ultima_atualizacao || d.gerado_em);
-    } catch (e) {
-      alvo.textContent = "—";
-    }
-  }
-
-  /* ============================================================
-     7. Inicialização
-     ============================================================ */
-  function init() {
-    renderizarSelo();
-    renderizarFonte();
-    carregarRegimes().then(configurarBuscaRegime);
-    carregarSecretarias().then(configurarBuscaSecretaria);
-    carregarEscolaridades();
-    atualizarRodape();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
-})();
+/* -------------------------------------------------------------------------
+   Inicializacao
+   ------------------------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", inicializar);
