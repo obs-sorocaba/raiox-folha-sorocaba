@@ -18,7 +18,7 @@ const estadoGen = {
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
-const ROTULOS_CATEGORIA = {
+const ROTULOS_GRUPO = {
   efetivos: "Efetivos e empregados públicos",
   funcao_confianca: "Efetivos em função de confiança",
   comissionados: "Cargos em comissão",
@@ -390,10 +390,10 @@ function renderizarCategoria() {
   });
 
   const dados = Object.values(agrupado)
-    .filter((x) => ROTULOS_CATEGORIA[x.regime_subgrupo])
+    .filter((x) => ROTULOS_GRUPO[x.regime_subgrupo])
     .sort((a, b) => b.pct_feminino - a.pct_feminino);
 
-  const labels = dados.map((x) => ROTULOS_CATEGORIA[x.regime_subgrupo]);
+  const labels = dados.map((x) => ROTULOS_GRUPO[x.regime_subgrupo]);
   const valores = dados.map((x) => x.pct_feminino);
 
   estadoGen.graficos.categoria = new Chart(ctx, {
@@ -442,7 +442,7 @@ function renderizarCategoria() {
   if (tbody) {
     tbody.innerHTML = dados.map((d) => `
       <tr>
-        <td>${ROTULOS_CATEGORIA[d.regime_subgrupo]}</td>
+        <td>${ROTULOS_GRUPO[d.regime_subgrupo]}</td>
         <td class="numerico">${fmtNum.format(d.total_matriculas)}</td>
         <td class="numerico">${fmtPct(d.pct_feminino)}</td>
         <td class="numerico">${fmtBRLCompacto(d.folha_total)}</td>

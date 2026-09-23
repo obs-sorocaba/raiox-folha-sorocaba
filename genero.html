@@ -92,7 +92,7 @@
 
   <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
 
-  <main id="conteudo-principal">
+  <main id="conteudo-principal" aria-live="polite">
 
     <section class="secao" id="apresentacao">
       <h2 class="secao-titulo">Gênero no quadro de pessoal</h2>
@@ -151,14 +151,14 @@
         <div class="cartao-titulo">Composição por gênero (acumulado)</div>
         <div class="tabela-wrap">
           <table id="tabela-geral">
-            <thead>
+            <th scope="col"ead>
               <tr>
-                <th>Gênero</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">% das matrículas</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">% da folha</th>
-                <th class="numerico">Folha média</th>
+                <th scope="col">Gênero</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">% das matrículas</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">% da folha</th>
+                <th scope="col" class="numerico">Folha média</th>
               </tr>
             </thead>
             <tbody>
@@ -189,14 +189,14 @@
       <div class="cartao" style="margin-top:1.5rem;">
         <div class="tabela-wrap">
           <table id="tabela-categoria">
-            <thead>
+            <th scope="col"ead>
               <tr>
-                <th>Categoria</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">% feminino</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Folha média (F)</th>
-                <th class="numerico">Folha média (M)</th>
+                <th scope="col">Categoria</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">% feminino</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Folha média (F)</th>
+                <th scope="col" class="numerico">Folha média (M)</th>
               </tr>
             </thead>
             <tbody>
@@ -227,14 +227,14 @@
       <div class="cartao" style="margin-top:1.5rem;">
         <div class="tabela-wrap" style="max-height: 480px; overflow-y: auto;">
           <table id="tabela-gap">
-            <thead>
+            <th scope="col"ead>
               <tr>
-                <th>Cargo</th>
-                <th class="numerico">Servidores (F)</th>
-                <th class="numerico">Servidores (M)</th>
-                <th class="numerico">Folha média (F)</th>
-                <th class="numerico">Folha média (M)</th>
-                <th class="numerico">Gap %</th>
+                <th scope="col">Cargo</th>
+                <th scope="col" class="numerico">Servidores (F)</th>
+                <th scope="col" class="numerico">Servidores (M)</th>
+                <th scope="col" class="numerico">Folha média (F)</th>
+                <th scope="col" class="numerico">Folha média (M)</th>
+                <th scope="col" class="numerico">Gap %</th>
               </tr>
             </thead>
             <tbody>
