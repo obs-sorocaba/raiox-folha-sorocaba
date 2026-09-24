@@ -2,6 +2,7 @@
    Pagina Perfil das Unidades — Raio-X do Quadro de Pessoal
    Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
            genero x escolaridade, unidades por tipo, unidades nominais.
+   Correcao: preenche narrativa de "Nivel de instrucao por categoria".
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
@@ -366,7 +367,8 @@ function renderizarBlocoTempo(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 3: Escolaridade x categoria
+   Bloco 3: Escolaridade x categoria (barras empilhadas)
+   Correcao: preenche a narrativa que antes ficava em "Carregando..."
    ------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridadeCategoria() {
   const dados = estadoQuadro.escolaridadeCategoria;
@@ -426,6 +428,32 @@ function renderizarBlocoEscolaridadeCategoria() {
       },
     },
   });
+
+  // ============ NOVO: preencher a narrativa ============
+  const elNarr = document.getElementById("narrativa-escolaridade-categoria");
+  if (elNarr) {
+    const totalPorEsc = {};
+    dados.forEach((d) => {
+      const esc = d.escolaridade_canonica;
+      totalPorEsc[esc] = (totalPorEsc[esc] || 0) + (num(d.num_matriculas) || 0);
+    });
+
+    const total = Object.values(totalPorEsc).reduce((s, v) => s + v, 0);
+    const entries = Object.entries(totalPorEsc).sort((a, b) => b[1] - a[1]);
+    const top = entries[0] || [];
+
+    if (top.length && total > 0) {
+      const pct = ((top[1] / total) * 100).toFixed(1).replace(".", ",");
+      elNarr.innerHTML = `
+        A escolaridade <strong>${top[0]}</strong> concentra
+        <strong>${pct}%</strong> dos servidores classificados.
+        As barras mostram como cada nível de instrução se distribui
+        entre as categorias de vínculo (efetivos, comissionados, flexíveis, etc.).
+      `;
+    } else {
+      elNarr.innerHTML = "Sem dados suficientes para gerar narrativa.";
+    }
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -693,15 +721,11 @@ const TOP_UNIDADES = 10;
 function renderizarUnidadesNominais(dados) {
   if (!dados || !dados.length) return;
 
-  // Total de unidades
   const elTotal = document.getElementById("total-unidades");
   if (elTotal) elTotal.textContent = dados.length;
 
-  // Renderiza com filtro vazio (todos os tipos)
   renderizarTopUnidades(dados, "");
   renderizarTabelaUnidades(dados);
-
-  // Configura filtros
   configurarFiltrosUnidades(dados);
 }
 
@@ -718,7 +742,6 @@ function renderizarTopUnidades(dados, filtroTipo = "") {
     { chave: "Outros",    rotulo: "Outros" },
   ];
 
-  // Se filtroTipo está ativo, mostra só o bloco correspondente
   const tiposFiltrados = filtroTipo
     ? tipos.filter((t) => t.chave === filtroTipo)
     : tipos;
@@ -821,10 +844,7 @@ function configurarFiltrosUnidades(dados) {
     const tipo = selTipo ? selTipo.value : "";
     const busca = inputBusca ? inputBusca.value.trim() : "";
 
-    // Filtra a tabela completa
     renderizarTabelaUnidades(dados, tipo, busca);
-
-    // Filtra os blocos de Top 10
     renderizarTopUnidades(dados, tipo);
   }
 
