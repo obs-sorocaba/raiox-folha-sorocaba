@@ -3,8 +3,10 @@
 
    Modos de operacao:
    - "municipio"   (padrao ao abrir): total do municipio, soma de todas as
-                    secretarias. KPIs e graficos gerais.
-   - "secretaria"  (apos selecao): recorte por secretaria especifica.
+                    secretarias. KPIs e graficos gerais, alem da anatomia
+                    agregada do municipio.
+   - "secretaria"  (apos selecao): recorte por secretaria especifica,
+                    incluindo anatomia interna detalhada.
    ========================================================================= */
 
 const estado = {
@@ -14,6 +16,16 @@ const estado = {
   folhaMunicipalMes: [],
   categoriaSecMes: [],
   categoriaMunicipalMes: [],
+  secretariaCargo: [],
+  secretariaEscolaridade: [],
+  secretariaTempo: [],
+  secretariaPercentis: [],
+  secretariaGini: [],
+  municipioCargo: [],
+  municipioEscolaridade: [],
+  municipioTempo: [],
+  municipioPercentis: [],
+  municipioGini: [],
   kpis: null,
   auditoria: null,
   secretariaAtual: null,
@@ -32,6 +44,10 @@ async function inicializar() {
     const [
       resumo, folhaMes, efetivoMes, folhaMunicipalMes,
       categoriaSecMes, categoriaMunicipalMes,
+      secretariaCargo, secretariaEscolaridade, secretariaTempo,
+      secretariaPercentis, secretariaGini,
+      municipioCargo, municipioEscolaridade, municipioTempo,
+      municipioPercentis, municipioGini,
       kpis, auditoria,
     ] = await Promise.all([
       carregarCSV("dados/resumo_secretaria.csv"),
@@ -40,6 +56,16 @@ async function inicializar() {
       carregarCSV("dados/folha_mensal.csv"),
       carregarCSV("dados/composicao_categoria_secretaria_mes.csv"),
       carregarCSV("dados/composicao_categoria_mes.csv"),
+      carregarCSV("dados/secretaria_cargo.csv"),
+      carregarCSV("dados/secretaria_escolaridade.csv"),
+      carregarCSV("dados/secretaria_tempo.csv"),
+      carregarCSV("dados/secretaria_percentis.csv"),
+      carregarCSV("dados/secretaria_gini.csv"),
+      carregarCSV("dados/municipio_cargo.csv"),
+      carregarCSV("dados/municipio_escolaridade.csv"),
+      carregarCSV("dados/municipio_tempo.csv"),
+      carregarCSV("dados/municipio_percentis.csv"),
+      carregarCSV("dados/municipio_gini.csv"),
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
@@ -55,12 +81,64 @@ async function inicializar() {
         });
       });
 
+    // Converte agregados por secretaria
+    secretariaCargo.forEach((r) => {
+      ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    secretariaEscolaridade.forEach((r) => {
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    secretariaTempo.forEach((r) => {
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    secretariaPercentis.forEach((r) => {
+      ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    secretariaGini.forEach((r) => {
+      ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+
+    // Converte agregados do município
+    municipioCargo.forEach((r) => {
+      ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    municipioEscolaridade.forEach((r) => {
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    municipioTempo.forEach((r) => {
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    municipioPercentis.forEach((r) => {
+      ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+    municipioGini.forEach((r) => {
+      ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
+
     estado.resumo = resumo;
     estado.folhaMes = folhaMes;
     estado.efetivoMes = efetivoMes;
     estado.folhaMunicipalMes = folhaMunicipalMes;
     estado.categoriaSecMes = categoriaSecMes;
     estado.categoriaMunicipalMes = categoriaMunicipalMes;
+    estado.secretariaCargo = secretariaCargo;
+    estado.secretariaEscolaridade = secretariaEscolaridade;
+    estado.secretariaTempo = secretariaTempo;
+    estado.secretariaPercentis = secretariaPercentis;
+    estado.secretariaGini = secretariaGini;
+    estado.municipioCargo = municipioCargo;
+    estado.municipioEscolaridade = municipioEscolaridade;
+    estado.municipioTempo = municipioTempo;
+    estado.municipioPercentis = municipioPercentis;
+    estado.municipioGini = municipioGini;
     estado.kpis = kpis;
     estado.auditoria = auditoria;
 
@@ -150,15 +228,11 @@ function registrarEventos() {
   if (selMetrica) {
     selMetrica.addEventListener("change", (e) => {
       estado.metricaAtual = e.target.value;
-
-      // Atualiza os KPIs
       if (estado.modo === "municipio") {
         renderizarKPIsMunicipio(estado.kpis);
       } else if (estado.secretariaAtual) {
         renderizarKPIs(estado.resumo.find((s) => s.secretaria === estado.secretariaAtual));
       }
-
-      // Atualiza o grafico com a metrica selecionada
       renderizarGraficoMetrica();
     });
   }
@@ -215,6 +289,9 @@ function selecionarMunicipio() {
   }
 
   expandirGradeCategoria();
+
+  // Modo município: mostra anatomia agregada
+  renderizarAnatomia(null);
 }
 
 /* -------------------------------------------------------------------------
@@ -303,6 +380,9 @@ function selecionarSecretaria(nome) {
   renderizarGraficoCategoria(categoriaSec, nome);
   renderizarComparadores(resumo);
   renderizarTabela(folhaSec);
+
+  // Modo secretaria: anatomia detalhada
+  renderizarAnatomia(nome);
 }
 
 /* -------------------------------------------------------------------------
@@ -419,7 +499,6 @@ function renderizarGraficoMetrica() {
     inicioZero: inicioZero,
   });
 
-  // Atualiza o titulo do cartao
   const cartao = ctx.closest(".cartao");
   if (cartao) {
     const titulo = cartao.querySelector(".cartao-titulo");
@@ -432,7 +511,6 @@ function renderizarGraficoMetrica() {
   }
 }
 
-// Mantem compatibilidade com chamadas antigas
 function renderizarGraficoFolha(dados, contexto) {
   renderizarGraficoMetrica();
 }
@@ -601,6 +679,175 @@ function renderizarTabela(dados) {
     </tr>`
     )
     .join("");
+}
+
+/* -------------------------------------------------------------------------
+   Anatomia da secretaria — Fase 1c (Opção B)
+   Aceita null para modo município (usa agregados municipais).
+   ------------------------------------------------------------------------- */
+function renderizarAnatomia(nomeSecretaria) {
+  const usarMunicipio = !nomeSecretaria;
+  const chave = usarMunicipio ? "Município (todas as secretarias)" : nomeSecretaria;
+
+  const dadosCargo = (usarMunicipio ? estado.municipioCargo : estado.secretariaCargo)
+    .filter((r) => r.secretaria_canonica === chave);
+  const dadosEsc = (usarMunicipio ? estado.municipioEscolaridade : estado.secretariaEscolaridade)
+    .filter((r) => r.secretaria_canonica === chave);
+  const dadosTempo = (usarMunicipio ? estado.municipioTempo : estado.secretariaTempo)
+    .filter((r) => r.secretaria_canonica === chave);
+  const dadosPerc = (usarMunicipio ? estado.municipioPercentis : estado.secretariaPercentis)
+    .find((r) => r.secretaria_canonica === chave);
+  const dadosGini = (usarMunicipio ? estado.municipioGini : estado.secretariaGini)
+    .find((r) => r.secretaria_canonica === chave);
+
+  renderizarTopCargos(dadosCargo, chave);
+  renderizarEscolaridadeSec(dadosEsc, chave);
+  renderizarTempoSec(dadosTempo, chave);
+  renderizarPercentisSec(dadosPerc, dadosGini, chave);
+
+  const aviso = document.getElementById("aviso-anatomia");
+  if (aviso) {
+    aviso.style.display = "block";
+    if (usarMunicipio) {
+      aviso.innerHTML = "🔍 <strong>Visão agregada do município.</strong> Selecione uma secretaria acima para ver o detalhamento individual.";
+    } else {
+      aviso.innerHTML = `Detalhamento interno de <strong>${nomeSecretaria}</strong>.`;
+    }
+  }
+}
+
+function limparAnatomia() {
+  if (estado.graficos.topCargos) { estado.graficos.topCargos.destroy(); estado.graficos.topCargos = null; }
+  if (estado.graficos.escolaridadeSec) { estado.graficos.escolaridadeSec.destroy(); estado.graficos.escolaridadeSec = null; }
+  if (estado.graficos.tempoSec) { estado.graficos.tempoSec.destroy(); estado.graficos.tempoSec = null; }
+  const bloco = document.getElementById("bloco-percentis-sec");
+  if (bloco) bloco.hidden = true;
+}
+
+function renderizarTopCargos(dados, nomeSecretaria) {
+  const ctx = document.getElementById("grafico-top-cargos");
+  const tbody = document.querySelector("#tabela-top-cargos tbody");
+
+  if (!dados || dados.length === 0) {
+    if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="carregando">Nenhum cargo com n ≥ 5.</td></tr>`;
+    if (ctx && estado.graficos.topCargos) { estado.graficos.topCargos.destroy(); estado.graficos.topCargos = null; }
+    return;
+  }
+
+  const ordenado = [...dados].sort((a, b) => b.n - a.n).slice(0, 20);
+
+  if (ctx) {
+    if (estado.graficos.topCargos) estado.graficos.topCargos.destroy();
+    estado.graficos.topCargos = graficoBarras(
+      ctx,
+      ordenado.map((d) => d.cargo),
+      ordenado.map((d) => d.n),
+      {
+        label: "Servidores",
+        horizontal: true,
+        cor: CORES.azulClaro,
+        formatador: (v) => fmtNum.format(v) + " servidores",
+        eixoFormatador: (v) => fmtNumCompacto(v),
+      }
+    );
+  }
+
+  if (tbody) {
+    tbody.innerHTML = ordenado.map((d) => `
+      <tr>
+        <td>${d.cargo}</td>
+        <td class="numerico">${fmtNum.format(d.n)}</td>
+        <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
+        <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
+        <td class="numerico">${fmtBRL.format(d.folha_mediana)}</td>
+        <td class="numerico">${fmtPct(d.pct_feminino)}</td>
+      </tr>`).join("");
+  }
+}
+
+function renderizarEscolaridadeSec(dados, nomeSecretaria) {
+  const ctx = document.getElementById("grafico-escolaridade-sec");
+  if (!ctx || !dados || dados.length === 0) return;
+
+  const ORDEM = ["Sem escolaridade formal registrada","Fundamental incompleto","Fundamental completo",
+                 "Medio incompleto","Medio completo","Superior incompleto","Superior completo",
+                 "Pos-graduacao","Mestrado","Doutorado"];
+
+  const ordenado = [...dados].sort((a, b) =>
+    ORDEM.indexOf(a.escolaridade_canonica) - ORDEM.indexOf(b.escolaridade_canonica));
+
+  if (estado.graficos.escolaridadeSec) estado.graficos.escolaridadeSec.destroy();
+  estado.graficos.escolaridadeSec = graficoBarras(
+    ctx,
+    ordenado.map((d) => d.escolaridade_canonica),
+    ordenado.map((d) => d.n),
+    {
+      label: "Servidores",
+      horizontal: true,
+      cor: CORES.azulClaro,
+      formatador: (v) => fmtNum.format(v) + " servidores",
+      eixoFormatador: (v) => fmtNumCompacto(v),
+    }
+  );
+}
+
+function renderizarTempoSec(dados, nomeSecretaria) {
+  const ctx = document.getElementById("grafico-tempo-sec");
+  if (!ctx || !dados || dados.length === 0) return;
+
+  const ORDEM = ["0-5 anos","6-10 anos","11-15 anos","16-20 anos","21-25 anos","26-30 anos","30+ anos"];
+  const ordenado = [...dados].sort((a, b) =>
+    ORDEM.indexOf(a.faixa_tempo) - ORDEM.indexOf(b.faixa_tempo));
+
+  if (estado.graficos.tempoSec) estado.graficos.tempoSec.destroy();
+  estado.graficos.tempoSec = graficoBarras(
+    ctx,
+    ordenado.map((d) => d.faixa_tempo),
+    ordenado.map((d) => d.n),
+    {
+      label: "Servidores",
+      cor: CORES.verdeClaro,
+      formatador: (v) => fmtNum.format(v) + " servidores",
+      eixoFormatador: (v) => fmtNumCompacto(v),
+    }
+  );
+}
+
+function renderizarPercentisSec(perc, gini, nomeSecretaria) {
+  const bloco = document.getElementById("bloco-percentis-sec");
+  const tbody = document.querySelector("#tabela-percentis-sec tbody");
+  const aviso = document.getElementById("aviso-sec-drilldown");
+
+  if (!bloco || !tbody) return;
+
+  if (!perc && !gini) {
+    bloco.hidden = true;
+    if (aviso) {
+      aviso.style.display = "block";
+      aviso.innerHTML = `<strong>${nomeSecretaria}</strong> tem menos de 30 servidores no último mês. Por isso, a análise de distribuição salarial interna não é publicada — os percentis seriam instáveis com n tão pequeno.`;
+    }
+    return;
+  }
+
+  bloco.hidden = false;
+  if (aviso) aviso.style.display = "none";
+
+  const giniValor = gini ? gini.gini.toFixed(3).replace(".", ",") : "—";
+  const giniNota = gini ? "" : ' <small style="color: var(--cinza-texto);">(n < 50)</small>';
+
+  tbody.innerHTML = `
+    <tr>
+      <td class="numerico">${fmtNum.format(perc ? perc.n : gini.n)}</td>
+      <td class="numerico">${fmtBRL.format(perc.media)}</td>
+      <td class="numerico">${fmtBRL.format(perc.p10)}</td>
+      <td class="numerico">${fmtBRL.format(perc.p25)}</td>
+      <td class="numerico"><strong>${fmtBRL.format(perc.p50)}</strong></td>
+      <td class="numerico">${fmtBRL.format(perc.p75)}</td>
+      <td class="numerico">${fmtBRL.format(perc.p90)}</td>
+      <td class="numerico">${fmtBRL.format(perc.p99)}</td>
+      <td class="numerico">${giniValor}${giniNota}</td>
+    </tr>
+  `;
 }
 
 /* -------------------------------------------------------------------------
