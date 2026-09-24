@@ -20,11 +20,11 @@
   <meta name="twitter:title" content="Perfil das Unidades — Sorocaba">
   <meta name="twitter:description" content="Perfil demográfico do quadro e unidades municipais.">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" href="favicon.ico">
-<link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
   <script>
     document.documentElement.classList.remove("no-js");
     document.documentElement.classList.add("js");
@@ -101,9 +101,6 @@
 
   <main id="conteudo-principal" aria-live="polite">
 
-    <!-- ============================================================ -->
-    <!-- Apresentação                                                   -->
-    <!-- ============================================================ -->
     <section class="secao" id="apresentacao">
       <h2 class="secao-titulo">Perfil do quadro e das unidades</h2>
       <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
@@ -129,9 +126,6 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Escolaridade (contagem)                                        -->
-    <!-- ============================================================ -->
     <section class="secao" id="escolaridade">
       <h2 class="secao-titulo">Nível de instrução do quadro</h2>
       <div class="aviso-metodologico" id="narrativa-escolaridade">Carregando…</div>
@@ -162,9 +156,6 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Tempo de casa (contagem)                                       -->
-    <!-- ============================================================ -->
     <section class="secao" id="tempo-servico">
       <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
       <div class="aviso-metodologico" id="narrativa-tempo">Carregando…</div>
@@ -195,9 +186,6 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Escolaridade × categoria                                       -->
-    <!-- ============================================================ -->
     <section class="secao" id="escolaridade-categoria">
       <h2 class="secao-titulo">Nível de instrução por categoria</h2>
       <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">Carregando…</div>
@@ -208,9 +196,6 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Gênero × escolaridade                                          -->
-    <!-- ============================================================ -->
     <section class="secao" id="genero-escolaridade">
       <h2 class="secao-titulo">Gênero por nível de instrução</h2>
       <div class="aviso-metodologico" id="narrativa-genero-escolaridade">
@@ -224,15 +209,15 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- Unidades — Fase 1a                                             -->
+    <!-- Unidades por tipo — Fase 1a                                   -->
     <!-- ============================================================ -->
     <section class="secao" id="unidades">
-      <h2 class="secao-titulo">Unidades municipais</h2>
+      <h2 class="secao-titulo">Unidades municipais por tipo</h2>
       <div class="aviso-metodologico" id="narrativa-unidades">
         As unidades estão agrupadas em <strong>unidades físicas</strong> (escolas, UBSs, UPAs, hospitais),
         <strong>setores operacionais</strong> (divisões, departamentos, SAMU, Zoonoses) e
         <strong>categorias administrativas</strong> (eventuais, estágios, inativos).
-        O detalhamento por unidade nominal será publicado em fase posterior.
+        O detalhamento por unidade nominal está mais abaixo.
       </div>
 
       <div class="grade-4" style="margin-top: 1rem;">
@@ -318,19 +303,69 @@
           </table>
         </div>
       </div>
-
-      <noscript>
-        <div class="aviso-noscript" style="margin-top: 1rem;">
-          ⚠️ Ative o JavaScript para visualizar os gráficos e tabelas.
-          Os dados brutos estão em <a href="dados/unidade_tipo.csv" download>unidade_tipo.csv</a>
-          e <a href="dados/unidade_top20.csv" download>unidade_top20.csv</a>.
-        </div>
-      </noscript>
     </section>
 
     <!-- ============================================================ -->
-    <!-- Selo de auditoria                                              -->
+    <!-- Unidades nominais — Fase 2.3                                 -->
     <!-- ============================================================ -->
+    <section class="secao" id="unidades-nominais">
+      <h2 class="secao-titulo">Unidades nominais</h2>
+      <div class="aviso-metodologico">
+        As <strong id="total-unidades">—</strong> unidades municipais por tipo,
+        com efetivo e folha. Cada nome é canonizado pelo <code>local_map.csv</code>.
+        Use os filtros para explorar todas as unidades.
+      </div>
+
+      <div class="filtros" style="margin-top: 1rem;">
+        <div class="filtro-item">
+          <label for="filtro-tipo-unidade">Tipo de unidade</label>
+          <select id="filtro-tipo-unidade">
+            <option value="">Todos os tipos</option>
+            <option value="Escola">Escolas</option>
+            <option value="UBS">UBSs</option>
+            <option value="PA">PAs</option>
+            <option value="Setor">Setores operacionais</option>
+            <option value="Categoria">Categorias administrativas</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+        <div class="filtro-item">
+          <label for="busca-unidade">Buscar unidade</label>
+          <input type="text" id="busca-unidade" placeholder="Ex: CEI 89, UBS Wanel Ville...">
+        </div>
+        <div class="filtro-item" style="min-width: 140px; flex: 0 0 auto;">
+          <label>&nbsp;</label>
+          <button class="botao secundario" id="botao-limpar-filtros-unidade">Limpar filtros</button>
+        </div>
+      </div>
+
+      <div id="top-unidades-container" style="margin-top: 1.5rem;"></div>
+
+      <div class="cartao" style="margin-top: 2rem;">
+        <div class="cartao-titulo">
+          Todas as unidades (<span id="contador-unidades-filtradas">—</span>)
+        </div>
+        <div class="tabela-wrap" style="max-height: 600px; overflow-y: auto;">
+          <table id="tabela-unidades">
+            <caption>Unidades nominais do município no último mês.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Unidade</th>
+                <th scope="col" class="numerico">Efetivo</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Folha média</th>
+                <th scope="col" class="numerico">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <dl class="selo" id="selo-conteudo">

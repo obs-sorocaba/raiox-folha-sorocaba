@@ -1,0 +1,461 @@
+tipo,local_canonico,sigla_secretaria,secretaria,efetivo,folha_total,folha_media,ticket_medio
+CAPS,CAPS Ad III,SES,Secretaria da Saúde,42,434442.16,10343.86,10343.86
+CMAE,CMAE,SES,Secretaria da Saúde,47,615676.31,13099.5,13099.5
+Categoria,Prof. Eventuais,SEDUC,Secretaria da Educação,2270,3036582.75,1337.7,1337.7
+Categoria,Estágios — Formação Cidadã,,,262,273651.84,1044.47,1044.47
+Categoria,Aposentados e Pensionistas (AAPMS),,,154,976753.2,6342.55,6342.55
+Categoria,Estagios - Sgc Ti,,,31,33665.52,1085.98,1085.98
+Categoria,Estagios - Sesu,,,26,27345.04,1051.73,1051.73
+Categoria,Estagios - Seplan - Arquitetur,,,26,28412.72,1092.8,1092.8
+Categoria,Aposent-pens — Dap,,,25,121234.2,4849.37,4849.37
+Categoria,Estagios - Secult,,,20,20833.52,1041.68,1041.68
+Categoria,Estagios - Ses Gabinete,,,17,19369.2,1139.36,1139.36
+Categoria,Estagios - Segov-procon,,,15,15291.68,1019.45,1019.45
+Categoria,Estagios - Ses Zoonoses,,,13,13372.24,1028.63,1028.63
+Categoria,Estagios - Serh,,,11,11680.24,1061.84,1061.84
+Categoria,Estagios - Semob,,,11,11842.64,1076.6,1076.6
+Categoria,Estagios - Separ,,,11,11834.24,1075.84,1075.84
+Categoria,Estagios - Sequav,,,10,11438.64,1143.86,1143.86
+Categoria,Estagios - Sej,,,8,9392.32,1174.04,1174.04
+Categoria,Estagios - Sead,,,7,7593.6,1084.8,1084.8
+Categoria,Estagios - Ses Policlinica,,,7,7593.6,1084.8,1084.8
+Categoria,Estagios - Ouvidoria,,,7,6099.6,871.37,871.37
+Categoria,Estagios - Sej Dpu,,,7,7550.48,1078.64,1078.64
+Categoria,Estagios- Sead DIV Arq Pub Mun,,,7,7593.6,1084.8,1084.8
+Categoria,Estagios - Secom,,,5,5362.4,1072.48,1072.48
+Categoria,Estagios - Secid,,,5,5244.0,1048.8,1048.8
+Categoria,Estagios - Ses DIV Vig Epidem,,,4,3494.4,873.6,873.6
+Categoria,Estagios - Semepp,,,4,3941.44,985.36,985.36
+Categoria,Estagios - Sema - D. Educ Amb,,,4,4339.2,1084.8,1084.8
+Categoria,Estagios - Segov - Concilia,,,4,4277.6,1069.4,1069.4
+Categoria,Estagios - Sedetur - Casa Tur,,,3,3074.4,1024.8,1024.8
+Categoria,Estagios - Sema,,,3,3254.4,1084.8,1084.8
+Categoria,Estagios - Sema - D. LIC Ctl Amb,,,3,3675.2,1225.07,1225.07
+Categoria,Estagios - Corregedoria,,,3,3254.4,1084.8,1084.8
+Categoria,Estagios - Pq Biquinha-sema,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Pq Zoologico-sema,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Sede Gabinete,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Ses DIV Aval Contr,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Sede - Uniten,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Metareciclagem,,,2,2169.6,1084.8,1084.8
+Categoria,Estagios - Sert,,,1,1084.8,1084.8,1084.8
+Categoria,Estagios - Ses DIV Vig Sanit,,,1,1084.8,1084.8,1084.8
+Categoria,Estagios - Sefaz - Secretaria,,,1,1084.8,1084.8,1084.8
+Categoria,Estagios - Pq Agua Verm-sema,,,1,1084.8,1084.8,1084.8
+Categoria,Estagios - Setur,,,1,1084.8,1084.8,1084.8
+Escola,CEI 89 — Zilda P. Aguil,SEDUC,Secretaria da Educação,78,638535.53,8186.35,8186.35
+Escola,CEI 78 — Ettore Marang,SEDUC,Secretaria da Educação,68,476973.11,7014.31,7014.31
+Escola,EM Ary de O Seabra,SEDUC,Secretaria da Educação,64,704097.51,11001.52,11001.52
+Escola,EM Renice Seraphim,SEDUC,Secretaria da Educação,64,596833.2,9325.52,9325.52
+Escola,CEI 90 — Helio D. C. Jr.,SEDUC,Secretaria da Educação,62,392495.37,6330.57,6330.57
+Escola,CEI 109 — Benedicto Pagl,SEDUC,Secretaria da Educação,59,433834.98,7353.14,7353.14
+Escola,EM Tereza C. Gianini,SEDUC,Secretaria da Educação,59,666666.37,11299.43,11299.43
+Escola,EM Ines R. Cesarotti,SEDUC,Secretaria da Educação,58,605454.51,10438.87,10438.87
+Escola,EM Achilles Almeida,SEDUC,Secretaria da Educação,57,716123.58,12563.57,12563.57
+Escola,CEI 107 — Arminda da Con,SEDUC,Secretaria da Educação,57,375942.67,6595.49,6595.49
+Escola,EM Norma Justa D. Ara,SEDUC,Secretaria da Educação,57,566987.02,9947.14,9947.14
+Escola,CEI 72 — Sueli Gaz Camp,SEDUC,Secretaria da Educação,57,374958.68,6578.22,6578.22
+Escola,CEI 82 — Bened M. Didi,SEDUC,Secretaria da Educação,56,378898.6,6766.05,6766.05
+Escola,CEI 73 — Matilde Gavin,SEDUC,Secretaria da Educação,55,366387.57,6661.59,6661.59
+Escola,CEI 94 — Ana L. Pazini,SEDUC,Secretaria da Educação,54,356479.43,6601.47,6601.47
+Escola,EM Avelino L. Camarg,SEDUC,Secretaria da Educação,52,583020.8,11211.94,11211.94
+Escola,EM Rosa Cury,SEDUC,Secretaria da Educação,52,601585.52,11568.95,11568.95
+Escola,EM Lea Edy Al Saliba,SEDUC,Secretaria da Educação,52,538951.7,10364.46,10364.46
+Escola,EM Odilla Caldini Cresp,SEDUC,Secretaria da Educação,52,507244.91,9754.71,9754.71
+Escola,CEI 66 — Frat Fem Cruz,SEDUC,Secretaria da Educação,51,398517.29,7814.06,7814.06
+Escola,CEI 85 — Maria R. A God,SEDUC,Secretaria da Educação,51,350392.05,6870.43,6870.43
+Escola,EM Benedito Cleto,SEDUC,Secretaria da Educação,51,475151.71,9316.7,9316.7
+Escola,CEI 88 — Vera Ap G. Sant,SEDUC,Secretaria da Educação,51,370607.16,7266.81,7266.81
+Escola,EM Oswaldo Duarte,SEDUC,Secretaria da Educação,50,601253.04,12025.06,12025.06
+Escola,CEI 84 — Osmar Almeida,SEDUC,Secretaria da Educação,50,420464.58,8409.29,8409.29
+Escola,EM Duljara F. Oliveir,SEDUC,Secretaria da Educação,50,561630.72,11232.61,11232.61
+Escola,CEI 92 — Dolores Fagund,SEDUC,Secretaria da Educação,50,316388.36,6327.77,6327.77
+Escola,CEI 48 — Frei A Kloeckn,SEDUC,Secretaria da Educação,50,405488.71,8109.77,8109.77
+Escola,CEI 75 — J. Alcir G. Rib,SEDUC,Secretaria da Educação,50,297542.61,5950.85,5950.85
+Escola,EM Ronaldo C. de Arruda,SEDUC,Secretaria da Educação,49,473857.11,9670.55,9670.55
+Escola,CEI 79 — Joao Tortello,SEDUC,Secretaria da Educação,48,289712.16,6035.67,6035.67
+Escola,CEI 60 — Anna Rusconi,SEDUC,Secretaria da Educação,48,420466.43,8759.72,8759.72
+Escola,CEI 106 — Aurea Paixao,SEDUC,Secretaria da Educação,48,291082.54,6064.22,6064.22
+Escola,CEI 105 — Dra. Maura Robe,SEDUC,Secretaria da Educação,48,309812.27,6454.42,6454.42
+Escola,EM M. Lourd A Morais,SEDUC,Secretaria da Educação,47,485789.63,10335.95,10335.95
+Escola,CEI 93 — M. Teresa Calc,SEDUC,Secretaria da Educação,47,352355.03,7496.92,7496.92
+Escola,CEI 95 — Angela M. Vieira,SEDUC,Secretaria da Educação,47,314510.98,6691.72,6691.72
+Escola,CEI 35 — Maria O V. Brun,SEDUC,Secretaria da Educação,47,343649.91,7311.7,7311.7
+Escola,EM M. Lourd M. Martinez,SEDUC,Secretaria da Educação,46,464350.87,10094.58,10094.58
+Escola,EM Maria Ignez F. Deluno,SEDUC,Secretaria da Educação,46,518087.51,11262.77,11262.77
+Escola,CEI 67 — Maria G. P. Nard,SEDUC,Secretaria da Educação,46,312640.49,6796.53,6796.53
+Escola,CEI 68 — Gladys M. T. Ama,SEDUC,Secretaria da Educação,46,328034.28,7131.18,7131.18
+Escola,EM Jose C. Florenz,SEDUC,Secretaria da Educação,46,464285.7,10093.17,10093.17
+Escola,EM Getulio Vargas,SEDUC,Secretaria da Educação,45,605619.84,13458.22,13458.22
+Escola,EM Milton Santos,SEDUC,Secretaria da Educação,45,604871.98,13441.6,13441.6
+Escola,EM Maria Domingas,SEDUC,Secretaria da Educação,45,600988.01,13355.29,13355.29
+Escola,EM Luiz Almeida Marins,SEDUC,Secretaria da Educação,45,566957.52,12599.06,12599.06
+Escola,CEI 81 — Edith Del Sant,SEDUC,Secretaria da Educação,45,270538.09,6011.96,6011.96
+Escola,CEI 62 — Mons Ant Sola,SEDUC,Secretaria da Educação,45,345574.24,7679.43,7679.43
+Escola,CEI 98 — Olinda L. Marth,SEDUC,Secretaria da Educação,45,294554.26,6545.65,6545.65
+Escola,CEI 97 — Maria Dorelli,SEDUC,Secretaria da Educação,45,308937.97,6865.29,6865.29
+Escola,CEI 27 — Christina Reis,SEDUC,Secretaria da Educação,45,302608.63,6724.64,6724.64
+Escola,CEI 96 — Pr Adelaide P.,SEDUC,Secretaria da Educação,45,258074.36,5734.99,5734.99
+Escola,CEI 58 — Dulce P. O Pinh,SEDUC,Secretaria da Educação,44,290082.13,6592.78,6592.78
+Escola,EM Leda T. Borghesi,SEDUC,Secretaria da Educação,44,451786.18,10267.87,10267.87
+Escola,CEI 76 — Menino Jesus,SEDUC,Secretaria da Educação,44,304569.42,6922.03,6922.03
+Escola,EM Flavio S. Nogueira,SEDUC,Secretaria da Educação,43,461642.61,10735.87,10735.87
+Escola,CEI 104 — Pr J. Crespo G.,SEDUC,Secretaria da Educação,42,286472.91,6820.78,6820.78
+Escola,CEI 87 — Cassio Rosa,SEDUC,Secretaria da Educação,42,255188.92,6075.93,6075.93
+Escola,CEI 103 — Jorge Moyses,SEDUC,Secretaria da Educação,41,295909.91,7217.31,7217.31
+Escola,EM Matheus Maylasky,SEDUC,Secretaria da Educação,41,432521.27,10549.3,10549.3
+Escola,CEI 61 — Yolanda Rizzo,SEDUC,Secretaria da Educação,41,256272.58,6250.55,6250.55
+Escola,CEI 74 — Maria C. Marins,SEDUC,Secretaria da Educação,40,288209.79,7205.24,7205.24
+Escola,EM Joao Franc Rosa,SEDUC,Secretaria da Educação,40,474780.96,11869.52,11869.52
+Escola,EM Helio Rosa Baldy,SEDUC,Secretaria da Educação,40,391579.23,9789.48,9789.48
+Escola,CEI 80 — Ana Rjmz Oliv,SEDUC,Secretaria da Educação,40,239892.13,5997.3,5997.3
+Escola,CEI 69 — Ester B. C. Nasc,SEDUC,Secretaria da Educação,40,310271.03,7756.78,7756.78
+Escola,EM Leonor P. Thomaz,SEDUC,Secretaria da Educação,39,483211.17,12390.03,12390.03
+Escola,CEI 63 — Rein D. Aless,SEDUC,Secretaria da Educação,39,251779.54,6455.89,6455.89
+Escola,CEI 64 — Joana Sim Sola,SEDUC,Secretaria da Educação,38,282032.59,7421.91,7421.91
+Escola,EM Milton Leite Oliveir,SEDUC,Secretaria da Educação,38,446263.49,11743.78,11743.78
+Escola,CEI 65 — Santo Agostinh,SEDUC,Secretaria da Educação,38,254718.94,6703.13,6703.13
+Escola,CEI 77 — Olga Toledo Lr,SEDUC,Secretaria da Educação,38,309530.38,8145.54,8145.54
+Escola,CEI 33 — Elvira N. Mont,SEDUC,Secretaria da Educação,38,288538.87,7593.13,7593.13
+Escola,CEI 110 — Maria Leopoldi,SEDUC,Secretaria da Educação,37,290539.98,7852.43,7852.43
+Escola,EM Julica Bierrenbach,SEDUC,Secretaria da Educação,37,427813.75,11562.53,11562.53
+Escola,EM Quinzinho Barros,SEDUC,Secretaria da Educação,37,477373.36,12901.98,12901.98
+Escola,EM Irineu Leister,SEDUC,Secretaria da Educação,37,360282.73,9737.37,9737.37
+Escola,EM Zilah D. M. Scherep,SEDUC,Secretaria da Educação,37,372657.06,10071.81,10071.81
+Escola,EM Ana Cecilia F. Prd,SEDUC,Secretaria da Educação,37,312787.0,8453.7,8453.7
+Escola,EM Basilio C. Daemon,SEDUC,Secretaria da Educação,36,379487.15,10541.31,10541.31
+Escola,EM Darlene Devasto,SEDUC,Secretaria da Educação,36,436879.44,12135.54,12135.54
+Escola,EM Oswaldo Oliveira,SEDUC,Secretaria da Educação,36,370869.65,10301.93,10301.93
+Escola,EM Jaci D. Matielli,SEDUC,Secretaria da Educação,35,422905.3,12083.01,12083.01
+Escola,CEI 86 — Jorge L. P. Del,SEDUC,Secretaria da Educação,35,242491.47,6928.33,6928.33
+Escola,EM Antenor Monteiro de Almeida,SEDUC,Secretaria da Educação,34,339219.93,9977.06,9977.06
+Escola,CEI 07 — Franc M. P. Silv,SEDUC,Secretaria da Educação,33,318039.79,9637.57,9637.57
+Escola,CEI 59 — Eugenio Leite,SEDUC,Secretaria da Educação,33,221335.62,6707.14,6707.14
+Escola,EM Paulo F. Tortello,SEDUC,Secretaria da Educação,33,328265.07,9947.43,9947.43
+Escola,CEI 112 — Izabel dos S.,SEDUC,Secretaria da Educação,32,222273.43,6946.04,6946.04
+Escola,CEI 16 — Beatriz M. L. F.,SEDUC,Secretaria da Educação,32,224703.09,7021.97,7021.97
+Escola,CEI 71 — Yolanda P. Ned,SEDUC,Secretaria da Educação,32,213797.96,6681.19,6681.19
+Escola,EM Ney de O Fogaca,SEDUC,Secretaria da Educação,32,405895.08,12684.22,12684.22
+Escola,CEI 54 — Sonia Ap Mach,SEDUC,Secretaria da Educação,32,254737.73,7960.55,7960.55
+Escola,CEI 83 — Maria C. R. Sack,SEDUC,Secretaria da Educação,31,247668.52,7989.31,7989.31
+Escola,EM Amin Cassar,SEDUC,Secretaria da Educação,31,306558.49,9888.98,9888.98
+Escola,UBS Escola,SES,Secretaria da Saúde,30,364050.84,12135.03,12135.03
+Escola,CEI 14 — Eng C. Rein Men,SEDUC,Secretaria da Educação,30,381248.95,12708.3,12708.3
+Escola,EM Genny Kalil Milego,SEDUC,Secretaria da Educação,30,329407.93,10980.26,10980.26
+Escola,CEI 08 — Messias R. N. C.,SEDUC,Secretaria da Educação,29,298929.6,10307.92,10307.92
+Escola,EM Edemir A Digiampi,SEDUC,Secretaria da Educação,29,337010.57,11621.05,11621.05
+Escola,EM Josefina Z. Carv,SEDUC,Secretaria da Educação,28,375377.92,13406.35,13406.35
+Escola,CEI 108 — Antonio B. M. F.,SEDUC,Secretaria da Educação,28,202420.56,7229.31,7229.31
+Escola,CEI 101 — Leonilda C. Mal,SEDUC,Secretaria da Educação,28,190475.33,6802.69,6802.69
+Escola,EM Walter Carretero,SEDUC,Secretaria da Educação,28,249109.43,8896.77,8896.77
+Escola,CEI 28 — Raudineia Mach,SEDUC,Secretaria da Educação,27,312723.44,11582.35,11582.35
+Escola,CEI 02 — Marina Grohma,SEDUC,Secretaria da Educação,27,273201.39,10118.57,10118.57
+Escola,EM Joao Bat Larizzatti Jr.,SEDUC,Secretaria da Educação,27,263169.5,9747.02,9747.02
+Escola,CEI 100 — Merc Urq Desi,SEDUC,Secretaria da Educação,27,183539.62,6797.76,6797.76
+Escola,CEI 23 — Dolores Amaral,SEDUC,Secretaria da Educação,26,189480.55,7287.71,7287.71
+Escola,CEI 47 — Betty S. Oliv,SEDUC,Secretaria da Educação,26,232102.5,8927.02,8927.02
+Escola,EM Benedito J. Nunes,SEDUC,Secretaria da Educação,24,249303.2,10387.63,10387.63
+Escola,EM Carmen Paulina Walter,SEDUC,Secretaria da Educação,24,261910.39,10912.93,10912.93
+Escola,CEI 70 — Adayl O Arruda,SEDUC,Secretaria da Educação,24,165971.12,6915.46,6915.46
+Escola,EM Edward Frufru M.,SEDUC,Secretaria da Educação,22,264874.43,12039.75,12039.75
+Escola,CEI 45 — Diva F. Cordeir,SEDUC,Secretaria da Educação,21,228139.93,10863.81,10863.81
+Escola,CEI 114 — Fausto Ferreira Telles,SEDUC,Secretaria da Educação,21,262552.35,12502.49,12502.49
+Escola,CEI 99 — Larissa F. Borge,SEDUC,Secretaria da Educação,21,244225.86,11629.8,11629.8
+Escola,EM Rev. Augusto da Silva Dourado,SEDUC,Secretaria da Educação,20,191439.31,9571.97,9571.97
+Escola,CEI 57 — Eng Joao Saler,SEDUC,Secretaria da Educação,19,240651.56,12665.87,12665.87
+Escola,EM Jose Mendes,SEDUC,Secretaria da Educação,19,214791.58,11304.82,11304.82
+Escola,EM Wanderlei Acca Prof,SEDUC,Secretaria da Educação,18,275545.19,15308.07,15308.07
+Escola,CEI 41 — Antonio Fratti,SEDUC,Secretaria da Educação,17,229345.15,13490.89,13490.89
+Escola,EM Renata Cabrerisso da Costa,SEDUC,Secretaria da Educação,17,262172.1,15421.89,15421.89
+Escola,CEI 22 — Victor Pedroso,SEDUC,Secretaria da Educação,16,243029.96,15189.37,15189.37
+Escola,EM Jose Osorio C. M. Alme,SEDUC,Secretaria da Educação,16,197544.68,12346.54,12346.54
+Escola,EM Ernesto Martins,SEDUC,Secretaria da Educação,16,214346.48,13396.65,13396.65
+Escola,EM Dirceu Ferr da Silva,SEDUC,Secretaria da Educação,16,192099.1,12006.19,12006.19
+Escola,CEI 03 — Zizi Almeida,SEDUC,Secretaria da Educação,15,169778.48,11318.57,11318.57
+Escola,CEI 53 — Benjamin Grizz,SEDUC,Secretaria da Educação,15,201574.09,13438.27,13438.27
+Escola,CEI 148 — Comend Alfredo Metidieri,SEDUC,Secretaria da Educação,15,193444.95,12896.33,12896.33
+Escola,CEI 20 — Victoria S. Lar,SEDUC,Secretaria da Educação,14,214711.4,15336.53,15336.53
+Escola,CEI 05 — Antonio Amabil,SEDUC,Secretaria da Educação,14,223199.39,15942.81,15942.81
+Escola,CEI 10 — Eglantina Rocco,SEDUC,Secretaria da Educação,14,176523.36,12608.81,12608.81
+Escola,CEI 13 — Aluisio Almeid,SEDUC,Secretaria da Educação,13,185392.36,14260.95,14260.95
+Escola,EM Tadeusz Josefczyh,SEDUC,Secretaria da Educação,13,159853.14,12296.4,12296.4
+Escola,CEI 31 — Victoria H. Say,SEDUC,Secretaria da Educação,13,205181.97,15783.23,15783.23
+Escola,Educacao EM Saude,SES,Secretaria da Saúde,13,203294.24,15638.02,15638.02
+Escola,CEI 52 — Olga C. Fornaz,SEDUC,Secretaria da Educação,12,188234.31,15686.19,15686.19
+Escola,CEI 09 — Fernando Rios,SEDUC,Secretaria da Educação,12,163141.61,13595.13,13595.13
+Escola,CEI 30 — Maria P. Belloti,SEDUC,Secretaria da Educação,12,163047.33,13587.28,13587.28
+Escola,CEI 11 — Tercila Freire,SEDUC,Secretaria da Educação,11,186515.75,16955.98,16955.98
+Escola,CEI 50 — Alipio G. Cunha,SEDUC,Secretaria da Educação,11,150925.08,13720.46,13720.46
+Escola,CEI 51 — Rubens Vieira,SEDUC,Secretaria da Educação,11,165322.87,15029.35,15029.35
+Escola,CEI 17 — Issa Latuf,SEDUC,Secretaria da Educação,10,147178.97,14717.9,14717.9
+Escola,CEI 25 — Jorge F. Schere,SEDUC,Secretaria da Educação,10,147065.59,14706.56,14706.56
+Escola,CEI 36 — Dr. Abney Carn,SEDUC,Secretaria da Educação,10,141078.99,14107.9,14107.9
+Escola,CEI 39 — Sha Ar Hanegev,SEDUC,Secretaria da Educação,10,172148.42,17214.84,17214.84
+Escola,CEI 21 — Aureliano Rodr,SEDUC,Secretaria da Educação,9,115545.55,12838.39,12838.39
+Escola,CEI 18 — Miguel Cheda,SEDUC,Secretaria da Educação,9,127275.31,14141.7,14141.7
+Escola,CEI 44 — Luiz Ribeiro,SEDUC,Secretaria da Educação,9,137566.86,15285.21,15285.21
+Escola,CEI 40 — Duzolina Pagl,SEDUC,Secretaria da Educação,9,140488.33,15609.81,15609.81
+Escola,CEI 38 — Maria G. Vecina,SEDUC,Secretaria da Educação,9,164652.62,18294.74,18294.74
+Escola,CEI 91 — Celia Cang Mend,SEDUC,Secretaria da Educação,9,75922.63,8435.85,8435.85
+Escola,CEI 111 — Ivan Gerbovic,SEDUC,Secretaria da Educação,9,106178.31,11797.59,11797.59
+Escola,CEI 43 — Vera L. Maldon,SEDUC,Secretaria da Educação,7,123344.47,17620.64,17620.64
+Escola,CEI 15 — Terezinha L. F.,SEDUC,Secretaria da Educação,7,104254.43,14893.49,14893.49
+Escola,CEI 26 — Luiz Sanctis,SEDUC,Secretaria da Educação,6,112500.18,18750.03,18750.03
+Outros,Conselho Tutelar,SECID,Secretaria da Cidadania,36,313842.97,8717.86,8717.86
+Outros,Lab Saude Publica,SES,Secretaria da Saúde,27,248563.08,9206.04,9206.04
+Outros,Superv Ensino,SEDUC,Secretaria da Educação,25,586453.42,23458.14,23458.14
+Outros,Sead - Smf-secao de Manutencao da Frota,,,22,182567.59,8298.53,8298.53
+Outros,Ouvidoria-geral,SGC,Secretaria de Gabinete Central,22,166186.39,7553.93,7553.93
+Outros,Segov - Assessores,,,17,245101.0,14417.71,14417.71
+Outros,Sert - Pat,,,14,139651.81,9975.13,9975.13
+Outros,Separ - Uep,,,13,144097.59,11084.43,11084.43
+Outros,Cerest,SES,Secretaria da Saúde,12,184004.85,15333.74,15333.74
+Outros,Segov - Cto Mun Prev Concil Conf,,,12,139231.48,11602.62,11602.62
+Outros,Pq Zoologico,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",11,148490.15,13499.1,13499.1
+Outros,Serh - Cartorio 356,,,11,90296.86,8208.81,8208.81
+Outros,Cemit Saudade,SERPO,Secretaria de Serviços Públicos e Obras,10,57163.82,5716.38,5716.38
+Outros,Corregedoria-geral,SGC,Secretaria de Gabinete Central,10,202239.63,20223.96,20223.96
+Outros,Serh - Cartorio 271,,,9,92634.04,10292.67,10292.67
+Outros,Serh - Cartorio 343,,,9,79824.43,8869.38,8869.38
+Outros,Auditoria-geral,SGC,Secretaria de Gabinete Central,9,171902.69,19100.3,19100.3
+Outros,Seg Patrimonial,SESU,Secretaria de Segurança Urbana,8,60264.05,7533.01,7533.01
+Outros,D.adm Orcamentaria,SERPO,Secretaria de Serviços Públicos e Obras,8,62959.86,7869.98,7869.98
+Outros,Sequav - Ce Pitico,,,8,60803.64,7600.45,7600.45
+Outros,Coordenadorias,SECID,Secretaria da Cidadania,8,147561.25,18445.16,18445.16
+Outros,Serh - Cartorio 342,,,8,81677.89,10209.74,10209.74
+Outros,Serh - Cartorio 137,,,8,45103.11,5637.89,5637.89
+Outros,Sequav - Ce Maria Eugenia,,,7,71258.41,10179.77,10179.77
+Outros,Serh - Sindicato,,,7,107283.01,15326.14,15326.14
+Outros,Sequav - Ce Simus,,,7,85649.73,12235.68,12235.68
+Outros,Central de Abast Farmaceutico,SES,Secretaria da Saúde,7,79849.25,11407.04,11407.04
+Outros,Coord-geral Trat Dados Pessoais do Municipio,SGC,Secretaria de Gabinete Central,7,77513.13,11073.3,11073.3
+Outros,Sequav - Estadio Municipal,,,6,83756.28,13959.38,13959.38
+Outros,Centr Regul Leitos,SES,Secretaria da Saúde,6,109178.01,18196.33,18196.33
+Outros,Serh - Cartorio 294,,,6,38490.47,6415.08,6415.08
+Outros,Bibl Municipal,SECULT,Secretaria de Cultura,6,29946.63,4991.1,4991.1
+Outros,Fss,,,5,52984.43,10596.89,10596.89
+Outros,Base Apoio Regional,SESU,Secretaria de Segurança Urbana,5,67898.75,13579.75,13579.75
+Outros,Centr Regul Leitos-medic,SES,Secretaria da Saúde,5,112527.77,22505.55,22505.55
+Outros,Auditoria,SES,Secretaria da Saúde,5,84715.45,16943.09,16943.09
+Outros,Coord Saude Mental,SES,Secretaria da Saúde,5,78512.73,15702.55,15702.55
+Outros,Sequav - Ce Brig Tobias,,,5,32352.18,6470.44,6470.44
+Outros,Bibl Infantil,SECULT,Secretaria de Cultura,4,27237.56,6809.39,6809.39
+Outros,Junta Serv Militar,SESU,Secretaria de Segurança Urbana,4,38480.53,9620.13,9620.13
+Outros,Teatro Mun Tv,SECULT,Secretaria de Cultura,4,39896.93,9974.23,9974.23
+Outros,Sert - Univesp,,,4,59983.03,14995.76,14995.76
+Outros,Sequav - Ciel Aloisio Almeida,,,4,24508.14,6127.03,6127.03
+Outros,Sequav - Ce Gabriel,,,4,31455.1,7863.78,7863.77
+Outros,Pq Chico Mendes,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",3,47301.14,15767.05,15767.05
+Outros,Museu Hist Soroc,SECULT,Secretaria de Cultura,3,12771.23,4257.08,4257.08
+Outros,Cemit Consolacao,SERPO,Secretaria de Serviços Públicos e Obras,3,18441.05,6147.02,6147.02
+Outros,Jd Botanico,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",3,69447.75,23149.25,23149.25
+Outros,Sert - Uniten,,,3,30312.45,10104.15,10104.15
+Outros,Cemit Sto Antonio,SERPO,Secretaria de Serviços Públicos e Obras,3,14913.98,4971.33,4971.33
+Outros,Sequav - Ginasio Esporte,,,3,18312.09,6104.03,6104.03
+Outros,Pq Agua Vermelha,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",2,25479.4,12739.7,12739.7
+Outros,Casa dos Conselhos,SEDUC,Secretaria da Educação,2,34274.76,17137.38,17137.38
+Outros,Sequav - Ce Pinheiros,,,2,18177.18,9088.59,9088.59
+Outros,Cemit Aparecidinha,SERPO,Secretaria de Serviços Públicos e Obras,2,12273.8,6136.9,6136.9
+Outros,Funserv,,,2,17471.0,8735.5,8735.5
+Outros,Sede - Metarreciclagem,,,2,18487.02,9243.51,9243.51
+Outros,Serh - Ministerio do Trabalho,,,2,23890.19,11945.1,11945.1
+Outros,CEU das Artes,SECULT,Secretaria de Cultura,2,17941.97,8970.99,8970.99
+Outros,Sequav - Ginasio Nilton Torres,,,2,20650.68,10325.34,10325.34
+Outros,Pq Biquinha,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",2,10113.76,5056.88,5056.88
+Outros,Pq Espanhois,SECULT,Secretaria de Cultura,2,19080.99,9540.49,9540.49
+Outros,Tiro de Guerra,SESU,Secretaria de Segurança Urbana,2,11582.31,5791.16,5791.16
+Outros,Sequav - Arena Multiuso,,,2,12185.95,6092.98,6092.98
+Outros,Serh - Justica do Trabalho,,,1,2347.96,2347.96,2347.96
+Outros,Sequav - Ce CEU das Artes,,,1,21466.94,21466.94,21466.94
+Outros,Posto Recrut E. Mob Prm,SESU,Secretaria de Segurança Urbana,1,11990.23,11990.23,11990.23
+Outros,Controladoria-geral,SGC,Secretaria de Gabinete Central,1,28872.16,28872.16,28872.16
+Outros,Serh - Camara Municipal,,,1,12974.05,12974.05,12974.05
+Outros,Serh - Arq Publico de Sp,,,1,10878.65,10878.65,10878.65
+Outros,Serh - Vara das Garantias,,,1,6250.98,6250.98,6250.98
+Outros,Cejusc,SECID,Secretaria da Cidadania,1,4176.41,4176.41,4176.41
+Outros,Parque Tecnologico,,,1,3626.09,3626.09,3626.09
+Outros,Museu Estr Ferro,SECULT,Secretaria de Cultura,1,9544.84,9544.84,9544.84
+Outros,Chefia do Poder Executivo,,,1,17617.8,17617.8,17617.8
+Outros,Sequav - Almoxarifado,,,1,3948.51,3948.51,3948.51
+PA,PA Laranj-enfermagem,SES,Secretaria da Saúde,52,545442.01,10489.27,10489.27
+PA,PA Laranj-medicos,SES,Secretaria da Saúde,31,898918.59,28997.37,28997.37
+PA,PA Sorocaba I.-enfermagem,SES,Secretaria da Saúde,22,320947.34,14588.52,14588.52
+PA,PA Sao Bento - Enfermagem,SES,Secretaria da Saúde,18,180645.08,10035.84,10035.84
+PA,PA Laranj-adm-rec,SES,Secretaria da Saúde,16,91721.39,5732.59,5732.59
+PA,PA Sorocaba I.-medicos,SES,Secretaria da Saúde,12,352599.05,29383.25,29383.25
+PA,PA Habiteto - Enfermagem,SES,Secretaria da Saúde,12,207038.95,17253.25,17253.25
+PA,PA Sao Guil-enfermagem,SES,Secretaria da Saúde,12,164275.76,13689.65,13689.65
+PA,PA Brig Tob-enfermagem,SES,Secretaria da Saúde,11,178739.82,16249.07,16249.07
+PA,PA Caranda - Enfermagem,SES,Secretaria da Saúde,11,163351.33,14850.12,14850.12
+PA,PA Aparecidinha - Enfermagem,SES,Secretaria da Saúde,11,140635.78,12785.07,12785.07
+PA,PA Aparecidinha - Medicos,SES,Secretaria da Saúde,5,121229.44,24245.89,24245.89
+PA,PA Brig Tob-medicos,SES,Secretaria da Saúde,5,141348.54,28269.71,28269.71
+PA,PA Sorocaba I.-adm-rec,SES,Secretaria da Saúde,5,58969.34,11793.87,11793.87
+PA,PA Sao Guil-medicos,SES,Secretaria da Saúde,5,104544.43,20908.89,20908.89
+PA,PA Sao Bento - Adm-rec,SES,Secretaria da Saúde,4,24810.99,6202.75,6202.75
+PA,PA Caranda - Medicos,SES,Secretaria da Saúde,3,90869.01,30289.67,30289.67
+PA,PA Aparecidinha - Adm,SES,Secretaria da Saúde,3,15467.56,5155.85,5155.85
+PA,PA Caranda - Adm-rec,SES,Secretaria da Saúde,2,13036.97,6518.48,6518.48
+PA,PA Brig Tob-adm-rec,SES,Secretaria da Saúde,2,13032.02,6516.01,6516.01
+PA,PA Sao Guil-adm-rec,SES,Secretaria da Saúde,2,12452.58,6226.29,6226.29
+PA,PA Habiteto - Adm,SES,Secretaria da Saúde,2,11218.68,5609.34,5609.34
+Setor,GCM — Guarda Civil Municipal,SESU,Secretaria de Segurança Urbana,518,5193091.93,10025.27,10025.27
+Setor,Gabinete,SEDUC,Secretaria da Educação,232,4006463.09,17269.24,17269.24
+Setor,Zoonoses (CCZ),SES,Secretaria da Saúde,175,1335782.65,7633.04,7633.04
+Setor,Divisão de Proteção Social Básica,SECID,Secretaria da Cidadania,100,828431.14,8284.31,8284.31
+Setor,Policlínica — Médicos,SES,Secretaria da Saúde,83,1667377.93,20088.89,20088.89
+Setor,SAMU — Enfermagem,SES,Secretaria da Saúde,74,860742.62,11631.66,11631.66
+Setor,Divisão de Proteção Social Especial,SECID,Secretaria da Cidadania,64,546999.15,8546.86,8546.86
+Setor,Transporte de Pacientes — Motoristas,SES,Secretaria da Saúde,61,390837.16,6407.17,6407.17
+Setor,Divisão de Avaliação e Controle,SES,Secretaria da Saúde,57,763159.46,13388.76,13388.76
+Setor,Divisão de Vigilância Sanitária,SES,Secretaria da Saúde,55,457377.92,8315.96,8315.96
+Setor,SAMU — Motoristas,SES,Secretaria da Saúde,52,400475.78,7701.46,7701.46
+Setor,D. Manut de Prop E. Ip,SERPO,Secretaria de Serviços Públicos e Obras,50,368303.9,7366.08,7366.08
+Setor,Policlínica — Administrativo Especializado,SES,Secretaria da Saúde,50,377405.62,7548.11,7548.11
+Setor,Divisão de Vigilância Epidemiológica,SES,Secretaria da Saúde,48,821955.59,17124.07,17124.07
+Setor,D. Licenc E. Controle,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,47,475735.28,10122.03,10122.03
+Setor,Acamados Med Familia,SES,Secretaria da Saúde,47,622038.82,13234.87,13234.87
+Setor,D. Gestao de Tecn da Inf,SGC,Secretaria de Gabinete Central,45,437758.58,9727.97,9727.97
+Setor,SAMU — Telefonistas,SES,Secretaria da Saúde,42,221907.02,5283.5,5283.5
+Setor,D. Fisc Post Mob Imob,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,41,339062.91,8269.83,8269.83
+Setor,Proc Tributaria,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,40,577291.65,14432.29,14432.29
+Setor,Serh - D. Segur Saude Ocup,,,38,477694.25,12570.9,12570.9
+Setor,Policlínica — Enfermagem,SES,Secretaria da Saúde,38,430849.5,11338.14,11338.14
+Setor,Segov - Gabinete,,,31,624189.96,20135.16,20135.16
+Setor,D. Fisc Tribut Mob,SEFAZ,Secretaria da Fazenda,30,548226.33,18274.21,18274.21
+Setor,SAMU — Médicos,SES,Secretaria da Saúde,30,1026618.94,34220.63,34220.63
+Setor,D. Cadastro Tribut,SEFAZ,Secretaria da Fazenda,28,260240.49,9294.3,9294.3
+Setor,Policlínica — Odontologia,SES,Secretaria da Saúde,28,445396.71,15907.03,15907.03
+Setor,D. Fisc Tribut Imob,SEFAZ,Secretaria da Fazenda,28,411621.66,14700.77,14700.77
+Setor,Secom - Gabinete,,,28,359571.22,12841.83,12841.83
+Setor,D. Licenc E. Fisc Ambiental,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",28,217349.88,7762.5,7762.5
+Setor,Proc Contenciosos,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,27,485413.78,17978.29,17978.29
+Setor,Segov - D. Procon,,,26,263709.71,10142.68,10142.68
+Setor,D. Fisc Areas Publicas,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,25,251166.66,10046.67,10046.67
+Setor,D. Gerenciamento Viario,SERPO,Secretaria de Serviços Públicos e Obras,24,255396.63,10641.53,10641.53
+Setor,D. Zoologico E. Bem-estar Animal,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",22,236998.05,10772.64,10772.64
+Setor,D. Educ Especial,SEDUC,Secretaria da Educação,22,289797.44,13172.61,13172.61
+Setor,D. Adm de Convenios,SES,Secretaria da Saúde,22,167760.14,7625.46,7625.46
+Setor,D. Gestao Ctle Convenios,SEDUC,Secretaria da Educação,20,162609.3,8130.47,8130.46
+Setor,D. Adm Atencao A Saude,SES,Secretaria da Saúde,20,453771.49,22688.57,22688.57
+Setor,Serh - D. Cadastro Funcional,,,20,155546.97,7777.35,7777.35
+Setor,Serh - D. Adm Pagamentos,,,20,193786.18,9689.31,9689.31
+Setor,D. Obras Manut Esc E. Apoio Log,SEDUC,Secretaria da Educação,19,127226.99,6696.16,6696.16
+Setor,D. Ap Tec Pedagogico,SEDUC,Secretaria da Educação,19,281177.48,14798.81,14798.81
+Setor,D. Adm E. Gestao,SES,Secretaria da Saúde,19,198369.39,10440.49,10440.49
+Setor,Semepp - D. Pol Prog E. Acoes de Apoio,,,19,166634.04,8770.21,8770.21
+Setor,D. Politicas Pessoas Situacao Rua,SECID,Secretaria da Cidadania,18,188128.58,10451.59,10451.59
+Setor,D. Gestao do Suas,SECID,Secretaria da Cidadania,18,148116.86,8228.71,8228.71
+Setor,D. Adm E. Serv Internos,SEMOB,Secretaria de Mobilidade,18,114980.19,6387.79,6387.79
+Setor,Sead - D. Licitacoes,,,17,260539.57,15325.86,15325.86
+Setor,Sead - D. Contratos de Licitacao,,,17,118107.96,6947.53,6947.53
+Setor,D. Fiscalizacao,SEMOB,Secretaria de Mobilidade,16,164601.51,10287.59,10287.59
+Setor,Sead - D. Adm Materiais,,,16,130738.18,8171.14,8171.14
+Setor,Sead - D. Arq Pub Hist Mun,,,16,156789.57,9799.35,9799.35
+Setor,D. Mat Med Hosp Farm,SES,Secretaria da Saúde,15,127720.78,8514.72,8514.72
+Setor,D. Infraestrutura,SGC,Secretaria de Gabinete Central,14,167178.82,11941.34,11941.34
+Setor,D. Educ Basica,SEDUC,Secretaria da Educação,14,130583.56,9327.4,9327.4
+Setor,Serh - D. Desenv Pessoas,,,14,136709.3,9764.95,9764.95
+Setor,D. Manutencao E. Paisag,SERPO,Secretaria de Serviços Públicos e Obras,13,114317.74,8793.67,8793.67
+Setor,D. Geopr E. Geotec Aplic.,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,13,174360.66,13412.36,13412.36
+Setor,Sequav - D. Esp Alto Rend Soc,,,13,149642.49,11510.96,11510.96
+Setor,Defesa Civil,SEMOB,Secretaria de Mobilidade,13,168611.08,12970.08,12970.08
+Setor,D. Adm Financeira,SEFAZ,Secretaria da Fazenda,13,163030.92,12540.84,12540.84
+Setor,Sehab - D. Regul Fund Cad,,,13,131636.87,10125.91,10125.91
+Setor,D. Limpeza Urbana,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",12,187325.92,15610.49,15610.49
+Setor,Semul - Gabinete,,,12,232672.77,19389.4,19389.4
+Setor,D. Exec Orcamentaria,SEFAZ,Secretaria da Fazenda,12,125197.91,10433.16,10433.16
+Setor,Sequav - Gabinete,,,12,198415.64,16534.64,16534.64
+Setor,D. Casas do Cidadao Zel,SEFAZ,Secretaria da Fazenda,12,111123.66,9260.31,9260.31
+Setor,D. Parcel E. Uso do Solo,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,12,129163.91,10763.66,10763.66
+Setor,D. Patrim Cult Hist,SECULT,Secretaria de Cultura,11,84735.9,7703.26,7703.26
+Setor,Cpe - Gabinete do Poder Executivo,,,11,185483.33,16862.12,16862.12
+Setor,Sehab - Gabinete,,,11,174217.66,15837.97,15837.97
+Setor,Proc Administrativa,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,11,327242.25,29749.3,29749.3
+Setor,SAMU — Administrativo,SES,Secretaria da Saúde,10,50286.91,5028.69,5028.69
+Setor,Sead - D. de Compras Diretas,,,10,94246.64,9424.66,9424.66
+Setor,Separ - D. de Proj de Arq E. Eng,,,10,118954.13,11895.41,11895.41
+Setor,D. Alim Escolar,SEDUC,Secretaria da Educação,9,150108.16,16678.68,16678.68
+Setor,Sead - D. Servicos Compartilhados,,,9,87554.26,9728.25,9728.25
+Setor,D. Contabilidade,SEFAZ,Secretaria da Fazenda,9,91672.02,10185.78,10185.78
+Setor,Serh - D. Plan Contr Sedu,,,9,87506.13,9722.9,9722.9
+Setor,Sead - D. Apoio Adm E. Operacional,,,8,72379.69,9047.46,9047.46
+Setor,Serh - Gabinete,,,8,120419.33,15052.42,15052.42
+Setor,D. Admin E. Orcamento,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",8,86165.25,10770.66,10770.66
+Setor,Sintea - D. Incl E. Ass A Pessoa Com Tea,,,8,72787.55,9098.44,9098.44
+Setor,D. Fiscal Obras Publicas,SERPO,Secretaria de Serviços Públicos e Obras,8,101231.71,12653.96,12653.96
+Setor,Separ - D. Cap Conv E. Financ,,,8,90956.68,11369.58,11369.58
+Setor,D. Gestao Ambiental,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",8,75810.21,9476.28,9476.28
+Setor,Separ - D. de Conc. E. Parcerias,,,8,98800.18,12350.02,12350.02
+Setor,Sead - Gabinete,,,8,190396.11,23799.51,23799.51
+Setor,Proc Ctle Externo,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,8,79144.99,9893.12,9893.12
+Setor,Sehab - D. Plan Vazios Urb Equip Sociais,,,7,69269.76,9895.68,9895.68
+Setor,Sert - Gabinete,,,7,125810.25,17972.89,17972.89
+Setor,D. Educ Amb E. Interacao Social,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",7,95612.75,13658.96,13658.96
+Setor,Proc Geral,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,7,328634.87,46947.84,46947.84
+Setor,Setur - D. Fomento Ao Turismo,,,7,73226.4,10460.91,10460.91
+Setor,Sede - Gabinete,,,7,142181.5,20311.64,20311.64
+Setor,D. Gerenc Adm E. Atos Ofic Ses,SES,Secretaria da Saúde,7,143680.52,20525.79,20525.79
+Setor,Semepp - Gabinete,,,7,118946.5,16992.36,16992.36
+Setor,D. Parcerias E. Plan,SECID,Secretaria da Cidadania,7,64878.23,9268.32,9268.32
+Setor,Sequav - D. Gest Adm Op Tec,,,7,72159.68,10308.53,10308.53
+Setor,Serh - D. Adm Rh Ses,,,7,60263.73,8609.1,8609.1
+Setor,Serim - Gabinete,,,6,98971.25,16495.21,16495.21
+Setor,D. Compras E. Contratos,SEDUC,Secretaria da Educação,6,53097.19,8849.53,8849.53
+Setor,D. Adm Financas,SEDUC,Secretaria da Educação,6,76196.7,12699.45,12699.45
+Setor,Setur - Gabinete,,,6,104325.13,17387.52,17387.52
+Setor,D. Apoio Oper E. Contratos,SECID,Secretaria da Cidadania,6,55298.91,9216.49,9216.48
+Setor,Separ - Gabinete,,,6,95222.18,15870.36,15870.36
+Setor,D. Planej Cultural,SECULT,Secretaria de Cultura,5,80293.07,16058.61,16058.61
+Setor,Segov - D. Expediente,,,5,84340.92,16868.18,16868.18
+Setor,D. Vig Socioassist,SECID,Secretaria da Cidadania,5,75475.07,15095.01,15095.01
+Setor,D. Orcamento da Ses,SES,Secretaria da Saúde,5,41942.27,8388.45,8388.45
+Setor,Policlínica — Ônibus Azul,SES,Secretaria da Saúde,5,64776.96,12955.39,12955.39
+Setor,D. Prest Ctas Conv,SEFAZ,Secretaria da Fazenda,5,65483.67,13096.73,13096.73
+Setor,Sintea - Gabinete,,,5,77436.14,15487.23,15487.23
+Setor,D. Apoio Ao SAMU,SES,Secretaria da Saúde,4,39655.03,9913.76,9913.76
+Setor,Sead - D. Editais E. Minutas de Licitacao,,,4,37764.53,9441.13,9441.13
+Setor,D. Apoio Adm E. Sup Operacoes,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,4,33043.56,8260.89,8260.89
+Setor,Sede - D. Desenv. Empresarial,,,4,42946.92,10736.73,10736.73
+Setor,D. Op Esp Intelig,SESU,Secretaria de Segurança Urbana,3,37840.99,12613.66,12613.66
+Setor,Sehab - D. Plan Des Socio Hab,,,3,33471.51,11157.17,11157.17
+Setor,D. Rede de Atencao A Saude,SES,Secretaria da Saúde,3,31308.86,10436.29,10436.29
+Setor,Sequav - D. Compet Esportivas,,,3,31925.53,10641.84,10641.84
+Setor,D. Plan E. Apoio A Progr E. Proj,SESU,Secretaria de Segurança Urbana,3,39688.53,13229.51,13229.51
+Setor,D. Proc de Multas,SEMOB,Secretaria de Mobilidade,3,29703.04,9901.01,9901.01
+Setor,Policlínica — Ônibus Rosa,SES,Secretaria da Saúde,2,20338.74,10169.37,10169.37
+Setor,Segov - D. Gestao Acoes Govern,,,2,26400.87,13200.44,13200.44
+Setor,Segov - D. Adm E. Governo,,,1,15648.31,15648.31,15648.31
+Setor,Segov - D. Gestao Proj de Governo,,,1,13461.26,13461.26,13461.26
+UBS,UBS Wanel Ville,SES,Secretaria da Saúde,56,521883.63,9319.35,9319.35
+UBS,UBS Aparecidinha,SES,Secretaria da Saúde,56,435901.65,7783.96,7783.96
+UBS,UBS Ulysses Guimaraes,SES,Secretaria da Saúde,55,451602.23,8210.95,8210.95
+UBS,UBS Rodrigo,SES,Secretaria da Saúde,54,494687.13,9160.87,9160.87
+UBS,UBS Marcia Mendes,SES,Secretaria da Saúde,53,617758.7,11655.82,11655.82
+UBS,UBS Sao Bento,SES,Secretaria da Saúde,52,426394.82,8199.9,8199.9
+UBS,UBS Vitoria Regia,SES,Secretaria da Saúde,52,407757.6,7841.49,7841.49
+UBS,UBS Brigadeiro Tobias,SES,Secretaria da Saúde,48,480063.58,10001.32,10001.32
+UBS,UBS Sao Guilherme,SES,Secretaria da Saúde,46,437443.47,9509.64,9509.64
+UBS,UBS Eden,SES,Secretaria da Saúde,45,429556.76,9545.71,9545.71
+UBS,UBS Barao,SES,Secretaria da Saúde,45,443086.61,9846.37,9846.37
+UBS,UBS Fiore,SES,Secretaria da Saúde,44,498930.28,11339.32,11339.32
+UBS,UBS Laranjeiras,SES,Secretaria da Saúde,44,423456.31,9624.01,9624.01
+UBS,UBS Sorocaba,SES,Secretaria da Saúde,44,454514.72,10329.88,10329.88
+UBS,UBS Paineiras,SES,Secretaria da Saúde,41,407743.78,9944.97,9944.97
+UBS,UBS Lopes de Oliveira,SES,Secretaria da Saúde,41,347337.29,8471.64,8471.64
+UBS,UBS Cajuru,SES,Secretaria da Saúde,40,428545.59,10713.64,10713.64
+UBS,UBS Mineirao,SES,Secretaria da Saúde,40,430728.13,10768.2,10768.2
+UBS,UBS Haro,SES,Secretaria da Saúde,40,431058.89,10776.47,10776.47
+UBS,UBS Cerrado,SES,Secretaria da Saúde,40,434531.49,10863.29,10863.29
+UBS,UBS Nova Esperanca,SES,Secretaria da Saúde,40,362635.52,9065.89,9065.89
+UBS,UBS Habiteto,SES,Secretaria da Saúde,39,356481.77,9140.56,9140.56
+UBS,UBS Simus,SES,Secretaria da Saúde,38,411144.11,10819.58,10819.58
+UBS,UBS Hortencia,SES,Secretaria da Saúde,38,449959.26,11841.03,11841.03
+UBS,UBS Nova Sorocaba,SES,Secretaria da Saúde,36,381609.67,10600.27,10600.27
+UBS,UBS Maria do Carmo,SES,Secretaria da Saúde,35,353238.02,10092.51,10092.51
+UBS,UBS Sabia,SES,Secretaria da Saúde,35,457764.5,13078.99,13078.99
+UBS,UBS Caranda,SES,Secretaria da Saúde,35,321029.68,9172.28,9172.28
+UBS,UBS Maria Eugenia,SES,Secretaria da Saúde,33,274789.64,8326.96,8326.96
+UBS,UBS Barcelona,SES,Secretaria da Saúde,32,371066.83,11595.84,11595.84
+UBS,UBS Angelica,SES,Secretaria da Saúde,31,388382.77,12528.48,12528.48
+UBS,UBS Santana,SES,Secretaria da Saúde,31,333850.08,10769.36,10769.36

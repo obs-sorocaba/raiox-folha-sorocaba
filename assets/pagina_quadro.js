@@ -1,8 +1,7 @@
 /* =========================================================================
    Pagina Perfil das Unidades — Raio-X do Quadro de Pessoal
-   Blocos: escolaridade (contagem), tempo de casa (contagem),
-           escolaridade x categoria, genero x escolaridade,
-           e unidades municipais (Fase 1a).
+   Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
+           genero x escolaridade, unidades por tipo, unidades nominais.
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
@@ -53,6 +52,7 @@ const estadoQuadro = {
   resumoSecretaria: [],
   unidadeTipo: [],
   unidadeTop20: [],
+  unidadeDetalhe: [],
   kpis: null,
   graficos: {},
 };
@@ -75,6 +75,7 @@ async function inicializar() {
       resumoSecretaria,
       unidadeTipo,
       unidadeTop20,
+      unidadeDetalhe,
       kpis,
       auditoria,
     ] = await Promise.all([
@@ -88,6 +89,7 @@ async function inicializar() {
       carregarCSV("dados/resumo_secretaria.csv"),
       carregarCSV("dados/unidade_tipo.csv"),
       carregarCSV("dados/unidade_top20.csv"),
+      carregarCSV("dados/unidade_detalhe.csv"),
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
@@ -126,6 +128,13 @@ async function inicializar() {
       r.ticket_medio = num(r.ticket_medio);
     });
 
+    unidadeDetalhe.forEach((r) => {
+      r.efetivo = num(r.efetivo);
+      r.folha_total = num(r.folha_total);
+      r.folha_media = num(r.folha_media);
+      r.ticket_medio = num(r.ticket_medio);
+    });
+
     estadoQuadro.escolaridade = escolaridade;
     estadoQuadro.escolaridadeAno = escolaridadeAno;
     estadoQuadro.escolaridadeCategoria = escolaridadeCategoria;
@@ -136,12 +145,14 @@ async function inicializar() {
     estadoQuadro.resumoSecretaria = resumoSecretaria;
     estadoQuadro.unidadeTipo = unidadeTipo;
     estadoQuadro.unidadeTop20 = unidadeTop20;
+    estadoQuadro.unidadeDetalhe = unidadeDetalhe;
     estadoQuadro.kpis = kpis;
 
     renderizarCabecalhoPeriodo(kpis);
     popularFiltros(escolaridadeAno, tempoServicoAno, resumoSecretaria);
     renderizarTudo("todos", "todas");
     renderizarUnidades(unidadeTipo, unidadeTop20);
+    renderizarUnidadesNominais(unidadeDetalhe);
     renderizarSelo(auditoria);
     registrarEventos();
   } catch (e) {
@@ -168,7 +179,7 @@ function renderizarCabecalhoPeriodo(kpis) {
 }
 
 /* -------------------------------------------------------------------------
-   Filtros
+   Filtros gerais (ano + secretaria)
    ------------------------------------------------------------------------- */
 function popularFiltros(escolaridadeAno, tempoServicoAno, resumoSecretaria) {
   const anos = new Set([
@@ -252,7 +263,7 @@ function filtrarTempo(ano, secretaria) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 1: Escolaridade (contagem apenas)
+   Bloco 1: Escolaridade
    ------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridade(dados) {
   if (!dados.length) return;
@@ -282,7 +293,6 @@ function renderizarBlocoEscolaridade(dados) {
     );
   }
 
-  // Tabela: agora só nível, servidores e % do total
   const tbody = document.querySelector("#tabela-escolaridade tbody");
   if (tbody) {
     tbody.innerHTML = ordenado.map((d) => {
@@ -307,7 +317,7 @@ function renderizarBlocoEscolaridade(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 2: Tempo de casa (contagem apenas)
+   Bloco 2: Tempo de casa
    ------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
@@ -331,7 +341,6 @@ function renderizarBlocoTempo(dados) {
     );
   }
 
-  // Tabela: agora só faixa, servidores e % do total
   const tbody = document.querySelector("#tabela-tempo tbody");
   if (tbody) {
     tbody.innerHTML = dados.map((d) => {
@@ -357,7 +366,7 @@ function renderizarBlocoTempo(dados) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 3: Escolaridade x categoria (barras empilhadas)
+   Bloco 3: Escolaridade x categoria
    ------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridadeCategoria() {
   const dados = estadoQuadro.escolaridadeCategoria;
@@ -420,7 +429,7 @@ function renderizarBlocoEscolaridadeCategoria() {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 4: Genero x escolaridade (barras agrupadas)
+   Bloco 4: Genero x escolaridade
    ------------------------------------------------------------------------- */
 function renderizarBlocoGeneroEscolaridade() {
   const dados = estadoQuadro.generoEscolaridade;
@@ -493,8 +502,7 @@ function renderizarBlocoGeneroEscolaridade() {
 }
 
 /* =========================================================================
-   Unidades — Fase 1a
-   Consome: dados/unidade_tipo.csv + dados/unidade_top20.csv
+   Unidades por tipo — Fase 1a
    ========================================================================= */
 
 function renderizarUnidades(unidadeTipo, unidadeTop20) {
@@ -674,6 +682,161 @@ function renderizarTabelaUnidadeTop20(dados) {
     '<td class="numerico">' + fmtBRL.format(d.folha_total || 0) + '</td>' +
     '<td class="numerico">' + fmtBRL.format(d.ticket_medio || 0) + '</td>' +
     '</tr>').join("");
+}
+
+/* =========================================================================
+   Unidades nominais — Fase 2.3
+   ========================================================================= */
+
+const TOP_UNIDADES = 10;
+
+function renderizarUnidadesNominais(dados) {
+  if (!dados || !dados.length) return;
+
+  // Total de unidades
+  const elTotal = document.getElementById("total-unidades");
+  if (elTotal) elTotal.textContent = dados.length;
+
+  // Renderiza com filtro vazio (todos os tipos)
+  renderizarTopUnidades(dados, "");
+  renderizarTabelaUnidades(dados);
+
+  // Configura filtros
+  configurarFiltrosUnidades(dados);
+}
+
+function renderizarTopUnidades(dados, filtroTipo = "") {
+  const container = document.getElementById("top-unidades-container");
+  if (!container) return;
+
+  const tipos = [
+    { chave: "Escola",    rotulo: "Escolas" },
+    { chave: "UBS",       rotulo: "Unidades Básicas de Saúde" },
+    { chave: "PA",        rotulo: "Pronto Atendimento" },
+    { chave: "Setor",     rotulo: "Setores operacionais" },
+    { chave: "Categoria", rotulo: "Categorias administrativas" },
+    { chave: "Outros",    rotulo: "Outros" },
+  ];
+
+  // Se filtroTipo está ativo, mostra só o bloco correspondente
+  const tiposFiltrados = filtroTipo
+    ? tipos.filter((t) => t.chave === filtroTipo)
+    : tipos;
+
+  if (!tiposFiltrados.length) {
+    container.innerHTML = `<div class="aviso-metodologico">
+      Nenhum bloco de Top ${TOP_UNIDADES} para o tipo selecionado.
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = tiposFiltrados.map(({ chave, rotulo }) => {
+    const subset = dados
+      .filter((d) => d.tipo === chave)
+      .sort((a, b) => b.efetivo - a.efetivo)
+      .slice(0, TOP_UNIDADES);
+
+    if (!subset.length) return "";
+
+    const total = dados.filter((d) => d.tipo === chave).length;
+
+    return `
+      <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">
+          Top ${TOP_UNIDADES} — ${rotulo}
+          <small style="font-weight: 400; color: var(--cinza-texto);">
+            (${total} no total)
+          </small>
+        </h3>
+        <div class="grade-2" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
+          ${subset.map((u) => `
+            <div class="cartao" style="padding: 0.75rem; border-left: 3px solid var(--azul-claro);">
+              <div style="font-weight: 600; color: var(--azul-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">
+                ${u.local_canonico}
+              </div>
+              <div style="font-size: 0.75rem; color: var(--cinza-texto); margin-bottom: 0.5rem;">
+                ${u.sigla_secretaria || "—"}
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                <span><strong>${fmtNum.format(u.efetivo)}</strong> servidores</span>
+                <span style="color: var(--cinza-texto);">${fmtBRL.format(u.ticket_medio)}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderizarTabelaUnidades(dados, filtroTipo = "", termoBusca = "") {
+  const tbody = document.querySelector("#tabela-unidades tbody");
+  const elContador = document.getElementById("contador-unidades-filtradas");
+  if (!tbody) return;
+
+  let filtrado = dados;
+
+  if (filtroTipo) {
+    filtrado = filtrado.filter((d) => d.tipo === filtroTipo);
+  }
+
+  if (termoBusca) {
+    const t = termoBusca.toLowerCase();
+    filtrado = filtrado.filter((d) =>
+      d.local_canonico.toLowerCase().includes(t) ||
+      (d.sigla_secretaria || "").toLowerCase().includes(t)
+    );
+  }
+
+  filtrado = [...filtrado].sort((a, b) => {
+    if (a.tipo !== b.tipo) return a.tipo.localeCompare(b.tipo);
+    return b.efetivo - a.efetivo;
+  });
+
+  if (elContador) elContador.textContent = filtrado.length;
+
+  if (!filtrado.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="carregando">Nenhuma unidade encontrada.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtrado.map((u) => `
+    <tr>
+      <td>${u.tipo}</td>
+      <td>${u.local_canonico}</td>
+      <td class="numerico">${fmtNum.format(u.efetivo)}</td>
+      <td class="numerico">${fmtBRL.format(u.folha_total)}</td>
+      <td class="numerico">${fmtBRL.format(u.folha_media)}</td>
+      <td class="numerico">${fmtBRL.format(u.ticket_medio)}</td>
+    </tr>
+  `).join("");
+}
+
+function configurarFiltrosUnidades(dados) {
+  const selTipo = document.getElementById("filtro-tipo-unidade");
+  const inputBusca = document.getElementById("busca-unidade");
+  const botaoLimpar = document.getElementById("botao-limpar-filtros-unidade");
+
+  function aplicar() {
+    const tipo = selTipo ? selTipo.value : "";
+    const busca = inputBusca ? inputBusca.value.trim() : "";
+
+    // Filtra a tabela completa
+    renderizarTabelaUnidades(dados, tipo, busca);
+
+    // Filtra os blocos de Top 10
+    renderizarTopUnidades(dados, tipo);
+  }
+
+  if (selTipo) selTipo.addEventListener("change", aplicar);
+  if (inputBusca) inputBusca.addEventListener("input", aplicar);
+  if (botaoLimpar) {
+    botaoLimpar.addEventListener("click", () => {
+      if (selTipo) selTipo.value = "";
+      if (inputBusca) inputBusca.value = "";
+      aplicar();
+    });
+  }
 }
 
 /* -------------------------------------------------------------------------
