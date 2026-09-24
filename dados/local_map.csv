@@ -1,0 +1,472 @@
+local_cru,local_canonico,tipo,sigla_secretaria,secretaria,registros,ativo
+Sedu - Prof Eventuais,Prof. Eventuais,Categoria,SEDUC,Secretaria da Educação,2271,sim
+Sesu - Gcm,GCM — Guarda Civil Municipal,Setor,SESU,Secretaria de Segurança Urbana,518,sim
+Estagios - Sedu - Formacao CID,Estágios — Formação Cidadã,Categoria,,,269,sim
+Ses - Zoonoses,Zoonoses (CCZ),Setor,SES,Secretaria da Saúde,176,sim
+Aposent-pens (aappms),Aposentados e Pensionistas (AAPMS),Categoria,,,154,sim
+Secid - D. Prot Soc Basica,Divisão de Proteção Social Básica,Setor,SECID,Secretaria da Cidadania,100,sim
+Ses - Policlinica-medicos,Policlínica — Médicos,Setor,SES,Secretaria da Saúde,83,sim
+Sedu - Cei 89 (zilda P Aguil),CEI 89 — Zilda P. Aguil,Escola,SEDUC,Secretaria da Educação,78,sim
+Ses - Samu-enfermagem,SAMU — Enfermagem,Setor,SES,Secretaria da Saúde,74,sim
+Sedu - Cei 78 (ettore Marang),CEI 78 — Ettore Marang,Escola,SEDUC,Secretaria da Educação,68,sim
+Secid - D. Prot Soc Especial,Divisão de Proteção Social Especial,Setor,SECID,Secretaria da Cidadania,64,sim
+Sedu - em Ary de o Seabra,EM Ary de O Seabra,Escola,SEDUC,Secretaria da Educação,64,sim
+Sedu - em Renice Seraphim,EM Renice Seraphim,Escola,SEDUC,Secretaria da Educação,64,sim
+Sedu - Cei 90 (helio D C Jr),CEI 90 — Helio D. C. Jr.,Escola,SEDUC,Secretaria da Educação,62,sim
+Ses - Transp Paciente-motoristas,Transporte de Pacientes — Motoristas,Setor,SES,Secretaria da Saúde,61,sim
+Sedu - Cei 109 (benedicto Pagl,CEI 109 — Benedicto Pagl,Escola,SEDUC,Secretaria da Educação,59,sim
+Sedu - em Tereza C Gianini,EM Tereza C. Gianini,Escola,SEDUC,Secretaria da Educação,59,sim
+Sedu - em Ines R Cesarotti,EM Ines R. Cesarotti,Escola,SEDUC,Secretaria da Educação,58,sim
+Ses - D. Avaliacao Controle,Divisão de Avaliação e Controle,Setor,SES,Secretaria da Saúde,57,sim
+Sedu - em Achilles Almeida,EM Achilles Almeida,Escola,SEDUC,Secretaria da Educação,57,sim
+Sedu - Cei 107 (arminda da Con,CEI 107 — Arminda da Con,Escola,SEDUC,Secretaria da Educação,57,sim
+Sedu - em Norma Justa D Ara,EM Norma Justa D. Ara,Escola,SEDUC,Secretaria da Educação,57,sim
+Sedu - Cei 72 (sueli Gaz Camp),CEI 72 — Sueli Gaz Camp,Escola,SEDUC,Secretaria da Educação,57,sim
+Ses - Ubs Wanel Ville,UBS Wanel Ville,UBS,SES,Secretaria da Saúde,56,sim
+Ses - Ubs Aparecidinha,UBS Aparecidinha,UBS,SES,Secretaria da Saúde,56,sim
+Sedu - Cei 82 (bened M Didi),CEI 82 — Bened M. Didi,Escola,SEDUC,Secretaria da Educação,56,sim
+Ses - D. Vig Sanitaria,Divisão de Vigilância Sanitária,Setor,SES,Secretaria da Saúde,55,sim
+Sedu - Cei 73 (matilde Gavin),CEI 73 — Matilde Gavin,Escola,SEDUC,Secretaria da Educação,55,sim
+Ses - Ubs Ulysses Guimaraes,UBS Ulysses Guimaraes,UBS,SES,Secretaria da Saúde,55,sim
+Ses - Ubs Rodrigo,UBS Rodrigo,UBS,SES,Secretaria da Saúde,54,sim
+Sedu - Cei 94 (ana L Pazini),CEI 94 — Ana L. Pazini,Escola,SEDUC,Secretaria da Educação,54,sim
+Ses - Ubs Marcia Mendes,UBS Marcia Mendes,UBS,SES,Secretaria da Saúde,53,sim
+Ses - Samu-motoristas,SAMU — Motoristas,Setor,SES,Secretaria da Saúde,52,sim
+Ses - Pa Laranj-enfermagem,PA Laranj-enfermagem,PA,SES,Secretaria da Saúde,52,sim
+Sedu - em Avelino L Camarg,EM Avelino L. Camarg,Escola,SEDUC,Secretaria da Educação,52,sim
+Sedu - em Rosa Cury,EM Rosa Cury,Escola,SEDUC,Secretaria da Educação,52,sim
+Ses - Ubs Sao Bento,UBS Sao Bento,UBS,SES,Secretaria da Saúde,52,sim
+Sedu - em Lea Edy Al Saliba,EM Lea Edy Al Saliba,Escola,SEDUC,Secretaria da Educação,52,sim
+Ses - Ubs Vitoria Regia,UBS Vitoria Regia,UBS,SES,Secretaria da Saúde,52,sim
+Sedu - em Odilla Caldini Cresp,EM Odilla Caldini Cresp,Escola,SEDUC,Secretaria da Educação,52,sim
+Sedu - Cei 66 (frat Fem Cruz),CEI 66 — Frat Fem Cruz,Escola,SEDUC,Secretaria da Educação,51,sim
+Sedu - Cei 85 (maria R a God),CEI 85 — Maria R. A God,Escola,SEDUC,Secretaria da Educação,51,sim
+Sedu - em Benedito Cleto,EM Benedito Cleto,Escola,SEDUC,Secretaria da Educação,51,sim
+Sedu - Cei 88 (vera Ap G Sant),CEI 88 — Vera Ap G. Sant,Escola,SEDUC,Secretaria da Educação,51,sim
+Serpo - D. Manut de Prop e Ip,D. Manut de Prop E. Ip,Setor,SERPO,Secretaria de Serviços Públicos e Obras,50,sim
+Ses - Policlinica-adm-esp,Policlínica — Administrativo Especializado,Setor,SES,Secretaria da Saúde,50,sim
+Sedu - em Oswaldo Duarte,EM Oswaldo Duarte,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - Cei 84 (osmar Almeida),CEI 84 — Osmar Almeida,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - em Duljara F Oliveir,EM Duljara F. Oliveir,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - Cei 92 (dolores Fagund),CEI 92 — Dolores Fagund,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - Cei 48 (frei a Kloeckn),CEI 48 — Frei A Kloeckn,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - Cei 75 (j Alcir G Rib),CEI 75 — J. Alcir G. Rib,Escola,SEDUC,Secretaria da Educação,50,sim
+Sedu - em Ronaldo C de Arruda,EM Ronaldo C. de Arruda,Escola,SEDUC,Secretaria da Educação,49,sim
+Ses - D. Vig Epidemiologica,Divisão de Vigilância Epidemiológica,Setor,SES,Secretaria da Saúde,48,sim
+Sedu - Cei 79 (joao Tortello),CEI 79 — Joao Tortello,Escola,SEDUC,Secretaria da Educação,48,sim
+Ses - Ubs Brigadeiro Tobias,UBS Brigadeiro Tobias,UBS,SES,Secretaria da Saúde,48,sim
+Sedu - Cei 60 (anna Rusconi),CEI 60 — Anna Rusconi,Escola,SEDUC,Secretaria da Educação,48,sim
+Sedu - Cei 106 (aurea Paixao,CEI 106 — Aurea Paixao,Escola,SEDUC,Secretaria da Educação,48,sim
+Sedu - Cei 105 (dra Maura Robe,CEI 105 — Dra. Maura Robe,Escola,SEDUC,Secretaria da Educação,48,sim
+Seplan - D. Licenc e Controle,D. Licenc E. Controle,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,47,sim
+Ses - Acamados Med Familia,Acamados Med Familia,Setor,SES,Secretaria da Saúde,47,sim
+Ses - Cmae,CMAE,CMAE,SES,Secretaria da Saúde,47,sim
+Sedu - em M Lourd a Morais,EM M. Lourd A Morais,Escola,SEDUC,Secretaria da Educação,47,sim
+Sedu - Cei 93 (m Teresa Calc),CEI 93 — M. Teresa Calc,Escola,SEDUC,Secretaria da Educação,47,sim
+Sedu - Cei 95 (angela M Vieira,CEI 95 — Angela M. Vieira,Escola,SEDUC,Secretaria da Educação,47,sim
+Sedu - Cei 35 (maria o V Brun),CEI 35 — Maria O V. Brun,Escola,SEDUC,Secretaria da Educação,47,sim
+Ses - Ubs Sao Guilherme,UBS Sao Guilherme,UBS,SES,Secretaria da Saúde,46,sim
+Sedu - em M Lourd M Martinez,EM M. Lourd M. Martinez,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - em Maria Ignez F Deluno,EM Maria Ignez F. Deluno,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - Cei 67 (maria G P Nard),CEI 67 — Maria G. P. Nard,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - Cei 68 (gladys M T Ama),CEI 68 — Gladys M. T. Ama,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - em Jose C Florenz,EM Jose C. Florenz,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - Cei 27 (christina Reis),CEI 27 — Christina Reis,Escola,SEDUC,Secretaria da Educação,46,sim
+Sedu - em Getulio Vargas,EM Getulio Vargas,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - em Milton Santos,EM Milton Santos,Escola,SEDUC,Secretaria da Educação,45,sim
+Ses - Ubs Eden,UBS Eden,UBS,SES,Secretaria da Saúde,45,sim
+Sedu - em Maria Domingas,EM Maria Domingas,Escola,SEDUC,Secretaria da Educação,45,sim
+Sgc - D. Gestao de Tecn da Inf,D. Gestao de Tecn da Inf,Setor,SGC,Secretaria de Gabinete Central,45,sim
+Ses - Ubs Barao,UBS Barao,UBS,SES,Secretaria da Saúde,45,sim
+Sedu - em Luiz Almeida Marins,EM Luiz Almeida Marins,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 81 (edith Del Sant),CEI 81 — Edith Del Sant,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 62 (mons Ant Sola),CEI 62 — Mons Ant Sola,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 98 (olinda L Marth),CEI 98 — Olinda L. Marth,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 97 (maria Dorelli,CEI 97 — Maria Dorelli,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 96 (pr Adelaide P,CEI 96 — Pr Adelaide P.,Escola,SEDUC,Secretaria da Educação,45,sim
+Sedu - Cei 58 (dulce P o Pinh),CEI 58 — Dulce P. O Pinh,Escola,SEDUC,Secretaria da Educação,44,sim
+Ses - Ubs Fiore,UBS Fiore,UBS,SES,Secretaria da Saúde,44,sim
+Ses - Ubs Laranjeiras,UBS Laranjeiras,UBS,SES,Secretaria da Saúde,44,sim
+Ses - Ubs Sorocaba,UBS Sorocaba,UBS,SES,Secretaria da Saúde,44,sim
+Sedu - em Leda T Borghesi,EM Leda T. Borghesi,Escola,SEDUC,Secretaria da Educação,44,sim
+Sedu - Cei 76 (menino Jesus),CEI 76 — Menino Jesus,Escola,SEDUC,Secretaria da Educação,44,sim
+Sedu - em Flavio S Nogueira,EM Flavio S. Nogueira,Escola,SEDUC,Secretaria da Educação,43,sim
+Sedu - Gabinete,Gabinete,Setor,SEDUC,Secretaria da Educação,43,sim
+Ses - Caps Ad III,CAPS Ad III,CAPS,SES,Secretaria da Saúde,42,sim
+Sedu - Cei 104 (pr J Crespo G),CEI 104 — Pr J. Crespo G.,Escola,SEDUC,Secretaria da Educação,42,sim
+Sedu - Cei 87 (cassio Rosa),CEI 87 — Cassio Rosa,Escola,SEDUC,Secretaria da Educação,42,sim
+Ses - Samu-telefonistas,SAMU — Telefonistas,Setor,SES,Secretaria da Saúde,42,sim
+Ses - Gabinete,Gabinete,Setor,SES,Secretaria da Saúde,41,sim
+Seplan - D. Fisc Post Mob Imob,D. Fisc Post Mob Imob,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,41,sim
+Sedu - Cei 103 (jorge Moyses,CEI 103 — Jorge Moyses,Escola,SEDUC,Secretaria da Educação,41,sim
+Ses - Ubs Cerrado,UBS Cerrado,UBS,SES,Secretaria da Saúde,41,sim
+Ses - Ubs Paineiras,UBS Paineiras,UBS,SES,Secretaria da Saúde,41,sim
+Sedu - em Matheus Maylasky,EM Matheus Maylasky,Escola,SEDUC,Secretaria da Educação,41,sim
+Ses - Ubs Lopes de Oliveira,UBS Lopes de Oliveira,UBS,SES,Secretaria da Saúde,41,sim
+Sedu - Cei 61 (yolanda Rizzo),CEI 61 — Yolanda Rizzo,Escola,SEDUC,Secretaria da Educação,41,sim
+Sej - Proc Tributaria,Proc Tributaria,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,40,sim
+Ses - Ubs Cajuru,UBS Cajuru,UBS,SES,Secretaria da Saúde,40,sim
+Ses - Ubs Mineirao,UBS Mineirao,UBS,SES,Secretaria da Saúde,40,sim
+Ses - Ubs Haro,UBS Haro,UBS,SES,Secretaria da Saúde,40,sim
+Ses - Ubs Nova Esperanca,UBS Nova Esperanca,UBS,SES,Secretaria da Saúde,40,sim
+Sedu - Cei 74 (maria C Marins),CEI 74 — Maria C. Marins,Escola,SEDUC,Secretaria da Educação,40,sim
+Sedu - em Joao Franc Rosa,EM Joao Franc Rosa,Escola,SEDUC,Secretaria da Educação,40,sim
+Sedu - em Helio Rosa Baldy,EM Helio Rosa Baldy,Escola,SEDUC,Secretaria da Educação,40,sim
+Sedu - Cei 80 (ana Rjmz Oliv),CEI 80 — Ana Rjmz Oliv,Escola,SEDUC,Secretaria da Educação,40,sim
+Sedu - Cei 69 (ester B C Nasc),CEI 69 — Ester B. C. Nasc,Escola,SEDUC,Secretaria da Educação,40,sim
+Sedu - em Leonor P Thomaz,EM Leonor P. Thomaz,Escola,SEDUC,Secretaria da Educação,39,sim
+Ses - Ubs Habiteto,UBS Habiteto,UBS,SES,Secretaria da Saúde,39,sim
+Sedu - Cei 63 (rein D Aless),CEI 63 — Rein D. Aless,Escola,SEDUC,Secretaria da Educação,39,sim
+Ses - Ubs Simus,UBS Simus,UBS,SES,Secretaria da Saúde,38,sim
+Ses - Ubs Hortencia,UBS Hortencia,UBS,SES,Secretaria da Saúde,38,sim
+Sedu - Cei 64 (joana Sim Sola),CEI 64 — Joana Sim Sola,Escola,SEDUC,Secretaria da Educação,38,sim
+Serh - D. Segur Saude Ocup,Serh - D. Segur Saude Ocup,Setor,,,38,sim
+Sedu - em Milton Leite Oliveir,EM Milton Leite Oliveir,Escola,SEDUC,Secretaria da Educação,38,sim
+Ses - Policlinica-enfermagem,Policlínica — Enfermagem,Setor,SES,Secretaria da Saúde,38,sim
+Sedu - Cei 65 (santo Agostinh),CEI 65 — Santo Agostinh,Escola,SEDUC,Secretaria da Educação,38,sim
+Sedu - Cei 77 (olga Toledo Lr),CEI 77 — Olga Toledo Lr,Escola,SEDUC,Secretaria da Educação,38,sim
+Sedu - Cei 33 (elvira N Mont),CEI 33 — Elvira N. Mont,Escola,SEDUC,Secretaria da Educação,38,sim
+Sedu - Cei 110 (maria Leopoldi,CEI 110 — Maria Leopoldi,Escola,SEDUC,Secretaria da Educação,37,sim
+Sedu - em Julica Bierrenbach,EM Julica Bierrenbach,Escola,SEDUC,Secretaria da Educação,37,sim
+Sedu - em Quinzinho Barros,EM Quinzinho Barros,Escola,SEDUC,Secretaria da Educação,37,sim
+Sedu - em Irineu Leister,EM Irineu Leister,Escola,SEDUC,Secretaria da Educação,37,sim
+Sedu - em Zilah D M Scherep,EM Zilah D. M. Scherep,Escola,SEDUC,Secretaria da Educação,37,sim
+Sedu - em Ana Cecilia F Prd,EM Ana Cecilia F. Prd,Escola,SEDUC,Secretaria da Educação,37,sim
+Secid - Conselho Tutelar,Conselho Tutelar,Outros,SECID,Secretaria da Cidadania,37,sim
+Sedu - em Basilio C Daemon,EM Basilio C. Daemon,Escola,SEDUC,Secretaria da Educação,36,sim
+Ses - Ubs Nova Sorocaba,UBS Nova Sorocaba,UBS,SES,Secretaria da Saúde,36,sim
+Sedu - em Darlene Devasto,EM Darlene Devasto,Escola,SEDUC,Secretaria da Educação,36,sim
+Sedu - em Oswaldo Oliveira,EM Oswaldo Oliveira,Escola,SEDUC,Secretaria da Educação,36,sim
+Sedu - em Jaci D Matielli,EM Jaci D. Matielli,Escola,SEDUC,Secretaria da Educação,35,sim
+Ses - Ubs Maria do Carmo,UBS Maria do Carmo,UBS,SES,Secretaria da Saúde,35,sim
+Ses - Ubs Sabia,UBS Sabia,UBS,SES,Secretaria da Saúde,35,sim
+Ses - Ubs Caranda,UBS Caranda,UBS,SES,Secretaria da Saúde,35,sim
+Sedu - Cei 86 (jorge L P Del,CEI 86 — Jorge L. P. Del,Escola,SEDUC,Secretaria da Educação,35,sim
+Sedu - em Antenor Monteiro de Almeida,EM Antenor Monteiro de Almeida,Escola,SEDUC,Secretaria da Educação,34,sim
+Ses - Ubs Maria Eugenia,UBS Maria Eugenia,UBS,SES,Secretaria da Saúde,33,sim
+Sedu - Cei 07 (franc M P Silv),CEI 07 — Franc M. P. Silv,Escola,SEDUC,Secretaria da Educação,33,sim
+Sedu - Cei 59 (eugenio Leite),CEI 59 — Eugenio Leite,Escola,SEDUC,Secretaria da Educação,33,sim
+Sedu - em Paulo F Tortello,EM Paulo F. Tortello,Escola,SEDUC,Secretaria da Educação,33,sim
+Ses - Ubs Barcelona,UBS Barcelona,UBS,SES,Secretaria da Saúde,32,sim
+Sedu - Cei 112 (izabel dos S,CEI 112 — Izabel dos S.,Escola,SEDUC,Secretaria da Educação,32,sim
+Sedu - Cei 16 (beatriz M L F),CEI 16 — Beatriz M. L. F.,Escola,SEDUC,Secretaria da Educação,32,sim
+Sedu - Cei 71 (yolanda P Ned),CEI 71 — Yolanda P. Ned,Escola,SEDUC,Secretaria da Educação,32,sim
+Sedu - em Ney de o Fogaca,EM Ney de O Fogaca,Escola,SEDUC,Secretaria da Educação,32,sim
+Sedu - Cei 54 (sonia Ap Mach),CEI 54 — Sonia Ap Mach,Escola,SEDUC,Secretaria da Educação,32,sim
+Ses - Pa Laranj-medicos,PA Laranj-medicos,PA,SES,Secretaria da Saúde,31,sim
+Segov - Gabinete,Segov - Gabinete,Setor,,,31,sim
+Ses - Ubs Angelica,UBS Angelica,UBS,SES,Secretaria da Saúde,31,sim
+Ses - Ubs Santana,UBS Santana,UBS,SES,Secretaria da Saúde,31,sim
+Sedu - Cei 83 (maria C R Sack),CEI 83 — Maria C. R. Sack,Escola,SEDUC,Secretaria da Educação,31,sim
+Sedu - em Amin Cassar,EM Amin Cassar,Escola,SEDUC,Secretaria da Educação,31,sim
+Estagios - Sgc Ti,Estagios - Sgc Ti,Categoria,,,31,sim
+Sefaz - D. Fisc Tribut Mob,D. Fisc Tribut Mob,Setor,SEFAZ,Secretaria da Fazenda,30,sim
+Ses - Ubs Escola,UBS Escola,Escola,SES,Secretaria da Saúde,30,sim
+Ses - Samu-medicos,SAMU — Médicos,Setor,SES,Secretaria da Saúde,30,sim
+Sedu - Cei 14 (eng C Rein Men),CEI 14 — Eng C. Rein Men,Escola,SEDUC,Secretaria da Educação,30,sim
+Sedu - em Genny Kalil Milego,EM Genny Kalil Milego,Escola,SEDUC,Secretaria da Educação,30,sim
+Sedu - Cei 08 (messias R N C),CEI 08 — Messias R. N. C.,Escola,SEDUC,Secretaria da Educação,29,sim
+Sedu - em Edemir a Digiampi,EM Edemir A Digiampi,Escola,SEDUC,Secretaria da Educação,29,sim
+Sefaz - D. Cadastro Tribut,D. Cadastro Tribut,Setor,SEFAZ,Secretaria da Fazenda,28,sim
+Ses - Policlinica-odonto,Policlínica — Odontologia,Setor,SES,Secretaria da Saúde,28,sim
+Sedu - em Josefina Z Carv,EM Josefina Z. Carv,Escola,SEDUC,Secretaria da Educação,28,sim
+Sedu - Cei 108 (antonio B M F),CEI 108 — Antonio B. M. F.,Escola,SEDUC,Secretaria da Educação,28,sim
+Sedu - Cei 101 (leonilda C Mal,CEI 101 — Leonilda C. Mal,Escola,SEDUC,Secretaria da Educação,28,sim
+Sedu - em Walter Carretero,EM Walter Carretero,Escola,SEDUC,Secretaria da Educação,28,sim
+Sefaz - D. Fisc Tribut Imob,D. Fisc Tribut Imob,Setor,SEFAZ,Secretaria da Fazenda,28,sim
+Secom - Gabinete,Secom - Gabinete,Setor,,,28,sim
+Sema - D. Licenc e Fisc Ambiental,D. Licenc E. Fisc Ambiental,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",28,sim
+Ses - Lab Saude Publica,Lab Saude Publica,Outros,SES,Secretaria da Saúde,27,sim
+Sedu - Cei 28 (raudineia Mach),CEI 28 — Raudineia Mach,Escola,SEDUC,Secretaria da Educação,27,sim
+Sedu - Cei 02 (marina Grohma),CEI 02 — Marina Grohma,Escola,SEDUC,Secretaria da Educação,27,sim
+Sedu - em Joao Bat Larizzatti Jr,EM Joao Bat Larizzatti Jr.,Escola,SEDUC,Secretaria da Educação,27,sim
+Sej - Proc Contenciosos,Proc Contenciosos,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,27,sim
+Sedu - Cei 100 (merc Urq Desi),CEI 100 — Merc Urq Desi,Escola,SEDUC,Secretaria da Educação,27,sim
+Sedu - Cei 23 (dolores Amaral),CEI 23 — Dolores Amaral,Escola,SEDUC,Secretaria da Educação,26,sim
+Sedu - Cei 47 (betty S Oliv),CEI 47 — Betty S. Oliv,Escola,SEDUC,Secretaria da Educação,26,sim
+Segov - D. Procon,Segov - D. Procon,Setor,,,26,sim
+Estagios - Sesu,Estagios - Sesu,Categoria,,,26,sim
+Estagios - Seplan - Arquitetur,Estagios - Seplan - Arquitetur,Categoria,,,26,sim
+Seplan - D. Fisc Areas Publicas,D. Fisc Areas Publicas,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,25,sim
+Aposent-pens (dap),Aposent-pens — Dap,Categoria,,,25,sim
+Sedu - Superv Ensino,Superv Ensino,Outros,SEDUC,Secretaria da Educação,25,sim
+Serpo - D. Gerenciamento Viario,D. Gerenciamento Viario,Setor,SERPO,Secretaria de Serviços Públicos e Obras,24,sim
+Sedu - em Benedito J Nunes,EM Benedito J. Nunes,Escola,SEDUC,Secretaria da Educação,24,sim
+Sedu - em Carmen Paulina Walter,EM Carmen Paulina Walter,Escola,SEDUC,Secretaria da Educação,24,sim
+Sedu - Cei 70 (adayl o Arruda),CEI 70 — Adayl O Arruda,Escola,SEDUC,Secretaria da Educação,24,sim
+Secid - Gabinete,Gabinete,Setor,SECID,Secretaria da Cidadania,23,sim
+Sema - D. Zoologico e Bem-estar Animal,D. Zoologico E. Bem-estar Animal,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",23,sim
+Sead - Smf-secao de Manutencao da Frota,Sead - Smf-secao de Manutencao da Frota,Outros,,,22,sim
+Ses - Pa Sorocaba I-enfermagem,PA Sorocaba I.-enfermagem,PA,SES,Secretaria da Saúde,22,sim
+Sedu - D. Educ Especial,D. Educ Especial,Setor,SEDUC,Secretaria da Educação,22,sim
+Sedu - em Edward Frufru M,EM Edward Frufru M.,Escola,SEDUC,Secretaria da Educação,22,sim
+Sgc - Ouvidoria-geral,Ouvidoria-geral,Outros,SGC,Secretaria de Gabinete Central,22,sim
+Ses - D. Adm de Convenios,D. Adm de Convenios,Setor,SES,Secretaria da Saúde,22,sim
+Sedu - Cei 45 (diva F Cordeir),CEI 45 — Diva F. Cordeir,Escola,SEDUC,Secretaria da Educação,21,sim
+Sedu - Cei 114 (fausto Ferreira Telles),CEI 114 — Fausto Ferreira Telles,Escola,SEDUC,Secretaria da Educação,21,sim
+Sedu - Cei 99 (larissa F Borge,CEI 99 — Larissa F. Borge,Escola,SEDUC,Secretaria da Educação,21,sim
+Sedu - D. Gestao Ctle Convenios,D. Gestao Ctle Convenios,Setor,SEDUC,Secretaria da Educação,20,sim
+Ses - D. Adm Atencao a Saude,D. Adm Atencao A Saude,Setor,SES,Secretaria da Saúde,20,sim
+Sedu - em Rev. Augusto da Silva Dourado,EM Rev. Augusto da Silva Dourado,Escola,SEDUC,Secretaria da Educação,20,sim
+Serh - D. Cadastro Funcional,Serh - D. Cadastro Funcional,Setor,,,20,sim
+Serh - D. Adm Pagamentos,Serh - D. Adm Pagamentos,Setor,,,20,sim
+Estagios - Secult,Estagios - Secult,Categoria,,,20,sim
+Sedu - D. Obras Manut Esc e Apoio Log,D. Obras Manut Esc E. Apoio Log,Setor,SEDUC,Secretaria da Educação,19,sim
+Sedu - Cei 57 (eng Joao Saler),CEI 57 — Eng Joao Saler,Escola,SEDUC,Secretaria da Educação,19,sim
+Sedu - D. Ap Tec Pedagogico,D. Ap Tec Pedagogico,Setor,SEDUC,Secretaria da Educação,19,sim
+Sedu - em Jose Mendes,EM Jose Mendes,Escola,SEDUC,Secretaria da Educação,19,sim
+Ses - D. Adm e Gestao,D. Adm E. Gestao,Setor,SES,Secretaria da Saúde,19,sim
+Semepp - D. Pol Prog e Acoes de Apoio,Semepp - D. Pol Prog E. Acoes de Apoio,Setor,,,19,sim
+Serpo - Gabinete,Gabinete,Setor,SERPO,Secretaria de Serviços Públicos e Obras,18,sim
+Secid - D. Politicas Pessoas Situacao Rua,D. Politicas Pessoas Situacao Rua,Setor,SECID,Secretaria da Cidadania,18,sim
+Sgc - Gabinete,Gabinete,Setor,SGC,Secretaria de Gabinete Central,18,sim
+Sedu - em Wanderlei Acca Prof,EM Wanderlei Acca Prof,Escola,SEDUC,Secretaria da Educação,18,sim
+Ses - Pa Sao Bento - Enfermagem,PA Sao Bento - Enfermagem,PA,SES,Secretaria da Saúde,18,sim
+Secid - D. Gestao do Suas,D. Gestao do Suas,Setor,SECID,Secretaria da Cidadania,18,sim
+Semob - D. Adm e Serv Internos,D. Adm E. Serv Internos,Setor,SEMOB,Secretaria de Mobilidade,18,sim
+Secult - Gabinete,Gabinete,Setor,SECULT,Secretaria de Cultura,17,sim
+Sedu - Cei 41 (antonio Fratti),CEI 41 — Antonio Fratti,Escola,SEDUC,Secretaria da Educação,17,sim
+Sedu - em Renata Cabrerisso da Costa,EM Renata Cabrerisso da Costa,Escola,SEDUC,Secretaria da Educação,17,sim
+Sead - D. Licitacoes,Sead - D. Licitacoes,Setor,,,17,sim
+Sead - D. Contratos de Licitacao,Sead - D. Contratos de Licitacao,Setor,,,17,sim
+Segov - Assessores,Segov - Assessores,Outros,,,17,sim
+Estagios - Ses Gabinete,Estagios - Ses Gabinete,Categoria,,,17,sim
+Semob - D. Fiscalizacao,D. Fiscalizacao,Setor,SEMOB,Secretaria de Mobilidade,16,sim
+Sead - D. Adm Materiais,Sead - D. Adm Materiais,Setor,,,16,sim
+Sead - D. Arq Pub Hist Mun,Sead - D. Arq Pub Hist Mun,Setor,,,16,sim
+Sedu - Cei 03 (zizi Almeida),CEI 03 — Zizi Almeida,Escola,SEDUC,Secretaria da Educação,16,sim
+Sedu - Cei 22 (victor Pedroso),CEI 22 — Victor Pedroso,Escola,SEDUC,Secretaria da Educação,16,sim
+Ses - Pa Laranj-adm-rec,PA Laranj-adm-rec,PA,SES,Secretaria da Saúde,16,sim
+Sedu - em Jose Osorio C M Alme,EM Jose Osorio C. M. Alme,Escola,SEDUC,Secretaria da Educação,16,sim
+Sedu - em Ernesto Martins,EM Ernesto Martins,Escola,SEDUC,Secretaria da Educação,16,sim
+Sefaz - Gabinete,Gabinete,Setor,SEFAZ,Secretaria da Fazenda,16,sim
+Sedu - em Dirceu Ferr da Silva,EM Dirceu Ferr da Silva,Escola,SEDUC,Secretaria da Educação,16,sim
+Sedu - Cei 53 (benjamin Grizz),CEI 53 — Benjamin Grizz,Escola,SEDUC,Secretaria da Educação,15,sim
+Ses - D. Mat Med Hosp Farm,D. Mat Med Hosp Farm,Setor,SES,Secretaria da Saúde,15,sim
+Sedu - Cei 148 (comend Alfredo Metidieri),CEI 148 — Comend Alfredo Metidieri,Escola,SEDUC,Secretaria da Educação,15,sim
+Estagios - Segov-procon,Estagios - Segov-procon,Categoria,,,15,sim
+Sgc - D. Infraestrutura,D. Infraestrutura,Setor,SGC,Secretaria de Gabinete Central,14,sim
+Sert - Pat,Sert - Pat,Outros,,,14,sim
+Sedu - Cei 20 (victoria S Lar),CEI 20 — Victoria S. Lar,Escola,SEDUC,Secretaria da Educação,14,sim
+Sej - Gabinete,Gabinete,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,14,sim
+Sedu - Cei 05 (antonio Amabil),CEI 05 — Antonio Amabil,Escola,SEDUC,Secretaria da Educação,14,sim
+Sedu - Cei 10 (eglantina Rocco),CEI 10 — Eglantina Rocco,Escola,SEDUC,Secretaria da Educação,14,sim
+Sedu - D. Educ Basica,D. Educ Basica,Setor,SEDUC,Secretaria da Educação,14,sim
+Serh - D. Desenv Pessoas,Serh - D. Desenv Pessoas,Setor,,,14,sim
+Serpo - D. Manutencao e Paisag,D. Manutencao E. Paisag,Setor,SERPO,Secretaria de Serviços Públicos e Obras,13,sim
+Seplan - D. Geopr e Geotec Aplic.,D. Geopr E. Geotec Aplic.,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,13,sim
+Seplan - Gabinete,Gabinete,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,13,sim
+Sequav - D. Esp Alto Rend Soc,Sequav - D. Esp Alto Rend Soc,Setor,,,13,sim
+Semob - Defesa CIVIL,Defesa Civil,Setor,SEMOB,Secretaria de Mobilidade,13,sim
+Sedu - Cei 13 (aluisio Almeid),CEI 13 — Aluisio Almeid,Escola,SEDUC,Secretaria da Educação,13,sim
+Sedu - em Tadeusz Josefczyh,EM Tadeusz Josefczyh,Escola,SEDUC,Secretaria da Educação,13,sim
+Sedu - Cei 31 (victoria H Say),CEI 31 — Victoria H. Say,Escola,SEDUC,Secretaria da Educação,13,sim
+Ses - Educacao em Saude,Educacao EM Saude,Escola,SES,Secretaria da Saúde,13,sim
+Sefaz - D. Adm Financeira,D. Adm Financeira,Setor,SEFAZ,Secretaria da Fazenda,13,sim
+Sehab - D. Regul Fund Cad,Sehab - D. Regul Fund Cad,Setor,,,13,sim
+Separ - Uep,Separ - Uep,Outros,,,13,sim
+Estagios - Ses Zoonoses,Estagios - Ses Zoonoses,Categoria,,,13,sim
+Sema - D. Limpeza Urbana,D. Limpeza Urbana,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",12,sim
+Semul - Gabinete,Semul - Gabinete,Setor,,,12,sim
+Sefaz - D. Exec Orcamentaria,D. Exec Orcamentaria,Setor,SEFAZ,Secretaria da Fazenda,12,sim
+Sequav - Gabinete,Sequav - Gabinete,Setor,,,12,sim
+Ses - Pa Sorocaba I-medicos,PA Sorocaba I.-medicos,PA,SES,Secretaria da Saúde,12,sim
+Ses - Pa Habiteto - Enfermagem,PA Habiteto - Enfermagem,PA,SES,Secretaria da Saúde,12,sim
+Sedu - Cei 52 (olga C Fornaz),CEI 52 — Olga C. Fornaz,Escola,SEDUC,Secretaria da Educação,12,sim
+Ses - Pa Sao Guil-enfermagem,PA Sao Guil-enfermagem,PA,SES,Secretaria da Saúde,12,sim
+Ses - Cerest,Cerest,Outros,SES,Secretaria da Saúde,12,sim
+Sedu - Cei 09 (fernando Rios),CEI 09 — Fernando Rios,Escola,SEDUC,Secretaria da Educação,12,sim
+Sedu - Cei 30 (maria P Belloti),CEI 30 — Maria P. Belloti,Escola,SEDUC,Secretaria da Educação,12,sim
+Sefaz - D. Casas do Cidadao Zel,D. Casas do Cidadao Zel,Setor,SEFAZ,Secretaria da Fazenda,12,sim
+Seplan - D. Parcel e Uso do Solo,D. Parcel E. Uso do Solo,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,12,sim
+Segov - Cto Mun Prev Concil Conf,Segov - Cto Mun Prev Concil Conf,Outros,,,12,sim
+Sema - Pq Zoologico,Pq Zoologico,Outros,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",11,sim
+Secult - D. Patrim Cult Hist,D. Patrim Cult Hist,Setor,SECULT,Secretaria de Cultura,11,sim
+Ses - Pa Brig Tob-enfermagem,PA Brig Tob-enfermagem,PA,SES,Secretaria da Saúde,11,sim
+Ses - Pa Caranda - Enfermagem,PA Caranda - Enfermagem,PA,SES,Secretaria da Saúde,11,sim
+Ses - Pa Aparecidinha - Enfermagem,PA Aparecidinha - Enfermagem,PA,SES,Secretaria da Saúde,11,sim
+Sedu - Cei 11 (tercila Freire),CEI 11 — Tercila Freire,Escola,SEDUC,Secretaria da Educação,11,sim
+Serh - Cartorio 356,Serh - Cartorio 356,Outros,,,11,sim
+Sedu - Cei 50 (alipio G Cunha),CEI 50 — Alipio G. Cunha,Escola,SEDUC,Secretaria da Educação,11,sim
+Cpe - Gabinete do Poder Executivo,Cpe - Gabinete do Poder Executivo,Setor,,,11,sim
+Sehab - Gabinete,Sehab - Gabinete,Setor,,,11,sim
+Sedu - Cei 51 (rubens Vieira),CEI 51 — Rubens Vieira,Escola,SEDUC,Secretaria da Educação,11,sim
+Sej - Proc Administrativa,Proc Administrativa,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,11,sim
+Semob - Gabinete,Gabinete,Setor,SEMOB,Secretaria de Mobilidade,11,sim
+Estagios - Serh,Estagios - Serh,Categoria,,,11,sim
+Estagios - Semob,Estagios - Semob,Categoria,,,11,sim
+Estagios - Separ,Estagios - Separ,Categoria,,,11,sim
+Serpo - Cemit Saudade,Cemit Saudade,Outros,SERPO,Secretaria de Serviços Públicos e Obras,10,sim
+Sedu - Cei 17 (issa Latuf),CEI 17 — Issa Latuf,Escola,SEDUC,Secretaria da Educação,10,sim
+Sedu - Cei 25 (jorge F Schere),CEI 25 — Jorge F. Schere,Escola,SEDUC,Secretaria da Educação,10,sim
+Sedu - Cei 36 (dr Abney Carn),CEI 36 — Dr. Abney Carn,Escola,SEDUC,Secretaria da Educação,10,sim
+Sgc - Corregedoria-geral,Corregedoria-geral,Outros,SGC,Secretaria de Gabinete Central,10,sim
+Sedu - Cei 39 (sha Ar Hanegev),CEI 39 — Sha Ar Hanegev,Escola,SEDUC,Secretaria da Educação,10,sim
+Ses - Samu-adm,SAMU — Administrativo,Setor,SES,Secretaria da Saúde,10,sim
+Sead - D. de Compras Diretas,Sead - D. de Compras Diretas,Setor,,,10,sim
+Separ - D. de Proj de Arq e Eng,Separ - D. de Proj de Arq E. Eng,Setor,,,10,sim
+Estagios - Sequav,Estagios - Sequav,Categoria,,,10,sim
+Sesu - Gabinete,Gabinete,Setor,SESU,Secretaria de Segurança Urbana,9,sim
+Sedu - D. Alim Escolar,D. Alim Escolar,Setor,SEDUC,Secretaria da Educação,9,sim
+Serh - Cartorio 271,Serh - Cartorio 271,Outros,,,9,sim
+Serh - Cartorio 343,Serh - Cartorio 343,Outros,,,9,sim
+Sedu - Cei 21 (aureliano Rodr),CEI 21 — Aureliano Rodr,Escola,SEDUC,Secretaria da Educação,9,sim
+Sedu - Cei 18 (miguel Cheda),CEI 18 — Miguel Cheda,Escola,SEDUC,Secretaria da Educação,9,sim
+Sedu - Cei 44 (luiz Ribeiro),CEI 44 — Luiz Ribeiro,Escola,SEDUC,Secretaria da Educação,9,sim
+Sedu - Cei 40 (duzolina Pagl),CEI 40 — Duzolina Pagl,Escola,SEDUC,Secretaria da Educação,9,sim
+Sedu - Cei 38 (maria G Vecina),CEI 38 — Maria G. Vecina,Escola,SEDUC,Secretaria da Educação,9,sim
+Sedu - Cei 91 (celia Cang Mend),CEI 91 — Celia Cang Mend,Escola,SEDUC,Secretaria da Educação,9,sim
+Sead - D. Servicos Compartilhados,Sead - D. Servicos Compartilhados,Setor,,,9,sim
+Sefaz - D. Contabilidade,D. Contabilidade,Setor,SEFAZ,Secretaria da Fazenda,9,sim
+Sedu - Cei 111 (ivan Gerbovic),CEI 111 — Ivan Gerbovic,Escola,SEDUC,Secretaria da Educação,9,sim
+Sgc - Auditoria-geral,Auditoria-geral,Outros,SGC,Secretaria de Gabinete Central,9,sim
+Serh - D. Plan Contr Sedu,Serh - D. Plan Contr Sedu,Setor,,,9,sim
+Sema - Gabinete,Gabinete,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",9,sim
+Sesu - Seg Patrimonial,Seg Patrimonial,Outros,SESU,Secretaria de Segurança Urbana,8,sim
+Serpo - D.adm Orcamentaria,D.adm Orcamentaria,Outros,SERPO,Secretaria de Serviços Públicos e Obras,8,sim
+Sequav - Ce Pitico,Sequav - Ce Pitico,Outros,,,8,sim
+Secid - Coordenadorias,Coordenadorias,Outros,SECID,Secretaria da Cidadania,8,sim
+Sead - D. Apoio Adm e Operacional,Sead - D. Apoio Adm E. Operacional,Setor,,,8,sim
+Serh - Cartorio 342,Serh - Cartorio 342,Outros,,,8,sim
+Serh - Gabinete,Serh - Gabinete,Setor,,,8,sim
+Serh - Cartorio 137,Serh - Cartorio 137,Outros,,,8,sim
+Sema - D. Admin e Orcamento,D. Admin E. Orcamento,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",8,sim
+Sintea - D. Incl e Ass a Pessoa Com Tea,Sintea - D. Incl E. Ass A Pessoa Com Tea,Setor,,,8,sim
+Serpo - D. Fiscal Obras Publicas,D. Fiscal Obras Publicas,Setor,SERPO,Secretaria de Serviços Públicos e Obras,8,sim
+Separ - D. Cap Conv e Financ,Separ - D. Cap Conv E. Financ,Setor,,,8,sim
+Sema - D. Gestao Ambiental,D. Gestao Ambiental,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",8,sim
+Separ - D. de Conc. e Parcerias,Separ - D. de Conc. E. Parcerias,Setor,,,8,sim
+Sead - Gabinete,Sead - Gabinete,Setor,,,8,sim
+Sej - Proc Ctle Externo,Proc Ctle Externo,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,8,sim
+Estagios - Sead,Estagios - Sead,Categoria,,,8,sim
+Estagios - Sej,Estagios - Sej,Categoria,,,8,sim
+Sequav - Ce Maria Eugenia,Sequav - Ce Maria Eugenia,Outros,,,7,sim
+Serh - Sindicato,Serh - Sindicato,Outros,,,7,sim
+Sehab - D. Plan Vazios Urb Equip Sociais,Sehab - D. Plan Vazios Urb Equip Sociais,Setor,,,7,sim
+Sequav - Ce Simus,Sequav - Ce Simus,Outros,,,7,sim
+Sert - Gabinete,Sert - Gabinete,Setor,,,7,sim
+Sema - D. Educ Amb e Interacao Social,D. Educ Amb E. Interacao Social,Setor,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",7,sim
+Sedu - Cei 43 (vera L Maldon),CEI 43 — Vera L. Maldon,Escola,SEDUC,Secretaria da Educação,7,sim
+Sedu - Cei 15 (terezinha L F),CEI 15 — Terezinha L. F.,Escola,SEDUC,Secretaria da Educação,7,sim
+Ses - Central de Abast Farmaceutico,Central de Abast Farmaceutico,Outros,SES,Secretaria da Saúde,7,sim
+Sej - Proc Geral,Proc Geral,Setor,SEJ,Secretaria de Assuntos Jurídicos e Patrimônio,7,sim
+Setur - D. Fomento ao Turismo,Setur - D. Fomento Ao Turismo,Setor,,,7,sim
+Sede - Gabinete,Sede - Gabinete,Setor,,,7,sim
+Ses - D. Gerenc Adm e Atos Ofic Ses,D. Gerenc Adm E. Atos Ofic Ses,Setor,SES,Secretaria da Saúde,7,sim
+Semepp - Gabinete,Semepp - Gabinete,Setor,,,7,sim
+Secid - D. Parcerias e Plan,D. Parcerias E. Plan,Setor,SECID,Secretaria da Cidadania,7,sim
+Sgc - Coord-geral Trat Dados Pessoais do Municipio,Coord-geral Trat Dados Pessoais do Municipio,Outros,SGC,Secretaria de Gabinete Central,7,sim
+Sequav - D. Gest Adm Op Tec,Sequav - D. Gest Adm Op Tec,Setor,,,7,sim
+Serh - D. Adm Rh Ses,Serh - D. Adm Rh Ses,Setor,,,7,sim
+Estagios - Ses Policlinica,Estagios - Ses Policlinica,Categoria,,,7,sim
+Estagios - Ouvidoria,Estagios - Ouvidoria,Categoria,,,7,sim
+Estagios - Sej Dpu,Estagios - Sej Dpu,Categoria,,,7,sim
+Estagios- Sead DIV Arq Pub Mun,Estagios- Sead DIV Arq Pub Mun,Categoria,,,7,sim
+Sequav - Estadio Municipal,Sequav - Estadio Municipal,Outros,,,6,sim
+Serim - Gabinete,Serim - Gabinete,Setor,,,6,sim
+Sedu - D. Compras e Contratos,D. Compras E. Contratos,Setor,SEDUC,Secretaria da Educação,6,sim
+Sedu - Cei 26 (luiz Sanctis),CEI 26 — Luiz Sanctis,Escola,SEDUC,Secretaria da Educação,6,sim
+Ses - Centr Regul Leitos,Centr Regul Leitos,Outros,SES,Secretaria da Saúde,6,sim
+Sedu - D. Adm Financas,D. Adm Financas,Setor,SEDUC,Secretaria da Educação,6,sim
+Serh - Cartorio 294,Serh - Cartorio 294,Outros,,,6,sim
+Setur - Gabinete,Setur - Gabinete,Setor,,,6,sim
+Secult - Bibl Municipal,Bibl Municipal,Outros,SECULT,Secretaria de Cultura,6,sim
+Secid - D. Apoio Oper e Contratos,D. Apoio Oper E. Contratos,Setor,SECID,Secretaria da Cidadania,6,sim
+Separ - Gabinete,Separ - Gabinete,Setor,,,6,sim
+Fss,Fss,Outros,,,5,sim
+Sesu - Base Apoio Regional,Base Apoio Regional,Outros,SESU,Secretaria de Segurança Urbana,5,sim
+Secult - D. Planej Cultural,D. Planej Cultural,Setor,SECULT,Secretaria de Cultura,5,sim
+Ses - Pa Aparecidinha - Medicos,PA Aparecidinha - Medicos,PA,SES,Secretaria da Saúde,5,sim
+Segov - D. Expediente,Segov - D. Expediente,Setor,,,5,sim
+Ses - Centr Regul Leitos-medic,Centr Regul Leitos-medic,Outros,SES,Secretaria da Saúde,5,sim
+Secid - D. Vig Socioassist,D. Vig Socioassist,Setor,SECID,Secretaria da Cidadania,5,sim
+Ses - Pa Brig Tob-medicos,PA Brig Tob-medicos,PA,SES,Secretaria da Saúde,5,sim
+Ses - Auditoria,Auditoria,Outros,SES,Secretaria da Saúde,5,sim
+Ses - Pa Sorocaba I-adm-rec,PA Sorocaba I.-adm-rec,PA,SES,Secretaria da Saúde,5,sim
+Ses - D. Orcamento da Ses,D. Orcamento da Ses,Setor,SES,Secretaria da Saúde,5,sim
+Ses - Policlinica-onibus Azul,Policlínica — Ônibus Azul,Setor,SES,Secretaria da Saúde,5,sim
+Sefaz - D. Prest Ctas Conv,D. Prest Ctas Conv,Setor,SEFAZ,Secretaria da Fazenda,5,sim
+Ses - Coord Saude Mental,Coord Saude Mental,Outros,SES,Secretaria da Saúde,5,sim
+Sintea - Gabinete,Sintea - Gabinete,Setor,,,5,sim
+Sequav - Ce Brig Tobias,Sequav - Ce Brig Tobias,Outros,,,5,sim
+Ses - Pa Sao Guil-medicos,PA Sao Guil-medicos,PA,SES,Secretaria da Saúde,5,sim
+Estagios - Secom,Estagios - Secom,Categoria,,,5,sim
+Estagios - Secid,Estagios - Secid,Categoria,,,5,sim
+Secult - Bibl Infantil,Bibl Infantil,Outros,SECULT,Secretaria de Cultura,4,sim
+Sesu - Junta Serv Militar,Junta Serv Militar,Outros,SESU,Secretaria de Segurança Urbana,4,sim
+Secult - Teatro Mun Tv,Teatro Mun Tv,Outros,SECULT,Secretaria de Cultura,4,sim
+Sert - Univesp,Sert - Univesp,Outros,,,4,sim
+Ses - D. Apoio ao Samu,D. Apoio Ao SAMU,Setor,SES,Secretaria da Saúde,4,sim
+Sead - D. Editais e Minutas de Licitacao,Sead - D. Editais E. Minutas de Licitacao,Setor,,,4,sim
+Sequav - Ciel Aloisio Almeida,Sequav - Ciel Aloisio Almeida,Outros,,,4,sim
+Seplan - D. Apoio Adm e Sup Operacoes,D. Apoio Adm E. Sup Operacoes,Setor,SEPLAN,Secretaria de Planejamento e Desenvolvimento Urbano,4,sim
+Ses - Pa Sao Bento - Adm-rec,PA Sao Bento - Adm-rec,PA,SES,Secretaria da Saúde,4,sim
+Sequav - Ce Gabriel,Sequav - Ce Gabriel,Outros,,,4,sim
+Sede - D. Desenv. Empresarial,Sede - D. Desenv. Empresarial,Setor,,,4,sim
+Estagios - Ses DIV Vig Epidem,Estagios - Ses DIV Vig Epidem,Categoria,,,4,sim
+Estagios - Semepp,Estagios - Semepp,Categoria,,,4,sim
+Estagios - Sema - D Educ Amb,Estagios - Sema - D. Educ Amb,Categoria,,,4,sim
+Estagios - Segov - Concilia,Estagios - Segov - Concilia,Categoria,,,4,sim
+Sema - Pq Chico Mendes,Pq Chico Mendes,Outros,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",3,sim
+Secult - Museu Hist Soroc,Museu Hist Soroc,Outros,SECULT,Secretaria de Cultura,3,sim
+Serpo - Cemit Consolacao,Cemit Consolacao,Outros,SERPO,Secretaria de Serviços Públicos e Obras,3,sim
+Sema - Jd Botanico,Jd Botanico,Outros,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",3,sim
+Sesu - D. Op Esp Intelig,D. Op Esp Intelig,Setor,SESU,Secretaria de Segurança Urbana,3,sim
+Sehab - D. Plan Des Socio Hab,Sehab - D. Plan Des Socio Hab,Setor,,,3,sim
+Ses - D. Rede de Atencao a Saude,D. Rede de Atencao A Saude,Setor,SES,Secretaria da Saúde,3,sim
+Sequav - D. Compet Esportivas,Sequav - D. Compet Esportivas,Setor,,,3,sim
+Sesu - D. Plan e Apoio a Progr e Proj,D. Plan E. Apoio A Progr E. Proj,Setor,SESU,Secretaria de Segurança Urbana,3,sim
+Sert - Uniten,Sert - Uniten,Outros,,,3,sim
+Serpo - Cemit Sto Antonio,Cemit Sto Antonio,Outros,SERPO,Secretaria de Serviços Públicos e Obras,3,sim
+Sequav - Ginasio Esporte,Sequav - Ginasio Esporte,Outros,,,3,sim
+Semob - D. Proc de Multas,D. Proc de Multas,Setor,SEMOB,Secretaria de Mobilidade,3,sim
+Ses - Pa Caranda - Medicos,PA Caranda - Medicos,PA,SES,Secretaria da Saúde,3,sim
+Ses - Pa Aparecidinha - Adm,PA Aparecidinha - Adm,PA,SES,Secretaria da Saúde,3,sim
+Estagios - Sedetur - Casa Tur,Estagios - Sedetur - Casa Tur,Categoria,,,3,sim
+Estagios - Sema,Estagios - Sema,Categoria,,,3,sim
+Estagios - Sema - D LIC Ctl Amb,Estagios - Sema - D. LIC Ctl Amb,Categoria,,,3,sim
+Estagios - Corregedoria,Estagios - Corregedoria,Categoria,,,3,sim
+Sema - Pq Agua Vermelha,Pq Agua Vermelha,Outros,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",2,sim
+Sedu - Casa dos Conselhos,Casa dos Conselhos,Outros,SEDUC,Secretaria da Educação,2,sim
+Sequav - Ce Pinheiros,Sequav - Ce Pinheiros,Outros,,,2,sim
+Serpo - Cemit Aparecidinha,Cemit Aparecidinha,Outros,SERPO,Secretaria de Serviços Públicos e Obras,2,sim
+Funserv,Funserv,Outros,,,2,sim
+Ses - Policlinica-onibus Rosa,Policlínica — Ônibus Rosa,Setor,SES,Secretaria da Saúde,2,sim
+Ses - Pa Caranda - Adm-rec,PA Caranda - Adm-rec,PA,SES,Secretaria da Saúde,2,sim
+Sede - Metarreciclagem,Sede - Metarreciclagem,Outros,,,2,sim
+Serh - Ministerio do Trabalho,Serh - Ministerio do Trabalho,Outros,,,2,sim
+Secult - Ceu das Artes,CEU das Artes,Outros,SECULT,Secretaria de Cultura,2,sim
+Segov - D. Gestao Acoes Govern,Segov - D. Gestao Acoes Govern,Setor,,,2,sim
+Sequav - Ginasio Nilton Torres,Sequav - Ginasio Nilton Torres,Outros,,,2,sim
+Sema - Pq Biquinha,Pq Biquinha,Outros,SEMA,"Secretaria do Meio Ambiente, Parques e Jardins",2,sim
+Secult - Pq Espanhois,Pq Espanhois,Outros,SECULT,Secretaria de Cultura,2,sim
+Sesu - Tiro de Guerra,Tiro de Guerra,Outros,SESU,Secretaria de Segurança Urbana,2,sim
+Ses - Pa Brig Tob-adm-rec,PA Brig Tob-adm-rec,PA,SES,Secretaria da Saúde,2,sim
+Ses - Pa Sao Guil-adm-rec,PA Sao Guil-adm-rec,PA,SES,Secretaria da Saúde,2,sim
+Sequav - Arena Multiuso,Sequav - Arena Multiuso,Outros,,,2,sim
+Ses - Pa Habiteto - Adm,PA Habiteto - Adm,PA,SES,Secretaria da Saúde,2,sim
+Chefia do Poder Executivo,Chefia do Poder Executivo,Outros,,,2,sim
+Estagios - Pq Biquinha-sema,Estagios - Pq Biquinha-sema,Categoria,,,2,sim
+Estagios - Pq Zoologico-sema,Estagios - Pq Zoologico-sema,Categoria,,,2,sim
+Estagios - Sede Gabinete,Estagios - Sede Gabinete,Categoria,,,2,sim
+Estagios - Ses DIV Aval Contr,Estagios - Ses DIV Aval Contr,Categoria,,,2,sim
+Estagios - Sede - Uniten,Estagios - Sede - Uniten,Categoria,,,2,sim
+Estagios - Metareciclagem,Estagios - Metareciclagem,Categoria,,,2,sim
+Serh - Justica do Trabalho,Serh - Justica do Trabalho,Outros,,,1,sim
+Sequav - Ce Ceu das Artes,Sequav - Ce CEU das Artes,Outros,,,1,sim
+Sesu - Posto Recrut e Mob Prm,Posto Recrut E. Mob Prm,Outros,SESU,Secretaria de Segurança Urbana,1,sim
+Sgc - Controladoria-geral,Controladoria-geral,Outros,SGC,Secretaria de Gabinete Central,1,sim
+Serh - Camara Municipal,Serh - Camara Municipal,Outros,,,1,sim
+Serh - Arq Publico de Sp,Serh - Arq Publico de Sp,Outros,,,1,sim
+Serh - Vara das Garantias,Serh - Vara das Garantias,Outros,,,1,sim
+Secid - Cejusc,Cejusc,Outros,SECID,Secretaria da Cidadania,1,sim
+Parque Tecnologico,Parque Tecnologico,Outros,,,1,sim
+Segov - D. Adm e Governo,Segov - D. Adm E. Governo,Setor,,,1,sim
+Secult - Museu Estr Ferro,Museu Estr Ferro,Outros,SECULT,Secretaria de Cultura,1,sim
+Segov - D. Gestao Proj de Governo,Segov - D. Gestao Proj de Governo,Setor,,,1,sim
+Sequav - Almoxarifado,Sequav - Almoxarifado,Outros,,,1,sim
+Estagios - Sert,Estagios - Sert,Categoria,,,1,sim
+Estagios - Ses DIV Vig Sanit,Estagios - Ses DIV Vig Sanit,Categoria,,,1,sim
+Estagios - Sefaz - Secretaria,Estagios - Sefaz - Secretaria,Categoria,,,1,sim
+Estagios - Pq Agua Verm-sema,Estagios - Pq Agua Verm-sema,Categoria,,,1,sim
+Estagios - Setur,Estagios - Setur,Categoria,,,1,sim

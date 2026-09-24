@@ -1,0 +1,270 @@
+cargo_cru,cargo_canonico,familia,hierarquia,escolaridade_predominante,escolaridade_distribuicao,administrativo,registros,n_secretarias
+AUTONOMOS - PROF. EVENTUAL,AUTONOMOS - PROF. EVENTUAL,Temporário,Temporário,Superior completo,"Superior completo: 81%, Superior incompleto: 10%, Pos-graduacao: 6%",sim,2271,1
+PEB I,PEB I,Docência,Operacional,Superior completo / Pos-graduacao,"Superior completo: 51%, Pos-graduacao: 48%, Mestrado: 1%",nao,2103,1
+AUX. DE EDUCACAO,AUX. DE EDUCACAO,Apoio,Operacional,Medio completo / Superior completo,"Medio completo: 60%, Superior completo: 36%, Superior incompleto: 3%",nao,1705,1
+TECNICO DE ENFERMAGEM,TECNICO DE ENFERMAGEM,Saúde,Técnico,Medio completo,"Medio completo: 76%, Superior completo: 21%, Superior incompleto: 2%",nao,659,2
+PEB I CLT,PEB I CLT,Docência,Operacional,Superior completo,"Superior completo: 96%, Pos-graduacao: 3%, Medio completo: 1%",nao,547,1
+TEC.DE CONTROLE ADMINISTRATIVO,TEC.DE CONTROLE ADMINISTRATIVO,Administrativo,Técnico,Medio completo,"Medio completo: 77%, Superior completo: 20%, Superior incompleto: 2%",nao,507,24
+ESTAGIARIO NIVEL SUPERIOR,ESTAGIARIO NIVEL SUPERIOR,Temporário,Temporário,Superior incompleto,"Superior incompleto: 97%, Medio completo: 3%, Superior completo: 0%",sim,493,19
+AUX. DE ADMINISTRACAO,AUX. DE ADMINISTRACAO,Administrativo,Operacional,Superior completo / Medio completo,"Superior completo: 56%, Medio completo: 32%, Fundamental completo: 5%",nao,445,22
+GCM-2A CLASSE,GCM-2A CLASSE,Segurança,Operacional,Medio completo,"Medio completo: 91%, Superior completo: 6%, Fundamental completo: 1%",nao,341,2
+MEDICO 75H,MEDICO 75H,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 61%, Pos-graduacao: 31%, Mestrado: 5%",nao,286,2
+ENFERMEIRO,ENFERMEIRO,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 60%, Pos-graduacao: 34%, Mestrado: 4%",nao,268,2
+CHEFE DE SECAO,CHEFE DE SECAO,Liderança,Liderança,Superior completo,"Superior completo: 89%, Medio completo: 7%, Pos-graduacao: 3%",sim,258,27
+INSPETOR DE ALUNOS,INSPETOR DE ALUNOS,Apoio,Operacional,Medio completo / Fundamental completo,"Medio completo: 56%, Fundamental completo: 25%, Superior completo: 13%",nao,243,1
+SECRETARIO DE ESCOLA,SECRETARIO DE ESCOLA,Liderança,Liderança,Medio completo,"Medio completo: 79%, Superior completo: 18%, Superior incompleto: 2%",nao,149,1
+AGENTE COMUNITARIO DE SAUDE,AGENTE COMUNITARIO DE SAUDE,Saúde,Operacional,Medio completo,"Medio completo: 76%, Fundamental completo: 13%, Superior completo: 7%",nao,147,1
+MOTORISTA,MOTORISTA,Apoio,Operacional,Medio completo,"Medio completo: 78%, Superior completo: 10%, Fundamental incompleto: 4%",nao,143,11
+DIRETOR DE ESCOLA,DIRETOR DE ESCOLA,Liderança,Liderança,Pos-graduacao / Superior completo,"Pos-graduacao: 46%, Superior completo: 43%, Mestrado: 10%",nao,140,1
+MEDICO I 100H,MEDICO I 100H,Saúde,Especialista,Superior completo,"Superior completo: 97%, Pos-graduacao: 2%, Medio completo: 1%",nao,123,2
+ASSESSOR DE GABINETE,ASSESSOR DE GABINETE,Liderança,Liderança,Superior completo,"Superior completo: 97%, Pos-graduacao: 3%",sim,120,24
+CHEFE DE DIVISAO,CHEFE DE DIVISAO,Liderança,Liderança,Superior completo,"Superior completo: 83%, Pos-graduacao: 12%, Medio completo: 3%",sim,118,26
+ORIENT. PED.,ORIENT. PED.,Docência,Operacional,Superior completo / Pos-graduacao,"Superior completo: 54%, Pos-graduacao: 38%, Mestrado: 3%",nao,117,1
+GCM-1A CLASSE,GCM-1A CLASSE,Segurança,Operacional,Medio completo / Superior completo,"Medio completo: 60%, Superior completo: 32%, Superior incompleto: 4%",nao,116,2
+PEBII ED.FISICA,PEBII ED.FISICA,Docência,Operacional,Superior completo / Pos-graduacao,"Superior completo: 58%, Pos-graduacao: 39%, Mestrado: 2%",nao,89,1
+CIRURGIAO DENTISTA 75H,CIRURGIAO DENTISTA 75H,Saúde,Especialista,Pos-graduacao / Superior completo,"Pos-graduacao: 46%, Superior completo: 45%, Doutorado: 5%",nao,80,1
+AUXILIAR EM SAUDE BUCAL,AUXILIAR EM SAUDE BUCAL,Saúde,Técnico,Medio completo,"Medio completo: 80%, Superior completo: 20%",nao,80,1
+ASSIST.SOCIAL I,ASSIST.SOCIAL I,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 70%, Pos-graduacao: 25%, Mestrado: 3%",nao,79,5
+AGENTE DE VIG.SANITARIA I,AGENTE DE VIG.SANITARIA I,Saúde,Operacional,Medio completo / Superior completo,"Medio completo: 62%, Superior completo: 26%, Fundamental completo: 12%",nao,74,2
+AUX. DE ENFERMAGEM,AUX. DE ENFERMAGEM,Saúde,Operacional,Medio completo / Superior completo,"Medio completo: 56%, Superior completo: 30%, Superior incompleto: 7%",nao,71,2
+AGENTE DE COMBATE AS ENDEMIAS,AGENTE DE COMBATE AS ENDEMIAS,Saúde,Operacional,Medio completo,"Medio completo: 91%, Superior completo: 8%, Fundamental completo: 2%",nao,66,1
+ENG.CIVIL I,ENG.CIVIL I,Infraestrutura,Especialista,Superior completo,"Superior completo: 85%, Pos-graduacao: 13%, Mestrado: 2%",nao,61,9
+TELEFONISTA ATENDENTE,TELEFONISTA ATENDENTE,Apoio,Operacional,Medio completo,"Medio completo: 70%, Superior completo: 21%, Fundamental completo: 7%",nao,61,2
+PSICOLOGO I,PSICOLOGO I,Saúde,Especialista,Superior completo,"Superior completo: 75%, Pos-graduacao: 18%, Mestrado: 4%",nao,56,5
+ASSISTENTE DE SECRETARIA E EXPEDIENTE (FG),ASSISTENTE DE SECRETARIA E EXPEDIENTE (FG),Liderança,Operacional,Superior completo,"Superior completo: 74%, Medio completo: 14%, Pos-graduacao: 12%",sim,50,17
+ORIENTADOR PEDAG DESIGNADO,ORIENTADOR PEDAG DESIGNADO,Administrativo,Redistribuído,Superior completo / Pos-graduacao,"Superior completo: 57%, Pos-graduacao: 32%, Mestrado: 9%",nao,47,1
+ESTAGIARIO NIVEL MEDIO,ESTAGIARIO NIVEL MEDIO,Temporário,Temporário,Superior incompleto,Superior incompleto: 100%,sim,46,12
+FISCAL PUBLICO,FISCAL PUBLICO,Fiscalização,Operacional,Medio completo,"Medio completo: 91%, Superior completo: 9%",nao,43,2
+VICE DIRETOR,VICE DIRETOR,Liderança,Liderança,Pos-graduacao / Superior completo,"Pos-graduacao: 53%, Superior completo: 42%, Mestrado: 2%",nao,43,1
+COORDENADOR DE UNIDADE SAUDE,COORDENADOR DE UNIDADE SAUDE,Saúde,Liderança,Superior completo,"Superior completo: 85%, Pos-graduacao: 15%",nao,41,1
+GCM-CLASSE ESPECIAL,GCM-CLASSE ESPECIAL,Segurança,Operacional,Superior completo / Medio completo,"Superior completo: 55%, Medio completo: 45%",nao,40,1
+TEC.DE ESPORTES I,TEC.DE ESPORTES I,Administrativo,Técnico,Superior completo / Pos-graduacao,"Superior completo: 61%, Pos-graduacao: 37%, Medio completo: 3%",nao,38,3
+CONSELHEIRO TUT.CRIANCA/ADOLES,CONSELHEIRO TUT.CRIANCA/ADOLES,Saúde,Operacional,Superior completo,"Superior completo: 89%, Medio completo: 8%, Superior incompleto: 3%",nao,36,1
+AUX. ENFERM. PLANTONISTA,AUX. ENFERM. PLANTONISTA,Saúde,Técnico,Medio completo / Superior completo,"Medio completo: 50%, Superior completo: 32%, Fundamental completo: 9%",nao,34,1
+FISCAL DE SAUDE PUBLICA,FISCAL DE SAUDE PUBLICA,Fiscalização,Operacional,Medio completo,"Medio completo: 82%, Superior completo: 15%, Superior incompleto: 3%",nao,33,1
+INAT/PENS(AJUD.GERAL),INAT/PENS(AJUD.GERAL),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 55%, Fundamental incompleto: 30%, Sem escolaridade formal registrada: 9%",sim,33,1
+PROCURADOR,PROCURADOR,Liderança,Especialista,Superior completo,"Superior completo: 77%, Pos-graduacao: 23%",nao,31,2
+AGENTE SOCIAL,AGENTE SOCIAL,Saúde,Operacional,Medio completo / Superior completo,"Medio completo: 64%, Superior completo: 25%, Superior incompleto: 11%",nao,28,3
+CIRURGIAO DENTISTA I 150H,CIRURGIAO DENTISTA I 150H,Saúde,Especialista,Superior completo,Superior completo: 100%,nao,28,1
+AUDITOR FISCAL DE TRIB. MUNIC,AUDITOR FISCAL DE TRIB. MUNIC,Fiscalização,Especialista,Superior completo,"Superior completo: 85%, Pos-graduacao: 15%",nao,27,1
+MEDICO II 150H,MEDICO II 150H,Saúde,Especialista,Superior completo,Superior completo: 100%,nao,27,1
+ANALISTA DE SISTEMAS I,ANALISTA DE SISTEMAS I,TI,Especialista,Superior completo / Pos-graduacao,"Superior completo: 69%, Pos-graduacao: 27%, Medio completo: 4%",nao,26,2
+TERAPEUTA OCUPACIONAL,TERAPEUTA OCUPACIONAL,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 65%, Pos-graduacao: 35%",nao,26,5
+AJUDANTE GERAL,AJUDANTE GERAL,Apoio,Operacional,Fundamental completo / Medio completo,"Fundamental completo: 40%, Medio completo: 36%, Superior incompleto: 16%",nao,25,8
+AUX. DE FISCALIZACAO,AUX. DE FISCALIZACAO,Administrativo,Operacional,Superior completo / Medio completo,"Superior completo: 50%, Medio completo: 33%, Pos-graduacao: 8%",nao,24,3
+SECRETARIO,SECRETARIO,Administrativo,Operacional,Superior completo,"Superior completo: 79%, Pos-graduacao: 17%, Superior incompleto: 4%",sim,24,24
+DIRETOR DE ESCOLA DESIGNADO,DIRETOR DE ESCOLA DESIGNADO,Liderança,Redistribuído,Pos-graduacao / Superior completo,"Pos-graduacao: 62%, Superior completo: 33%, Mestrado: 4%",nao,24,1
+TEC.LAB.ANAL.CLIN. I,TEC.LAB.ANAL.CLIN. I,Administrativo,Técnico,Superior completo / Medio completo,"Superior completo: 43%, Medio completo: 39%, Pos-graduacao: 9%",nao,23,1
+SUPERVISOR DE AREA DE SAUDE,SUPERVISOR DE AREA DE SAUDE,Saúde,Liderança,Superior completo / Pos-graduacao,"Superior completo: 52%, Pos-graduacao: 35%, Mestrado: 9%",nao,23,1
+SUPERV. ENS.,SUPERV. ENS.,Docência,Operacional,Superior completo / Mestrado,"Superior completo: 39%, Mestrado: 35%, Pos-graduacao: 26%",nao,23,1
+AUX. DE SERVICOS OPERACIONAIS,AUX. DE SERVICOS OPERACIONAIS,Apoio,Operacional,Medio completo / Fundamental incompleto,"Medio completo: 41%, Fundamental incompleto: 27%, Fundamental completo: 18%",nao,22,6
+COORDENADOR ADMINISTRATIVO(FG),COORDENADOR ADMINISTRATIVO(FG),Liderança,Liderança,Superior completo,"Superior completo: 81%, Pos-graduacao: 19%",sim,21,16
+GESTOR PLANEJ E EXECUCAO(FG),GESTOR PLANEJ E EXECUCAO(FG),Liderança,Liderança,Superior completo / Pos-graduacao,"Superior completo: 67%, Pos-graduacao: 29%, Mestrado: 5%",sim,21,15
+COORD EQUIP ASSIS SOCIAL (FG),COORD EQUIP ASSIS SOCIAL (FG),Saúde,Operacional,Superior completo,"Superior completo: 90%, Pos-graduacao: 10%",nao,21,1
+VICE DIRETOR DESIGNADO,VICE DIRETOR DESIGNADO,Liderança,Redistribuído,Pos-graduacao / Superior completo,"Pos-graduacao: 52%, Superior completo: 38%, Mestrado: 10%",nao,21,1
+ASSIST.DE ALMOXARIFE,ASSIST.DE ALMOXARIFE,Administrativo,Operacional,Medio completo / Fundamental incompleto,"Medio completo: 60%, Fundamental incompleto: 15%, Superior incompleto: 10%",nao,20,4
+ARQUITETO I,ARQUITETO I,Infraestrutura,Especialista,Superior completo,"Superior completo: 80%, Pos-graduacao: 10%, Mestrado: 5%",nao,20,6
+PEB I - READAPTADO,PEB I - READAPTADO,Docência,Redistribuído,Pos-graduacao,"Pos-graduacao: 70%, Superior completo: 30%",nao,20,1
+GCM-CLASSE DISTINTA,GCM-CLASSE DISTINTA,Segurança,Operacional,Medio completo / Superior completo,"Medio completo: 45%, Superior completo: 40%, Superior incompleto: 10%",nao,20,1
+ESTAGIARIO NIVEL TECNICO,ESTAGIARIO NIVEL TECNICO,Temporário,Temporário,Superior incompleto,Superior incompleto: 100%,sim,20,13
+INSPETOR DE ALUNOS CLT,INSPETOR DE ALUNOS CLT,Apoio,Operacional,Medio completo,Medio completo: 100%,nao,19,1
+INAT/PENS(MOTORISTA),INAT/PENS(MOTORISTA),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 65%, Fundamental incompleto: 35%",sim,17,1
+INAT/PENS(OPER.MAQ.PESADAS),INAT/PENS(OPER.MAQ.PESADAS),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 59%, Fundamental incompleto: 29%, Sem escolaridade formal registrada: 12%",sim,17,1
+ELETRICISTA,ELETRICISTA,Infraestrutura,Operacional,Fundamental completo / Medio completo,"Fundamental completo: 47%, Medio completo: 33%, Superior incompleto: 20%",nao,15,3
+FARMACEUTICO,FARMACEUTICO,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 53%, Pos-graduacao: 33%, Mestrado: 13%",nao,15,1
+ASSIST. DE ADMIN.II,ASSIST. DE ADMIN.II,Administrativo,Operacional,Superior completo / Medio completo,"Superior completo: 64%, Medio completo: 36%",nao,14,9
+FISIOTERAPEUTA I,FISIOTERAPEUTA I,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 50%, Pos-graduacao: 43%, Mestrado: 7%",nao,14,1
+AUX. DE EDUCACAO - READAPTADO,AUX. DE EDUCACAO - READAPTADO,Apoio,Redistribuído,Superior completo / Medio completo,"Superior completo: 50%, Medio completo: 43%, Superior incompleto: 7%",nao,14,1
+AGENTE DE SERVICO CEMITERIAL,AGENTE DE SERVICO CEMITERIAL,Infraestrutura,Operacional,Medio completo / Fundamental incompleto,"Medio completo: 69%, Fundamental incompleto: 15%, Medio incompleto: 8%",nao,13,1
+PEBII MATEMATICA,PEBII MATEMATICA,Docência,Operacional,Superior completo / Pos-graduacao,"Superior completo: 69%, Pos-graduacao: 15%, Doutorado: 8%",nao,13,1
+RECEP.PRONTO ATENDIMENTO,RECEP.PRONTO ATENDIMENTO,Saúde,Operacional,Superior completo / Medio completo,"Superior completo: 54%, Medio completo: 46%",nao,13,1
+TECNICO AMBIENTAL,TECNICO AMBIENTAL,Infraestrutura,Técnico,Superior completo,"Superior completo: 77%, Mestrado: 15%, Pos-graduacao: 8%",nao,13,1
+PEBII PORTUGUES,PEBII PORTUGUES,Docência,Operacional,Superior completo,"Superior completo: 85%, Mestrado: 8%, Pos-graduacao: 8%",nao,13,1
+AG PROG HUMANIZ (FG),AG PROG HUMANIZ (FG),Administrativo,Operacional,Superior completo,"Superior completo: 92%, Medio completo: 8%",nao,12,1
+COORDENADOR DE CAMPO (FG),COORDENADOR DE CAMPO (FG),Liderança,Liderança,Superior completo / Medio completo,"Superior completo: 58%, Medio completo: 17%, Fundamental completo: 17%",nao,12,1
+"COORD TEC SERV URG, EMERG, ESPEC ATENC PRIMARIA(FG)","COORD TEC SERV URG, EMERG, ESPEC ATENC PRIMARIA(FG)",Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 42%, Superior completo: 33%, Mestrado: 17%",nao,12,1
+GESTOR DE DESENV EDUCACIONAL PEDAG,GESTOR DE DESENV EDUCACIONAL PEDAG,Liderança,Liderança,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 50%",nao,12,1
+AG CONTRATACAO/PREGOEIRO(FG),AG CONTRATACAO/PREGOEIRO(FG),Administrativo,Operacional,Superior completo,"Superior completo: 92%, Medio completo: 8%",nao,12,1
+CHEFE DE GABINETE,CHEFE DE GABINETE,Liderança,Liderança,Superior completo,"Superior completo: 75%, Pos-graduacao: 25%",sim,12,12
+ASSIST.DE ADMIN.I,ASSIST.DE ADMIN.I,Administrativo,Operacional,Superior completo,"Superior completo: 73%, Medio completo: 27%",nao,11,8
+NUTRICIONISTA I,NUTRICIONISTA I,Saúde,Especialista,Superior completo / Pos-graduacao,"Superior completo: 55%, Pos-graduacao: 45%",nao,11,2
+FONOAUDIOLOGO,FONOAUDIOLOGO,Saúde,Especialista,Superior completo,"Superior completo: 70%, Pos-graduacao: 20%, Mestrado: 10%",nao,10,2
+COORD PLAN ESTRATEGICO,COORD PLAN ESTRATEGICO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,10,8
+INAT/PENS(MESTRE OBRAS),INAT/PENS(MESTRE OBRAS),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 60%, Fundamental incompleto: 30%, Medio completo: 10%",sim,10,1
+ASSIST UN ESPORTIVAS(FG),ASSIST UN ESPORTIVAS(FG),Administrativo,Operacional,Superior completo,"Superior completo: 70%, Medio completo: 30%",nao,10,1
+BIOLOGO I,BIOLOGO I,Saúde,Especialista,Superior completo,"Superior completo: 78%, Pos-graduacao: 11%, Doutorado: 11%",nao,9,2
+PEBII CIENCIAS,PEBII CIENCIAS,Docência,Operacional,Superior completo / Pos-graduacao,"Superior completo: 56%, Pos-graduacao: 22%, Doutorado: 11%",nao,9,1
+TECNICO EM INFORMATICA,TECNICO EM INFORMATICA,TI,Técnico,Medio completo,"Medio completo: 78%, Superior completo: 22%",nao,9,1
+PINTOR,PINTOR,Infraestrutura,Operacional,Medio completo / Fundamental completo,"Medio completo: 62%, Fundamental completo: 25%, Superior completo: 12%",nao,8,3
+CONTADOR I,CONTADOR I,Administrativo,Especialista,Pos-graduacao,"Pos-graduacao: 88%, Superior completo: 12%",nao,8,3
+PEBII HISTORIA,PEBII HISTORIA,Docência,Operacional,Superior completo,"Superior completo: 75%, Pos-graduacao: 12%, Mestrado: 12%",nao,8,1
+INAT/PENS(VIGIA),INAT/PENS(VIGIA),Temporário,Temporário,Fundamental completo,"Fundamental completo: 75%, Fundamental incompleto: 12%, Sem escolaridade formal registrada: 12%",sim,8,1
+ASSIST UN ATEND CIDADAO(FG),ASSIST UN ATEND CIDADAO(FG),Administrativo,Operacional,Superior completo,"Superior completo: 88%, Medio completo: 12%",nao,8,1
+PEBII GEOGRAFIA,PEBII GEOGRAFIA,Docência,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 38%, Mestrado: 12%",nao,8,1
+PEDREIRO,PEDREIRO,Administrativo,Operacional,Fundamental completo,Fundamental completo: 100%,nao,8,2
+INAT/PENS(OF.MANUT/CONSERVAC),INAT/PENS(OF.MANUT/CONSERVAC),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 43%, Fundamental incompleto: 43%, Sem escolaridade formal registrada: 14%",sim,7,1
+INAT/PENS(OF.CALCETEIRO),INAT/PENS(OF.CALCETEIRO),Temporário,Temporário,Fundamental completo / Medio completo,"Fundamental completo: 43%, Medio completo: 29%, Fundamental incompleto: 14%",sim,7,1
+TEC.SEGUR.TRABALHO I,TEC.SEGUR.TRABALHO I,Administrativo,Operacional,Medio completo,"Medio completo: 71%, Superior completo: 14%, Pos-graduacao: 14%",nao,7,2
+ASSESSOR JURIDICO(FG),ASSESSOR JURIDICO(FG),Liderança,Liderança,Superior completo / Pos-graduacao,"Superior completo: 57%, Pos-graduacao: 43%",sim,7,3
+ENG.ELETRICISTA I,ENG.ELETRICISTA I,Administrativo,Operacional,Superior completo / Mestrado,"Superior completo: 57%, Mestrado: 14%, Pos-graduacao: 14%",nao,7,2
+MED VETERINARIO 150H,MED VETERINARIO 150H,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,7,2
+OPER.DE UTILIDADES,OPER.DE UTILIDADES,Administrativo,Operacional,Fundamental completo / Fundamental incompleto,"Fundamental completo: 67%, Fundamental incompleto: 17%, Medio completo: 17%",nao,6,4
+COORD DE DESENVOLV SOCIAL (FG),COORD DE DESENVOLV SOCIAL (FG),Administrativo,Operacional,Superior completo,"Superior completo: 83%, Pos-graduacao: 17%",nao,6,2
+INAT/PENS(OF.ADM.II),INAT/PENS(OF.ADM.II),Temporário,Temporário,Fundamental completo / Fundamental incompleto,"Fundamental completo: 50%, Fundamental incompleto: 17%, Superior completo: 17%",sim,6,1
+SUPERV DE PROJ EVENTOS GOVERNAMENTAIS,SUPERV DE PROJ EVENTOS GOVERNAMENTAIS,Administrativo,Operacional,Superior completo,"Superior completo: 83%, Medio completo: 17%",nao,6,1
+PEB II CLT ED.FISICA,PEB II CLT ED.FISICA,Docência,Operacional,Superior completo,Superior completo: 100%,nao,6,1
+OFICIAL DE ADMINISTRACAO I,OFICIAL DE ADMINISTRACAO I,Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 40%, Superior completo: 40%, Medio completo: 20%",nao,5,4
+MECANICO,MECANICO,Administrativo,Operacional,Fundamental completo / Medio completo,"Fundamental completo: 40%, Medio completo: 20%, Medio incompleto: 20%",nao,5,1
+ASSESSOR DE GABINETE DO PREFEITO,ASSESSOR DE GABINETE DO PREFEITO,Liderança,Liderança,Superior completo,Superior completo: 100%,sim,5,2
+CORREGEDOR (FG),CORREGEDOR (FG),Administrativo,Operacional,Superior completo / Pos-graduacao,"Superior completo: 60%, Pos-graduacao: 20%, Medio completo: 20%",nao,5,1
+GESTOR DE DESENV ADMINISTRATIVO,GESTOR DE DESENV ADMINISTRATIVO,Liderança,Liderança,Superior completo,Superior completo: 100%,nao,5,1
+PEBII ARTES,PEBII ARTES,Docência,Operacional,Superior completo,"Superior completo: 80%, Pos-graduacao: 20%",nao,5,1
+PROCURADOR-CHEFE(FG),PROCURADOR-CHEFE(FG),Liderança,Especialista,Superior completo / Pos-graduacao,"Superior completo: 40%, Pos-graduacao: 40%, Mestrado: 20%",nao,5,1
+AGENTE DE FISCALIZACAO,AGENTE DE FISCALIZACAO,Administrativo,Operacional,Superior completo / Medio completo,"Superior completo: 60%, Medio completo: 40%",nao,5,1
+PEBII INGLES,PEBII INGLES,Docência,Operacional,Superior completo,Superior completo: 100%,nao,5,1
+AJUDANTE DE MANUTENCAO VEICULO,AJUDANTE DE MANUTENCAO VEICULO,Apoio,Operacional,Fundamental completo / Medio completo,"Fundamental completo: 50%, Medio completo: 25%, Fundamental incompleto: 25%",nao,4,2
+PEB II - READAPTADO,PEB II - READAPTADO,Docência,Redistribuído,Pos-graduacao,Pos-graduacao: 100%,nao,4,1
+INSPETOR,INSPETOR,Apoio,Operacional,Medio completo / Superior completo,"Medio completo: 50%, Superior completo: 50%",nao,4,1
+ENG.AGRONOMO I,ENG.AGRONOMO I,Administrativo,Operacional,Superior completo,"Superior completo: 75%, Mestrado: 25%",nao,4,1
+COORDENADOR REG DE SAUDE (FG),COORDENADOR REG DE SAUDE (FG),Liderança,Liderança,Pos-graduacao,"Pos-graduacao: 75%, Superior completo: 25%",nao,4,1
+ASSESSOR PLANEJ SES(FG),ASSESSOR PLANEJ SES(FG),Liderança,Liderança,Superior completo,"Superior completo: 75%, Pos-graduacao: 25%",sim,4,1
+INAT/PENS(OPER.MAQUINAS),INAT/PENS(OPER.MAQUINAS),Temporário,Temporário,Fundamental incompleto / Fundamental completo,"Fundamental incompleto: 50%, Fundamental completo: 50%",sim,4,1
+INAT/PENS(OF.OBRAS E MANUT),INAT/PENS(OF.OBRAS E MANUT),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,4,1
+INAT/PENS(CH.SECAO),INAT/PENS(CH.SECAO),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,4,1
+INAT/PENS(TEC.AGRIMENSURA II),INAT/PENS(TEC.AGRIMENSURA II),Temporário,Temporário,Medio completo,"Medio completo: 75%, Fundamental completo: 25%",sim,4,1
+INAT/PENS(ASSIST.ADM.II),INAT/PENS(ASSIST.ADM.II),Temporário,Temporário,Fundamental completo,"Fundamental completo: 75%, Medio completo: 25%",sim,4,1
+ENG.DE SEG.TRABALHO I,ENG.DE SEG.TRABALHO I,Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 50%",nao,4,2
+GERENTE DE AUDITORIA DA SAUDE,GERENTE DE AUDITORIA DA SAUDE,Administrativo,Operacional,Superior completo,"Superior completo: 75%, Pos-graduacao: 25%",nao,4,1
+SUPERV DE ENSINO DESIGNADO,SUPERV DE ENSINO DESIGNADO,Administrativo,Redistribuído,Pos-graduacao / Mestrado,"Pos-graduacao: 50%, Mestrado: 50%",nao,4,1
+GERENTE DE CONTROLE INTERNO (FG),GERENTE DE CONTROLE INTERNO (FG),Administrativo,Operacional,Superior completo,"Superior completo: 75%, Pos-graduacao: 25%",nao,4,1
+GESTOR ADM DE ESTAB DE SAUDE,GESTOR ADM DE ESTAB DE SAUDE,Liderança,Liderança,Superior completo,"Superior completo: 75%, Pos-graduacao: 25%",nao,4,1
+MED VETERINARIO 75H,MED VETERINARIO 75H,Administrativo,Operacional,Doutorado / Superior completo,"Doutorado: 33%, Superior completo: 33%, Pos-graduacao: 33%",nao,3,2
+AGENTE INFANTIL,AGENTE INFANTIL,Administrativo,Operacional,Medio completo / Superior completo,"Medio completo: 67%, Superior completo: 33%",nao,3,1
+SUPERVISOR DE EQUIPE (FG),SUPERVISOR DE EQUIPE (FG),Liderança,Liderança,Superior completo / Pos-graduacao,"Superior completo: 67%, Pos-graduacao: 33%",nao,3,1
+INAT/PENS(SERVENTE),INAT/PENS(SERVENTE),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,3,1
+INAT/PENS(OF.ADM.I),INAT/PENS(OF.ADM.I),Temporário,Temporário,Fundamental completo / Medio completo,"Fundamental completo: 67%, Medio completo: 33%",sim,3,1
+INAT/PENS(INSP.ALUNOS),INAT/PENS(INSP.ALUNOS),Temporário,Temporário,Fundamental incompleto / Fundamental completo,"Fundamental incompleto: 33%, Fundamental completo: 33%, Medio completo: 33%",sim,3,1
+INAT/PENS(CH.DIVISAO),INAT/PENS(CH.DIVISAO),Temporário,Temporário,Superior completo / Medio completo,"Superior completo: 67%, Medio completo: 33%",sim,3,1
+INAT/PENS(OF.PEDREIRO),INAT/PENS(OF.PEDREIRO),Temporário,Temporário,Medio incompleto / Fundamental incompleto,"Medio incompleto: 33%, Fundamental incompleto: 33%, Fundamental completo: 33%",sim,3,1
+INAT/PENS(OF.MANUT.VEICULO),INAT/PENS(OF.MANUT.VEICULO),Temporário,Temporário,Fundamental completo / Sem escolaridade formal registrada,"Fundamental completo: 67%, Sem escolaridade formal registrada: 33%",sim,3,1
+BIOMEDICO I,BIOMEDICO I,Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,3,1
+GER PLAN E EXEC ORCAM(FG),GER PLAN E EXEC ORCAM(FG),Administrativo,Operacional,Superior completo / Pos-graduacao,"Superior completo: 67%, Pos-graduacao: 33%",nao,3,1
+PEBI N/II,PEBI N/II,Docência,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 67%, Superior completo: 33%",nao,3,1
+COORD PROG HUMANIZACAO (FG),COORD PROG HUMANIZACAO (FG),Administrativo,Operacional,Superior completo / Pos-graduacao,"Superior completo: 67%, Pos-graduacao: 33%",nao,3,1
+TEC.RECR.E LAZER I,TEC.RECR.E LAZER I,Administrativo,Operacional,Mestrado / Superior completo,"Mestrado: 33%, Superior completo: 33%, Pos-graduacao: 33%",nao,3,2
+ENG AMBIENTAL,ENG AMBIENTAL,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,3,2
+FUNILEIRO,FUNILEIRO,Administrativo,Operacional,Fundamental incompleto / Medio incompleto,"Fundamental incompleto: 50%, Medio incompleto: 50%",nao,2,1
+DESENHISTA,DESENHISTA,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,2,2
+LAVADOR / LUBRIFICADOR,LAVADOR / LUBRIFICADOR,Administrativo,Operacional,Fundamental incompleto / Superior completo,"Fundamental incompleto: 50%, Superior completo: 50%",nao,2,1
+JARDINEIRO,JARDINEIRO,Administrativo,Operacional,Fundamental incompleto / Sem escolaridade formal registrada,"Fundamental incompleto: 50%, Sem escolaridade formal registrada: 50%",nao,2,2
+TRATADOR DE ANIMAIS,TRATADOR DE ANIMAIS,Administrativo,Operacional,Fundamental incompleto / Medio completo,"Fundamental incompleto: 50%, Medio completo: 50%",nao,2,1
+OF.FUNILEIRO,OF.FUNILEIRO,Administrativo,Operacional,Medio completo / Fundamental incompleto,"Medio completo: 50%, Fundamental incompleto: 50%",nao,2,1
+ELETRICISTA DE VEICULOS,ELETRICISTA DE VEICULOS,Infraestrutura,Operacional,Medio completo / Fundamental incompleto,"Medio completo: 50%, Fundamental incompleto: 50%",nao,2,1
+MOT CHEFIA PODER EXECUTIVO(FG),MOT CHEFIA PODER EXECUTIVO(FG),Administrativo,Operacional,Medio completo / Superior completo,"Medio completo: 50%, Superior completo: 50%",nao,2,2
+AGENTE INFANTIL - READAPTADO,AGENTE INFANTIL - READAPTADO,Administrativo,Redistribuído,Medio completo,Medio completo: 100%,nao,2,1
+INAT/PENS(MECANICO),INAT/PENS(MECANICO),Temporário,Temporário,Fundamental completo / Medio completo,"Fundamental completo: 50%, Medio completo: 50%",sim,2,1
+INAT/PENS(JARDINEIRO),INAT/PENS(JARDINEIRO),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,2,1
+INAT/PENS(AUX.ENFERMAGEM),INAT/PENS(AUX.ENFERMAGEM),Temporário,Temporário,Fundamental completo / Medio completo,"Fundamental completo: 50%, Medio completo: 50%",sim,2,1
+INAT/PENS(PROCURADOR),INAT/PENS(PROCURADOR),Temporário,Temporário,Fundamental completo / Superior completo,"Fundamental completo: 50%, Superior completo: 50%",sim,2,1
+INAT/PENS(PROF.III NIV),INAT/PENS(PROF.III NIV),Temporário,Temporário,Superior completo,Superior completo: 100%,sim,2,1
+INAT/PENS(PROF.III NIII),INAT/PENS(PROF.III NIII),Temporário,Temporário,Superior completo,Superior completo: 100%,sim,2,1
+INAT/PENS(PROF.I NI),INAT/PENS(PROF.I NI),Temporário,Temporário,Medio completo,Medio completo: 100%,sim,2,1
+INAT/PENS(OPER.UTILIDADES),INAT/PENS(OPER.UTILIDADES),Temporário,Temporário,Superior completo / Fundamental incompleto,"Superior completo: 50%, Fundamental incompleto: 50%",sim,2,1
+INAT/PENS(AG.SANITARIO),INAT/PENS(AG.SANITARIO),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,2,1
+INAT/PENS(AJUD.SERV.),INAT/PENS(AJUD.SERV.),Temporário,Temporário,Fundamental completo / Sem escolaridade formal registrada,"Fundamental completo: 50%, Sem escolaridade formal registrada: 50%",sim,2,1
+BIBLIOTECARIO I,BIBLIOTECARIO I,Administrativo,Operacional,Superior completo / Pos-graduacao,"Superior completo: 50%, Pos-graduacao: 50%",nao,2,1
+SUPERV MANUT EQUIP SES,SUPERV MANUT EQUIP SES,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,1
+SUPERV PROJ TI (FG),SUPERV PROJ TI (FG),Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 50%",nao,2,1
+SUPERV ARRECAD DE EXEC FISCAL,SUPERV ARRECAD DE EXEC FISCAL,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,1
+TECNOLOGO EM SAUDE,TECNOLOGO EM SAUDE,Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,2,1
+OUVIDOR DA PMS(FG),OUVIDOR DA PMS(FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,1
+COORD PROJ GOV (FG),COORD PROJ GOV (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,1
+MUSEOLOGO I,MUSEOLOGO I,Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 50%",nao,2,1
+TECNICO AGRICOLA,TECNICO AGRICOLA,Administrativo,Técnico,Superior completo / Medio completo,"Superior completo: 50%, Medio completo: 50%",nao,2,1
+COORD CONS JURIDICA(FG),COORD CONS JURIDICA(FG),Administrativo,Operacional,Pos-graduacao / Superior completo,"Pos-graduacao: 50%, Superior completo: 50%",nao,2,1
+ENG. FLORESTAL,ENG. FLORESTAL,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,2
+BIOLOGISTA,BIOLOGISTA,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,2,1
+TEC EM EVENTOS,TEC EM EVENTOS,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,2,2
+TEC.DE TRAFEGO,TEC.DE TRAFEGO,Administrativo,Técnico,Medio completo,Medio completo: 100%,nao,1,1
+OPER.DE MAQ.PESADAS,OPER.DE MAQ.PESADAS,Administrativo,Operacional,Fundamental completo,Fundamental completo: 100%,nao,1,1
+SECRET JUNTA SERVICO MILITAR,SECRET JUNTA SERVICO MILITAR,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+FISCAL DE TRIBUTOS I,FISCAL DE TRIBUTOS I,Fiscalização,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+OF.PINTOR LETRISTA,OF.PINTOR LETRISTA,Administrativo,Operacional,Fundamental incompleto,Fundamental incompleto: 100%,nao,1,1
+TORNEIRO MECANICO,TORNEIRO MECANICO,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+OF.MANUT/CONSERVACAO,OF.MANUT/CONSERVACAO,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+OF.OBRAS E MANUTENCAO,OF.OBRAS E MANUTENCAO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+AJUDANTE DE SERVICOS,AJUDANTE DE SERVICOS,Apoio,Operacional,Fundamental completo,Fundamental completo: 100%,nao,1,1
+AGENTE DE RECR. E LAZER,AGENTE DE RECR. E LAZER,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+INSPETOR COMAND.LOCAL,INSPETOR COMAND.LOCAL,Apoio,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+COMANDANTE-GERAL,COMANDANTE-GERAL,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COMANDANTE OPERACIONAL,COMANDANTE OPERACIONAL,Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+COORD GERAL DEF CIVIL (FG),COORD GERAL DEF CIVIL (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+CORREGEDOR-ADJUNTO,CORREGEDOR-ADJUNTO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+INAT/PENS(AUX.FISCALIZACAO),INAT/PENS(AUX.FISCALIZACAO),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,1,1
+INAT/PENS(AG.FISCALIZACAO),INAT/PENS(AG.FISCALIZACAO),Temporário,Temporário,Medio completo,Medio completo: 100%,sim,1,1
+INAT/PENS(AUX.ADM),INAT/PENS(AUX.ADM),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(FUNILEIRO),INAT/PENS(FUNILEIRO),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(ZELADOR),INAT/PENS(ZELADOR),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,1,1
+INAT/PENS(COMPRADOR I),INAT/PENS(COMPRADOR I),Temporário,Temporário,Superior completo,Superior completo: 100%,sim,1,1
+INAT/PENS(PROF.ED.INF.II NII),INAT/PENS(PROF.ED.INF.II NII),Temporário,Temporário,Superior completo,Superior completo: 100%,sim,1,1
+INAT/PENS(PROF.ED.INF.II NI),INAT/PENS(PROF.ED.INF.II NI),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(PROF.ED.INF.II NIII),INAT/PENS(PROF.ED.INF.II NIII),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(REGENTE MATERNAL),INAT/PENS(REGENTE MATERNAL),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,1,1
+INAT/PENS(PROF.I NIII),INAT/PENS(PROF.I NIII),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(OF.PINTOR VEICULOS),INAT/PENS(OF.PINTOR VEICULOS),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+INAT/PENS(AG.ADM),INAT/PENS(AG.ADM),Temporário,Temporário,Medio completo,Medio completo: 100%,sim,1,1
+MOTORISTA EXECUTIVO (FG),MOTORISTA EXECUTIVO (FG),Apoio,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+SUPERV PROJ HAB(FG),SUPERV PROJ HAB(FG),Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+GESTOR EM SAUDE OCUPAC (FG),GESTOR EM SAUDE OCUPAC (FG),Liderança,Liderança,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+AUDITOR GERAL DA SAUDE,AUDITOR GERAL DA SAUDE,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+OUVIDOR DA SAUDE (FG),OUVIDOR DA SAUDE (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORD DE PLAN ORCAMENTARIO,COORD DE PLAN ORCAMENTARIO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+SECRET DELEGACIA SERV MILITAR,SECRET DELEGACIA SERV MILITAR,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+GESTOR HUMANIZACAO (FG),GESTOR HUMANIZACAO (FG),Liderança,Liderança,Superior completo,Superior completo: 100%,nao,1,1
+GERENTE DE PROJ SAUDE DIGITAL (FG),GERENTE DE PROJ SAUDE DIGITAL (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+CONTROLADOR GERAL DO MUNICIPIO,CONTROLADOR GERAL DO MUNICIPIO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+GERENTE AUDIT INT (FG),GERENTE AUDIT INT (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+CORREGEDOR DA GCM (FG),CORREGEDOR DA GCM (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORD DE PLAN SAUDE DIGITAL (FG),COORD DE PLAN SAUDE DIGITAL (FG),Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+TEC.AGRIMENSURA I,TEC.AGRIMENSURA I,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORDENADOR DA MULHER,COORDENADOR DA MULHER,Liderança,Liderança,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+COORD REGULACAO ELETIVA SAUDE,COORD REGULACAO ELETIVA SAUDE,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORDENADOR DE SAUDE MENTAL,COORDENADOR DE SAUDE MENTAL,Liderança,Liderança,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+COORD ENFERM SAMU-REGIONAL(FG),COORD ENFERM SAMU-REGIONAL(FG),Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+MOTORISTA HUMANIZACAO (FG),MOTORISTA HUMANIZACAO (FG),Apoio,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+COORD GERAL DE TI,COORD GERAL DE TI,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+ASSESSOR DE GAB SESU,ASSESSOR DE GAB SESU,Liderança,Liderança,Pos-graduacao,Pos-graduacao: 100%,sim,1,1
+ENCANADOR,ENCANADOR,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+OUVIDOR DA GCM (FG),OUVIDOR DA GCM (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+MEDICO VETER. ZOONOSES,MEDICO VETER. ZOONOSES,Saúde,Especialista,Superior completo,Superior completo: 100%,nao,1,1
+GERENTE SOCIOAMB CADI(FG),GERENTE SOCIOAMB CADI(FG),Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+AUDITOR GERAL DO MUNICIPIO,AUDITOR GERAL DO MUNICIPIO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+DIRIGENTE DAS UNIDADES TECNICAS,DIRIGENTE DAS UNIDADES TECNICAS,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+SUPERV PROJ OBRAS SEURB(FG),SUPERV PROJ OBRAS SEURB(FG),Administrativo,Operacional,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+COORD DE EDUC E TREIN SAUDE,COORD DE EDUC E TREIN SAUDE,Administrativo,Operacional,Mestrado,Mestrado: 100%,nao,1,1
+PROCURADOR-GERAL(FG),PROCURADOR-GERAL(FG),Liderança,Especialista,Pos-graduacao,Pos-graduacao: 100%,nao,1,1
+INAT/PENS(FISCAL SERV.II),INAT/PENS(FISCAL SERV.II),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,1,1
+OPER.DE MAQUINAS,OPER.DE MAQUINAS,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+CORREGEDOR GERAL DO MUNICIPIO,CORREGEDOR GERAL DO MUNICIPIO,Administrativo,Operacional,Mestrado,Mestrado: 100%,nao,1,1
+INAT/PENS(CARPINTEIRO),INAT/PENS(CARPINTEIRO),Temporário,Temporário,Fundamental incompleto,Fundamental incompleto: 100%,sim,1,1
+INAT/PENS(ASSIST.ADM.I),INAT/PENS(ASSIST.ADM.I),Temporário,Temporário,Fundamental completo,Fundamental completo: 100%,sim,1,1
+SUPERV SEG E CTLE EVENTOS GOV (FG),SUPERV SEG E CTLE EVENTOS GOV (FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORD GERAL TRANSP E PROT DADOS,COORD GERAL TRANSP E PROT DADOS,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+PREFEITO,PREFEITO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+VICE-PREFEITO,VICE-PREFEITO,Administrativo,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+GERENTE OBRAS E PROJ CADI(FG),GERENTE OBRAS E PROJ CADI(FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+ECONOMISTA I,ECONOMISTA I,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORD MEDICO SAMU-REGIONAL(FG),COORD MEDICO SAMU-REGIONAL(FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+TEC DE TURISMO I,TEC DE TURISMO I,Administrativo,Técnico,Superior completo,Superior completo: 100%,nao,1,1
+SUPERV PROJ OBRAS SERPO(FG),SUPERV PROJ OBRAS SERPO(FG),Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORDENADOR DA UEP,COORDENADOR DA UEP,Liderança,Liderança,Superior completo,Superior completo: 100%,nao,1,1
+SUPERINTENDENTE CADI,SUPERINTENDENTE CADI,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+AUX. DE EDUCACAO CLT,AUX. DE EDUCACAO CLT,Apoio,Operacional,Medio completo,Medio completo: 100%,nao,1,1
+SUPERINTENDENTE SERT,SUPERINTENDENTE SERT,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+SUPERINTENDENTE SGC,SUPERINTENDENTE SGC,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+COORDENADOR,COORDENADOR,Liderança,Liderança,Superior completo,Superior completo: 100%,nao,1,1
+SUPERINTENDENTE SERV M PROCON,SUPERINTENDENTE SERV M PROCON,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+SUPERINTENDENTE GPE,SUPERINTENDENTE GPE,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+ARQUEOLOGO,ARQUEOLOGO,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+ARQUIVISTA,ARQUIVISTA,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
+SUPERINTENDENTE SEGOV,SUPERINTENDENTE SEGOV,Administrativo,Operacional,Superior completo,Superior completo: 100%,nao,1,1
