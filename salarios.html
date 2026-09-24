@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Salários — Raio-X do Quadro de Pessoal</title>
   <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/salarios.html">
-  <meta name="description" content="Distribuição salarial do quadro de pessoal da Prefeitura de Sorocaba: percentis, mediana, índice de Gini e histograma por faixa de remuneração.">
+  <meta name="description" content="Distribuição salarial do quadro de pessoal da Prefeitura de Sorocaba: percentis, mediana, índice de Gini, histograma por faixa e remuneração por perfil.">
 
   <meta property="og:title" content="Distribuição salarial — Sorocaba">
   <meta property="og:description" content="Percentis, mediana, índice de Gini e histograma da folha recorrente da Prefeitura de Sorocaba.">
@@ -16,12 +16,19 @@
   <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
   <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
 
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Distribuição salarial — Sorocaba">
   <meta name="twitter:description" content="Análise da distribuição salarial do quadro municipal.">
 
-  <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+  <script>
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js");
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="assets/app.js" defer></script>
@@ -62,7 +69,7 @@
       <a href="secretarias.html">Secretarias</a>
       <a href="quadro.html">Perfil das Unidades</a>
       <a href="genero.html">Gênero</a>
-      <a href="salarios.html">Salários</a>
+      <a href="salarios.html" aria-current="page">Salários</a>
       <a href="sobre.html">Sobre</a>
       <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
@@ -81,7 +88,7 @@
       <a href="secretarias.html">Secretarias</a>
       <a href="quadro.html">Perfil das Unidades</a>
       <a href="genero.html">Gênero</a>
-      <a href="salarios.html">Salários</a>
+      <a href="salarios.html" aria-current="page">Salários</a>
       <a href="sobre.html">Sobre</a>
     </nav>
     <div class="drawer-rodape">
@@ -175,6 +182,73 @@
           é registrada à parte). As barras não se sobrepõem.
         </div>
       </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- Remuneração por perfil — Fase 1b                               -->
+    <!-- ============================================================ -->
+    <section class="secao" id="remuneracao-perfil">
+      <h2 class="secao-titulo">Remuneração por perfil</h2>
+      <div class="aviso-metodologico" style="font-size: 0.9rem; line-height: 1.6;">
+        <p style="margin-bottom: 0.5rem;">
+          Quanto ganha, em média, cada perfil de servidor. Considera apenas
+          <strong>Pagamento Mensal com valor bruto maior que zero</strong>.
+          A remuneração tende a crescer com o nível de instrução e com o tempo de casa,
+          refletindo progressão na carreira e composição de cargos.
+        </p>
+        <p>
+          <strong>Atenção à faixa "Superior incompleto".</strong>
+          Esse grupo agrega predominantemente <strong>estagiários de nível superior</strong>
+          (que recebem bolsa-auxílio, não salário) e <strong>professores eventuais</strong>
+          (contrato temporário). A remuneração menor reflete o <em>tipo de vínculo</em>,
+          não o nível de instrução.
+        </p>
+      </div>
+
+      <div class="grade-2" style="margin-top: 1.5rem;">
+        <div class="cartao">
+          <div class="cartao-titulo">Folha média por nível de instrução</div>
+          <div class="grafico-container" style="height: 380px;">
+            <canvas id="grafico-salario-escolaridade" aria-label="Gráfico de barras horizontais mostrando a folha média em cada nível de instrução"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Folha média por tempo de casa</div>
+          <div class="grafico-container" style="height: 380px;">
+            <canvas id="grafico-salario-tempo" aria-label="Gráfico de barras verticais mostrando a folha média por faixa de tempo de casa"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="cartao" style="margin-top: 1.5rem;">
+        <div class="tabela-wrap">
+          <table id="tabela-salario-perfil" aria-describedby="descricao-tabela-salario-perfil">
+            <caption id="descricao-tabela-salario-perfil">
+              Remuneração média e mediana por dimensão de perfil (escolaridade e tempo de casa),
+              no último mês disponível. Valores nominais, sem correção pelo IPCA.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Dimensão</th>
+                <th scope="col">Categoria</th>
+                <th scope="col" class="numerico">n</th>
+                <th scope="col" class="numerico">Folha média</th>
+                <th scope="col" class="numerico">Folha mediana</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <noscript>
+        <div class="aviso-noscript" style="margin-top: 1rem;">
+          ⚠️ Ative o JavaScript para visualizar os gráficos e tabelas.
+          Os dados brutos estão em <a href="dados/salarios_por_perfil.csv" download>salarios_por_perfil.csv</a>.
+        </div>
+      </noscript>
     </section>
 
     <section class="secao" id="tabela-percentis">

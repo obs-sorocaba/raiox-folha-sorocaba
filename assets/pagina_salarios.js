@@ -1,13 +1,14 @@
 /* =========================================================================
    Pagina Salarios - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-   Le distribuicao_salarial.csv, gini_mensal.csv e histograma_salarial.csv
-   e renderiza KPIs, graficos e tabela.
+   Le distribuicao_salarial.csv, gini_mensal.csv, histograma_salarial.csv
+   e salarios_por_perfil.csv, e renderiza KPIs, graficos e tabelas.
    ========================================================================= */
 
 const estadoSal = {
   distribuicao: [],
   gini: [],
   histograma: [],
+  salariosPerfil: [],
   kpis: null,
   auditoria: null,
   graficos: {},
@@ -20,10 +21,11 @@ const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
    ------------------------------------------------------------------------- */
 async function inicializar() {
   try {
-    const [distribuicao, gini, histograma, kpis, auditoria] = await Promise.all([
+    const [distribuicao, gini, histograma, salariosPerfil, kpis, auditoria] = await Promise.all([
       carregarCSV("dados/distribuicao_salarial.csv"),
       carregarCSV("dados/gini_mensal.csv"),
       carregarCSV("dados/histograma_salarial.csv"),
+      carregarCSV("dados/salarios_por_perfil.csv"),
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
@@ -39,10 +41,14 @@ async function inicializar() {
     histograma.forEach((r) => {
       ["n", "folha", "ano", "mes"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+    salariosPerfil.forEach((r) => {
+      ["n", "folha_media", "folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+    });
 
     estadoSal.distribuicao = distribuicao.sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     estadoSal.gini = gini.sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     estadoSal.histograma = histograma;
+    estadoSal.salariosPerfil = salariosPerfil;
     estadoSal.kpis = kpis;
     estadoSal.auditoria = auditoria;
 
@@ -51,6 +57,7 @@ async function inicializar() {
     renderizarGraficoPercentis();
     renderizarGraficoGini();
     renderizarHistograma();
+    renderizarSalariosPerfil();
     renderizarTabelaPercentis();
     renderizarSelo(auditoria);
   } catch (e) {
@@ -287,11 +294,9 @@ function renderizarHistograma() {
   const dados = estadoSal.histograma;
   if (!dados.length) return;
 
-  // Pega o ano/mes do primeiro registro
   const anoRef = dados[0].ano;
   const mesRef = dados[0].mes;
 
-  // Atualiza o titulo do cartao
   const titulo = document.getElementById("titulo-histograma");
   if (titulo) {
     titulo.textContent = `Servidores por faixa de remuneração mensal — ${rotuloPeriodo(anoRef, mesRef)}`;
@@ -366,6 +371,84 @@ function renderizarHistograma() {
       },
     },
   });
+}
+
+/* -------------------------------------------------------------------------
+   Remuneracao por perfil (Fase 1b)
+   ------------------------------------------------------------------------- */
+function renderizarSalariosPerfil() {
+  const dados = estadoSal.salariosPerfil || [];
+  if (!dados.length) return;
+
+  renderizarGraficoSalarioEscolaridade(dados);
+  renderizarGraficoSalarioTempo(dados);
+  renderizarTabelaSalarioPerfil(dados);
+}
+
+function renderizarGraficoSalarioEscolaridade(dados) {
+  const ctx = document.getElementById("grafico-salario-escolaridade");
+  if (!ctx) return;
+
+  const escolaridade = dados.filter((d) => d.dimensao === "escolaridade");
+  if (!escolaridade.length) return;
+
+  if (estadoSal.graficos.salEsc) estadoSal.graficos.salEsc.destroy();
+
+  estadoSal.graficos.salEsc = graficoBarras(
+    ctx,
+    escolaridade.map((d) => d.categoria),
+    escolaridade.map((d) => d.folha_media),
+    {
+      label: "Folha média",
+      horizontal: true,
+      cor: CORES.azulClaro,
+      formatador: (v) => fmtBRL.format(v),
+      eixoFormatador: (v) => fmtBRLCompacto(v),
+    }
+  );
+}
+
+function renderizarGraficoSalarioTempo(dados) {
+  const ctx = document.getElementById("grafico-salario-tempo");
+  if (!ctx) return;
+
+  const tempo = dados.filter((d) => d.dimensao === "tempo_casa");
+  if (!tempo.length) return;
+
+  if (estadoSal.graficos.salTempo) estadoSal.graficos.salTempo.destroy();
+
+  // Barras verticais: eixo X = categorias (0-5 anos, 6-10 anos, ...),
+  // eixo Y = valores em R$. Não passar eixoFormatador, senão ele
+  // sobrescreve os rótulos das categorias no eixo X.
+  estadoSal.graficos.salTempo = graficoBarras(
+    ctx,
+    tempo.map((d) => d.categoria),
+    tempo.map((d) => d.folha_media),
+    {
+      label: "Folha média",
+      cor: CORES.verdeClaro,
+      formatador: (v) => fmtBRL.format(v),
+    }
+  );
+}
+
+function renderizarTabelaSalarioPerfil(dados) {
+  const tbody = document.querySelector("#tabela-salario-perfil tbody");
+  if (!tbody) return;
+
+  const rotuloDim = {
+    escolaridade: "Escolaridade",
+    tempo_casa: "Tempo de casa",
+  };
+
+  tbody.innerHTML = dados.map((d) => `
+    <tr>
+      <td>${rotuloDim[d.dimensao] || d.dimensao}</td>
+      <td>${d.categoria}</td>
+      <td class="numerico">${fmtNum.format(d.n)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_mediana)}</td>
+    </tr>`).join("");
 }
 
 /* -------------------------------------------------------------------------

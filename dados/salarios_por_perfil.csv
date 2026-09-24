@@ -1,0 +1,18 @@
+dimensao,categoria,n,folha_media,folha_mediana
+escolaridade,Sem escolaridade formal registrada,11,4286.16,3745.37
+escolaridade,Fundamental incompleto,71,5781.82,5316.73
+escolaridade,Fundamental completo,280,5371.49,4614.73
+escolaridade,Medio incompleto,19,6769.56,5543.02
+escolaridade,Medio completo,3592,5858.13,5194.78
+escolaridade,Superior incompleto,934,2182.01,1084.8
+escolaridade,Superior completo,6887,8604.52,7478.65
+escolaridade,Pos-graduacao,1898,15811.58,14133.37
+escolaridade,Mestrado,110,21657.42,17931.19
+escolaridade,Doutorado,27,22573.96,21133.89
+tempo_casa,0-5 anos,5410,5812.81,4599.99
+tempo_casa,6-10 anos,1894,7176.19,5579.04
+tempo_casa,11-15 anos,3284,9289.63,7602.6
+tempo_casa,16-20 anos,1858,12754.86,11819.19
+tempo_casa,21-25 anos,760,13261.67,12999.53
+tempo_casa,26-30 anos,181,15488.92,15685.39
+tempo_casa,30+ anos,378,13764.24,11123.51
