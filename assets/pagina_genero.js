@@ -1,5 +1,6 @@
 /* =========================================================================
    Pagina Genero - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+   Correcao P0: cobertura da analise de genero + formatarNumero local
    ========================================================================= */
 
 const estadoGen = {
@@ -17,6 +18,11 @@ const estadoGen = {
 };
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
+
+function formatarNumero(n) {
+  if (n === null || n === undefined || n === "" || isNaN(n)) return "—";
+  return Number(n).toLocaleString("pt-BR");
+}
 
 // Renomeado para ROTULOS_GRUPO_GENERO para não colidir com
 // o ROTULOS_GRUPO declarado em app.js (bug "already declared")
@@ -117,6 +123,7 @@ async function inicializar() {
     estadoGen.auditoria = auditoria;
 
     renderizarCabecalho(kpis);
+    renderizarCoberturaGenero();
     renderizarInsights();
     renderizarGraficoGeral();
     renderizarGraficoEvolucao();
@@ -151,6 +158,64 @@ function renderizarCabecalho(kpis) {
     &nbsp;·&nbsp;
     <strong>${p.meses_cobertos || 0} meses</strong>
   `;
+}
+
+/* -------------------------------------------------------------------------
+   Cobertura da analise de genero (P0)
+   ------------------------------------------------------------------------- */
+function renderizarCoberturaGenero() {
+  const alvo = document.getElementById("cobertura-genero-conteudo");
+  if (!alvo) return;
+
+  try {
+    let total = 0;
+    let definidos = 0;
+    let indefinidos = 0;
+    let fem = 0;
+    let masc = 0;
+
+    estadoGen.geral.forEach((r) => {
+      const g = (r.genero_inferido || "").trim().toLowerCase();
+      const n = num(r.num_matriculas);
+      total += n;
+      if (g === "feminino") { fem += n; definidos += n; }
+      else if (g === "masculino") { masc += n; definidos += n; }
+      else if (g === "indefinido") { indefinidos += n; }
+    });
+
+    const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
+    const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
+
+    const itens = [
+      ["Matrículas totais no último mês", formatarNumero(total)],
+      ["Classificadas como F/M",          formatarNumero(definidos)],
+      ["Indefinidas (excluídas)",         formatarNumero(indefinidos)],
+      ["Cobertura da análise",            cobertura.toFixed(1).replace(".", ",") + "%"],
+      ["Feminino",                        formatarNumero(fem)],
+      ["Masculino",                       formatarNumero(masc)],
+    ];
+
+    alvo.innerHTML = itens.map(function (par) {
+      return '<div><dt>' + par[0] + "</dt><dd>" + par[1] + "</dd></div>";
+    }).join("");
+
+    // Nota adicional
+    const nota = document.createElement("div");
+    nota.className = "aviso-metodologico";
+    nota.style.marginTop = "1rem";
+    nota.innerHTML =
+      "<strong>Nota:</strong> " + pctIndef.toFixed(1).replace(".", ",") +
+      "% das matrículas ficaram como indefinidas (nomes ambíguos ou não reconhecidos). " +
+      "Essas matrículas <strong>não entram</strong> nos cruzamentos por cargo, " +
+      "secretaria, escolaridade e faixa salarial. A análise cobre, portanto, " +
+      cobertura.toFixed(1).replace(".", ",") + "% do total.";
+    alvo.parentElement.appendChild(nota);
+  } catch (e) {
+    console.error("[genero] Erro ao carregar cobertura:", e);
+    alvo.innerHTML =
+      '<div class="carregando">Não foi possível carregar a cobertura. ' +
+      '<a href="dados/genero_geral.csv" download>Baixar CSV</a>.</div>';
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -314,7 +379,6 @@ function renderizarLideranca() {
   const dados = estadoGen.lideranca
     .filter((x) => rotulos[x.categoria])
     .sort((a, b) => {
-      // Ordem fixa: geral, nao_lideranca, lideranca
       const ord = { geral: 0, nao_lideranca: 1, lideranca: 2 };
       return ord[a.categoria] - ord[b.categoria];
     });

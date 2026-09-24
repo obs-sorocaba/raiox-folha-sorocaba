@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +16,21 @@
   <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
   <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
 
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gênero no quadro de pessoal — Sorocaba">
   <meta name="twitter:description" content="Análise de representação, liderança e gap salarial no quadro municipal.">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" href="favicon.ico">
-<link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
+
+  <script>
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js");
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="assets/app.js?v=3" defer></script>
@@ -65,7 +70,7 @@
       <a href="index.html">Início</a>
       <a href="secretarias.html">Secretarias</a>
       <a href="quadro.html">Perfil das Unidades</a>
-      <a href="genero.html">Gênero</a>
+      <a href="genero.html" aria-current="page">Gênero</a>
       <a href="salarios.html">Salários</a>
       <a href="sobre.html">Sobre</a>
       <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
@@ -84,7 +89,7 @@
       <a href="index.html">Início</a>
       <a href="secretarias.html">Secretarias</a>
       <a href="quadro.html">Perfil das Unidades</a>
-      <a href="genero.html">Gênero</a>
+      <a href="genero.html" aria-current="page">Gênero</a>
       <a href="salarios.html">Salários</a>
       <a href="sobre.html">Sobre</a>
     </nav>
@@ -105,6 +110,26 @@
         partir do primeiro nome, com base no Censo 2010 do IBGE. Nomes ambíguos
         ficam como "indefinido" e não entram nos cruzamentos.
       </p>
+    </section>
+
+    <section class="secao" id="cobertura-genero">
+      <h2 class="secao-titulo">Cobertura da análise</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          A inferência de gênero por nome tem limitações. Informamos abaixo quantas
+          matrículas foram classificadas e quantas ficaram como <em>"indefinido"</em>
+          (e foram excluídas dos cruzamentos).
+        </p>
+        <dl class="selo" id="cobertura-genero-conteudo">
+          <div class="carregando">Carregando…</div>
+        </dl>
+        <noscript>
+          <div class="aviso-noscript">
+            Para ver a cobertura, baixe diretamente o arquivo
+            <a href="dados/genero_geral.csv" download>genero_geral.csv</a>.
+          </div>
+        </noscript>
+      </div>
     </section>
 
     <section class="secao" id="disclaimer">
@@ -155,7 +180,7 @@
         <div class="cartao-titulo">Composição por gênero (acumulado)</div>
         <div class="tabela-wrap">
           <table id="tabela-geral">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Gênero</th>
                 <th scope="col" class="numerico">Servidores</th>
@@ -193,7 +218,7 @@
       <div class="cartao" style="margin-top:1.5rem;">
         <div class="tabela-wrap">
           <table id="tabela-categoria">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Categoria</th>
                 <th scope="col" class="numerico">Servidores</th>
@@ -231,7 +256,7 @@
       <div class="cartao" style="margin-top:1.5rem;">
         <div class="tabela-wrap" style="max-height: 480px; overflow-y: auto;">
           <table id="tabela-gap">
-            <th scope="col"ead>
+            <thead>
               <tr>
                 <th scope="col">Cargo</th>
                 <th scope="col" class="numerico">Servidores (F)</th>
