@@ -210,7 +210,7 @@ function inicializarBreadcrumb() {
   const PAGINAS = {
     "index.html":       { nome: "Início", pai: null },
     "secretarias.html": { nome: "Secretarias", pai: "index.html" },
-    "quadro.html":      { nome: "Quadro", pai: "index.html" },
+    "quadro.html":      { nome: "Perfil das Unidades", pai: "index.html" },
     "genero.html":      { nome: "Gênero", pai: "index.html" },
     "salarios.html":    { nome: "Salários", pai: "index.html" },
     "sobre.html":       { nome: "Sobre", pai: "index.html" },
@@ -309,12 +309,58 @@ function graficoLinha(ctx, labels, dados, opcoes = {}) {
   });
 }
 
+/**
+ * Grafico de barras generico.
+ *
+ * Opcoes:
+ *   - horizontal: true  -> barras horizontais (eixo X numerico, eixo Y categorico)
+ *   - horizontal: false -> barras verticais (eixo X categorico, eixo Y numerico)
+ *   - cor: cor base das barras
+ *   - formatador: funcao para formatar os valores no tooltip
+ *   - eixoFormatador: funcao para formatar os valores no eixo numerico
+ *
+ * NOTA TECNICA:
+ *   O Chart.js 4.x, quando o eixo X tem labels string que parecem numeros
+ *   (ex: "0-5 anos", "6-10 anos"), tenta interpretar como numerico e injeta
+ *   um callback padrao, fazendo o eixo mostrar 0, 1, 2, ... em vez dos
+ *   labels. Para evitar isso, forçamos:
+ *     - type: "category" explicito no eixo categorico
+ *     - autoSkip: false (mostra todos os labels)
+ *     - ticks.callback: undefined (impede o Chart.js de injetar)
+ *     - labels como String() (garante que sao strings)
+ */
 function graficoBarras(ctx, labels, dados, opcoes = {}) {
   const corBase = opcoes.cor || CORES.azulClaro;
+  const horizontal = !!opcoes.horizontal;
+
+  // Força labels a serem strings (evita Chart.js tratar como índice numérico)
+  const labelsSeguros = labels.map((l) => String(l));
+
+  // Eixo de valores (numérico) — sempre com beginAtZero e formatação
+  const eixoValores = {
+    beginAtZero: true,
+    grid: { color: CORES.cinzaBorda },
+    ticks: {
+      color: CORES.cinzaTexto,
+      callback: (v) => (opcoes.eixoFormatador ? opcoes.eixoFormatador(v) : fmtNumCompacto(v)),
+    },
+  };
+
+  // Eixo de categorias — sem callback, sem autoSkip, tipo explícito
+  const eixoCategorias = {
+    type: "category",
+    grid: { display: false },
+    ticks: {
+      color: CORES.cinzaTexto,
+      autoSkip: false,
+      callback: undefined,
+    },
+  };
+
   return new Chart(ctx, {
     type: "bar",
     data: {
-      labels,
+      labels: labelsSeguros,
       datasets: [{
         label: opcoes.label || "Valor",
         data: dados,
@@ -326,7 +372,7 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
       }],
     },
     options: {
-      indexAxis: opcoes.horizontal ? "y" : "x",
+      indexAxis: horizontal ? "y" : "x",
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
@@ -334,27 +380,15 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
         tooltip: {
           callbacks: {
             label: (item) => {
-              const v = item.parsed[opcoes.horizontal ? "x" : "y"];
+              const v = item.parsed[horizontal ? "x" : "y"];
               return opcoes.formatador ? opcoes.formatador(v) : fmtBRL.format(v);
             },
           },
         },
       },
-      scales: {
-        x: {
-          beginAtZero: true,
-          grid: { color: CORES.cinzaBorda },
-          ticks: {
-            color: CORES.cinzaTexto,
-            callback: (v) => (opcoes.eixoFormatador ? opcoes.eixoFormatador(v) : fmtNumCompacto(v)),
-          },
-        },
-        y: {
-          beginAtZero: true,
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto },
-        },
-      },
+      scales: horizontal
+        ? { x: eixoValores, y: eixoCategorias }   // horizontal: X = valores, Y = categorias
+        : { x: eixoCategorias, y: eixoValores },  // vertical:   X = categorias, Y = valores
     },
   });
 }
