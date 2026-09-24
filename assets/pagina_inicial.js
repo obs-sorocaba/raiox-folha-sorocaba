@@ -3,6 +3,7 @@
    Le os agregados e renderiza KPIs, graficos e selo de auditoria.
    Toggle: Total x Recorrente no grafico mensal.
    Correcao: hardcodes substituidos por calculo dinamico.
+   Correcao P0: terminologia padronizada (matriculas unicas, ticket medio).
    ========================================================================= */
 
 const estadoInicial = {
@@ -54,7 +55,7 @@ function calcularVariacaoNominal() {
 }
 
 /* -------------------------------------------------------------------------
-   KPIs
+   KPIs — terminologia padronizada (P0)
    ------------------------------------------------------------------------- */
 function renderizarKPIs(kpis) {
   const el = document.getElementById("kpis-container");
@@ -72,13 +73,13 @@ function renderizarKPIs(kpis) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Servidores (último mês)</div>
+      <div class="rotulo">Matrículas únicas (último mês)</div>
       <div class="valor">${fmtNum.format(ultimo.matriculas || 0)}</div>
-      <div class="detalhe">Matrículas únicas no mês</div>
+      <div class="detalhe">Identificadores distintos de servidor/vínculo no mês</div>
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Custo médio por servidor</div>
+      <div class="rotulo">Ticket médio por matrícula</div>
       <div class="valor">${fmtBRL.format(ultimo.ticket_medio || 0)}</div>
       <div class="detalhe">Folha bruta do mês ÷ matrículas únicas</div>
     </div>
@@ -96,9 +97,9 @@ function renderizarKPIs(kpis) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Secretarias</div>
+      <div class="rotulo">Secretarias canônicas</div>
       <div class="valor">${fmtNum.format(totais.secretarias_unicas || 0)}</div>
-      <div class="detalhe">Órgãos distintos na base</div>
+      <div class="detalhe">Secretarias após canonização</div>
     </div>
   `;
 
@@ -166,7 +167,7 @@ function inicializarToggle() {
 }
 
 /* -------------------------------------------------------------------------
-   Grafico mensal nominal x real (IPCA) — versao robusta
+   Grafico mensal nominal x real (IPCA)
    ------------------------------------------------------------------------- */
 function renderizarGraficoMensalIPCA() {
   const ctx = document.getElementById("grafico-mensal-ipca");
@@ -378,7 +379,7 @@ function renderizarTopSecretarias(topSec, top = 15) {
     });
   }
 
-  const tbody = document.querySelector("#tabela-secretarias tbody");
+  const tbody = document.querySelector("#tabela-secretarias-tbl tbody");
   if (tbody) {
     tbody.innerHTML = recorte
       .map(
