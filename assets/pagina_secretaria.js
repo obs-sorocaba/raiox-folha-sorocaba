@@ -7,6 +7,9 @@
                     agregada do municipio.
    - "secretaria"  (apos selecao): recorte por secretaria especifica,
                     incluindo anatomia interna detalhada.
+
+   Correcao P0: terminologia padronizada (matriculas unicas, ticket medio,
+   secretarias canonicas, distintos ao longo do periodo).
    ========================================================================= */
 
 const estado = {
@@ -289,13 +292,11 @@ function selecionarMunicipio() {
   }
 
   expandirGradeCategoria();
-
-  // Modo município: mostra anatomia agregada
   renderizarAnatomia(null);
 }
 
 /* -------------------------------------------------------------------------
-   KPIs do municipio
+   KPIs do municipio (P0: terminologia padronizada)
    ------------------------------------------------------------------------- */
 function renderizarKPIsMunicipio(kpis) {
   const el = document.getElementById("kpis-secretaria");
@@ -319,27 +320,27 @@ function renderizarKPIsMunicipio(kpis) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Servidores (último mês)</div>
+      <div class="rotulo">Matrículas únicas (último mês)</div>
       <div class="valor">${fmtNum.format(ult.matriculas || 0)}</div>
-      <div class="detalhe">Matrículas únicas no mês</div>
+      <div class="detalhe">Identificadores distintos de servidor/vínculo no mês</div>
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Custo médio por servidor</div>
+      <div class="rotulo">Ticket médio por matrícula</div>
       <div class="valor">${fmtBRL.format(ult.ticket_medio || 0)}</div>
       <div class="detalhe">Folha bruta ÷ matrículas (último mês)</div>
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Secretarias</div>
+      <div class="rotulo">Secretarias canônicas</div>
       <div class="valor">${fmtNum.format(tot.secretarias_unicas || 0)}</div>
-      <div class="detalhe">Órgãos canônicos na base</div>
+      <div class="detalhe">Secretarias após canonização</div>
     </div>
 
     <div class="kpi">
       <div class="rotulo">Servidores únicos (período)</div>
       <div class="valor">${fmtNum.format(tot.matriculas_unicas || 0)}</div>
-      <div class="detalhe">Distintos em todos os meses</div>
+      <div class="detalhe">Distintos ao longo do período</div>
     </div>
   `;
 }
@@ -381,12 +382,11 @@ function selecionarSecretaria(nome) {
   renderizarComparadores(resumo);
   renderizarTabela(folhaSec);
 
-  // Modo secretaria: anatomia detalhada
   renderizarAnatomia(nome);
 }
 
 /* -------------------------------------------------------------------------
-   KPIs da secretaria
+   KPIs da secretaria (P0: terminologia padronizada)
    ------------------------------------------------------------------------- */
 function renderizarKPIs(resumo) {
   const el = document.getElementById("kpis-secretaria");
@@ -425,7 +425,7 @@ function renderizarKPIs(resumo) {
     </div>
 
     <div class="kpi">
-      <div class="rotulo">Custo médio por servidor</div>
+      <div class="rotulo">Ticket médio por matrícula</div>
       <div class="valor">${fmtBRL.format(resumo.folha_media_mensal / (resumo.num_matriculas || 1))}</div>
       <div class="detalhe">Folha acumulada ÷ matrículas únicas</div>
     </div>
@@ -445,7 +445,7 @@ function renderizarKPIs(resumo) {
 }
 
 /* -------------------------------------------------------------------------
-   Grafico de metrica (folha / efetivo / ticket medio)
+   Grafico de metrica (folha / efetivo / ticket medio) — P0: rotulo corrigido
    ------------------------------------------------------------------------- */
 function renderizarGraficoMetrica() {
   const ctx = document.getElementById("grafico-folha");
@@ -472,7 +472,7 @@ function renderizarGraficoMetrica() {
 
     case "ticket_medio":
       valores = dados.map((d) => num(d.ticket_medio));
-      rotulo = "Custo médio por servidor (R$)";
+      rotulo = "Ticket médio por matrícula (R$)";
       formatador = (v) => fmtBRL.format(v);
       eixoFormatador = (v) => fmtBRLCompacto(v);
       inicioZero = false;
@@ -590,7 +590,7 @@ function renderizarGraficoCategoria(dados, contexto) {
 }
 
 /* -------------------------------------------------------------------------
-   Comparadores com a mediana municipal (modo secretaria)
+   Comparadores com a mediana municipal (P0: rotulo corrigido)
    ------------------------------------------------------------------------- */
 function renderizarComparadores(resumo) {
   const el = document.getElementById("comparadores");
@@ -642,7 +642,7 @@ function renderizarComparadores(resumo) {
 
       <div>
         <div style="font-size: 0.78rem; color: var(--cinza-texto); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600;">
-          Custo médio vs mediana municipal
+          Ticket médio vs mediana municipal
         </div>
         <div style="font-size: 1.2rem; font-weight: 600;">
           ${fmtBRL.format(ticketSec)} ${comparar(ticketSec, medianaTicket)}
