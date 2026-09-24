@@ -19,13 +19,12 @@
   <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/og-image.png">
   <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" href="favicon.ico">
-<link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css">
 
-  <!-- AJUSTE 3E: marca HTML como no-js e troca para js antes do paint -->
   <script>
     document.documentElement.classList.remove("no-js");
     document.documentElement.classList.add("js");
@@ -105,6 +104,9 @@
 
   <main id="conteudo-principal">
 
+    <!-- ============================================================ -->
+    <!-- Missão                                                         -->
+    <!-- ============================================================ -->
     <section class="secao" id="missao">
       <h2 class="secao-titulo">Missão do projeto</h2>
       <div class="cartao">
@@ -129,20 +131,26 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Como usar                                                      -->
+    <!-- ============================================================ -->
     <section class="secao" id="como-usar">
       <h2 class="secao-titulo">Como usar este painel</h2>
       <div class="cartao">
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li>Quer ver <strong>quanto a folha custou ao longo do tempo</strong>? Vá em <a href="index.html">Início</a>.</li>
           <li>Quer ver <strong>quanto sua secretaria gasta</strong> e como evoluiu? Vá em <a href="secretarias.html">Secretarias</a>.</li>
-          <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa)? Vá em <a href="quadro.html">Perfil das Unidades</a>.</li>
+          <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa) e <strong>onde trabalham</strong>? Vá em <a href="quadro.html">Perfil das Unidades</a>.</li>
           <li>Quer saber sobre <strong>gênero, liderança e gap salarial</strong>? Vá em <a href="genero.html">Gênero</a>.</li>
-          <li>Quer ver <strong>como os salários se distribuem</strong> (percentis, Gini)? Vá em <a href="salarios.html">Salários</a>.</li>
+          <li>Quer ver <strong>como os salários se distribuem</strong> (percentis, Gini) e a <strong>remuneração por perfil</strong>? Vá em <a href="salarios.html">Salários</a>.</li>
           <li>Quer baixar os dados abertos? Todos os arquivos CSV estão em <code>dados/</code> e podem ser acessados diretamente.</li>
         </ul>
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Fonte dos dados                                                -->
+    <!-- ============================================================ -->
     <section class="secao" id="fonte">
       <h2 class="secao-titulo">Fonte dos dados</h2>
       <div class="cartao">
@@ -154,7 +162,6 @@
         <dl class="selo" id="fonte-dados">
           <div class="carregando">Carregando…</div>
         </dl>
-        <!-- AJUSTE 3E: fallback noscript para metadados -->
         <noscript>
           <div class="aviso-noscript">
             Para ver os metadados da fonte, baixe diretamente o arquivo
@@ -164,6 +171,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Metodologia                                                    -->
+    <!-- ============================================================ -->
     <section class="secao" id="metodologia">
       <h2 class="secao-titulo">Metodologia</h2>
       <div class="cartao">
@@ -172,6 +182,8 @@
           <li><strong>Regimes:</strong> os 43 códigos de regime usados pelo portal são agrupados em 5 categorias auditáveis (Efetivos, Função de confiança, Comissionados, Flexíveis, Inativos). O mapeamento está em <code>regime_map.csv</code>.</li>
           <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
           <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
+          <li><strong>Locais de trabalho:</strong> os 471 locais brutos do portal são agrupados em 3 categorias (unidades físicas, setores operacionais, categorias administrativas). O mapeamento está em <code>local_map.csv</code>.</li>
+          <li><strong>Cargos:</strong> os 269 cargos distintos são classificados em família (Docência, Saúde, Segurança, Fiscalização, Infraestrutura, TI, Apoio, Liderança, Administrativo, Temporário), escolaridade predominante (calculada dos dados reais) e hierarquia. O mapeamento está em <code>cargo_map.csv</code>.</li>
           <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
           <li>
             <strong>Correção pelo IPCA:</strong> a folha real é calculada convertendo cada mês para o poder de compra de
@@ -199,6 +211,189 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Glossário — NOVO P0                                            -->
+    <!-- ============================================================ -->
+    <section class="secao" id="glossario">
+      <h2 class="secao-titulo">Glossário</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          Termos usados no painel e suas definições precisas. Evitamos tratar
+          como sinônimos conceitos diferentes como "registro", "matrícula" e "servidor único".
+        </p>
+
+        <dl class="selo" style="display: block;">
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Registro bruto</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Linha publicada no Portal da Transparência. Um mesmo servidor pode
+              ter vários registros no mesmo mês (13º, férias, rescisão, adiantamento
+              ou múltiplos vínculos).
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Matrícula única</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Identificador distinto de servidor ou vínculo em um mês específico.
+              É a unidade usada para contagem de efetivo no mês.
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Servidor único no período</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Pessoa distinta considerando todas as matrículas ao longo de todo
+              o período (2022-2026). Não é a soma das matrículas mensais.
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Efetivo do mês</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Matrículas únicas no mês. É o número usado em gráficos de evolução
+              do efetivo.
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Folha bruta</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Soma dos pagamentos brutos do mês, incluindo todos os tipos de folha
+              (mensal, 13º, férias, rescisão, adiantamento).
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Folha recorrente</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Subconjunto da folha bruta que exclui 13º, férias, rescisões e
+              adiantamentos. Aproxima o "salário mensal recorrente" do servidor.
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Ticket médio (ou custo médio por matrícula)</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Folha bruta do mês ÷ matrículas únicas do mês. Mede o custo médio
+              por vínculo no mês. Não é o salário médio de um servidor (que
+              pode ter múltiplos vínculos).
+            </dd>
+          </div>
+
+          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro);">
+            <dt style="font-weight: 600; color: var(--azul-escuro);">Pagamento mensal</dt>
+            <dd style="margin: 0; color: var(--cinza-texto);">
+              Rubrica recorrente, excluídos 13º, férias, adiantamentos e rescisões.
+              Usada para cálculo de distribuição salarial (percentis, Gini, faixas).
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- Cobertura e supressão — NOVO P0                                -->
+    <!-- ============================================================ -->
+    <section class="secao" id="cobertura-supressao">
+      <h2 class="secao-titulo">Cobertura e supressão estatística</h2>
+      <div class="cartao">
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Cobertura da análise de gênero</h3>
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          A inferência de gênero por nome tem limitações. Informamos abaixo
+          quantas matrículas foram classificadas e quantas ficaram como "indefinido"
+          (e foram excluídas dos cruzamentos).
+        </p>
+        <dl class="selo" id="cobertura-genero">
+          <div class="carregando">Carregando…</div>
+        </dl>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Regras de supressão estatística</h3>
+        <p style="margin-bottom: 1rem; color: var(--cinza-texto);">
+          Para evitar reidentificação e conclusões estatisticamente frágeis em
+          amostras pequenas, o painel aplica as seguintes regras:
+        </p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="background: var(--azul-escuro); color: var(--branco);">
+              <th style="text-align: left; padding: 0.5rem 0.75rem;">Análise</th>
+              <th style="text-align: left; padding: 0.5rem 0.75rem;">n mínimo</th>
+              <th style="text-align: left; padding: 0.5rem 0.75rem;">Comportamento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--cinza-borda);">
+              <td style="padding: 0.5rem 0.75rem;">Cargo individual</td>
+              <td style="padding: 0.5rem 0.75rem;">10</td>
+              <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 10 são agrupados em "Outros"</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--cinza-borda); background: #fafbfd;">
+              <td style="padding: 0.5rem 0.75rem;">Gap salarial por cargo</td>
+              <td style="padding: 0.5rem 0.75rem;">20 por gênero</td>
+              <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 20 em um dos gêneros são omitidos</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--cinza-borda);">
+              <td style="padding: 0.5rem 0.75rem;">Percentis por secretaria</td>
+              <td style="padding: 0.5rem 0.75rem;">30</td>
+              <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 30 não exibem percentis</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--cinza-borda); background: #fafbfd;">
+              <td style="padding: 0.5rem 0.75rem;">Índice de Gini por secretaria</td>
+              <td style="padding: 0.5rem 0.75rem;">50</td>
+              <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 50 não exibem Gini</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.5rem 0.75rem;">Local de trabalho</td>
+              <td style="padding: 0.5rem 0.75rem;">10</td>
+              <td style="padding: 0.5rem 0.75rem;">Unidades com n &lt; 10 são agrupadas em "Outros"</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="aviso-metodologico" style="margin-top: 1.25rem;">
+          <strong>Nota de reconciliação:</strong> as somas por dimensão (escolaridade, tempo de casa)
+          podem exceder o total de servidores únicos no período, porque:
+          <ul style="margin-top: 0.5rem; padding-left: 1.25rem;">
+            <li>um mesmo servidor pode ter mudado de escolaridade ao longo dos 56 meses;</li>
+            <li>cada linha representa uma <strong>matrícula-perfil</strong>, não necessariamente uma pessoa;</li>
+            <li>servidores com múltiplos vínculos aparecem em mais de uma categoria.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- Definição de liderança — NOVO P0                               -->
+    <!-- ============================================================ -->
+    <section class="secao" id="lideranca">
+      <h2 class="secao-titulo">Definição de liderança</h2>
+      <div class="cartao">
+        <p style="margin-bottom: 1rem;">
+          Nas análises de gênero e de composição do quadro, consideramos
+          <strong>"cargos de liderança"</strong> aqueles cuja nomenclatura contém
+          termos indicativos de chefia, direção ou coordenação:
+        </p>
+        <ul style="line-height: 1.9; padding-left: 1.25rem; margin-bottom: 1rem;">
+          <li><code>Diretor</code>, <code>Vice-Diretor</code></li>
+          <li><code>Chefe</code> (de seção, divisão, gabinete)</li>
+          <li><code>Coordenador</code> (de área, unidade, equipamento)</li>
+          <li><code>Supervisor</code></li>
+          <li><code>Assessor</code></li>
+          <li><code>Secretário de Escola</code></li>
+          <li><code>Gestor</code></li>
+        </ul>
+        <div class="aviso-metodologico">
+          <strong>Limitação:</strong> a classificação é feita por análise do nome do cargo
+          (regex), não por estrutura organizacional formal. Um cargo pode ter nomenclatura
+          de chefia sem exercer liderança efetiva, e vice-versa. A classificação completa
+          está documentada em <code>cargo_map.csv</code> (coluna <code>hierarquia</code>).
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- Mapas públicos de metodologia                                  -->
+    <!-- ============================================================ -->
     <section class="secao" id="mapas">
       <h2 class="secao-titulo">Mapas públicos de metodologia</h2>
       <div class="cartao">
@@ -227,7 +422,6 @@
               </tr>
             </thead>
             <tbody>
-              <!-- AJUSTE 3E: classe .linha-carregando + fallback noscript -->
               <tr class="linha-carregando"><td colspan="5" class="carregando">Carregando…</td></tr>
               <noscript>
                 <tr>
@@ -300,6 +494,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Teto remuneratório                                             -->
+    <!-- ============================================================ -->
     <section class="secao" id="teto-remuneratorio">
       <h2 class="secao-titulo">Teto remuneratório</h2>
       <div class="cartao">
@@ -362,6 +559,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Selo de auditoria                                              -->
+    <!-- ============================================================ -->
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <div class="cartao">
@@ -372,7 +572,6 @@
         <dl class="selo" id="selo-conteudo">
           <div class="carregando">Carregando selo…</div>
         </dl>
-        <!-- AJUSTE 3E: fallback noscript para o selo -->
         <noscript>
           <div class="aviso-noscript">
             Para ver o selo de auditoria, baixe diretamente o arquivo
@@ -382,6 +581,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Base legal e limites                                           -->
+    <!-- ============================================================ -->
     <section class="secao" id="base-legal">
       <h2 class="secao-titulo">Base legal e limites</h2>
       <div class="cartao">
@@ -419,6 +621,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Dados abertos — ATUALIZADO P0                                  -->
+    <!-- ============================================================ -->
     <section class="secao" id="dados-abertos">
       <h2 class="secao-titulo">Dados abertos</h2>
       <div class="cartao">
@@ -438,6 +643,7 @@
           <li><a href="dados/folha_mensal_recorrente.csv" download>folha_mensal_recorrente.csv</a> — folha recorrente mensal</li>
           <li><a href="dados/folha_mensal_ipca.csv" download>folha_mensal_ipca.csv</a> — folha nominal × real (corrigida pelo IPCA)</li>
           <li><a href="dados/composicao_categoria_mes.csv" download>composicao_categoria_mes.csv</a> — composição por categoria de vínculo</li>
+          <li><a href="dados/composicao_regime_mes.csv" download>composicao_regime_mes.csv</a> — composição por regime (granularidade fina)</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
@@ -446,6 +652,42 @@
           <li><a href="dados/resumo_secretaria.csv" download>resumo_secretaria.csv</a> — resumo por secretaria (média mensal, meses reais)</li>
           <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
           <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Anatomia da secretaria (Fase 1c)</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/secretaria_cargo.csv" download>secretaria_cargo.csv</a> — top cargos por secretaria</li>
+          <li><a href="dados/secretaria_escolaridade.csv" download>secretaria_escolaridade.csv</a> — escolaridade por secretaria</li>
+          <li><a href="dados/secretaria_tempo.csv" download>secretaria_tempo.csv</a> — tempo de casa por secretaria</li>
+          <li><a href="dados/secretaria_percentis.csv" download>secretaria_percentis.csv</a> — percentis por secretaria (n ≥ 30)</li>
+          <li><a href="dados/secretaria_gini.csv" download>secretaria_gini.csv</a> — Gini por secretaria (n ≥ 50)</li>
+          <li><a href="dados/municipio_cargo.csv" download>municipio_cargo.csv</a> — top cargos do município</li>
+          <li><a href="dados/municipio_escolaridade.csv" download>municipio_escolaridade.csv</a> — escolaridade do município</li>
+          <li><a href="dados/municipio_tempo.csv" download>municipio_tempo.csv</a> — tempo de casa do município</li>
+          <li><a href="dados/municipio_percentis.csv" download>municipio_percentis.csv</a> — percentis do município</li>
+          <li><a href="dados/municipio_gini.csv" download>municipio_gini.csv</a> — Gini do município</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Unidades municipais (Fase 1a)</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/unidade_tipo.csv" download>unidade_tipo.csv</a> — agregado por tipo de unidade</li>
+          <li><a href="dados/unidade_top20.csv" download>unidade_top20.csv</a> — top 20 unidades físicas por efetivo</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Salários por perfil (Fase 1b)</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/salarios_por_perfil.csv" download>salarios_por_perfil.csv</a> — folha média e mediana por escolaridade e tempo de casa</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapas canônicos (Fase 2)</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/local_map.csv" download>local_map.csv</a> — mapa canônico dos 471 locais de trabalho</li>
+          <li><a href="dados/cargo_map.csv" download>cargo_map.csv</a> — mapa canônico dos 269 cargos (família, escolaridade real, hierarquia)</li>
+        </ul>
+
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Drill-down por unidade (Fase 2.3)</h3>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/unidade_detalhe.csv" download>unidade_detalhe.csv</a> — 460 unidades nominais com efetivo e folha</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
@@ -458,8 +700,13 @@
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Quadro de pessoal</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/quadro_escolaridade.csv" download>quadro_escolaridade.csv</a> — servidores por escolaridade</li>
-          <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
+          <li><a href="dados/quadro_escolaridade_por_ano.csv" download>quadro_escolaridade_por_ano.csv</a> — escolaridade por ano</li>
           <li><a href="dados/quadro_escolaridade_categoria.csv" download>quadro_escolaridade_categoria.csv</a> — escolaridade × categoria</li>
+          <li><a href="dados/quadro_escolaridade_secretaria.csv" download>quadro_escolaridade_secretaria.csv</a> — escolaridade por secretaria</li>
+          <li><a href="dados/quadro_escolaridade_categoria_secretaria.csv" download>quadro_escolaridade_categoria_secretaria.csv</a> — escolaridade × categoria × secretaria</li>
+          <li><a href="dados/quadro_tempo_servico.csv" download>quadro_tempo_servico.csv</a> — servidores por tempo de casa</li>
+          <li><a href="dados/quadro_tempo_servico_por_ano.csv" download>quadro_tempo_servico_por_ano.csv</a> — tempo de casa por ano</li>
+          <li><a href="dados/quadro_tempo_servico_secretaria.csv" download>quadro_tempo_servico_secretaria.csv</a> — tempo de casa por secretaria</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Gênero</h3>
@@ -467,6 +714,10 @@
           <li><a href="dados/genero_geral.csv" download>genero_geral.csv</a> — distribuição geral por gênero</li>
           <li><a href="dados/genero_por_secretaria.csv" download>genero_por_secretaria.csv</a> — gênero por secretaria</li>
           <li><a href="dados/genero_por_categoria.csv" download>genero_por_categoria.csv</a> — gênero por categoria</li>
+          <li><a href="dados/genero_por_escolaridade.csv" download>genero_por_escolaridade.csv</a> — gênero por escolaridade</li>
+          <li><a href="dados/genero_faixa_salarial.csv" download>genero_faixa_salarial.csv</a> — gênero por faixa salarial</li>
+          <li><a href="dados/genero_lideranca.csv" download>genero_lideranca.csv</a> — gênero em cargos de liderança</li>
+          <li><a href="dados/genero_evolucao_mensal.csv" download>genero_evolucao_mensal.csv</a> — evolução da participação feminina</li>
           <li><a href="dados/genero_gap_salarial.csv" download>genero_gap_salarial.csv</a> — gap salarial por cargo</li>
         </ul>
 
@@ -474,15 +725,15 @@
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
           <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
-          <li><a href="dados/regime_map.csv" download>regime_map.csv</a> — mapa de regimes</li>
-          <li><a href="dados/secretaria_map.csv" download>secretaria_map.csv</a> — mapa de secretarias</li>
-          <li><a href="dados/escolaridade_map.csv" download>escolaridade_map.csv</a> — mapa de escolaridades</li>
           <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
           <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
         </ul>
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Roadmap — ATUALIZADO P0                                        -->
+    <!-- ============================================================ -->
     <section class="secao" id="roadmap">
       <h2 class="secao-titulo">Roadmap público</h2>
       <div class="cartao">
@@ -504,39 +755,54 @@
             </ul>
           </div>
 
-          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
-            <strong style="color: var(--azul-escuro);">Onda 2 — Em andamento</strong>
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-escuro);">Onda 2 — Concluída</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Distribuição salarial (percentis e índice de Gini) — <strong>concluído</strong></li>
-              <li>Evolução nominal vs. corrigida pelo IPCA — <strong>concluído</strong></li>
-              <li>Simulador de reajuste</li>
+              <li>Distribuição salarial (percentis e índice de Gini)</li>
+              <li>Evolução nominal vs. corrigida pelo IPCA</li>
+              <li>Remuneração por perfil (escolaridade e tempo de casa)</li>
+              <li>Anatomia da secretaria (top cargos, escolaridade, tempo, percentis, Gini)</li>
+              <li>Agregado do município no modo padrão</li>
+            </ul>
+          </div>
+
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-escuro);">Onda 3 — Concluída</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Unidades municipais por tipo (unidade física, setor, categoria)</li>
+              <li>Canonização de 471 locais de trabalho (local_map.csv)</li>
+              <li>Canonização de 269 cargos com escolaridade real (cargo_map.csv)</li>
+              <li>Drill-down por unidade nominal (460 unidades)</li>
+            </ul>
+          </div>
+
+          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
+            <strong style="color: var(--azul-escuro);">Onda 4 — Em andamento</strong>
+            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+              <li>Índice HHI de concentração por secretaria</li>
+              <li>Fluxos entre secretarias (Sankey)</li>
+              <li>Movimentação: admissões e desligamentos por mês</li>
               <li>Ranking por cargo</li>
             </ul>
           </div>
 
           <div style="padding: 1rem; background: #fff8dc; border-left: 4px solid var(--amarelo); border-radius: 6px;">
-            <strong style="color: #6b5300;">Onda 3 — Em estudo</strong>
-            <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
-              <li>Nível de unidade (escola, UBS, prédio)</li>
-              <li>Distribuição de carga horária e detecção de acúmulos</li>
-              <li>Projeção de aposentadorias (2027–2032)</li>
-              <li>Fluxos entre secretarias (Sankey)</li>
-            </ul>
-          </div>
-
-          <div style="padding: 1rem; background: #f5eaf7; border-left: 4px solid #7a4ba8; border-radius: 6px;">
-            <strong style="color: #7a4ba8;">Onda 4 — Longo prazo</strong>
+            <strong style="color: #6b5300;">Onda 5 — Longo prazo</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Folha per capita (IBGE)</li>
               <li>Custo por aluno (INEP)</li>
               <li>Folha como % da receita (LRF)</li>
               <li>Comparação com municípios pares</li>
+              <li>Simulador de reajuste</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Créditos e licenças                                            -->
+    <!-- ============================================================ -->
     <section class="secao" id="creditos">
       <h2 class="secao-titulo">Créditos e licenças</h2>
       <div class="cartao">
@@ -545,7 +811,7 @@
           O código deste painel é aberto sob licença <strong>MIT</strong>. Você pode usá-lo,
           modificá-lo e distribuí-lo livremente, desde que mantenha a atribuição ao
           Observatório Social do Brasil — Sorocaba.
-          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/blob/main/LICENSE" target="_blank" rel="noopener">Ver licença completa</a>.
+          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/blob/main/LICENSE" target="_blank" rel="noopener">Ver licença MIT no GitHub</a>.
         </p>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.25rem 0 0.75rem;">Dados</h3>
