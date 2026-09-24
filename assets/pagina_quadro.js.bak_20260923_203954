@@ -381,7 +381,7 @@ function renderizarBlocoCategoria() {
     if (estadoQuadro.graficos.catRosca) estadoQuadro.graficos.catRosca.destroy();
     estadoQuadro.graficos.catRosca = graficoRosca(
       ctxRosca,
-      snapshot.map((d) => window.ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo),
+      snapshot.map((d) => ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo),
       snapshot.map((d) => d.folha_total),
       snapshot.map((d) => CORES_GRUPO[d.regime_subgrupo] || CORES.cinzaTexto)
     );
@@ -404,7 +404,7 @@ function renderizarBlocoCategoria() {
         return linha ? linha.folha_total / 1e6 : 0;
       });
       return {
-        label: window.ROTULOS_GRUPO[sg] || sg,
+        label: ROTULOS_GRUPO[sg] || sg,
         data: valores,
         borderColor: CORES_GRUPO[sg] || CORES.cinzaTexto,
         backgroundColor: (CORES_GRUPO[sg] || CORES.cinzaTexto) + "22",
@@ -475,7 +475,7 @@ function renderizarBlocoEscolaridadeCategoria() {
       return linha ? linha.num_matriculas : 0;
     });
     return {
-      label: window.ROTULOS_GRUPO[sg] || sg,
+      label: ROTULOS_GRUPO[sg] || sg,
       data: valores,
       backgroundColor: CORES_GRUPO[sg] || CORES.cinzaTexto,
       borderRadius: 4,

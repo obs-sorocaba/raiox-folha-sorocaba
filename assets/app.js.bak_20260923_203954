@@ -66,7 +66,7 @@ const CORES_GRUPO = {
   nao_classificado:CORES.nc,
 };
 
-window.ROTULOS_GRUPO = {
+const ROTULOS_GRUPO = {
   efetivos:         "Efetivos e empregados públicos",
   funcao_confianca: "Efetivos em função de confiança",
   comissionados:    "Comissionados e agentes políticos",
