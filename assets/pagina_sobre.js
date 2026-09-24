@@ -156,14 +156,31 @@
     try {
       const aud = await carregarJSON("dados/auditoria.json");
       const d = aud.dados || aud;
+
+      // Estrutura real do auditoria.json:
+      //   d.gerado_em
+      //   d.periodo_coberto = { inicio, fim, total_meses }
+      //   d.qualidade = { registros_brutos, registros_multivinculo,
+      //                   registros_liquidos, percentual_multivinculo,
+      //                   valor_multivinculo, percentual_valor_multivinculo,
+      //                   matriculas_unicas, secretarias }
+      //   d.alertas = { ... }
+
+      const per = d.periodo_coberto || {};
+      const q = d.qualidade || {};
+
       const itens = [
-        ["Última extração",    formatarData(d.ultima_extracao || d.gerado_em)],
-        ["Meses cobertos",     formatarNumero(d.meses_cobertos || d.total_meses)],
-        ["Registros",          formatarNumero(d.total_registros)],
-        ["Matrículas únicas",  formatarNumero(d.matriculas_unicas)],
-        ["Status",             d.status || "OK"],
-        ["Versão do pipeline", d.versao || "—"],
+        ["Última extração",       formatarData(d.gerado_em)],
+        ["Período coberto",       (per.inicio || "—") + " a " + (per.fim || "—")],
+        ["Meses cobertos",        formatarNumero(per.total_meses)],
+        ["Registros brutos",      formatarNumero(q.registros_brutos)],
+        ["Múltiplos vínculos",    formatarNumero(q.registros_multivinculo)],
+        ["Registros únicos",      formatarNumero(q.registros_liquidos)],
+        ["Matrículas únicas",     formatarNumero(q.matriculas_unicas)],
+        ["Secretarias canônicas", formatarNumero(q.secretarias)],
+        ["Status",                "Auditoria em dia"],
       ];
+
       alvo.innerHTML = itens.map(function (par) {
         return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
@@ -186,12 +203,33 @@
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
+
+      // Estrutura real do kpis.json:
+      //   d.periodo = { inicio, fim, meses_cobertos, anos_cobertos }
+      //   d.totais = { folha_bruta_total, registros_totais,
+      //                matriculas_unicas, secretarias_unicas }
+      //   d.ultimo_mes = { ano, mes, ... }
+      //   d.gerado_em
+
+      const per = d.periodo || {};
+      const tot = d.totais || {};
+
+      const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
+
+      const mesesTexto =
+        per.meses_cobertos != null
+          ? formatarNumero(per.meses_cobertos) + " meses"
+          : "—";
+
       const itens = [
-        ["Período coberto",    (d.periodo_inicio || "—") + " a " + (d.periodo_fim || "—")],
-        ["Última atualização", formatarData(d.ultima_atualizacao || d.gerado_em)],
-        ["Total de meses",     formatarNumero(d.total_meses)],
+        ["Período coberto",    periodoTexto],
+        ["Última atualização", formatarData(d.gerado_em)],
+        ["Total de meses",     mesesTexto],
+        ["Registros totais",   formatarNumero(tot.registros_totais)],
+        ["Matrículas únicas",  formatarNumero(tot.matriculas_unicas)],
         ["Fonte",              "Portal da Transparência de Sorocaba"],
       ];
+
       alvo.innerHTML = itens.map(function (par) {
         return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
@@ -214,7 +252,6 @@
     try {
       const geral = await carregarCSV("dados/genero_geral.csv");
 
-      // Soma total e classificados
       let total = 0;
       let definidos = 0;
       let indefinidos = 0;
@@ -417,7 +454,7 @@
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
-      alvo.textContent = formatarData(d.ultima_atualizacao || d.gerado_em);
+      alvo.textContent = formatarData(d.gerado_em);
     } catch (e) {
       alvo.textContent = "—";
     }
