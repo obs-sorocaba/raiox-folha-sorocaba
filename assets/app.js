@@ -347,13 +347,15 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
   };
 
   // Eixo de categorias — sem callback, sem autoSkip, tipo explícito
-  const eixoCategorias = {
+    const eixoCategorias = {
     type: "category",
     grid: { display: false },
     ticks: {
       color: CORES.cinzaTexto,
       autoSkip: false,
-      callback: undefined,
+      callback: function(value) {
+        return this.getLabelForValue(value);
+      },
     },
   };
 
