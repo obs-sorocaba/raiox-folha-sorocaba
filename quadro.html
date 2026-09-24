@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil das Unidades — Raio-X do Quadro de Pessoal</title>
   <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
-  <meta name="description" content="Perfil do quadro de pessoal da Prefeitura de Sorocaba: escolaridade, tempo de casa, composição por categoria e gênero.">
+  <meta name="description" content="Perfil das unidades e do quadro de pessoal da Prefeitura de Sorocaba: escolaridade, tempo de casa, composição por categoria e unidades municipais.">
 
-  <meta property="og:title" content="Perfil do quadro de pessoal — Sorocaba">
-  <meta property="og:description" content="Escolaridade, tempo de casa e composição do quadro de pessoal da Prefeitura de Sorocaba.">
+  <meta property="og:title" content="Perfil das Unidades — Sorocaba">
+  <meta property="og:description" content="Perfil demográfico do quadro e infraestrutura das unidades municipais de Sorocaba.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
   <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
@@ -16,12 +16,15 @@
   <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
   <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
 
-
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Perfil do quadro de pessoal — Sorocaba">
-  <meta name="twitter:description" content="Escolaridade, tempo de casa e composição do quadro municipal.">
+  <meta name="twitter:title" content="Perfil das Unidades — Sorocaba">
+  <meta name="twitter:description" content="Perfil demográfico do quadro e unidades municipais.">
 
   <link rel="stylesheet" href="assets/style.css">
+  <script>
+    document.documentElement.classList.remove("no-js");
+    document.documentElement.classList.add("js");
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script src="assets/app.js" defer></script>
@@ -60,7 +63,7 @@
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
       <a href="secretarias.html">Secretarias</a>
-      <a href="quadro.html">Perfil das Unidades</a>
+      <a href="quadro.html" aria-current="page">Perfil das Unidades</a>
       <a href="genero.html">Gênero</a>
       <a href="salarios.html">Salários</a>
       <a href="sobre.html">Sobre</a>
@@ -79,7 +82,7 @@
     <nav class="drawer-nav" aria-label="Menu lateral">
       <a href="index.html">Início</a>
       <a href="secretarias.html">Secretarias</a>
-      <a href="quadro.html">Perfil das Unidades</a>
+      <a href="quadro.html" aria-current="page">Perfil das Unidades</a>
       <a href="genero.html">Gênero</a>
       <a href="salarios.html">Salários</a>
       <a href="sobre.html">Sobre</a>
@@ -94,12 +97,17 @@
 
   <main id="conteudo-principal" aria-live="polite">
 
+    <!-- ============================================================ -->
+    <!-- Apresentação                                                   -->
+    <!-- ============================================================ -->
     <section class="secao" id="apresentacao">
-      <h2 class="secao-titulo">Perfil do quadro de pessoal</h2>
+      <h2 class="secao-titulo">Perfil do quadro e das unidades</h2>
       <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
-        Quem são as pessoas que prestam os serviços públicos em Sorocaba. Esta página
-        reúne três eixos: nível de instrução, tempo de casa e composição por categoria
-        de vínculo.
+        Esta página reúne o <strong>perfil demográfico do quadro</strong> (escolaridade,
+        tempo de casa, categoria e gênero) e a <strong>infraestrutura das unidades
+        municipais</strong> (escolas, UBSs, setores operacionais). Os valores de
+        <em>remuneração média por perfil</em> estão na página
+        <a href="salarios.html">Salários</a>.
       </p>
       <div class="filtros">
         <div class="filtro-item">
@@ -117,103 +125,75 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Escolaridade (contagem)                                        -->
+    <!-- ============================================================ -->
     <section class="secao" id="escolaridade">
       <h2 class="secao-titulo">Nível de instrução do quadro</h2>
       <div class="aviso-metodologico" id="narrativa-escolaridade">Carregando…</div>
-      <div class="grade-2">
-        <div class="cartao">
-          <div class="cartao-titulo">Servidores por nível de instrução</div>
-          <div class="grafico-container">
-            <canvas id="grafico-escolaridade-contagem" aria-label="Gráfico de barras horizontais mostrando a quantidade de servidores em cada nível de instrução"></canvas>
-          </div>
-        </div>
-        <div class="cartao">
-          <div class="cartao-titulo">Remuneração média por nível de instrução</div>
-          <div class="grafico-container">
-            <canvas id="grafico-escolaridade-folha" aria-label="Gráfico de barras horizontais mostrando a remuneração média em cada nível de instrução"></canvas>
-          </div>
+      <div class="cartao">
+        <div class="cartao-titulo">Servidores por nível de instrução</div>
+        <div class="grafico-container">
+          <canvas id="grafico-escolaridade-contagem" aria-label="Gráfico de barras horizontais mostrando a quantidade de servidores em cada nível de instrução"></canvas>
         </div>
       </div>
       <div class="cartao">
         <div class="tabela-wrap">
           <table id="tabela-escolaridade" aria-describedby="descricao-tabela-escolaridade">
             <caption id="descricao-tabela-escolaridade">
-              Servidores e remuneração por nível de instrução no período de janeiro de 2022 a agosto de 2026.
+              Servidores por nível de instrução no período de janeiro de 2022 a agosto de 2026.
             </caption>
             <thead>
               <tr>
                 <th scope="col">Nível de instrução</th>
                 <th scope="col" class="numerico">Servidores</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Folha média</th>
-                <th scope="col" class="numerico">Folha mediana</th>
+                <th scope="col" class="numerico">% do total</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Tempo de casa (contagem)                                       -->
+    <!-- ============================================================ -->
     <section class="secao" id="tempo-servico">
       <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
       <div class="aviso-metodologico" id="narrativa-tempo">Carregando…</div>
-      <div class="grade-2">
-        <div class="cartao">
-          <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
-          <div class="grafico-container">
-            <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa"></canvas>
-          </div>
-        </div>
-        <div class="cartao">
-          <div class="cartao-titulo">Remuneração média por tempo de casa</div>
-          <div class="grafico-container">
-            <canvas id="grafico-tempo-folha" aria-label="Gráfico de barras verticais mostrando a remuneração média por faixa de tempo de casa"></canvas>
-          </div>
+      <div class="cartao">
+        <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
+        <div class="grafico-container">
+          <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa"></canvas>
         </div>
       </div>
       <div class="cartao">
         <div class="tabela-wrap">
           <table id="tabela-tempo" aria-describedby="descricao-tabela-tempo">
             <caption id="descricao-tabela-tempo">
-              Servidores e remuneração por faixa de tempo de casa no período de janeiro de 2022 a agosto de 2026.
+              Servidores por faixa de tempo de casa no período de janeiro de 2022 a agosto de 2026.
             </caption>
             <thead>
               <tr>
                 <th scope="col">Faixa</th>
                 <th scope="col" class="numerico">Servidores</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Folha média</th>
+                <th scope="col" class="numerico">% do total</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td colspan="4" class="carregando">Carregando…</td></tr>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <section class="secao" id="categoria">
-      <h2 class="secao-titulo">Composição da folha por categoria</h2>
-      <div class="grade-2">
-        <div class="cartao">
-          <div class="cartao-titulo">Último mês disponível</div>
-          <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-rosca" aria-label="Gráfico de rosca mostrando a composição da folha do último mês por categoria de vínculo"></canvas>
-          </div>
-        </div>
-        <div class="cartao">
-          <div class="cartao-titulo">Evolução por categoria (R$ milhões)</div>
-          <div class="grafico-container baixo">
-            <canvas id="grafico-categoria-linha" aria-label="Gráfico de linhas mostrando a evolução da folha por categoria de vínculo ao longo dos meses"></canvas>
-          </div>
-        </div>
-      </div>
-    </section>
-
+    <!-- ============================================================ -->
+    <!-- Escolaridade × categoria                                       -->
+    <!-- ============================================================ -->
     <section class="secao" id="escolaridade-categoria">
       <h2 class="secao-titulo">Nível de instrução por categoria</h2>
       <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">Carregando…</div>
@@ -224,6 +204,9 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Gênero × escolaridade                                          -->
+    <!-- ============================================================ -->
     <section class="secao" id="genero-escolaridade">
       <h2 class="secao-titulo">Gênero por nível de instrução</h2>
       <div class="aviso-metodologico" id="narrativa-genero-escolaridade">
@@ -236,6 +219,114 @@
       </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- Unidades — Fase 1a                                             -->
+    <!-- ============================================================ -->
+    <section class="secao" id="unidades">
+      <h2 class="secao-titulo">Unidades municipais</h2>
+      <div class="aviso-metodologico" id="narrativa-unidades">
+        As unidades estão agrupadas em <strong>unidades físicas</strong> (escolas, UBSs, UPAs, hospitais),
+        <strong>setores operacionais</strong> (divisões, departamentos, SAMU, Zoonoses) e
+        <strong>categorias administrativas</strong> (eventuais, estágios, inativos).
+        O detalhamento por unidade nominal será publicado em fase posterior.
+      </div>
+
+      <div class="grade-4" style="margin-top: 1rem;">
+        <div class="kpi">
+          <div class="rotulo">Unidades físicas</div>
+          <div class="valor" id="kpi-unidades-fisicas">—</div>
+          <div class="detalhe">Escolas, UBSs, UPAs, hospitais</div>
+        </div>
+        <div class="kpi">
+          <div class="rotulo">Setores operacionais</div>
+          <div class="valor" id="kpi-setores">—</div>
+          <div class="detalhe">Divisões, departamentos, SAMU</div>
+        </div>
+        <div class="kpi">
+          <div class="rotulo">Categorias administrativas</div>
+          <div class="valor" id="kpi-categorias">—</div>
+          <div class="detalhe">Eventuais, estágios, inativos</div>
+        </div>
+        <div class="kpi">
+          <div class="rotulo">Efetivo total</div>
+          <div class="valor" id="kpi-efetivo-total">—</div>
+          <div class="detalhe">Matrículas únicas no último mês</div>
+        </div>
+      </div>
+
+      <div class="grade-2" style="margin-top: 1.5rem;">
+        <div class="cartao">
+          <div class="cartao-titulo">Efetivo por tipo de unidade</div>
+          <div class="grafico-container">
+            <canvas id="grafico-unidade-tipo" aria-label="Gráfico de barras horizontais mostrando o efetivo por tipo de unidade municipal"></canvas>
+          </div>
+        </div>
+        <div class="cartao">
+          <div class="cartao-titulo">Folha por tipo de unidade</div>
+          <div class="grafico-container">
+            <canvas id="grafico-unidade-folha" aria-label="Gráfico de barras horizontais mostrando a folha total por tipo de unidade municipal"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="cartao" style="margin-top: 1.5rem;">
+        <div class="tabela-wrap">
+          <table id="tabela-unidade-tipo" aria-describedby="descricao-tabela-unidade-tipo">
+            <caption id="descricao-tabela-unidade-tipo">
+              Unidades municipais por tipo. Efetivo = matrículas únicas no último mês.
+              Folha considera apenas Pagamento Mensal com valor bruto maior que zero.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col" class="numerico">Unidades</th>
+                <th scope="col" class="numerico">Efetivo</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 2rem; font-size: 1.1rem; color: var(--azul-escuro);">Top 20 unidades físicas por efetivo</h3>
+      <div class="cartao" style="margin-top: 1rem;">
+        <div class="tabela-wrap">
+          <table id="tabela-unidade-top20" aria-describedby="descricao-tabela-unidade-top20">
+            <caption id="descricao-tabela-unidade-top20">
+              As 20 unidades físicas com maior efetivo no último mês.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Unidade</th>
+                <th scope="col">Tipo</th>
+                <th scope="col" class="numerico">Efetivo</th>
+                <th scope="col" class="numerico">Folha total</th>
+                <th scope="col" class="numerico">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <noscript>
+        <div class="aviso-noscript" style="margin-top: 1rem;">
+          ⚠️ Ative o JavaScript para visualizar os gráficos e tabelas.
+          Os dados brutos estão em <a href="dados/unidade_tipo.csv" download>unidade_tipo.csv</a>
+          e <a href="dados/unidade_top20.csv" download>unidade_top20.csv</a>.
+        </div>
+      </noscript>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- Selo de auditoria                                              -->
+    <!-- ============================================================ -->
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <dl class="selo" id="selo-conteudo">

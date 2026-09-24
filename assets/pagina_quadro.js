@@ -1,8 +1,8 @@
 /* =========================================================================
-   Pagina Quadro - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-   Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
-   e genero x escolaridade.
-   Correcao: rotulos das faixas de tempo de casa no grafico.
+   Pagina Perfil das Unidades — Raio-X do Quadro de Pessoal
+   Blocos: escolaridade (contagem), tempo de casa (contagem),
+           escolaridade x categoria, genero x escolaridade,
+           e unidades municipais (Fase 1a).
    ========================================================================= */
 
 const ORDEM_ESCOLARIDADE = [
@@ -28,6 +28,20 @@ const ROTULOS_TEMPO = {
   6: "30+ anos",
 };
 
+const ROTULOS_TIPO_UNIDADE = {
+  unidade_fisica: "Unidades físicas",
+  setor_operacional: "Setores operacionais",
+  categoria_administrativa: "Categorias administrativas",
+  outros: "Outros",
+};
+
+const CORES_TIPO_UNIDADE = {
+  unidade_fisica: "#1c4e80",
+  setor_operacional: "#4a90d9",
+  categoria_administrativa: "#f9a825",
+  outros: "#a0aec0",
+};
+
 const estadoQuadro = {
   escolaridade: [],
   escolaridadeAno: [],
@@ -35,9 +49,10 @@ const estadoQuadro = {
   escolaridadeSecretaria: [],
   tempoServico: [],
   tempoServicoAno: [],
-  categoriaMes: [],
   generoEscolaridade: [],
   resumoSecretaria: [],
+  unidadeTipo: [],
+  unidadeTop20: [],
   kpis: null,
   graficos: {},
 };
@@ -56,9 +71,10 @@ async function inicializar() {
       escolaridadeSecretaria,
       tempoServico,
       tempoServicoAno,
-      categoriaMes,
       generoEscolaridade,
       resumoSecretaria,
+      unidadeTipo,
+      unidadeTop20,
       kpis,
       auditoria,
     ] = await Promise.all([
@@ -68,9 +84,10 @@ async function inicializar() {
       carregarCSV("dados/quadro_escolaridade_secretaria.csv"),
       carregarCSV("dados/quadro_tempo_servico.csv"),
       carregarCSV("dados/quadro_tempo_servico_por_ano.csv"),
-      carregarCSV("dados/composicao_categoria_mes.csv"),
       carregarCSV("dados/genero_por_escolaridade.csv"),
       carregarCSV("dados/resumo_secretaria.csv"),
+      carregarCSV("dados/unidade_tipo.csv"),
+      carregarCSV("dados/unidade_top20.csv"),
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
@@ -87,13 +104,6 @@ async function inicializar() {
       arr.forEach((r) => camposNumTempo.forEach((c) => { if (c in r) r[c] = num(r[c]); }));
     });
 
-    categoriaMes.forEach((r) => {
-      r.folha_total = num(r.folha_total);
-      r.num_registros = num(r.num_registros);
-      r.num_matriculas = num(r.num_matriculas);
-      r.percentual = num(r.percentual);
-    });
-
     generoEscolaridade.forEach((r) => {
       r.num_matriculas = num(r.num_matriculas);
       r.folha_media = num(r.folha_media);
@@ -103,20 +113,35 @@ async function inicializar() {
       r.folha_total = num(r.folha_total);
     });
 
+    unidadeTipo.forEach((r) => {
+      r.num_unidades = num(r.num_unidades);
+      r.efetivo = num(r.efetivo);
+      r.folha_total = num(r.folha_total);
+      r.ticket_medio = num(r.ticket_medio);
+    });
+
+    unidadeTop20.forEach((r) => {
+      r.efetivo = num(r.efetivo);
+      r.folha_total = num(r.folha_total);
+      r.ticket_medio = num(r.ticket_medio);
+    });
+
     estadoQuadro.escolaridade = escolaridade;
     estadoQuadro.escolaridadeAno = escolaridadeAno;
     estadoQuadro.escolaridadeCategoria = escolaridadeCategoria;
     estadoQuadro.escolaridadeSecretaria = escolaridadeSecretaria;
     estadoQuadro.tempoServico = tempoServico;
     estadoQuadro.tempoServicoAno = tempoServicoAno;
-    estadoQuadro.categoriaMes = categoriaMes;
     estadoQuadro.generoEscolaridade = generoEscolaridade;
     estadoQuadro.resumoSecretaria = resumoSecretaria;
+    estadoQuadro.unidadeTipo = unidadeTipo;
+    estadoQuadro.unidadeTop20 = unidadeTop20;
     estadoQuadro.kpis = kpis;
 
     renderizarCabecalhoPeriodo(kpis);
     popularFiltros(escolaridadeAno, tempoServicoAno, resumoSecretaria);
-    renderizarTudo("todos");
+    renderizarTudo("todos", "todas");
+    renderizarUnidades(unidadeTipo, unidadeTop20);
     renderizarSelo(auditoria);
     registrarEventos();
   } catch (e) {
@@ -202,7 +227,6 @@ function renderizarTudo(ano, secretaria) {
 
   renderizarBlocoEscolaridade(esc);
   renderizarBlocoTempo(tempo);
-  renderizarBlocoCategoria();
   renderizarBlocoEscolaridadeCategoria();
   renderizarBlocoGeneroEscolaridade();
 }
@@ -228,7 +252,7 @@ function filtrarTempo(ano, secretaria) {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 1: Escolaridade
+   Bloco 1: Escolaridade (contagem apenas)
    ------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridade(dados) {
   if (!dados.length) return;
@@ -238,6 +262,8 @@ function renderizarBlocoEscolaridade(dados) {
       ORDEM_ESCOLARIDADE.indexOf(a.escolaridade_canonica) -
       ORDEM_ESCOLARIDADE.indexOf(b.escolaridade_canonica)
   );
+
+  const total = ordenado.reduce((s, d) => s + d.num_matriculas, 0);
 
   const ctxCont = document.getElementById("grafico-escolaridade-contagem");
   if (ctxCont) {
@@ -256,54 +282,39 @@ function renderizarBlocoEscolaridade(dados) {
     );
   }
 
-  const ctxFolha = document.getElementById("grafico-escolaridade-folha");
-  if (ctxFolha) {
-    if (estadoQuadro.graficos.escFolha) estadoQuadro.graficos.escFolha.destroy();
-    estadoQuadro.graficos.escFolha = graficoBarras(
-      ctxFolha,
-      ordenado.map((d) => d.escolaridade_canonica),
-      ordenado.map((d) => d.folha_media),
-      {
-        label: "Folha media",
-        horizontal: true,
-        cor: CORES.verdeClaro,
-        formatador: (v) => fmtBRL.format(v),
-        eixoFormatador: (v) => fmtBRLCompacto(v),
-      }
-    );
-  }
-
+  // Tabela: agora só nível, servidores e % do total
   const tbody = document.querySelector("#tabela-escolaridade tbody");
   if (tbody) {
-    tbody.innerHTML = ordenado.map((d) => `
-      <tr>
-        <td>${d.escolaridade_canonica}</td>
-        <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
-        <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
-        <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
-        <td class="numerico">${fmtBRL.format(d.folha_mediana)}</td>
-      </tr>`).join("");
+    tbody.innerHTML = ordenado.map((d) => {
+      const pct = total > 0 ? ((d.num_matriculas / total) * 100) : 0;
+      return `
+        <tr>
+          <td>${d.escolaridade_canonica}</td>
+          <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
+          <td class="numerico">${fmtPct(pct)}</td>
+        </tr>`;
+    }).join("");
   }
 
   const elNarr = document.getElementById("narrativa-escolaridade");
   if (elNarr) {
-    const total = ordenado.reduce((s, d) => s + d.num_matriculas, 0);
     const top = [...ordenado].sort((a, b) => b.num_matriculas - a.num_matriculas)[0];
     if (top && total > 0) {
       const pct = ((top.num_matriculas / total) * 100).toFixed(1).replace(".", ",");
-      elNarr.innerHTML = `O nível <strong>${top.escolaridade_canonica}</strong> concentra <strong>${pct}%</strong> dos servidores. A remuneração média cresce com o nível de instrução.`;
+      elNarr.innerHTML = `O nível <strong>${top.escolaridade_canonica}</strong> concentra <strong>${pct}%</strong> dos servidores.`;
     }
   }
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 2: Tempo de servico (CORRIGIDO)
+   Bloco 2: Tempo de casa (contagem apenas)
    ------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
-  
+
   const labelsTempo = dados.map((d) => ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`);
-  
+  const total = dados.reduce((s, d) => s + d.num_matriculas, 0);
+
   const ctxCont = document.getElementById("grafico-tempo-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.tempoContagem) estadoQuadro.graficos.tempoContagem.destroy();
@@ -319,141 +330,34 @@ function renderizarBlocoTempo(dados) {
       }
     );
   }
-  
-  const ctxFolha = document.getElementById("grafico-tempo-folha");
-  if (ctxFolha) {
-    if (estadoQuadro.graficos.tempoFolha) estadoQuadro.graficos.tempoFolha.destroy();
-    estadoQuadro.graficos.tempoFolha = graficoBarras(
-      ctxFolha,
-      labelsTempo,
-      dados.map((d) => d.folha_media),
-      {
-        label: "Folha média",
-        cor: CORES.verdeClaro,
-        formatador: (v) => fmtBRL.format(v),
-        eixoFormatador: (v) => fmtBRLCompacto(v),
-      }
-    );
-  }
-  
+
+  // Tabela: agora só faixa, servidores e % do total
   const tbody = document.querySelector("#tabela-tempo tbody");
   if (tbody) {
-    tbody.innerHTML = dados.map((d) => `
-      <tr>
-        <td>${ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`}</td>
-        <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
-        <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
-        <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
-      </tr>`).join("");
+    tbody.innerHTML = dados.map((d) => {
+      const pct = total > 0 ? ((d.num_matriculas / total) * 100) : 0;
+      return `
+        <tr>
+          <td>${ROTULOS_TEMPO[d.faixa_tempo] || `${d.faixa_tempo} anos`}</td>
+          <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
+          <td class="numerico">${fmtPct(pct)}</td>
+        </tr>`;
+    }).join("");
   }
-  
+
   const elNarr = document.getElementById("narrativa-tempo");
   if (elNarr) {
-    const total = dados.reduce((s, d) => s + d.num_matriculas, 0);
     const top = [...dados].sort((a, b) => b.num_matriculas - a.num_matriculas)[0];
     if (top && total > 0) {
       const pct = ((top.num_matriculas / total) * 100).toFixed(1).replace(".", ",");
       const rotuloTop = ROTULOS_TEMPO[top.faixa_tempo] || `${top.faixa_tempo} anos`;
-      elNarr.innerHTML = `A faixa <strong>${rotuloTop}</strong> concentra <strong>${pct}%</strong> dos servidores. A remuneração média tende a crescer com o tempo de casa.`;
+      elNarr.innerHTML = `A faixa <strong>${rotuloTop}</strong> concentra <strong>${pct}%</strong> dos servidores.`;
     }
   }
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 3: Composicao por categoria
-   ------------------------------------------------------------------------- */
-function renderizarBlocoCategoria() {
-  const dados = estadoQuadro.categoriaMes;
-  if (!dados || !dados.length) return;
-
-  const ultima = dados.reduce((acc, d) => {
-    const chave = d.ano * 100 + d.mes;
-    if (!acc || chave > (acc.ano * 100 + acc.mes)) return d;
-    return acc;
-  }, null);
-
-  const snapshot = dados
-    .filter((d) => d.ano === ultima.ano && d.mes === ultima.mes)
-    .sort((a, b) => b.folha_total - a.folha_total);
-
-  const ctxRosca = document.getElementById("grafico-categoria-rosca");
-  if (ctxRosca) {
-    if (estadoQuadro.graficos.catRosca) estadoQuadro.graficos.catRosca.destroy();
-    estadoQuadro.graficos.catRosca = graficoRosca(
-      ctxRosca,
-      snapshot.map((d) => window.ROTULOS_GRUPO[d.regime_subgrupo] || d.regime_subgrupo),
-      snapshot.map((d) => d.folha_total),
-      snapshot.map((d) => CORES_GRUPO[d.regime_subgrupo] || CORES.cinzaTexto)
-    );
-  }
-
-  const ctxLinha = document.getElementById("grafico-categoria-linha");
-  if (ctxLinha) {
-    if (estadoQuadro.graficos.catLinha) estadoQuadro.graficos.catLinha.destroy();
-
-    const subgrupos = [...new Set(dados.map((d) => d.regime_subgrupo))];
-    const periodosSet = new Set(dados.map((d) => `${d.ano}-${String(d.mes).padStart(2, "0")}`));
-    const periodos = [...periodosSet].sort();
-
-    const datasets = subgrupos.map((sg) => {
-      const valores = periodos.map((p) => {
-        const [ano, mes] = p.split("-").map(Number);
-        const linha = dados.find(
-          (d) => d.ano === ano && d.mes === mes && d.regime_subgrupo === sg
-        );
-        return linha ? linha.folha_total / 1e6 : 0;
-      });
-      return {
-        label: window.ROTULOS_GRUPO[sg] || sg,
-        data: valores,
-        borderColor: CORES_GRUPO[sg] || CORES.cinzaTexto,
-        backgroundColor: (CORES_GRUPO[sg] || CORES.cinzaTexto) + "22",
-        borderWidth: 2,
-        fill: false,
-        tension: 0.25,
-        pointRadius: 0,
-        pointHoverRadius: 5,
-      };
-    });
-
-    estadoQuadro.graficos.catLinha = new Chart(ctxLinha, {
-      type: "line",
-      data: {
-        labels: periodos.map((p) => {
-          const [ano, mes] = p.split("-").map(Number);
-          return rotuloPeriodo(ano, mes);
-        }),
-        datasets,
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: "bottom", labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } },
-          tooltip: {
-            callbacks: {
-              label: (item) => `${item.dataset.label}: R$ ${item.parsed.y.toFixed(1).replace(".", ",")} mi`,
-            },
-          },
-        },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 },
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: CORES.cinzaBorda },
-            ticks: { color: CORES.cinzaTexto, callback: (v) => "R$ " + v.toFixed(0) + " mi" },
-          },
-        },
-      },
-    });
-  }
-}
-
-/* -------------------------------------------------------------------------
-   Bloco 4: Escolaridade x categoria (barras empilhadas)
+   Bloco 3: Escolaridade x categoria (barras empilhadas)
    ------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridadeCategoria() {
   const dados = estadoQuadro.escolaridadeCategoria;
@@ -516,7 +420,7 @@ function renderizarBlocoEscolaridadeCategoria() {
 }
 
 /* -------------------------------------------------------------------------
-   Bloco 5: Genero x escolaridade (barras agrupadas)
+   Bloco 4: Genero x escolaridade (barras agrupadas)
    ------------------------------------------------------------------------- */
 function renderizarBlocoGeneroEscolaridade() {
   const dados = estadoQuadro.generoEscolaridade;
@@ -586,6 +490,190 @@ function renderizarBlocoGeneroEscolaridade() {
       },
     },
   });
+}
+
+/* =========================================================================
+   Unidades — Fase 1a
+   Consome: dados/unidade_tipo.csv + dados/unidade_top20.csv
+   ========================================================================= */
+
+function renderizarUnidades(unidadeTipo, unidadeTop20) {
+  if (unidadeTipo && unidadeTipo.length) {
+    renderizarKPIsUnidades(unidadeTipo);
+    renderizarGraficosUnidades(unidadeTipo);
+    renderizarTabelaUnidadeTipo(unidadeTipo);
+  }
+  if (unidadeTop20 && unidadeTop20.length) {
+    renderizarTabelaUnidadeTop20(unidadeTop20);
+  }
+}
+
+function renderizarKPIsUnidades(dados) {
+  const get = (tipo) => dados.find((d) => d.tipo_unidade === tipo) || {};
+  const fisica = get("unidade_fisica");
+  const setor = get("setor_operacional");
+  const categoria = get("categoria_administrativa");
+  const total = dados.reduce((s, d) => s + d.efetivo, 0);
+
+  const el1 = document.getElementById("kpi-unidades-fisicas");
+  if (el1) el1.textContent = (fisica.num_unidades || 0).toLocaleString("pt-BR");
+
+  const el2 = document.getElementById("kpi-setores");
+  if (el2) el2.textContent = (setor.num_unidades || 0).toLocaleString("pt-BR");
+
+  const el3 = document.getElementById("kpi-categorias");
+  if (el3) el3.textContent = (categoria.num_unidades || 0).toLocaleString("pt-BR");
+
+  const el4 = document.getElementById("kpi-efetivo-total");
+  if (el4) el4.textContent = total.toLocaleString("pt-BR");
+}
+
+function renderizarGraficosUnidades(dados) {
+  const ordem = ["unidade_fisica", "setor_operacional", "categoria_administrativa", "outros"];
+  const filtrado = ordem
+    .map((t) => dados.find((d) => d.tipo_unidade === t))
+    .filter((d) => d && d.efetivo > 0);
+
+  const labels = filtrado.map((d) => ROTULOS_TIPO_UNIDADE[d.tipo_unidade]);
+  const efetivo = filtrado.map((d) => d.efetivo);
+  const folha = filtrado.map((d) => d.folha_total);
+  const cores = filtrado.map((d) => CORES_TIPO_UNIDADE[d.tipo_unidade]);
+
+  const ctx1 = document.getElementById("grafico-unidade-tipo");
+  if (ctx1) {
+    if (estadoQuadro.graficos.unidEfetivo) estadoQuadro.graficos.unidEfetivo.destroy();
+    estadoQuadro.graficos.unidEfetivo = new Chart(ctx1, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Efetivo",
+          data: efetivo,
+          backgroundColor: cores,
+          borderRadius: 6,
+          borderSkipped: false,
+        }],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (item) => item.parsed.x.toLocaleString("pt-BR") + " matrículas",
+            },
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            grid: { color: CORES.cinzaBorda },
+            ticks: { color: CORES.cinzaTexto },
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: CORES.cinzaTexto },
+          },
+        },
+      },
+    });
+  }
+
+  const ctx2 = document.getElementById("grafico-unidade-folha");
+  if (ctx2) {
+    if (estadoQuadro.graficos.unidFolha) estadoQuadro.graficos.unidFolha.destroy();
+    estadoQuadro.graficos.unidFolha = new Chart(ctx2, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Folha total",
+          data: folha,
+          backgroundColor: cores,
+          borderRadius: 6,
+          borderSkipped: false,
+        }],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (item) => fmtBRL.format(item.parsed.x),
+            },
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            grid: { color: CORES.cinzaBorda },
+            ticks: {
+              color: CORES.cinzaTexto,
+              callback: (v) => {
+                if (v >= 1_000_000_000) return "R$ " + (v / 1_000_000_000).toFixed(1) + " bi";
+                if (v >= 1_000_000) return "R$ " + (v / 1_000_000).toFixed(0) + " mi";
+                if (v >= 1_000) return "R$ " + (v / 1_000).toFixed(0) + " mil";
+                return "R$ " + v;
+              },
+            },
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: CORES.cinzaTexto },
+          },
+        },
+      },
+    });
+  }
+}
+
+function renderizarTabelaUnidadeTipo(dados) {
+  const tbody = document.querySelector("#tabela-unidade-tipo tbody");
+  if (!tbody) return;
+
+  const ordem = ["unidade_fisica", "setor_operacional", "categoria_administrativa", "outros"];
+  const ordenado = ordem
+    .map((t) => dados.find((d) => d.tipo_unidade === t))
+    .filter((d) => d);
+
+  if (ordenado.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="carregando">Nenhum registro.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = ordenado.map((d) => {
+    const rotulo = ROTULOS_TIPO_UNIDADE[d.tipo_unidade] || d.tipo_unidade;
+    return '<tr>' +
+      '<td>' + rotulo + '</td>' +
+      '<td class="numerico">' + (d.num_unidades || 0).toLocaleString("pt-BR") + '</td>' +
+      '<td class="numerico">' + (d.efetivo || 0).toLocaleString("pt-BR") + '</td>' +
+      '<td class="numerico">' + fmtBRL.format(d.folha_total || 0) + '</td>' +
+      '<td class="numerico">' + fmtBRL.format(d.ticket_medio || 0) + '</td>' +
+      '</tr>';
+  }).join("");
+}
+
+function renderizarTabelaUnidadeTop20(dados) {
+  const tbody = document.querySelector("#tabela-unidade-top20 tbody");
+  if (!tbody) return;
+
+  if (!dados || dados.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="carregando">Nenhuma unidade encontrada.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = dados.map((d) => '<tr>' +
+    '<td>' + (d.local_trabalho || "") + '</td>' +
+    '<td>' + (d.tipo || "") + '</td>' +
+    '<td class="numerico">' + (d.efetivo || 0).toLocaleString("pt-BR") + '</td>' +
+    '<td class="numerico">' + fmtBRL.format(d.folha_total || 0) + '</td>' +
+    '<td class="numerico">' + fmtBRL.format(d.ticket_medio || 0) + '</td>' +
+    '</tr>').join("");
 }
 
 /* -------------------------------------------------------------------------
