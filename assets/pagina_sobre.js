@@ -1,9 +1,8 @@
 /* ============================================================
-   pagina_sobre.js — versão robusta (P0 + auditoria)
-   Carrega: selo, fonte, mapas de metodologia e cobertura de gênero.
-   Nunca deixa estado "Carregando…" pendurado.
-   ============================================================ */
-
+pagina_sobre.js — versão robusta (P0 + auditoria)
+Carrega: selo, fonte, mapas de metodologia e cobertura de gênero.
+Nunca deixa estado "Carregando…" pendurado.
+============================================================ */
 (function () {
   "use strict";
 
@@ -12,7 +11,7 @@
   const TENTATIVAS = 2;
 
   /* ---------- Helpers DOM ---------- */
-  const $  = (sel, ctx) => (ctx || document).querySelector(sel);
+  const $ = (sel, ctx) => (ctx || document).querySelector(sel);
 
   function $$(sel, ctx) {
     return Array.from((ctx || document).querySelectorAll(sel));
@@ -87,13 +86,19 @@
 
   async function carregarCSV(caminho) {
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
-    const texto = await resp.text();
+    let texto = await resp.text();
+
+    if (texto.charCodeAt(0) === 0xfeff) {
+      texto = texto.slice(1);
+    }
 
     return new Promise((resolve, reject) => {
       Papa.parse(texto, {
         header: true,
+        delimiter: "",
         skipEmptyLines: true,
         dynamicTyping: false,
+        transformHeader: (h) => String(h).replace(/^﻿/, "").trim(),
         complete: (res) => {
           if (res.errors && res.errors.length) {
             if (!res.data || res.data.length === 0) {
@@ -102,7 +107,12 @@
               ));
             }
           }
-          resolve(res.data || []);
+
+          const dados = (res.data || []).filter((linha) =>
+            Object.values(linha).some((v) => v !== null && v !== "" && v !== undefined)
+          );
+
+          resolve(dados);
         },
         error: (err) => reject(err),
       });
@@ -131,8 +141,8 @@
         escaparHTML(arquivo) + '" download>' + escaparHTML(arquivo) + "</a>."
       : "";
     tbody.innerHTML =
-      '<tr><td colspan="' + colspanDe(tbody) + '" class="aviso-erro">' +
-      "⚠️ " + escaparHTML(mensagem) + link + "</td></tr>";
+      '<tr><td colspan="' + colspanDe(tbody) + '" class="aviso-erro">⚠️ ' +
+      escaparHTML(mensagem) + link + "</td></tr>";
   }
 
   function mostrarVazio(tbody, arquivo) {
@@ -143,12 +153,12 @@
       : "";
     tbody.innerHTML =
       '<tr><td colspan="' + colspanDe(tbody) + '" class="aviso-vazio">' +
-      "Nenhum registro encontrado." + link + "</td></tr>";
+      "Nenhum registro encontrado. " + link + "</td></tr>";
   }
 
   /* ============================================================
-     1. Selo de auditoria
-     ============================================================ */
+  1. Selo de auditoria
+  ============================================================ */
   async function renderizarSelo() {
     const alvo = $("#selo-conteudo");
     if (!alvo) return;
@@ -157,33 +167,40 @@
       const aud = await carregarJSON("dados/auditoria.json");
       const d = aud.dados || aud;
 
-      // Estrutura real do auditoria.json:
-      //   d.gerado_em
-      //   d.periodo_coberto = { inicio, fim, total_meses }
-      //   d.qualidade = { registros_brutos, registros_multivinculo,
-      //                   registros_liquidos, percentual_multivinculo,
-      //                   valor_multivinculo, percentual_valor_multivinculo,
-      //                   matriculas_unicas, secretarias }
-      //   d.alertas = { ... }
-
       const per = d.periodo_coberto || {};
       const q = d.qualidade || {};
+      const al = d.alertas || {};
+
+      const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
+      const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
+      const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
+
+      const totalPendencias = regNc.length + secNc.length + escNc.length;
+      const status = totalPendencias === 0 ? "Auditoria em dia" : "Pendências de classificação";
 
       const itens = [
-        ["Última extração",       formatarData(d.gerado_em)],
-        ["Período coberto",       (per.inicio || "—") + " a " + (per.fim || "—")],
-        ["Meses cobertos",        formatarNumero(per.total_meses)],
-        ["Registros brutos",      formatarNumero(q.registros_brutos)],
-        ["Múltiplos vínculos",    formatarNumero(q.registros_multivinculo)],
-        ["Registros únicos",      formatarNumero(q.registros_liquidos)],
-        ["Matrículas únicas",     formatarNumero(q.matriculas_unicas)],
+        ["Última extração", formatarData(d.gerado_em)],
+        ["Período coberto", (per.inicio || "—") + " a " + (per.fim || "—")],
+        ["Meses cobertos", formatarNumero(per.total_meses)],
+        ["Registros brutos", formatarNumero(q.registros_brutos)],
+        ["Múltiplos vínculos", formatarNumero(q.registros_multivinculo)],
+        ["Registros únicos", formatarNumero(q.registros_liquidos)],
+        ["Matrículas únicas", formatarNumero(q.matriculas_unicas)],
         ["Secretarias canônicas", formatarNumero(q.secretarias)],
-        ["Status",                "Auditoria em dia"],
+        ["Status", status],
       ];
 
+      if (totalPendencias > 0) {
+        const detalhes = [];
+        if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
+        if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
+        if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
+        itens.push(["Pendências", detalhes.join(", ")]);
+      }
+
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd></div>";
+        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd>";
       }).join("");
     } catch (e) {
       console.error("[sobre] Erro ao carregar auditoria:", e);
@@ -194,8 +211,8 @@
   }
 
   /* ============================================================
-     2. Fonte dos dados
-     ============================================================ */
+  2. Fonte dos dados
+  ============================================================ */
   async function renderizarFonte() {
     const alvo = $("#fonte-dados");
     if (!alvo) return;
@@ -204,35 +221,27 @@
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
 
-      // Estrutura real do kpis.json:
-      //   d.periodo = { inicio, fim, meses_cobertos, anos_cobertos }
-      //   d.totais = { folha_bruta_total, registros_totais,
-      //                matriculas_unicas, secretarias_unicas }
-      //   d.ultimo_mes = { ano, mes, ... }
-      //   d.gerado_em
-
       const per = d.periodo || {};
       const tot = d.totais || {};
 
       const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
-
       const mesesTexto =
         per.meses_cobertos != null
           ? formatarNumero(per.meses_cobertos) + " meses"
           : "—";
 
       const itens = [
-        ["Período coberto",    periodoTexto],
+        ["Período coberto", periodoTexto],
         ["Última atualização", formatarData(d.gerado_em)],
-        ["Total de meses",     mesesTexto],
-        ["Registros totais",   formatarNumero(tot.registros_totais)],
-        ["Matrículas únicas",  formatarNumero(tot.matriculas_unicas)],
-        ["Fonte",              "Portal da Transparência de Sorocaba"],
+        ["Total de meses", mesesTexto],
+        ["Registros totais", formatarNumero(tot.registros_totais)],
+        ["Matrículas únicas", formatarNumero(tot.matriculas_unicas)],
+        ["Fonte", "Portal da Transparência de Sorocaba"],
       ];
 
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd></div>";
+        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd>";
       }).join("");
     } catch (e) {
       console.error("[sobre] Erro ao carregar kpis:", e);
@@ -243,8 +252,8 @@
   }
 
   /* ============================================================
-     3. Cobertura da análise de gênero (P0)
-     ============================================================ */
+  3. Cobertura da análise de gênero (P0)
+  ============================================================ */
   async function renderizarCoberturaGenero() {
     const alvo = $("#cobertura-genero");
     if (!alvo) return;
@@ -262,9 +271,16 @@
         const g = (r.genero_inferido || "").trim().toLowerCase();
         const n = Number(r.num_matriculas) || 0;
         total += n;
-        if (g === "feminino") { fem += n; definidos += n; }
-        else if (g === "masculino") { masc += n; definidos += n; }
-        else if (g === "indefinido") { indefinidos += n; }
+
+        if (g === "feminino") {
+          fem += n;
+          definidos += n;
+        } else if (g === "masculino") {
+          masc += n;
+          definidos += n;
+        } else if (g === "indefinido") {
+          indefinidos += n;
+        }
       });
 
       const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
@@ -272,29 +288,35 @@
 
       const itens = [
         ["Matrículas totais no último mês", formatarNumero(total)],
-        ["Classificadas como F/M",          formatarNumero(definidos)],
-        ["Indefinidas (excluídas)",         formatarNumero(indefinidos)],
-        ["Cobertura da análise",            cobertura.toFixed(1).replace(".", ",") + "%"],
-        ["Feminino",                        formatarNumero(fem)],
-        ["Masculino",                       formatarNumero(masc)],
+        ["Classificadas como F/M", formatarNumero(definidos)],
+        ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
+        ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],
+        ["Feminino", formatarNumero(fem)],
+        ["Masculino", formatarNumero(masc)],
       ];
 
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd></div>";
+        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd>";
       }).join("");
 
-      // Nota adicional sobre o impacto
-      const nota = document.createElement("div");
-      nota.className = "aviso-metodologico";
-      nota.style.marginTop = "1rem";
-      nota.innerHTML =
-        "<strong>Nota:</strong> " + pctIndef.toFixed(1).replace(".", ",") +
-        "% das matrículas ficaram como indefinidas (nomes ambíguos ou não reconhecidos). " +
-        "Essas matrículas <strong>não entram</strong> nos cruzamentos por cargo, " +
-        "secretaria, escolaridade e faixa salarial. A análise cobre, portanto, " +
-        cobertura.toFixed(1).replace(".", ",") + "% do total.";
-      alvo.parentElement.appendChild(nota);
+      const pai = alvo.parentElement;
+      if (pai) {
+        const existente = pai.querySelector(".aviso-metodologico.cobertura-nota");
+        if (existente) existente.remove();
+
+        const nota = document.createElement("div");
+        nota.className = "aviso-metodologico cobertura-nota";
+        nota.style.marginTop = "1rem";
+        nota.innerHTML =
+          "<strong>Nota:</strong> " + pctIndef.toFixed(1).replace(".", ",") +
+          "% das matrículas ficaram como indefinidas (nomes ambíguos ou não reconhecidos). " +
+          "Essas matrículas <strong>não entram</strong> nos cruzamentos por cargo, " +
+          "secretaria, escolaridade e faixa salarial. A análise cobre, portanto, " +
+          cobertura.toFixed(1).replace(".", ",") + "% do total.";
+
+        pai.appendChild(nota);
+      }
     } catch (e) {
       console.error("[sobre] Erro ao carregar cobertura de gênero:", e);
       alvo.innerHTML =
@@ -304,13 +326,14 @@
   }
 
   /* ============================================================
-     4. Mapa de regimes
-     ============================================================ */
+  4. Mapa de regimes
+  ============================================================ */
   let regimesDados = [];
 
   async function carregarRegimes() {
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
+
     mostrarCarregando(tbody);
 
     try {
@@ -328,20 +351,24 @@
   function renderizarTabelaRegimes(lista) {
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
-    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/regime_map.csv");
+
+    if (!lista || lista.length === 0) {
+      return mostrarVazio(tbody, "dados/regime_map.csv");
+    }
 
     tbody.innerHTML = lista.map(function (r) {
-      const cru  = r.regime_cru || r.regime || r.codigo || "";
+      const cru = r.regime_cru || r.regime || r.codigo || "";
       const base = r.regime_base || r.base || "";
-      const sub  = r.subgrupo || "";
+      const sub = r.regime_subgrupo || r.subgrupo || "";
       const fund = r.fundamentacao || r.fundamento || "";
-      const obs  = r.observacao || r.obs || "";
+      const obs = r.observacao || r.obs || "";
+
       return "<tr>" +
-        "<td>" + escaparHTML(textoCelula(cru))  + "</td>" +
+        "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(base)) + "</td>" +
-        "<td>" + escaparHTML(textoCelula(sub))  + "</td>" +
+        "<td>" + escaparHTML(textoCelula(sub)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(fund)) + "</td>" +
-        "<td>" + escaparHTML(textoCelula(obs))  + "</td>" +
+        "<td>" + escaparHTML(textoCelula(obs)) + "</td>" +
         "</tr>";
     }).join("");
   }
@@ -349,24 +376,28 @@
   function configurarBuscaRegime() {
     const input = $("#busca-regime");
     if (!input) return;
+
     input.addEventListener("input", function () {
       const termo = input.value.trim().toLowerCase();
       if (!termo) return renderizarTabelaRegimes(regimesDados);
+
       const filtrado = regimesDados.filter(function (r) {
         return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
       });
+
       renderizarTabelaRegimes(filtrado);
     });
   }
 
   /* ============================================================
-     5. Mapa de secretarias
-     ============================================================ */
+  5. Mapa de secretarias
+  ============================================================ */
   let secretariasDados = [];
 
   async function carregarSecretarias() {
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
+
     mostrarCarregando(tbody);
 
     try {
@@ -384,14 +415,18 @@
   function renderizarTabelaSecretarias(lista) {
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
-    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/secretaria_map.csv");
+
+    if (!lista || lista.length === 0) {
+      return mostrarVazio(tbody, "dados/secretaria_map.csv");
+    }
 
     tbody.innerHTML = lista.map(function (r) {
-      const cru   = r.secretaria_cru || r.nome_cru || r.nome_original || "";
-      const canon = r.secretaria_canonica || r.nome_canonico || r.canonico || "";
+      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || r.nome_original || "";
+      const canon = r.secretaria_canonica || r.secretaria_canon || r.nome_canonico || r.canonico || "";
       const sigla = r.sigla || "";
+
       return "<tr>" +
-        "<td>" + escaparHTML(textoCelula(cru))   + "</td>" +
+        "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(sigla)) + "</td>" +
         "</tr>";
@@ -401,22 +436,26 @@
   function configurarBuscaSecretaria() {
     const input = $("#busca-secretaria");
     if (!input) return;
+
     input.addEventListener("input", function () {
       const termo = input.value.trim().toLowerCase();
       if (!termo) return renderizarTabelaSecretarias(secretariasDados);
+
       const filtrado = secretariasDados.filter(function (r) {
         return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
       });
+
       renderizarTabelaSecretarias(filtrado);
     });
   }
 
   /* ============================================================
-     6. Mapa de escolaridades
-     ============================================================ */
+  6. Mapa de escolaridades
+  ============================================================ */
   async function carregarEscolaridades() {
     const tbody = $("#tabela-escolaridades tbody");
     if (!tbody) return;
+
     mostrarCarregando(tbody);
 
     try {
@@ -430,11 +469,12 @@
       });
 
       tbody.innerHTML = dados.map(function (r) {
-        const cru   = r.escolaridade_crua || r.escolaridade_cru || r.nome_cru || "";
+        const cru = r.escolaridade_crua || r.escolaridade_cru || r.nome_cru || "";
         const canon = r.escolaridade_canonica || r.escolaridade_canon || r.canonico || "";
         const ordem = r.ordem || r.order || "";
+
         return "<tr>" +
-          "<td>" + escaparHTML(textoCelula(cru))   + "</td>" +
+          "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
           "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
           '<td class="numero">' + escaparHTML(textoCelula(ordem)) + "</td>" +
           "</tr>";
@@ -446,11 +486,12 @@
   }
 
   /* ============================================================
-     7. Rodapé (opcional)
-     ============================================================ */
+  7. Rodapé (opcional)
+  ============================================================ */
   async function atualizarRodape() {
     const alvo = document.querySelector("#rodape-atualizacao");
     if (!alvo) return;
+
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
@@ -461,8 +502,8 @@
   }
 
   /* ============================================================
-     8. Inicialização
-     ============================================================ */
+  8. Inicialização
+  ============================================================ */
   function init() {
     renderizarSelo();
     renderizarFonte();

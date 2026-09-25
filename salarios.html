@@ -130,6 +130,16 @@
     <section class="secao" id="panorama">
       <h2 class="secao-titulo">Panorama do último mês</h2>
       <div class="kpis" id="kpis-salarios">
+
+      <!-- P1-AUDITORIA -->
+      <div class="aviso-metodologico" style="margin-top: 1rem;">
+        <strong>Nota sobre totais:</strong> o painel mostra <strong>13.829</strong> matrículas
+        com Pagamento Mensal no último mês, enquanto a <a href="index.html">página inicial</a>
+        mostra <strong>13.916</strong> matrículas únicas. A diferença (87 matrículas) decorre
+        do filtro desta página: aqui só entram servidores com pelo menos um registro de
+        Pagamento Mensal com valor bruto maior que zero. Servidores com outros tipos de
+        folha (férias, rescisão, adiantamento) no mês <strong>não entram</strong> aqui.
+      </div>
         <div class="carregando">Carregando indicadores…</div>
       </div>
     </section>
@@ -141,9 +151,12 @@
         <div class="grafico-container" style="height: 380px;">
           <canvas id="grafico-percentis" aria-label="Gráfico de linhas mostrando a evolução dos percentis p10, p50 e p90 da folha recorrente ao longo dos meses"></canvas>
         </div>
+        <!-- P1-AUDITORIA -->
         <div class="aviso-metodologico">
-          O <strong>p10</strong> representa o valor abaixo do qual 10% dos servidores estão;
-          o <strong>p50</strong> (mediana) divide o quadro ao meio; o <strong>p90</strong> é o topo 10%.
+          O <strong>p10</strong> representa o valor abaixo do qual 10% dos servidores estão.
+          O <strong>p50</strong> (mediana) divide o quadro ao meio. O <strong>p90</strong>
+          é o valor mínimo recebido pelos 10% mais bem remunerados — ou seja, 90% dos
+          servidores ganham até esse valor.
         </div>
       </div>
     </section>
