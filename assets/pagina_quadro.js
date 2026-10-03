@@ -83,6 +83,14 @@ const estadoQuadro = {
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
+function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); }
+const ORDEM_ESC_NORM = ["sem escolaridade formal registrada","fundamental incompleto","fundamental completo","medio incompleto","medio completo","superior incompleto","superior completo","pos-graduacao","mestrado","doutorado"];
+function ordemEscolaridade(valor) { const n = normalizarTexto(valor); const idx = ORDEM_ESC_NORM.indexOf(n); if (idx >= 0) return idx; for (let i=0; i<ORDEM_ESC_NORM.length; i++) { const alvo = ORDEM_ESC_NORM[i]; if (n.includes(alvo) || alvo.includes(n)) return i; } return 999; }
+
+function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); }
+const ORDEM_ESC_NORM = ["sem escolaridade formal registrada","fundamental incompleto","fundamental completo","medio incompleto","medio completo","superior incompleto","superior completo","pos-graduacao","mestrado","doutorado"];
+function ordemEscolaridade(valor) { const n = normalizarTexto(valor); const idx = ORDEM_ESC_NORM.indexOf(n); if (idx >= 0) return idx; for (let i=0; i<ORDEM_ESC_NORM.length; i++) { const alvo = ORDEM_ESC_NORM[i]; if (n.includes(alvo) || alvo.includes(n)) return i; } return 999; }
+
 function normalizarTexto(s) {
   return String(s || "")
     .normalize("NFD")
