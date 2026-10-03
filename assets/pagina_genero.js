@@ -240,7 +240,7 @@ function renderizarInsights() {
   const pctComFem = num(comissionados.pct_feminino);
   const pctFlexFem = num(flexiveis.pct_feminino);
 
-  const gaps = estadoGen.gap.filter((x) => x.gap_percentual > 0);
+  const gaps = estadoGen.gap.filter((x) => x.gap_percentual > 0 && x.num_matriculas_feminino >= 10 && x.num_matriculas_masculino >= 10);
   const gapMedio = gaps.length
     ? (gaps.reduce((s, x) => s + x.gap_percentual, 0) / gaps.length).toFixed(1).replace(".", ",")
     : "-";
@@ -654,7 +654,7 @@ function renderizarGap() {
   const tbody = document.querySelector("#tabela-gap tbody");
   if (tbody) {
     const todos = [...estadoGen.gap]
-      .filter((x) => x.gap_percentual > 0)
+    .filter((x) => x.gap_percentual > 0 && x.num_matriculas_feminino >= 10 && x.num_matriculas_masculino >= 10)
       .sort((a, b) => b.gap_percentual - a.gap_percentual);
     tbody.innerHTML = todos.map((d) => `
       <tr>

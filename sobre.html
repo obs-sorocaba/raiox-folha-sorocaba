@@ -206,7 +206,7 @@
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
           <li>Se o portal publica valores <strong>já abatidos do teto constitucional</strong>, a análise de distribuição salarial (Gini, percentis) pode <strong>subestimar</strong> a desigualdade real no topo. Veja a seção sobre o teto remuneratório abaixo.</li>
-          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas. A tabela de validação cruzada entre arquivos anuais e base mensal está disponível em <code>dados/validacao_anual_mensal.csv</code>.</li>
+          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas.</li>
         </ul>
       </div>
     </section>
@@ -652,6 +652,7 @@
           <li><a href="dados/resumo_secretaria.csv" download>resumo_secretaria.csv</a> — resumo por secretaria (média mensal, meses reais)</li>
           <li><a href="dados/folha_por_secretaria_mes.csv" download>folha_por_secretaria_mes.csv</a> — folha mensal por secretaria</li>
           <li><a href="dados/efetivo_por_secretaria_mes.csv" download>efetivo_por_secretaria_mes.csv</a> — efetivo mensal por secretaria</li>
+            <li><a href="dados/composicao_categoria_secretaria_mes.csv">composicao_categoria_secretaria_mes.csv</a> — composição por categoria de vínculo, desagregada por secretaria e mês</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Anatomia da secretaria (Fase 1c)</h3>
@@ -726,7 +727,6 @@
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
           <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
           <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
-          <li><a href="dados/validacao_anual_mensal.csv" download>validacao_anual_mensal.csv</a> — validação anual vs. mensal</li>
         </ul>
       </div>
     </section>
@@ -735,7 +735,24 @@
     <!-- Roadmap — ATUALIZADO P0                                        -->
     <!-- ============================================================ -->
     <section class="secao" id="roadmap">
-      <h2 class="secao-titulo">Roadmap público</h2>
+      
+        <h3>Formato Excel (.xlsx)</h3>
+        <p>
+          Os mesmos dados também estão disponíveis em formato Excel na pasta
+          <code>dados/excel/</code>, para facilitar a abertura em planilhas
+          sem configuração de separador ou codificação.
+        </p>
+        <ul>
+          <li>
+            <a href="dados/excel/">Abrir pasta <code>dados/excel/</code></a>
+            — lista completa dos arquivos <code>.xlsx</code>
+          </li>
+        </ul>
+        <p>
+          <strong>Nota:</strong> os arquivos <code>.xlsx</code> são derivados dos mesmos dados.
+          Em caso de divergência, os arquivos <code>.csv</code> são a fonte canônica.
+        </p>
+<h2 class="secao-titulo">Roadmap público</h2>
       <div class="cartao">
         <p style="margin-bottom: 1.25rem; color: var(--cinza-texto);">
           O painel está em construção permanente. Abaixo, o que já foi entregue e o que
