@@ -45,9 +45,92 @@ function escaparHTML(s) {
     .replace(/'/g, "&#39;");
 }
 
+function normalizarTexto(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+const ORDEM_ESCOLARIDADE_NORMALIZADA = [
+  "sem escolaridade formal registrada",
+  "fundamental incompleto",
+  "fundamental completo",
+  "medio incompleto",
+  "medio completo",
+  "superior incompleto",
+  "superior completo",
+  "pos-graduacao",
+  "mestrado",
+  "doutorado",
+];
+
+function ordemEscolaridade(valor) {
+  const n = normalizarTexto(valor);
+  const idx = ORDEM_ESCOLARIDADE_NORMALIZADA.indexOf(n);
+  if (idx >= 0) return idx;
+
+  for (let i = 0; i < ORDEM_ESCOLARIDADE_NORMALIZADA.length; i++) {
+    const alvo = ORDEM_ESCOLARIDADE_NORMALIZADA[i];
+    if (n.includes(alvo) || alvo.includes(n)) return i;
+  }
+
+  return 999;
+}
+
+const ROTULOS_TEMPO = {
+  0: "0-5 anos",
+  1: "6-10 anos",
+  2: "11-15 anos",
+  3: "16-20 anos",
+  4: "21-25 anos",
+  5: "26-30 anos",
+  6: "30+ anos",
+};
+
+const ORDEM_TEMPO_TEXTO = [
+  "0-5 anos",
+  "6-10 anos",
+  "11-15 anos",
+  "16-20 anos",
+  "21-25 anos",
+  "26-30 anos",
+  "30+ anos",
+];
+
+function rotuloTempo(valor) {
+  if (valor !== null && valor !== undefined && ROTULOS_TEMPO[valor] != null) {
+    return ROTULOS_TEMPO[valor];
+  }
+
+  const s = String(valor || "").trim();
+  if (!s) return "—";
+  if (/\banos?\b/i.test(s)) return s;
+  return s + " anos";
+}
+
+function ordemTempo(valor) {
+  const n = Number(valor);
+  if (Number.isInteger(n) && ROTULOS_TEMPO[n] != null) return n;
+
+  const s = normalizarTexto(rotuloTempo(valor));
+  for (let i = 0; i < ORDEM_TEMPO_TEXTO.length; i++) {
+    const alvo = normalizarTexto(ORDEM_TEMPO_TEXTO[i]);
+    if (s === alvo || s.includes(alvo) || alvo.includes(s)) return i;
+  }
+
+  return 999;
+}
+
 function mediana(valores) {
-  const arr = valores.filter((v) => isFinite(v)).sort((a, b) => a - b);
+  const arr = valores
+    .map((v) => Number(v))
+    .filter((v) => isFinite(v))
+    .sort((a, b) => a - b);
+
   if (!arr.length) return 0;
+
   const mid = Math.floor(arr.length / 2);
   return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
 }
@@ -492,13 +575,12 @@ function renderizarGraficoMetrica() {
     ? estado.folhaMunicipalMes
     : estado.folhaMes.filter((f) => f.secretaria === estado.secretariaAtual);
 
-  if (!dados || !dados.length) {
-    if (estado.graficos.folha) {
-      estado.graficos.folha.destroy();
-      estado.graficos.folha = null;
-    }
-    return;
+  if (estado.graficos.folha) {
+    estado.graficos.folha.destroy();
+    estado.graficos.folha = null;
   }
+
+  if (!dados || !dados.length) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
 
@@ -530,8 +612,6 @@ function renderizarGraficoMetrica() {
       inicioZero = true;
       break;
   }
-
-  if (estado.graficos.folha) estado.graficos.folha.destroy();
 
   estado.graficos.folha = graficoLinha(ctx, labels, valores, {
     label: rotulo,
@@ -565,18 +645,15 @@ function renderizarGraficoEfetivo(dados, contexto) {
   const ctx = document.getElementById("grafico-efetivo");
   if (!ctx) return;
 
-  if (!dados || !dados.length) {
-    if (estado.graficos.efetivo) {
-      estado.graficos.efetivo.destroy();
-      estado.graficos.efetivo = null;
-    }
-    return;
+  if (estado.graficos.efetivo) {
+    estado.graficos.efetivo.destroy();
+    estado.graficos.efetivo = null;
   }
+
+  if (!dados || !dados.length) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
   const valores = dados.map((d) => num(d.efetivo));
-
-  if (estado.graficos.efetivo) estado.graficos.efetivo.destroy();
 
   estado.graficos.efetivo = graficoLinha(ctx, labels, valores, {
     label: "Efetivo",
@@ -596,28 +673,35 @@ function renderizarGraficoCategoria(dados, contexto) {
   if (!ctx) return;
 
   const container = ctx.parentElement;
-  let aviso = container ? container.querySelector(".aviso-metodologico") : null;
+  if (!container) return;
+
+  let aviso = container.querySelector(".aviso-metodologico.categoria-aviso");
+
+  function garantirAviso() {
+    if (!aviso) {
+      aviso = document.createElement("div");
+      aviso.className = "aviso-metodologico categoria-aviso";
+      aviso.style.marginTop = "1rem";
+      container.appendChild(aviso);
+    }
+    return aviso;
+  }
+
+  if (estado.graficos.categoria) {
+    estado.graficos.categoria.destroy();
+    estado.graficos.categoria = null;
+  }
 
   if (!dados || !dados.length) {
-    if (estado.graficos.categoria) {
-      estado.graficos.categoria.destroy();
-      estado.graficos.categoria = null;
-    }
-
-    if (container) {
-      if (!aviso) {
-        aviso = document.createElement("div");
-        aviso.className = "aviso-metodologico";
-        aviso.style.marginTop = "1rem";
-        container.appendChild(aviso);
-      }
-      aviso.textContent = "Sem dados de categoria.";
-    }
-
+    const a = garantirAviso();
+    a.textContent = "Sem dados de categoria.";
     return;
   }
 
-  if (aviso) aviso.remove();
+  if (aviso) {
+    aviso.remove();
+    aviso = null;
+  }
 
   const ultima = dados.reduce((acc, d) => {
     const chave = num(d.ano) * 100 + num(d.mes);
@@ -633,7 +717,6 @@ function renderizarGraficoCategoria(dados, contexto) {
   const valores = snapshot.map((d) => num(d.folha_total));
   const cores = snapshot.map((d) => CORES_GRUPO[d.regime_subgrupo] || CORES.cinzaTexto);
 
-  if (estado.graficos.categoria) estado.graficos.categoria.destroy();
   estado.graficos.categoria = graficoRosca(ctx, labels, valores, cores);
 
   const cartao = ctx.closest(".cartao");
@@ -645,18 +728,10 @@ function renderizarGraficoCategoria(dados, contexto) {
     }
   }
 
-  if (container) {
-    if (!aviso) {
-      aviso = document.createElement("div");
-      aviso.className = "aviso-metodologico";
-      aviso.style.marginTop = "1rem";
-      container.appendChild(aviso);
-    }
-
-    const contextoLabel = contexto === "municipio" ? "Total do município" : contexto;
-    aviso.innerHTML =
-      `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
-  }
+  const a = garantirAviso();
+  const contextoLabel = contexto === "municipio" ? "Total do município" : contexto;
+  a.innerHTML =
+    `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
 }
 
 /* -------------------------------------------------------------------------
@@ -809,24 +884,21 @@ function renderizarTopCargos(dados, nomeSecretaria) {
   const ctx = document.getElementById("grafico-top-cargos");
   const tbody = document.querySelector("#tabela-top-cargos tbody");
 
+  if (ctx && estado.graficos.topCargos) {
+    estado.graficos.topCargos.destroy();
+    estado.graficos.topCargos = null;
+  }
+
   if (!dados || dados.length === 0) {
     if (tbody) {
       tbody.innerHTML = `<tr><td colspan="6" class="carregando">Nenhum cargo disponível para esta secretaria no recorte.</td></tr>`;
     }
-
-    if (ctx && estado.graficos.topCargos) {
-      estado.graficos.topCargos.destroy();
-      estado.graficos.topCargos = null;
-    }
-
     return;
   }
 
   const ordenado = [...dados].sort((a, b) => num(b.n) - num(a.n)).slice(0, 20);
 
   if (ctx) {
-    if (estado.graficos.topCargos) estado.graficos.topCargos.destroy();
-
     estado.graficos.topCargos = graficoBarras(
       ctx,
       ordenado.map((d) => d.cargo),
@@ -859,32 +931,16 @@ function renderizarEscolaridadeSec(dados, nomeSecretaria) {
   const ctx = document.getElementById("grafico-escolaridade-sec");
   if (!ctx) return;
 
-  if (!dados || dados.length === 0) {
-    if (estado.graficos.escolaridadeSec) {
-      estado.graficos.escolaridadeSec.destroy();
-      estado.graficos.escolaridadeSec = null;
-    }
-    return;
+  if (estado.graficos.escolaridadeSec) {
+    estado.graficos.escolaridadeSec.destroy();
+    estado.graficos.escolaridadeSec = null;
   }
 
-  const ORDEM = [
-    "Sem escolaridade formal registrada",
-    "Fundamental incompleto",
-    "Fundamental completo",
-    "Médio incompleto",
-    "Médio completo",
-    "Superior incompleto",
-    "Superior completo",
-    "Pós-graduação",
-    "Mestrado",
-    "Doutorado",
-  ];
+  if (!dados || dados.length === 0) return;
 
   const ordenado = [...dados].sort((a, b) =>
-    ORDEM.indexOf(a.escolaridade_canonica) - ORDEM.indexOf(b.escolaridade_canonica)
+    ordemEscolaridade(a.escolaridade_canonica) - ordemEscolaridade(b.escolaridade_canonica)
   );
-
-  if (estado.graficos.escolaridadeSec) estado.graficos.escolaridadeSec.destroy();
 
   estado.graficos.escolaridadeSec = graficoBarras(
     ctx,
@@ -904,52 +960,18 @@ function renderizarTempoSec(dados, nomeSecretaria) {
   const ctx = document.getElementById("grafico-tempo-sec");
   if (!ctx) return;
 
-  if (!dados || dados.length === 0) {
-    if (estado.graficos.tempoSec) {
-      estado.graficos.tempoSec.destroy();
-      estado.graficos.tempoSec = null;
-    }
-    return;
+  if (estado.graficos.tempoSec) {
+    estado.graficos.tempoSec.destroy();
+    estado.graficos.tempoSec = null;
   }
 
-  const ORDEM = [
-    "0-5 anos",
-    "6-10 anos",
-    "11-15 anos",
-    "16-20 anos",
-    "21-25 anos",
-    "26-30 anos",
-    "30+ anos",
-  ];
+  if (!dados || dados.length === 0) return;
 
-  const ordemValor = (v) => {
-    const n = Number(v);
-    if (!Number.isNaN(n)) return n;
-
-    const idx = ORDEM.indexOf(String(v));
-    return idx >= 0 ? idx : 999;
-  };
-
-  const ordenado = [...dados].sort((a, b) =>
-    ordemValor(a.faixa_tempo) - ordemValor(b.faixa_tempo)
-  );
-
-  if (estado.graficos.tempoSec) estado.graficos.tempoSec.destroy();
+  const ordenado = [...dados].sort((a, b) => ordemTempo(a.faixa_tempo) - ordemTempo(b.faixa_tempo));
 
   estado.graficos.tempoSec = graficoBarras(
     ctx,
-    ordenado.map((d) => {
-      const rotulos = {
-        0: "0-5 anos",
-        1: "6-10 anos",
-        2: "11-15 anos",
-        3: "16-20 anos",
-        4: "21-25 anos",
-        5: "26-30 anos",
-        6: "30+ anos",
-      };
-      return rotulos[d.faixa_tempo] || `${d.faixa_tempo} anos`;
-    }),
+    ordenado.map((d) => rotuloTempo(d.faixa_tempo)),
     ordenado.map((d) => num(d.n)),
     {
       label: "Servidores",
@@ -967,7 +989,10 @@ function renderizarPercentisSec(perc, gini, nomeSecretaria) {
 
   if (!bloco || !tbody) return;
 
-  if (!perc) {
+  const temPerc = !!perc;
+  const temGini = !!gini;
+
+  if (!temPerc && !temGini) {
     bloco.hidden = true;
 
     if (aviso) {
@@ -984,19 +1009,21 @@ function renderizarPercentisSec(perc, gini, nomeSecretaria) {
 
   if (aviso) aviso.style.display = "none";
 
-  const giniValor = gini ? Number(gini.gini).toFixed(3).replace(".", ",") : "—";
-  const giniNota = gini ? "" : ' <small style="color: var(--cinza-texto);">(n &lt; 50)</small>';
+  const n = temPerc ? num(perc.n) : (temGini ? num(gini.n) : 0);
+  const fmtPerc = (campo) => temPerc && perc[campo] != null ? fmtBRL.format(num(perc[campo])) : "—";
+  const giniValor = temGini ? num(gini.gini).toFixed(3).replace(".", ",") : "—";
+  const giniNota = temGini ? "" : ' <small style="color: var(--cinza-texto);">(n &lt; 50)</small>';
 
   tbody.innerHTML = `
     <tr>
-      <td class="numerico">${fmtNum.format(num(perc.n || (gini ? gini.n : 0)))}</td>
-      <td class="numerico">${fmtBRL.format(num(perc.media))}</td>
-      <td class="numerico">${fmtBRL.format(num(perc.p10))}</td>
-      <td class="numerico">${fmtBRL.format(num(perc.p25))}</td>
-      <td class="numerico"><strong>${fmtBRL.format(num(perc.p50))}</strong></td>
-      <td class="numerico">${fmtBRL.format(num(perc.p75))}</td>
-      <td class="numerico">${fmtBRL.format(num(perc.p90))}</td>
-      <td class="numerico">${fmtBRL.format(num(perc.p99))}</td>
+      <td class="numerico">${fmtNum.format(n)}</td>
+      <td class="numerico">${fmtPerc("media")}</td>
+      <td class="numerico">${fmtPerc("p10")}</td>
+      <td class="numerico">${fmtPerc("p25")}</td>
+      <td class="numerico"><strong>${fmtPerc("p50")}</strong></td>
+      <td class="numerico">${fmtPerc("p75")}</td>
+      <td class="numerico">${fmtPerc("p90")}</td>
+      <td class="numerico">${fmtPerc("p99")}</td>
       <td class="numerico">${giniValor}${giniNota}</td>
     </tr>
   `;

@@ -88,6 +88,7 @@ Nunca deixa estado "Carregando…" pendurado.
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
     let texto = await resp.text();
 
+    // Remove BOM, comum em CSVs exportados no Windows/Excel.
     if (texto.charCodeAt(0) === 0xfeff) {
       texto = texto.slice(1);
     }
@@ -95,10 +96,10 @@ Nunca deixa estado "Carregando…" pendurado.
     return new Promise((resolve, reject) => {
       Papa.parse(texto, {
         header: true,
-        delimiter: "",
+        delimiter: "", // auto-detecta ; ou ,
         skipEmptyLines: true,
         dynamicTyping: false,
-        transformHeader: (h) => String(h).replace(/^﻿/, "").trim(),
+        transformHeader: (h) => String(h).replace(/^\uFEFF/, "").trim(),
         complete: (res) => {
           if (res.errors && res.errors.length) {
             if (!res.data || res.data.length === 0) {
@@ -190,18 +191,28 @@ Nunca deixa estado "Carregando…" pendurado.
         ["Status", status],
       ];
 
-      if (totalPendencias > 0) {
+      let blocoAlertas = "";
+      if (totalPendencias === 0) {
+        blocoAlertas =
+          '<div class="ok"><strong>Auditoria em dia.</strong> ' +
+          "Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. " +
+          "Nenhuma pendência de classificação.</div>";
+      } else {
         const detalhes = [];
         if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
         if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
         if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
-        itens.push(["Pendências", detalhes.join(", ")]);
+
+        blocoAlertas =
+          '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' +
+          escaparHTML(detalhes.join(", ")) +
+          ". Consulte os mapas públicos na página Sobre para detalhes.</div>";
       }
 
       alvo.innerHTML = itens.map(function (par) {
         return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd>";
-      }).join("");
+      }).join("") + blocoAlertas;
     } catch (e) {
       console.error("[sobre] Erro ao carregar auditoria:", e);
       alvo.innerHTML =

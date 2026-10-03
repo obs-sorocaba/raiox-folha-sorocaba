@@ -155,12 +155,15 @@ function renderizarGraficoPercentis() {
   const ctx = document.getElementById("grafico-percentis");
   if (!ctx) return;
 
+  if (estadoSal.graficos.percentis) {
+    estadoSal.graficos.percentis.destroy();
+    estadoSal.graficos.percentis = null;
+  }
+
   const dist = estadoSal.distribuicao;
   if (!dist.length) return;
 
   const labels = dist.map((d) => rotuloPeriodo(d.ano, d.mes));
-
-  if (estadoSal.graficos.percentis) estadoSal.graficos.percentis.destroy();
 
   estadoSal.graficos.percentis = new Chart(ctx, {
     type: "line",
@@ -241,12 +244,15 @@ function renderizarGraficoGini() {
   const ctx = document.getElementById("grafico-gini");
   if (!ctx) return;
 
+  if (estadoSal.graficos.gini) {
+    estadoSal.graficos.gini.destroy();
+    estadoSal.graficos.gini = null;
+  }
+
   const gin = estadoSal.gini;
   if (!gin.length) return;
 
   const labels = gin.map((d) => rotuloPeriodo(d.ano, d.mes));
-
-  if (estadoSal.graficos.gini) estadoSal.graficos.gini.destroy();
 
   estadoSal.graficos.gini = new Chart(ctx, {
     type: "line",
@@ -303,9 +309,15 @@ function renderizarHistograma() {
   const ctx = document.getElementById("grafico-histograma");
   if (!ctx) return;
 
+  if (estadoSal.graficos.histograma) {
+    estadoSal.graficos.histograma.destroy();
+    estadoSal.graficos.histograma = null;
+  }
+
   const dados = estadoSal.histograma;
   if (!dados || !dados.length) return;
 
+  // Seleciona explicitamente o último mês disponível.
   const ultimo = dados.reduce((acc, d) => {
     const chave = num(d.ano) * 100 + num(d.mes);
     const accChave = acc ? num(acc.ano) * 100 + num(acc.mes) : -1;
@@ -323,7 +335,19 @@ function renderizarHistograma() {
     titulo.textContent = `Servidores por faixa de remuneração mensal — ${rotuloPeriodo(anoRef, mesRef)}`;
   }
 
-  const rotulos = {
+  const ORDEM_FAIXAS = [
+    "ate_2k",
+    "2k_4k",
+    "4k_6k",
+    "6k_8k",
+    "8k_10k",
+    "10k_15k",
+    "15k_20k",
+    "20k_30k",
+    "acima_30k",
+  ];
+
+  const ROTULOS_FAIXA = {
     ate_2k: "Até R$ 2 mil",
     "2k_4k": "R$ 2-4 mil",
     "4k_6k": "R$ 4-6 mil",
@@ -335,11 +359,32 @@ function renderizarHistograma() {
     acima_30k: "Acima de R$ 30 mil",
   };
 
-  const labels = dadosMes.map((d) => rotulos[d.faixa] || d.faixa);
-  const valores = dadosMes.map((d) => d.n);
-  const totalFaixa = dadosMes.reduce((s, x) => s + num(x.n), 0);
+  // Mantém o esquema de cores original, mas amarra cada cor à faixa correta.
+  const CORES_FAIXA = {
+    ate_2k: "#2a788e",
+    "2k_4k": "#2a788e",
+    "4k_6k": "#2a788e",
+    "6k_8k": "#5c9c2a",
+    "8k_10k": "#5c9c2a",
+    "10k_15k": "#414487",
+    "15k_20k": "#414487",
+    "20k_30k": "#d4a900",
+    acima_30k: "#cc0000",
+  };
 
-  if (estadoSal.graficos.histograma) estadoSal.graficos.histograma.destroy();
+  const ordenadas = ORDEM_FAIXAS
+    .map((fx) => dadosMes.find((d) => d.faixa === fx))
+    .filter(Boolean);
+
+  // Se aparecer faixa nova não prevista, acrescenta ao final sem quebrar.
+  dadosMes.forEach((d) => {
+    if (!ORDEM_FAIXAS.includes(d.faixa)) ordenadas.push(d);
+  });
+
+  const labels = ordenadas.map((d) => ROTULOS_FAIXA[d.faixa] || d.faixa);
+  const valores = ordenadas.map((d) => num(d.n));
+  const cores = ordenadas.map((d) => CORES_FAIXA[d.faixa] || CORES.cinzaTexto);
+  const totalFaixa = ordenadas.reduce((s, x) => s + num(x.n), 0);
 
   estadoSal.graficos.histograma = new Chart(ctx, {
     type: "bar",
@@ -349,12 +394,7 @@ function renderizarHistograma() {
         {
           label: "Servidores",
           data: valores,
-          backgroundColor: [
-            "#2a788e", "#2a788e", "#2a788e",
-            "#5c9c2a", "#5c9c2a",
-            "#414487", "#414487",
-            "#d4a900", "#cc0000",
-          ],
+          backgroundColor: cores,
           borderColor: "rgba(26,26,26,0.35)",
           borderWidth: 1,
           borderRadius: 4,
@@ -370,7 +410,7 @@ function renderizarHistograma() {
         tooltip: {
           callbacks: {
             label: (item) => {
-              const d = dadosMes[item.dataIndex];
+              const d = ordenadas[item.dataIndex];
               const pct = totalFaixa > 0 ? ((num(d.n) / totalFaixa) * 100).toFixed(1).replace(".", ",") : "0,0";
               return `${fmtNum.format(d.n)} servidores (${pct}%) — ${fmtBRLCompacto(d.folha)}`;
             },
@@ -400,7 +440,10 @@ Remuneracao por perfil (Fase 1b)
 ------------------------------------------------------------------------- */
 function renderizarSalariosPerfil() {
   const dados = estadoSal.salariosPerfil || [];
-  if (!dados.length) return;
+  if (!dados.length) {
+    renderizarTabelaSalarioPerfil([]);
+    return;
+  }
 
   renderizarGraficoSalarioEscolaridade(dados);
   renderizarGraficoSalarioTempo(dados);
@@ -411,10 +454,13 @@ function renderizarGraficoSalarioEscolaridade(dados) {
   const ctx = document.getElementById("grafico-salario-escolaridade");
   if (!ctx) return;
 
+  if (estadoSal.graficos.salEsc) {
+    estadoSal.graficos.salEsc.destroy();
+    estadoSal.graficos.salEsc = null;
+  }
+
   const escolaridade = dados.filter((d) => d.dimensao === "escolaridade");
   if (!escolaridade.length) return;
-
-  if (estadoSal.graficos.salEsc) estadoSal.graficos.salEsc.destroy();
 
   estadoSal.graficos.salEsc = graficoBarras(
     ctx,
@@ -434,10 +480,13 @@ function renderizarGraficoSalarioTempo(dados) {
   const ctx = document.getElementById("grafico-salario-tempo");
   if (!ctx) return;
 
+  if (estadoSal.graficos.salTempo) {
+    estadoSal.graficos.salTempo.destroy();
+    estadoSal.graficos.salTempo = null;
+  }
+
   const tempo = dados.filter((d) => d.dimensao === "tempo_casa");
   if (!tempo.length) return;
-
-  if (estadoSal.graficos.salTempo) estadoSal.graficos.salTempo.destroy();
 
   // Barras verticais: eixo X = categorias (0-5 anos, 6-10 anos, ...),
   // eixo Y = valores em R$. Não passar eixoFormatador, senão ele
@@ -463,7 +512,7 @@ function renderizarTabelaSalarioPerfil(dados) {
     tempo_casa: "Tempo de casa",
   };
 
-  if (!dados.length) {
+  if (!dados || !dados.length) {
     tbody.innerHTML = '<tr><td colspan="5" class="carregando">Sem dados de remuneração por perfil.</td></tr>';
     return;
   }
