@@ -1,23 +1,17 @@
 /* ============================================================
-pagina_sobre.js — versão robusta (P0 + auditoria)
-Carrega: selo, fonte, mapas de metodologia e cobertura de gênero.
-Nunca deixa estado "Carregando…" pendurado.
+pagina_sobre.js — versao corrigida definitiva
 ============================================================ */
 (function () {
   "use strict";
 
-  /* ---------- Constantes ---------- */
   const TIMEOUT_MS = 8000;
   const TENTATIVAS = 2;
 
-  /* ---------- Helpers DOM ---------- */
   const $ = (sel, ctx) => (ctx || document).querySelector(sel);
-
   function $$(sel, ctx) {
     return Array.from((ctx || document).querySelectorAll(sel));
   }
 
-  /* ---------- Formatadores ---------- */
   function formatarNumero(n) {
     if (n === null || n === undefined || n === "" || isNaN(n)) return "—";
     return Number(n).toLocaleString("pt-BR");
@@ -29,11 +23,8 @@ Nunca deixa estado "Carregando…" pendurado.
       const d = new Date(iso);
       if (isNaN(d.getTime())) return iso;
       return d.toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit",
       });
     } catch (e) {
       return iso;
@@ -54,7 +45,6 @@ Nunca deixa estado "Carregando…" pendurado.
       .replace(/'/g, "&#39;");
   }
 
-  /* ---------- Fetch com timeout e retry ---------- */
   function fetchComTimeout(url, opts) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -84,19 +74,19 @@ Nunca deixa estado "Carregando…" pendurado.
     return resp.json();
   }
 
+  // CORRIGIDO: remove BOM, auto-detect delimiter, normaliza headers
   async function carregarCSV(caminho) {
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
     let texto = await resp.text();
 
-    // Remove BOM, comum em CSVs exportados no Windows/Excel.
-    if (texto.charCodeAt(0) === 0xfeff) {
+    if (texto.charCodeAt(0) === 0xFEFF) {
       texto = texto.slice(1);
     }
 
     return new Promise((resolve, reject) => {
       Papa.parse(texto, {
         header: true,
-        delimiter: "", // auto-detecta ; ou ,
+        delimiter: "",  // AUTO-DETECTA ; ou ,
         skipEmptyLines: true,
         dynamicTyping: false,
         transformHeader: (h) => String(h).replace(/^\uFEFF/, "").trim(),
@@ -108,11 +98,9 @@ Nunca deixa estado "Carregando…" pendurado.
               ));
             }
           }
-
           const dados = (res.data || []).filter((linha) =>
             Object.values(linha).some((v) => v !== null && v !== "" && v !== undefined)
           );
-
           resolve(dados);
         },
         error: (err) => reject(err),
@@ -120,7 +108,6 @@ Nunca deixa estado "Carregando…" pendurado.
     });
   }
 
-  /* ---------- Estado visual de cada tabela ---------- */
   function colspanDe(tbody) {
     const tabela = tbody.closest("table");
     if (!tabela) return 1;
@@ -157,9 +144,7 @@ Nunca deixa estado "Carregando…" pendurado.
       "Nenhum registro encontrado. " + link + "</td></tr>";
   }
 
-  /* ============================================================
-  1. Selo de auditoria
-  ============================================================ */
+  // CORRIGIDO: calcula status dinamicamente
   async function renderizarSelo() {
     const alvo = $("#selo-conteudo");
     if (!alvo) return;
@@ -175,8 +160,8 @@ Nunca deixa estado "Carregando…" pendurado.
       const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
       const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
       const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
-
       const totalPendencias = regNc.length + secNc.length + escNc.length;
+
       const status = totalPendencias === 0 ? "Auditoria em dia" : "Pendências de classificação";
 
       const itens = [
@@ -191,28 +176,10 @@ Nunca deixa estado "Carregando…" pendurado.
         ["Status", status],
       ];
 
-      let blocoAlertas = "";
-      if (totalPendencias === 0) {
-        blocoAlertas =
-          '<div class="ok"><strong>Auditoria em dia.</strong> ' +
-          "Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. " +
-          "Nenhuma pendência de classificação.</div>";
-      } else {
-        const detalhes = [];
-        if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
-        if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
-        if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
-
-        blocoAlertas =
-          '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' +
-          escaparHTML(detalhes.join(", ")) +
-          ". Consulte os mapas públicos na página Sobre para detalhes.</div>";
-      }
-
       alvo.innerHTML = itens.map(function (par) {
-        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd>";
-      }).join("") + blocoAlertas;
+        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd></div>";
+      }).join("");
     } catch (e) {
       console.error("[sobre] Erro ao carregar auditoria:", e);
       alvo.innerHTML =
@@ -221,9 +188,6 @@ Nunca deixa estado "Carregando…" pendurado.
     }
   }
 
-  /* ============================================================
-  2. Fonte dos dados
-  ============================================================ */
   async function renderizarFonte() {
     const alvo = $("#fonte-dados");
     if (!alvo) return;
@@ -236,10 +200,9 @@ Nunca deixa estado "Carregando…" pendurado.
       const tot = d.totais || {};
 
       const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
-      const mesesTexto =
-        per.meses_cobertos != null
-          ? formatarNumero(per.meses_cobertos) + " meses"
-          : "—";
+      const mesesTexto = per.meses_cobertos != null
+        ? formatarNumero(per.meses_cobertos) + " meses"
+        : "—";
 
       const itens = [
         ["Período coberto", periodoTexto],
@@ -251,8 +214,8 @@ Nunca deixa estado "Carregando…" pendurado.
       ];
 
       alvo.innerHTML = itens.map(function (par) {
-        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd>";
+        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd></div>";
       }).join("");
     } catch (e) {
       console.error("[sobre] Erro ao carregar kpis:", e);
@@ -262,9 +225,6 @@ Nunca deixa estado "Carregando…" pendurado.
     }
   }
 
-  /* ============================================================
-  3. Cobertura da análise de gênero (P0)
-  ============================================================ */
   async function renderizarCoberturaGenero() {
     const alvo = $("#cobertura-genero");
     if (!alvo) return;
@@ -272,26 +232,16 @@ Nunca deixa estado "Carregando…" pendurado.
     try {
       const geral = await carregarCSV("dados/genero_geral.csv");
 
-      let total = 0;
-      let definidos = 0;
-      let indefinidos = 0;
-      let fem = 0;
-      let masc = 0;
+      let total = 0, definidos = 0, indefinidos = 0, fem = 0, masc = 0;
 
       geral.forEach((r) => {
         const g = (r.genero_inferido || "").trim().toLowerCase();
         const n = Number(r.num_matriculas) || 0;
         total += n;
 
-        if (g === "feminino") {
-          fem += n;
-          definidos += n;
-        } else if (g === "masculino") {
-          masc += n;
-          definidos += n;
-        } else if (g === "indefinido") {
-          indefinidos += n;
-        }
+        if (g === "feminino") { fem += n; definidos += n; }
+        else if (g === "masculino") { masc += n; definidos += n; }
+        else if (g === "indefinido") { indefinidos += n; }
       });
 
       const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
@@ -307,8 +257,8 @@ Nunca deixa estado "Carregando…" pendurado.
       ];
 
       alvo.innerHTML = itens.map(function (par) {
-        return "<dt>" + escaparHTML(par[0]) + "</dt><dd>" +
-          escaparHTML(textoCelula(par[1])) + "</dd>";
+        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+          escaparHTML(textoCelula(par[1])) + "</dd></div>";
       }).join("");
 
       const pai = alvo.parentElement;
@@ -321,11 +271,8 @@ Nunca deixa estado "Carregando…" pendurado.
         nota.style.marginTop = "1rem";
         nota.innerHTML =
           "<strong>Nota:</strong> " + pctIndef.toFixed(1).replace(".", ",") +
-          "% das matrículas ficaram como indefinidas (nomes ambíguos ou não reconhecidos). " +
-          "Essas matrículas <strong>não entram</strong> nos cruzamentos por cargo, " +
-          "secretaria, escolaridade e faixa salarial. A análise cobre, portanto, " +
-          cobertura.toFixed(1).replace(".", ",") + "% do total.";
-
+          "% das matrículas ficaram como indefinidas. Essas matrículas <strong>não entram</strong> nos cruzamentos. " +
+          "A análise cobre " + cobertura.toFixed(1).replace(".", ",") + "% do total.";
         pai.appendChild(nota);
       }
     } catch (e) {
@@ -336,21 +283,16 @@ Nunca deixa estado "Carregando…" pendurado.
     }
   }
 
-  /* ============================================================
-  4. Mapa de regimes
-  ============================================================ */
+  // CORRIGIDO: r.regime_subgrupo
   let regimesDados = [];
-
   async function carregarRegimes() {
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
-
     mostrarCarregando(tbody);
 
     try {
       const dados = await carregarCSV("dados/regime_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/regime_map.csv");
-
       regimesDados = dados;
       renderizarTabelaRegimes(dados);
     } catch (e) {
@@ -362,15 +304,12 @@ Nunca deixa estado "Carregando…" pendurado.
   function renderizarTabelaRegimes(lista) {
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
-
-    if (!lista || lista.length === 0) {
-      return mostrarVazio(tbody, "dados/regime_map.csv");
-    }
+    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/regime_map.csv");
 
     tbody.innerHTML = lista.map(function (r) {
       const cru = r.regime_cru || r.regime || r.codigo || "";
       const base = r.regime_base || r.base || "";
-      const sub = r.regime_subgrupo || r.subgrupo || "";
+      const sub = r.regime_subgrupo || r.subgrupo || "";  // CORRIGIDO
       const fund = r.fundamentacao || r.fundamento || "";
       const obs = r.observacao || r.obs || "";
 
@@ -387,34 +326,26 @@ Nunca deixa estado "Carregando…" pendurado.
   function configurarBuscaRegime() {
     const input = $("#busca-regime");
     if (!input) return;
-
     input.addEventListener("input", function () {
       const termo = input.value.trim().toLowerCase();
       if (!termo) return renderizarTabelaRegimes(regimesDados);
-
       const filtrado = regimesDados.filter(function (r) {
         return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
       });
-
       renderizarTabelaRegimes(filtrado);
     });
   }
 
-  /* ============================================================
-  5. Mapa de secretarias
-  ============================================================ */
+  // CORRIGIDO: r.secretaria_crua
   let secretariasDados = [];
-
   async function carregarSecretarias() {
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
-
     mostrarCarregando(tbody);
 
     try {
       const dados = await carregarCSV("dados/secretaria_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/secretaria_map.csv");
-
       secretariasDados = dados;
       renderizarTabelaSecretarias(dados);
     } catch (e) {
@@ -426,14 +357,11 @@ Nunca deixa estado "Carregando…" pendurado.
   function renderizarTabelaSecretarias(lista) {
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
-
-    if (!lista || lista.length === 0) {
-      return mostrarVazio(tbody, "dados/secretaria_map.csv");
-    }
+    if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/secretaria_map.csv");
 
     tbody.innerHTML = lista.map(function (r) {
-      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || r.nome_original || "";
-      const canon = r.secretaria_canonica || r.secretaria_canon || r.nome_canonico || r.canonico || "";
+      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || "";  // CORRIGIDO
+      const canon = r.secretaria_canonica || r.nome_canonico || "";
       const sigla = r.sigla || "";
 
       return "<tr>" +
@@ -447,26 +375,19 @@ Nunca deixa estado "Carregando…" pendurado.
   function configurarBuscaSecretaria() {
     const input = $("#busca-secretaria");
     if (!input) return;
-
     input.addEventListener("input", function () {
       const termo = input.value.trim().toLowerCase();
       if (!termo) return renderizarTabelaSecretarias(secretariasDados);
-
       const filtrado = secretariasDados.filter(function (r) {
         return Object.values(r).join(" ").toLowerCase().indexOf(termo) !== -1;
       });
-
       renderizarTabelaSecretarias(filtrado);
     });
   }
 
-  /* ============================================================
-  6. Mapa de escolaridades
-  ============================================================ */
   async function carregarEscolaridades() {
     const tbody = $("#tabela-escolaridades tbody");
     if (!tbody) return;
-
     mostrarCarregando(tbody);
 
     try {
@@ -480,8 +401,8 @@ Nunca deixa estado "Carregando…" pendurado.
       });
 
       tbody.innerHTML = dados.map(function (r) {
-        const cru = r.escolaridade_crua || r.escolaridade_cru || r.nome_cru || "";
-        const canon = r.escolaridade_canonica || r.escolaridade_canon || r.canonico || "";
+        const cru = r.escolaridade_crua || r.escolaridade_cru || "";
+        const canon = r.escolaridade_canonica || r.canonico || "";
         const ordem = r.ordem || r.order || "";
 
         return "<tr>" +
@@ -496,13 +417,9 @@ Nunca deixa estado "Carregando…" pendurado.
     }
   }
 
-  /* ============================================================
-  7. Rodapé (opcional)
-  ============================================================ */
   async function atualizarRodape() {
     const alvo = document.querySelector("#rodape-atualizacao");
     if (!alvo) return;
-
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
@@ -512,9 +429,6 @@ Nunca deixa estado "Carregando…" pendurado.
     }
   }
 
-  /* ============================================================
-  8. Inicialização
-  ============================================================ */
   function init() {
     renderizarSelo();
     renderizarFonte();

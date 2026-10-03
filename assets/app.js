@@ -1,11 +1,11 @@
 /* =========================================================================
-   Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-   Helpers compartilhados por todas as paginas
-   ========================================================================= */
+Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+Helpers compartilhados por todas as paginas
+========================================================================= */
 
 /* -------------------------------------------------------------------------
-   Formatadores
-   ------------------------------------------------------------------------- */
+Formatadores
+------------------------------------------------------------------------- */
 const fmtBRL = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
@@ -21,7 +21,9 @@ const fmtBRLCompacto = (v) => {
 };
 
 const fmtNum = new Intl.NumberFormat("pt-BR");
+
 const fmtPct = (v) => (v == null || isNaN(v) ? "-" : v.toFixed(2).replace(".", ",") + "%");
+
 const fmtNumCompacto = (v) => {
   if (v == null || isNaN(v)) return "-";
   if (v >= 1e6) return (v / 1e6).toFixed(1).replace(".", ",") + " mi";
@@ -31,29 +33,30 @@ const fmtNumCompacto = (v) => {
 
 const nomeMes = ["jan", "fev", "mar", "abr", "mai", "jun",
                  "jul", "ago", "set", "out", "nov", "dez"];
+
 const rotuloPeriodo = (ano, mes) => `${nomeMes[mes - 1]}/${ano}`;
 
 /* -------------------------------------------------------------------------
-   Cores institucionais
-   ------------------------------------------------------------------------- */
+Cores institucionais
+------------------------------------------------------------------------- */
 const CORES = {
-  azulEscuro:   "#003a70",
-  azulClaro:    "#0071ce",
-  verdeEscuro:  "#00612f",
-  verdeClaro:   "#7ab648",
-  amarelo:      "#ffd200",
+  azulEscuro:    "#003a70",
+  azulClaro:     "#0071ce",
+  verdeEscuro:   "#00612f",
+  verdeClaro:    "#7ab648",
+  amarelo:       "#ffd200",
   amareloGrafico: "#d4a900",
-  branco:       "#ffffff",
-  cinzaFundo:   "#f5f7fa",
-  cinzaBorda:   "#e0e4ea",
-  cinzaTexto:   "#555c66",
-  pretoSuave:   "#1a1a1a",
-  efetivos:      "#2a788e",
-  funcao:        "#5c9c2a",
-  comissionados: "#d4a900",
-  flexiveis:     "#414487",
-  inativos:      "#6b6b6b",
-  nc:            "#cc0000",
+  branco:        "#ffffff",
+  cinzaFundo:    "#f5f7fa",
+  cinzaBorda:    "#e0e4ea",
+  cinzaTexto:    "#555c66",
+  pretoSuave:    "#1a1a1a",
+  efetivos:       "#2a788e",
+  funcao:         "#5c9c2a",
+  comissionados:  "#d4a900",
+  flexiveis:      "#414487",
+  inativos:       "#6b6b6b",
+  nc:             "#cc0000",
   viridis: ["#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"],
 };
 
@@ -76,32 +79,22 @@ window.ROTULOS_GRUPO = {
 };
 
 /* -------------------------------------------------------------------------
-   Carregamento de dados
-   ------------------------------------------------------------------------- */
-
-/**
- * Carrega um arquivo JSON.
- */
+Carregamento de dados
+CORRIGIDO: delimiter "", remove BOM, normaliza headers
+------------------------------------------------------------------------- */
 async function carregarJSON(caminho) {
   const r = await fetch(caminho, { cache: "no-store" });
   if (!r.ok) throw new Error(`Falha ao carregar ${caminho} (HTTP ${r.status})`);
   return r.json();
 }
 
-/**
- * Carrega um CSV de forma robusta:
- *  - Baixa via fetch (nao usa o download interno do PapaParse)
- *  - Remove BOM (\ufeff) do inicio da resposta
- *  - Auto-detecta o delimitador (; ou ,)
- *  - Normaliza os nomes das colunas (trim + remove BOM)
- *  - Converte campos numericos automaticamente
- */
 async function carregarCSV(caminho) {
   const r = await fetch(caminho, { cache: "no-store" });
   if (!r.ok) throw new Error(`Falha ao carregar ${caminho} (HTTP ${r.status})`);
 
-  // Remove BOM do inicio do texto, se houver
   let texto = await r.text();
+
+  // Remove BOM
   if (texto.charCodeAt(0) === 0xFEFF) {
     texto = texto.slice(1);
   }
@@ -111,11 +104,10 @@ async function carregarCSV(caminho) {
       header: true,
       dynamicTyping: true,
       skipEmptyLines: true,
-      delimiter: "", // auto-detecta ; ou ,
-      transformHeader: (h) => h.replace(/^\ufeff/, "").trim(),
+      delimiter: "",  // AUTO-DETECTA ; ou , (vazio, não espaço!)
+      transformHeader: (h) => String(h).replace(/^\uFEFF/, "").trim(),
       complete: (res) => {
-        // Remove linhas onde todas as colunas sao vazias
-        const limpos = res.data.filter((linha) =>
+        const limpos = (res.data || []).filter((linha) =>
           Object.values(linha).some((v) => v !== null && v !== "" && v !== undefined)
         );
         resolve(limpos);
@@ -126,8 +118,8 @@ async function carregarCSV(caminho) {
 }
 
 /* -------------------------------------------------------------------------
-   Badge "atualizado em"
-   ------------------------------------------------------------------------- */
+Badge "atualizado em"
+------------------------------------------------------------------------- */
 async function atualizarBadgeAtualizacao() {
   const el = document.getElementById("badge-atualizacao");
   if (!el) return;
@@ -145,7 +137,6 @@ async function atualizarBadgeAtualizacao() {
     const dataFormatada = data.toLocaleDateString("pt-BR", {
       day: "2-digit", month: "2-digit", year: "numeric"
     });
-
     el.textContent = `Atualizado em ${dataFormatada}`;
     el.title = `Última extração do pipeline: ${data.toLocaleString("pt-BR")}`;
   } catch (e) {
@@ -156,10 +147,11 @@ async function atualizarBadgeAtualizacao() {
 }
 
 /* -------------------------------------------------------------------------
-   Menu de navegacao
-   ------------------------------------------------------------------------- */
+Menu de navegacao
+------------------------------------------------------------------------- */
 function inicializarMenu() {
   const paginaAtual = (location.pathname.split("/").pop() || "index.html");
+
   document.querySelectorAll(".menu a, .drawer-nav a").forEach((a) => {
     const destino = a.getAttribute("href");
     if (destino === paginaAtual || (paginaAtual === "" && destino === "index.html")) {
@@ -186,6 +178,7 @@ function inicializarMenu() {
     if (backdrop) backdrop.classList.add("aberto");
     if (drawer) drawer.setAttribute("aria-hidden", "false");
   }
+
   function fecharDrawer() {
     if (drawer) drawer.classList.remove("aberto");
     if (backdrop) backdrop.classList.remove("aberto");
@@ -195,14 +188,15 @@ function inicializarMenu() {
   if (botaoLateral) botaoLateral.addEventListener("click", abrirDrawer);
   if (fechar) fechar.addEventListener("click", fecharDrawer);
   if (backdrop) backdrop.addEventListener("click", fecharDrawer);
+
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") fecharDrawer();
   });
 }
 
 /* -------------------------------------------------------------------------
-   Breadcrumb
-   ------------------------------------------------------------------------- */
+Breadcrumb
+------------------------------------------------------------------------- */
 function inicializarBreadcrumb() {
   const el = document.getElementById("breadcrumb");
   if (!el) return;
@@ -228,16 +222,15 @@ function inicializarBreadcrumb() {
   const secretariaSelecionada = params.get("secretaria");
 
   let html = `<a href="index.html">Início</a>`;
+
   if (info.pai) {
-    html += ` <span class="separador">›</span> <a href="${paginaAtual}">${info.nome}</a>`;
+    html += `<span class="separador">›</span> <a href="${paginaAtual}">${info.nome}</a>`;
   }
+
   if (secretariaSelecionada) {
-    html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
+    html += `<span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
   } else {
     html = `<a href="index.html">Início</a> <span class="separador">›</span> <span class="atual">${info.nome}</span>`;
-    if (secretariaSelecionada) {
-      html += ` <span class="separador">›</span> <span class="atual">${secretariaSelecionada}</span>`;
-    }
   }
 
   el.innerHTML = html;
@@ -245,8 +238,8 @@ function inicializarBreadcrumb() {
 }
 
 /* -------------------------------------------------------------------------
-   Renderizacao de estados
-   ------------------------------------------------------------------------- */
+Renderizacao de estados
+------------------------------------------------------------------------- */
 function mostrarErro(container, mensagem) {
   if (!container) return;
   container.innerHTML = `<div class="erro" role="alert"><strong>Erro ao carregar dados.</strong><br>${mensagem}</div>`;
@@ -258,8 +251,8 @@ function mostrarCarregando(container) {
 }
 
 /* -------------------------------------------------------------------------
-   Graficos padrao (Chart.js)
-   ------------------------------------------------------------------------- */
+Graficos padrao (Chart.js)
+------------------------------------------------------------------------- */
 function graficoLinha(ctx, labels, dados, opcoes = {}) {
   return new Chart(ctx, {
     type: "line",
@@ -309,34 +302,11 @@ function graficoLinha(ctx, labels, dados, opcoes = {}) {
   });
 }
 
-/**
- * Grafico de barras generico.
- *
- * Opcoes:
- *   - horizontal: true  -> barras horizontais (eixo X numerico, eixo Y categorico)
- *   - horizontal: false -> barras verticais (eixo X categorico, eixo Y numerico)
- *   - cor: cor base das barras
- *   - formatador: funcao para formatar os valores no tooltip
- *   - eixoFormatador: funcao para formatar os valores no eixo numerico
- *
- * NOTA TECNICA:
- *   O Chart.js 4.x, quando o eixo X tem labels string que parecem numeros
- *   (ex: "0-5 anos", "6-10 anos"), tenta interpretar como numerico e injeta
- *   um callback padrao, fazendo o eixo mostrar 0, 1, 2, ... em vez dos
- *   labels. Para evitar isso, forçamos:
- *     - type: "category" explicito no eixo categorico
- *     - autoSkip: false (mostra todos os labels)
- *     - ticks.callback: undefined (impede o Chart.js de injetar)
- *     - labels como String() (garante que sao strings)
- */
 function graficoBarras(ctx, labels, dados, opcoes = {}) {
   const corBase = opcoes.cor || CORES.azulClaro;
   const horizontal = !!opcoes.horizontal;
-
-  // Força labels a serem strings (evita Chart.js tratar como índice numérico)
   const labelsSeguros = labels.map((l) => String(l));
 
-  // Eixo de valores (numérico) — sempre com beginAtZero e formatação
   const eixoValores = {
     beginAtZero: true,
     grid: { color: CORES.cinzaBorda },
@@ -346,8 +316,7 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
     },
   };
 
-  // Eixo de categorias — sem callback, sem autoSkip, tipo explícito
-    const eixoCategorias = {
+  const eixoCategorias = {
     type: "category",
     grid: { display: false },
     ticks: {
@@ -389,8 +358,8 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
         },
       },
       scales: horizontal
-        ? { x: eixoValores, y: eixoCategorias }   // horizontal: X = valores, Y = categorias
-        : { x: eixoCategorias, y: eixoValores },  // vertical:   X = categorias, Y = valores
+        ? { x: eixoValores, y: eixoCategorias }
+        : { x: eixoCategorias, y: eixoValores },
     },
   });
 }
@@ -430,8 +399,9 @@ function graficoRosca(ctx, labels, dados, cores) {
 }
 
 /* -------------------------------------------------------------------------
-   Renderizacao do selo de auditoria
-   ------------------------------------------------------------------------- */
+Renderizacao do selo de auditoria
+CORRIGIDO: calcula pendências reais a partir de auditoria.json
+------------------------------------------------------------------------- */
 function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const el = document.querySelector(seletor);
   if (!el || !selo) return;
@@ -453,7 +423,6 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
   const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
   const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
-
   const totalPendencias = regNc.length + secNc.length + escNc.length;
   const semAlerta = totalPendencias === 0;
 
@@ -466,58 +435,44 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
 
   let blocoAlertas;
   if (semAlerta) {
-    blocoAlertas = `
-      <div class="ok">
-        <strong>Auditoria em dia.</strong>
-        Todos os códigos de regime, secretarias e escolaridades do portal
-        foram mapeados. Nenhuma pendência de classificação.
-      </div>`;
+    blocoAlertas = `<div class="ok">
+      <strong>Auditoria em dia.</strong> Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. Nenhuma pendência de classificação.
+    </div>`;
   } else {
     const detalhes = [];
     if (regNc.length) detalhes.push(`${regNc.length} código(s) de regime`);
     if (secNc.length) detalhes.push(`${secNc.length} secretaria(s)`);
     if (escNc.length) detalhes.push(`${escNc.length} escolaridade(s)`);
-    blocoAlertas = `
-      <div class="alerta">
-        <strong>Atenção:</strong>
-        foram detectadas pendências de classificação em ${detalhes.join(", ")}.
-        Consulte os mapas públicos na página Sobre para detalhes.
-      </div>`;
+    blocoAlertas = `<div class="alerta">
+      <strong>Atenção:</strong> foram detectadas pendências de classificação em ${detalhes.join(", ")}. Consulte os mapas públicos na página Sobre para detalhes.
+    </div>`;
   }
 
   el.innerHTML = `
     <dt>Fonte</dt>
     <dd>${fonte}</dd>
-
     <dt>Período coberto</dt>
     <dd>${per.inicio || "-"} a ${per.fim || "-"} · ${per.total_meses || 0} meses</dd>
-
     <dt>Registros brutos</dt>
     <dd>${fmtNum.format(registrosBrutos)}</dd>
-
     <dt>Múltiplos vínculos por mês</dt>
     <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)}) ·
         ${fmtBRLCompacto(valorMultivinculo)} (${fmtPct(percentualValorMultivinculo)})</dd>
-
     <dt>Registros únicos por mês</dt>
     <dd>${fmtNum.format(registrosLiquidos)}</dd>
-
     <dt>Servidores únicos</dt>
     <dd>${fmtNum.format(matriculasUnicas)}</dd>
-
     <dt>Secretarias</dt>
     <dd>${secretarias}</dd>
-
     <dt>Última atualização</dt>
     <dd>${dataFormatada}</dd>
-
     ${blocoAlertas}
   `;
 }
 
 /* -------------------------------------------------------------------------
-   Inicializacao comum
-   ------------------------------------------------------------------------- */
+Inicializacao comum
+------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
   inicializarBreadcrumb();

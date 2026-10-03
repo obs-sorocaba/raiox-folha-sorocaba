@@ -1,7 +1,6 @@
 /* =========================================================================
-Pagina Salarios - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-Le distribuicao_salarial.csv, gini_mensal.csv, histograma_salarial.csv
-e salarios_por_perfil.csv, e renderiza KPIs, graficos e tabelas.
+Pagina Salarios - versao corrigida definitiva
+CORRIGIDO: histograma usa ultimo mes, nao o primeiro
 ========================================================================= */
 const estadoSal = {
   distribuicao: [],
@@ -15,18 +14,6 @@ const estadoSal = {
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
-function escaparHTMLSalarios(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-/* -------------------------------------------------------------------------
-Inicializacao
-------------------------------------------------------------------------- */
 async function inicializar() {
   try {
     const [distribuicao, gini, histograma, salariosPerfil, kpis, auditoria] = await Promise.all([
@@ -38,7 +25,6 @@ async function inicializar() {
       carregarJSON("dados/auditoria.json"),
     ]);
 
-    // Converte campos numericos
     distribuicao.forEach((r) => {
       ["ano", "mes", "n", "media", "p10", "p25", "p50", "p75", "p90", "p95", "p99"]
         .forEach((c) => { if (c in r) r[c] = num(r[c]); });
@@ -75,44 +61,32 @@ async function inicializar() {
     console.error(e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML =
-        '<div class="erro" role="alert">' +
-        "<strong>Não foi possível carregar os dados de salários.</strong><br>" +
-        "<small>" + escaparHTMLSalarios(e.message) + "</small>" +
-        "</div>";
+      main.innerHTML = `<div class="erro" role="alert">
+        <strong>Não foi possível carregar os dados de salários.</strong><br>
+        <small>${e.message}</small>
+      </div>`;
     }
   }
 }
 
-/* -------------------------------------------------------------------------
-Cabecalho
-------------------------------------------------------------------------- */
 function renderizarCabecalho(kpis) {
   const el = document.getElementById("cabecalho-periodo");
   if (!el || !kpis) return;
-
   const p = kpis.periodo || {};
-  el.innerHTML =
-    "<strong>Período:</strong> " + (p.inicio || "-") + " a " + (p.fim || "-") +
-    " &nbsp;·&nbsp; <strong>" + (p.meses_cobertos || 0) + " meses</strong>";
+  el.innerHTML = `<strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"} &nbsp;·&nbsp; <strong>${p.meses_cobertos || 0} meses</strong>`;
 }
 
-/* -------------------------------------------------------------------------
-Panorama (cards de KPI do ultimo mes)
-------------------------------------------------------------------------- */
 function renderizarPanorama() {
   const el = document.getElementById("kpis-salarios");
   if (!el) return;
 
   const dist = estadoSal.distribuicao;
   const gin = estadoSal.gini;
-
   if (!dist.length || !gin.length) return;
 
   const ultDist = dist[dist.length - 1];
   const ultGini = gin[gin.length - 1];
   const mesRef = rotuloPeriodo(ultDist.ano, ultDist.mes);
-  const giniValor = Number(ultGini.gini || 0);
 
   el.innerHTML = `
     <div class="kpi">
@@ -138,32 +112,26 @@ function renderizarPanorama() {
     <div class="kpi">
       <div class="rotulo">p90 (topo 10%)</div>
       <div class="valor">${fmtBRL.format(ultDist.p90)}</div>
-      <div class="detalhe">10% ganham acima deste valor</div>
+      <div class="detalhe">Valor mínimo recebido pelos 10% mais bem remunerados</div>
     </div>
     <div class="kpi positivo">
       <div class="rotulo">Gini do mês</div>
-      <div class="valor">${giniValor.toFixed(3).replace(".", ",")}</div>
+      <div class="valor">${ultGini.gini.toFixed(3).replace(".", ",")}</div>
       <div class="detalhe">0 = igual; 1 = concentrado</div>
     </div>
   `;
 }
 
-/* -------------------------------------------------------------------------
-Grafico de percentis (p10, p50, p90)
-------------------------------------------------------------------------- */
 function renderizarGraficoPercentis() {
   const ctx = document.getElementById("grafico-percentis");
   if (!ctx) return;
-
-  if (estadoSal.graficos.percentis) {
-    estadoSal.graficos.percentis.destroy();
-    estadoSal.graficos.percentis = null;
-  }
 
   const dist = estadoSal.distribuicao;
   if (!dist.length) return;
 
   const labels = dist.map((d) => rotuloPeriodo(d.ano, d.mes));
+
+  if (estadoSal.graficos.percentis) estadoSal.graficos.percentis.destroy();
 
   estadoSal.graficos.percentis = new Chart(ctx, {
     type: "line",
@@ -175,154 +143,99 @@ function renderizarGraficoPercentis() {
           data: dist.map((d) => d.p90),
           borderColor: CORES.azulClaro,
           backgroundColor: "rgba(0,113,206,0.08)",
-          borderWidth: 2,
-          fill: false,
-          tension: 0.25,
-          pointRadius: 0,
-          pointHoverRadius: 5,
+          borderWidth: 2, fill: false, tension: 0.25,
+          pointRadius: 0, pointHoverRadius: 5,
         },
         {
           label: "Mediana (p50)",
           data: dist.map((d) => d.p50),
           borderColor: CORES.verdeClaro,
           backgroundColor: "rgba(122,182,72,0.10)",
-          borderWidth: 2,
-          fill: false,
-          tension: 0.25,
-          pointRadius: 0,
-          pointHoverRadius: 5,
+          borderWidth: 2, fill: false, tension: 0.25,
+          pointRadius: 0, pointHoverRadius: 5,
         },
         {
           label: "p10 (base 10%)",
           data: dist.map((d) => d.p10),
           borderColor: CORES.azulEscuro,
           backgroundColor: "rgba(0,58,112,0.08)",
-          borderWidth: 2,
-          fill: false,
-          tension: 0.25,
-          pointRadius: 0,
-          pointHoverRadius: 5,
+          borderWidth: 2, fill: false, tension: 0.25,
+          pointRadius: 0, pointHoverRadius: 5,
         },
       ],
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "bottom",
-          labels: { color: CORES.pretoSuave, font: { size: 11 }, boxWidth: 12, padding: 10 },
-        },
-        tooltip: {
-          callbacks: {
-            label: (item) => `${item.dataset.label}: ${fmtBRL.format(item.parsed.y)}`,
-          },
-        },
+        legend: { position: "bottom", labels: { color: CORES.pretoSuave, font: { size: 11 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtBRL.format(item.parsed.y)}` } },
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 },
-        },
-        y: {
-          beginAtZero: true,
-          grid: { color: CORES.cinzaBorda },
-          ticks: {
-            color: CORES.cinzaTexto,
-            callback: (v) => fmtBRLCompacto(v),
-          },
-        },
+        x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 } },
+        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtBRLCompacto(v) } },
       },
     },
   });
 }
 
-/* -------------------------------------------------------------------------
-Grafico de Gini
-------------------------------------------------------------------------- */
 function renderizarGraficoGini() {
   const ctx = document.getElementById("grafico-gini");
   if (!ctx) return;
-
-  if (estadoSal.graficos.gini) {
-    estadoSal.graficos.gini.destroy();
-    estadoSal.graficos.gini = null;
-  }
 
   const gin = estadoSal.gini;
   if (!gin.length) return;
 
   const labels = gin.map((d) => rotuloPeriodo(d.ano, d.mes));
 
+  if (estadoSal.graficos.gini) estadoSal.graficos.gini.destroy();
+
   estadoSal.graficos.gini = new Chart(ctx, {
     type: "line",
     data: {
       labels,
-      datasets: [
-        {
-          label: "Gini",
-          data: gin.map((d) => d.gini),
-          borderColor: CORES.azulClaro,
-          backgroundColor: "rgba(0,113,206,0.08)",
-          borderWidth: 2,
-          fill: true,
-          tension: 0.25,
-          pointRadius: 2,
-          pointHoverRadius: 5,
-        },
-      ],
+      datasets: [{
+        label: "Gini",
+        data: gin.map((d) => d.gini),
+        borderColor: CORES.azulClaro,
+        backgroundColor: "rgba(0,113,206,0.08)",
+        borderWidth: 2, fill: true, tension: 0.25,
+        pointRadius: 2, pointHoverRadius: 5,
+      }],
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (item) => `Gini: ${item.parsed.y.toFixed(3).replace(".", ",")}`,
-          },
-        },
+        tooltip: { callbacks: { label: (item) => `Gini: ${item.parsed.y.toFixed(3).replace(".", ",")}` } },
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 },
-        },
+        x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 } },
         y: {
-          beginAtZero: true,
-          max: 1,
+          beginAtZero: true, max: 1,
           grid: { color: CORES.cinzaBorda },
-          ticks: {
-            color: CORES.cinzaTexto,
-            callback: (v) => v.toFixed(2).replace(".", ","),
-          },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => v.toFixed(2).replace(".", ",") },
         },
       },
     },
   });
 }
 
-/* -------------------------------------------------------------------------
-Histograma por faixa
-------------------------------------------------------------------------- */
+// CORRIGIDO: usa o último mês disponível, não o primeiro
 function renderizarHistograma() {
   const ctx = document.getElementById("grafico-histograma");
   if (!ctx) return;
 
-  if (estadoSal.graficos.histograma) {
-    estadoSal.graficos.histograma.destroy();
-    estadoSal.graficos.histograma = null;
-  }
-
   const dados = estadoSal.histograma;
   if (!dados || !dados.length) return;
 
-  // Seleciona explicitamente o último mês disponível.
+  // Encontra o último mês disponível
   const ultimo = dados.reduce((acc, d) => {
     const chave = num(d.ano) * 100 + num(d.mes);
     const accChave = acc ? num(acc.ano) * 100 + num(acc.mes) : -1;
     return chave > accChave ? d : acc;
-  }, null) || dados[0];
+  }, null);
+
+  if (!ultimo) return;
 
   const anoRef = num(ultimo.ano);
   const mesRef = num(ultimo.mes);
@@ -335,18 +248,7 @@ function renderizarHistograma() {
     titulo.textContent = `Servidores por faixa de remuneração mensal — ${rotuloPeriodo(anoRef, mesRef)}`;
   }
 
-  const ORDEM_FAIXAS = [
-    "ate_2k",
-    "2k_4k",
-    "4k_6k",
-    "6k_8k",
-    "8k_10k",
-    "10k_15k",
-    "15k_20k",
-    "20k_30k",
-    "acima_30k",
-  ];
-
+  const ORDEM_FAIXAS = ["ate_2k","2k_4k","4k_6k","6k_8k","8k_10k","10k_15k","15k_20k","20k_30k","acima_30k"];
   const ROTULOS_FAIXA = {
     ate_2k: "Até R$ 2 mil",
     "2k_4k": "R$ 2-4 mil",
@@ -358,16 +260,10 @@ function renderizarHistograma() {
     "20k_30k": "R$ 20-30 mil",
     acima_30k: "Acima de R$ 30 mil",
   };
-
-  // Mantém o esquema de cores original, mas amarra cada cor à faixa correta.
   const CORES_FAIXA = {
-    ate_2k: "#2a788e",
-    "2k_4k": "#2a788e",
-    "4k_6k": "#2a788e",
-    "6k_8k": "#5c9c2a",
-    "8k_10k": "#5c9c2a",
-    "10k_15k": "#414487",
-    "15k_20k": "#414487",
+    ate_2k: "#2a788e", "2k_4k": "#2a788e", "4k_6k": "#2a788e",
+    "6k_8k": "#5c9c2a", "8k_10k": "#5c9c2a",
+    "10k_15k": "#414487", "15k_20k": "#414487",
     "20k_30k": "#d4a900",
     acima_30k: "#cc0000",
   };
@@ -376,7 +272,6 @@ function renderizarHistograma() {
     .map((fx) => dadosMes.find((d) => d.faixa === fx))
     .filter(Boolean);
 
-  // Se aparecer faixa nova não prevista, acrescenta ao final sem quebrar.
   dadosMes.forEach((d) => {
     if (!ORDEM_FAIXAS.includes(d.faixa)) ordenadas.push(d);
   });
@@ -386,25 +281,22 @@ function renderizarHistograma() {
   const cores = ordenadas.map((d) => CORES_FAIXA[d.faixa] || CORES.cinzaTexto);
   const totalFaixa = ordenadas.reduce((s, x) => s + num(x.n), 0);
 
+  if (estadoSal.graficos.histograma) estadoSal.graficos.histograma.destroy();
+
   estadoSal.graficos.histograma = new Chart(ctx, {
     type: "bar",
     data: {
       labels,
-      datasets: [
-        {
-          label: "Servidores",
-          data: valores,
-          backgroundColor: cores,
-          borderColor: "rgba(26,26,26,0.35)",
-          borderWidth: 1,
-          borderRadius: 4,
-          borderSkipped: false,
-        },
-      ],
+      datasets: [{
+        label: "Servidores",
+        data: valores,
+        backgroundColor: cores,
+        borderColor: "rgba(26,26,26,0.35)",
+        borderWidth: 1, borderRadius: 4, borderSkipped: false,
+      }],
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -418,32 +310,16 @@ function renderizarHistograma() {
         },
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: false, font: { size: 11 } },
-        },
-        y: {
-          beginAtZero: true,
-          grid: { color: CORES.cinzaBorda },
-          ticks: {
-            color: CORES.cinzaTexto,
-            callback: (v) => fmtNumCompacto(v),
-          },
-        },
+        x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: false, font: { size: 11 } } },
+        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } },
       },
     },
   });
 }
 
-/* -------------------------------------------------------------------------
-Remuneracao por perfil (Fase 1b)
-------------------------------------------------------------------------- */
 function renderizarSalariosPerfil() {
   const dados = estadoSal.salariosPerfil || [];
-  if (!dados.length) {
-    renderizarTabelaSalarioPerfil([]);
-    return;
-  }
+  if (!dados.length) return;
 
   renderizarGraficoSalarioEscolaridade(dados);
   renderizarGraficoSalarioTempo(dados);
@@ -454,13 +330,10 @@ function renderizarGraficoSalarioEscolaridade(dados) {
   const ctx = document.getElementById("grafico-salario-escolaridade");
   if (!ctx) return;
 
-  if (estadoSal.graficos.salEsc) {
-    estadoSal.graficos.salEsc.destroy();
-    estadoSal.graficos.salEsc = null;
-  }
-
   const escolaridade = dados.filter((d) => d.dimensao === "escolaridade");
   if (!escolaridade.length) return;
+
+  if (estadoSal.graficos.salEsc) estadoSal.graficos.salEsc.destroy();
 
   estadoSal.graficos.salEsc = graficoBarras(
     ctx,
@@ -480,17 +353,11 @@ function renderizarGraficoSalarioTempo(dados) {
   const ctx = document.getElementById("grafico-salario-tempo");
   if (!ctx) return;
 
-  if (estadoSal.graficos.salTempo) {
-    estadoSal.graficos.salTempo.destroy();
-    estadoSal.graficos.salTempo = null;
-  }
-
   const tempo = dados.filter((d) => d.dimensao === "tempo_casa");
   if (!tempo.length) return;
 
-  // Barras verticais: eixo X = categorias (0-5 anos, 6-10 anos, ...),
-  // eixo Y = valores em R$. Não passar eixoFormatador, senão ele
-  // sobrescreve os rótulos das categorias no eixo X.
+  if (estadoSal.graficos.salTempo) estadoSal.graficos.salTempo.destroy();
+
   estadoSal.graficos.salTempo = graficoBarras(
     ctx,
     tempo.map((d) => d.categoria),
@@ -512,56 +379,32 @@ function renderizarTabelaSalarioPerfil(dados) {
     tempo_casa: "Tempo de casa",
   };
 
-  if (!dados || !dados.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="carregando">Sem dados de remuneração por perfil.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = dados.map((d) => `
-    <tr>
-      <td>${escaparHTMLSalarios(rotuloDim[d.dimensao] || d.dimensao)}</td>
-      <td>${escaparHTMLSalarios(d.categoria)}</td>
-      <td class="numerico">${fmtNum.format(d.n)}</td>
-      <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
-      <td class="numerico">${fmtBRL.format(d.folha_mediana)}</td>
-    </tr>
-  `).join("");
+  tbody.innerHTML = dados.map((d) => `<tr>
+    <td>${rotuloDim[d.dimensao] || d.dimensao}</td>
+    <td>${d.categoria}</td>
+    <td class="numerico">${fmtNum.format(d.n)}</td>
+    <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
+    <td class="numerico">${fmtBRL.format(d.folha_mediana)}</td>
+  </tr>`).join("");
 }
 
-/* -------------------------------------------------------------------------
-Tabela de percentis
-------------------------------------------------------------------------- */
 function renderizarTabelaPercentis() {
   const tbody = document.querySelector("#tabela-percentis tbody");
   if (!tbody) return;
 
-  const dados = [...estadoSal.distribuicao].sort(
-    (a, b) => b.ano - a.ano || b.mes - a.mes
-  );
+  const dados = [...estadoSal.distribuicao].sort((a, b) => b.ano - a.ano || b.mes - a.mes);
 
-  if (!dados.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="carregando">Sem dados de percentis.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = dados
-    .map((d) => `
-      <tr>
-        <td>${rotuloPeriodo(d.ano, d.mes)}</td>
-        <td class="numerico">${fmtNum.format(d.n)}</td>
-        <td class="numerico">${fmtBRL.format(d.media)}</td>
-        <td class="numerico">${fmtBRL.format(d.p10)}</td>
-        <td class="numerico">${fmtBRL.format(d.p25)}</td>
-        <td class="numerico"><strong>${fmtBRL.format(d.p50)}</strong></td>
-        <td class="numerico">${fmtBRL.format(d.p75)}</td>
-        <td class="numerico">${fmtBRL.format(d.p90)}</td>
-        <td class="numerico">${fmtBRL.format(d.p99)}</td>
-      </tr>
-    `)
-    .join("");
+  tbody.innerHTML = dados.map((d) => `<tr>
+    <td>${rotuloPeriodo(d.ano, d.mes)}</td>
+    <td class="numerico">${fmtNum.format(d.n)}</td>
+    <td class="numerico">${fmtBRL.format(d.media)}</td>
+    <td class="numerico">${fmtBRL.format(d.p10)}</td>
+    <td class="numerico">${fmtBRL.format(d.p25)}</td>
+    <td class="numerico"><strong>${fmtBRL.format(d.p50)}</strong></td>
+    <td class="numerico">${fmtBRL.format(d.p75)}</td>
+    <td class="numerico">${fmtBRL.format(d.p90)}</td>
+    <td class="numerico">${fmtBRL.format(d.p99)}</td>
+  </tr>`).join("");
 }
 
-/* -------------------------------------------------------------------------
-Inicializacao
-------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);

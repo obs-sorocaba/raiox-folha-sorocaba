@@ -1,22 +1,14 @@
 /* =========================================================================
-Pagina Perfil das Unidades — Raio-X do Quadro de Pessoal
-Blocos: escolaridade, tempo de casa, categoria, escolaridade x categoria,
-genero x escolaridade, unidades por tipo, unidades nominais.
-Correcao: preenche narrativa de "Nivel de instrucao por categoria".
-Correcao: ordenacao robusta de escolaridade e tempo de casa.
+Pagina Perfil das Unidades - versao corrigida definitiva
+CORRIGIDO: ordemEscolaridade tolera acentos
 ========================================================================= */
-const ORDEM_ESCOLARIDADE = [
-  "Sem escolaridade formal registrada",
-  "Fundamental incompleto",
-  "Fundamental completo",
-  "Medio incompleto",
-  "Medio completo",
-  "Superior incompleto",
-  "Superior completo",
-  "Pos-graduacao",
-  "Mestrado",
-  "Doutorado",
-];
+function normalizarTexto(s) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
 
 const ORDEM_ESCOLARIDADE_NORMALIZADA = [
   "sem escolaridade formal registrada",
@@ -31,25 +23,46 @@ const ORDEM_ESCOLARIDADE_NORMALIZADA = [
   "doutorado",
 ];
 
+function ordemEscolaridade(valor) {
+  const n = normalizarTexto(valor);
+  const idx = ORDEM_ESCOLARIDADE_NORMALIZADA.indexOf(n);
+  if (idx >= 0) return idx;
+
+  for (let i = 0; i < ORDEM_ESCOLARIDADE_NORMALIZADA.length; i++) {
+    const alvo = ORDEM_ESCOLARIDADE_NORMALIZADA[i];
+    if (n.includes(alvo) || alvo.includes(n)) return i;
+  }
+  return 999;
+}
+
 const ROTULOS_TEMPO = {
-  0: "0-5 anos",
-  1: "6-10 anos",
-  2: "11-15 anos",
-  3: "16-20 anos",
-  4: "21-25 anos",
-  5: "26-30 anos",
-  6: "30+ anos",
+  0: "0-5 anos", 1: "6-10 anos", 2: "11-15 anos",
+  3: "16-20 anos", 4: "21-25 anos", 5: "26-30 anos", 6: "30+ anos",
 };
 
-const ORDEM_TEMPO_TEXTO = [
-  "0-5 anos",
-  "6-10 anos",
-  "11-15 anos",
-  "16-20 anos",
-  "21-25 anos",
-  "26-30 anos",
-  "30+ anos",
-];
+function rotuloTempo(valor) {
+  if (valor !== null && valor !== undefined && ROTULOS_TEMPO[valor] != null) {
+    return ROTULOS_TEMPO[valor];
+  }
+  const s = String(valor || "").trim();
+  if (!s) return "—";
+  if (/\banos?\b/i.test(s)) return s;
+  return s + " anos";
+}
+
+const ORDEM_TEMPO_TEXTO = ["0-5 anos","6-10 anos","11-15 anos","16-20 anos","21-25 anos","26-30 anos","30+ anos"];
+
+function ordemTempo(valor) {
+  const n = Number(valor);
+  if (Number.isInteger(n) && ROTULOS_TEMPO[n] != null) return n;
+
+  const s = normalizarTexto(rotuloTempo(valor));
+  for (let i = 0; i < ORDEM_TEMPO_TEXTO.length; i++) {
+    const alvo = normalizarTexto(ORDEM_TEMPO_TEXTO[i]);
+    if (s === alvo || s.includes(alvo) || alvo.includes(s)) return i;
+  }
+  return 999;
+}
 
 const ROTULOS_TIPO_UNIDADE = {
   unidade_fisica: "Unidades físicas",
@@ -66,95 +79,21 @@ const CORES_TIPO_UNIDADE = {
 };
 
 const estadoQuadro = {
-  escolaridade: [],
-  escolaridadeAno: [],
-  escolaridadeCategoria: [],
-  escolaridadeSecretaria: [],
-  tempoServico: [],
-  tempoServicoAno: [],
-  generoEscolaridade: [],
-  resumoSecretaria: [],
-  unidadeTipo: [],
-  unidadeTop20: [],
-  unidadeDetalhe: [],
-  kpis: null,
-  graficos: {},
+  escolaridade: [], escolaridadeAno: [], escolaridadeCategoria: [],
+  escolaridadeSecretaria: [], tempoServico: [], tempoServicoAno: [],
+  generoEscolaridade: [], resumoSecretaria: [],
+  unidadeTipo: [], unidadeTop20: [], unidadeDetalhe: [],
+  kpis: null, graficos: {},
 };
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
-function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); }
-const ORDEM_ESC_NORM = ["sem escolaridade formal registrada","fundamental incompleto","fundamental completo","medio incompleto","medio completo","superior incompleto","superior completo","pos-graduacao","mestrado","doutorado"];
-function ordemEscolaridade(valor) { const n = normalizarTexto(valor); const idx = ORDEM_ESC_NORM.indexOf(n); if (idx >= 0) return idx; for (let i=0; i<ORDEM_ESC_NORM.length; i++) { const alvo = ORDEM_ESC_NORM[i]; if (n.includes(alvo) || alvo.includes(n)) return i; } return 999; }
-
-function normalizarTexto(s) { return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); }
-const ORDEM_ESC_NORM = ["sem escolaridade formal registrada","fundamental incompleto","fundamental completo","medio incompleto","medio completo","superior incompleto","superior completo","pos-graduacao","mestrado","doutorado"];
-function ordemEscolaridade(valor) { const n = normalizarTexto(valor); const idx = ORDEM_ESC_NORM.indexOf(n); if (idx >= 0) return idx; for (let i=0; i<ORDEM_ESC_NORM.length; i++) { const alvo = ORDEM_ESC_NORM[i]; if (n.includes(alvo) || alvo.includes(n)) return i; } return 999; }
-
-function normalizarTexto(s) {
-  return String(s || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim();
-}
-
-function ordemEscolaridade(valor) {
-  const n = normalizarTexto(valor);
-  const idx = ORDEM_ESCOLARIDADE_NORMALIZADA.indexOf(n);
-  if (idx >= 0) return idx;
-
-  for (let i = 0; i < ORDEM_ESCOLARIDADE_NORMALIZADA.length; i++) {
-    const alvo = ORDEM_ESCOLARIDADE_NORMALIZADA[i];
-    if (n.includes(alvo) || alvo.includes(n)) return i;
-  }
-
-  return 999;
-}
-
-function rotuloTempo(valor) {
-  if (valor !== null && valor !== undefined && ROTULOS_TEMPO[valor] != null) {
-    return ROTULOS_TEMPO[valor];
-  }
-
-  const s = String(valor || "").trim();
-  if (!s) return "—";
-  if (/\banos?\b/i.test(s)) return s;
-  return s + " anos";
-}
-
-function ordemTempo(valor) {
-  const n = Number(valor);
-  if (Number.isInteger(n) && ROTULOS_TEMPO[n] != null) return n;
-
-  const s = normalizarTexto(rotuloTempo(valor));
-  for (let i = 0; i < ORDEM_TEMPO_TEXTO.length; i++) {
-    const alvo = normalizarTexto(ORDEM_TEMPO_TEXTO[i]);
-    if (s === alvo || s.includes(alvo) || alvo.includes(s)) return i;
-  }
-
-  return 999;
-}
-
-/* -------------------------------------------------------------------------
-Inicializacao
-------------------------------------------------------------------------- */
 async function inicializar() {
   try {
     const [
-      escolaridade,
-      escolaridadeAno,
-      escolaridadeCategoria,
-      escolaridadeSecretaria,
-      tempoServico,
-      tempoServicoAno,
-      generoEscolaridade,
-      resumoSecretaria,
-      unidadeTipo,
-      unidadeTop20,
-      unidadeDetalhe,
-      kpis,
-      auditoria,
+      escolaridade, escolaridadeAno, escolaridadeCategoria, escolaridadeSecretaria,
+      tempoServico, tempoServicoAno, generoEscolaridade, resumoSecretaria,
+      unidadeTipo, unidadeTop20, unidadeDetalhe, kpis, auditoria,
     ] = await Promise.all([
       carregarCSV("dados/quadro_escolaridade.csv"),
       carregarCSV("dados/quadro_escolaridade_por_ano.csv"),
@@ -171,9 +110,8 @@ async function inicializar() {
       carregarJSON("dados/auditoria.json"),
     ]);
 
-    // Converte campos numericos
-    const camposNumEsc = ["num_registros", "num_matriculas", "folha_total", "folha_media", "folha_mediana"];
-    const camposNumTempo = ["num_registros", "num_matriculas", "folha_total", "folha_media"];
+    const camposNumEsc = ["num_registros","num_matriculas","folha_total","folha_media","folha_mediana"];
+    const camposNumTempo = ["num_registros","num_matriculas","folha_total","folha_media"];
 
     [escolaridade, escolaridadeAno, escolaridadeCategoria, escolaridadeSecretaria].forEach((arr) => {
       arr.forEach((r) => camposNumEsc.forEach((c) => { if (c in r) r[c] = num(r[c]); }));
@@ -187,10 +125,7 @@ async function inicializar() {
       r.num_matriculas = num(r.num_matriculas);
       r.folha_media = num(r.folha_media);
     });
-
-    resumoSecretaria.forEach((r) => {
-      r.folha_total = num(r.folha_total);
-    });
+    resumoSecretaria.forEach((r) => { r.folha_total = num(r.folha_total); });
 
     unidadeTipo.forEach((r) => {
       r.num_unidades = num(r.num_unidades);
@@ -198,13 +133,11 @@ async function inicializar() {
       r.folha_total = num(r.folha_total);
       r.ticket_medio = num(r.ticket_medio);
     });
-
     unidadeTop20.forEach((r) => {
       r.efetivo = num(r.efetivo);
       r.folha_total = num(r.folha_total);
       r.ticket_medio = num(r.ticket_medio);
     });
-
     unidadeDetalhe.forEach((r) => {
       r.efetivo = num(r.efetivo);
       r.folha_total = num(r.folha_total);
@@ -236,11 +169,10 @@ async function inicializar() {
     console.error(e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML =
-        '<div class="erro">' +
-        "<strong>Não foi possível carregar os dados do quadro.</strong><br>" +
-        "<small>" + String(e.message) + "</small>" +
-        "</div>";
+      main.innerHTML = `<div class="erro">
+        <strong>Não foi possível carregar os dados do quadro.</strong><br>
+        <small>${e.message}</small>
+      </div>`;
     }
   }
 }
@@ -248,22 +180,15 @@ async function inicializar() {
 function renderizarCabecalhoPeriodo(kpis) {
   const el = document.getElementById("cabecalho-periodo");
   if (!el || !kpis) return;
-
   const p = kpis.periodo || {};
-  el.innerHTML =
-    "<strong>Período:</strong> " + (p.inicio || "-") + " a " + (p.fim || "-") +
-    " &nbsp;·&nbsp; <strong>" + (p.meses_cobertos || 0) + " meses</strong>";
+  el.innerHTML = `<strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"} &nbsp;·&nbsp; <strong>${p.meses_cobertos || 0} meses</strong>`;
 }
 
-/* -------------------------------------------------------------------------
-Filtros gerais (ano + secretaria)
-------------------------------------------------------------------------- */
 function popularFiltros(escolaridadeAno, tempoServicoAno, resumoSecretaria) {
   const anos = new Set([
     ...escolaridadeAno.map((r) => r.ano),
     ...tempoServicoAno.map((r) => r.ano),
   ]);
-
   const anosOrdenados = [...anos].filter((a) => a).sort();
 
   const selAno = document.getElementById("seletor-ano");
@@ -299,7 +224,6 @@ function registrarEventos() {
       renderizarTudo(selAno.value, "todas");
     });
   }
-
   if (selSec) {
     selSec.addEventListener("change", () => {
       if (selAno) selAno.value = "todos";
@@ -308,9 +232,6 @@ function registrarEventos() {
   }
 }
 
-/* -------------------------------------------------------------------------
-Renderizacao geral
-------------------------------------------------------------------------- */
 function renderizarTudo(ano, secretaria) {
   const esc = filtrarEscolaridade(ano, secretaria);
   const tempo = filtrarTempo(ano, secretaria);
@@ -325,29 +246,21 @@ function filtrarEscolaridade(ano, secretaria) {
   if (secretaria && secretaria !== "todas") {
     return estadoQuadro.escolaridadeSecretaria.filter((r) => r.secretaria === secretaria);
   }
-
   if (ano && ano !== "todos") {
     return estadoQuadro.escolaridadeAno.filter((r) => String(r.ano) === String(ano));
   }
-
   return estadoQuadro.escolaridade;
 }
 
 function filtrarTempo(ano, secretaria) {
-  if (secretaria && secretaria !== "todas") {
-    return estadoQuadro.tempoServico;
-  }
-
+  if (secretaria && secretaria !== "todas") return estadoQuadro.tempoServico;
   if (ano && ano !== "todos") {
     return estadoQuadro.tempoServicoAno.filter((r) => String(r.ano) === String(ano));
   }
-
   return estadoQuadro.tempoServico;
 }
 
-/* -------------------------------------------------------------------------
-Bloco 1: Escolaridade
-------------------------------------------------------------------------- */
+// CORRIGIDO: usa ordemEscolaridade
 function renderizarBlocoEscolaridade(dados) {
   if (!dados.length) return;
 
@@ -360,7 +273,6 @@ function renderizarBlocoEscolaridade(dados) {
   const ctxCont = document.getElementById("grafico-escolaridade-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.escContagem) estadoQuadro.graficos.escContagem.destroy();
-
     estadoQuadro.graficos.escContagem = graficoBarras(
       ctxCont,
       ordenado.map((d) => d.escolaridade_canonica),
@@ -397,9 +309,6 @@ function renderizarBlocoEscolaridade(dados) {
   }
 }
 
-/* -------------------------------------------------------------------------
-Bloco 2: Tempo de casa
-------------------------------------------------------------------------- */
 function renderizarBlocoTempo(dados) {
   if (!dados.length) return;
 
@@ -410,7 +319,6 @@ function renderizarBlocoTempo(dados) {
   const ctxCont = document.getElementById("grafico-tempo-contagem");
   if (ctxCont) {
     if (estadoQuadro.graficos.tempoContagem) estadoQuadro.graficos.tempoContagem.destroy();
-
     estadoQuadro.graficos.tempoContagem = graficoBarras(
       ctxCont,
       labelsTempo,
@@ -441,16 +349,11 @@ function renderizarBlocoTempo(dados) {
     const top = [...ordenado].sort((a, b) => b.num_matriculas - a.num_matriculas)[0];
     if (top && total > 0) {
       const pct = ((top.num_matriculas / total) * 100).toFixed(1).replace(".", ",");
-      const rotuloTop = rotuloTempo(top.faixa_tempo);
-      elNarr.innerHTML = `A faixa <strong>${rotuloTop}</strong> concentra <strong>${pct}%</strong> dos servidores.`;
+      elNarr.innerHTML = `A faixa <strong>${rotuloTempo(top.faixa_tempo)}</strong> concentra <strong>${pct}%</strong> dos servidores.`;
     }
   }
 }
 
-/* -------------------------------------------------------------------------
-Bloco 3: Escolaridade x categoria (barras empilhadas)
-Correcao: preenche a narrativa que antes ficava em "Carregando..."
-------------------------------------------------------------------------- */
 function renderizarBlocoEscolaridadeCategoria() {
   const dados = estadoQuadro.escolaridadeCategoria;
   const ctx = document.getElementById("grafico-escolaridade-categoria");
@@ -460,23 +363,18 @@ function renderizarBlocoEscolaridadeCategoria() {
 
   const escolaridades = [...new Set(dados.map((d) => d.escolaridade_canonica))]
     .sort((a, b) => ordemEscolaridade(a) - ordemEscolaridade(b));
-
   const subgrupos = [...new Set(dados.map((d) => d.regime_subgrupo))];
 
   const datasets = subgrupos.map((sg) => {
     const valores = escolaridades.map((esc) => {
-      const linha = dados.find(
-        (d) => d.escolaridade_canonica === esc && d.regime_subgrupo === sg
-      );
+      const linha = dados.find((d) => d.escolaridade_canonica === esc && d.regime_subgrupo === sg);
       return linha ? linha.num_matriculas : 0;
     });
-
     return {
       label: window.ROTULOS_GRUPO[sg] || sg,
       data: valores,
       backgroundColor: CORES_GRUPO[sg] || CORES.cinzaTexto,
-      borderRadius: 4,
-      borderSkipped: false,
+      borderRadius: 4, borderSkipped: false,
     };
   });
 
@@ -485,31 +383,14 @@ function renderizarBlocoEscolaridadeCategoria() {
     data: { labels: escolaridades, datasets },
     options: {
       indexAxis: "y",
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "bottom",
-          labels: { font: { size: 11 }, boxWidth: 12, padding: 8 },
-        },
-        tooltip: {
-          callbacks: {
-            label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.x)}`,
-          },
-        },
+        legend: { position: "bottom", labels: { font: { size: 11 }, boxWidth: 12, padding: 8 } },
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.x)}` } },
       },
       scales: {
-        x: {
-          stacked: true,
-          beginAtZero: true,
-          grid: { color: CORES.cinzaBorda },
-          ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) },
-        },
-        y: {
-          stacked: true,
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto, font: { size: 10 } },
-        },
+        x: { stacked: true, beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } },
+        y: { stacked: true, grid: { display: false }, ticks: { color: CORES.cinzaTexto, font: { size: 10 } } },
       },
     },
   });
@@ -528,21 +409,13 @@ function renderizarBlocoEscolaridadeCategoria() {
 
     if (top.length && total > 0) {
       const pct = ((top[1] / total) * 100).toFixed(1).replace(".", ",");
-      elNarr.innerHTML = `
-        A escolaridade <strong>${top[0]}</strong> concentra
-        <strong>${pct}%</strong> dos servidores classificados.
-        As barras mostram como cada nível de instrução se distribui
-        entre as categorias de vínculo (efetivos, comissionados, flexíveis, etc.).
-      `;
+      elNarr.innerHTML = `A escolaridade <strong>${top[0]}</strong> concentra <strong>${pct}%</strong> dos servidores classificados. As barras mostram como cada nível de instrução se distribui entre as categorias de vínculo.`;
     } else {
       elNarr.innerHTML = "Sem dados suficientes para gerar narrativa.";
     }
   }
 }
 
-/* -------------------------------------------------------------------------
-Bloco 4: Genero x escolaridade
-------------------------------------------------------------------------- */
 function renderizarBlocoGeneroEscolaridade() {
   const dados = estadoQuadro.generoEscolaridade;
   const ctx = document.getElementById("grafico-genero-escolaridade");
@@ -552,16 +425,12 @@ function renderizarBlocoGeneroEscolaridade() {
     .sort((a, b) => ordemEscolaridade(a) - ordemEscolaridade(b));
 
   const fem = escolaridades.map((esc) => {
-    const r = dados.find(
-      (d) => d.escolaridade_canonica === esc && d.genero_inferido === "feminino"
-    );
+    const r = dados.find((d) => d.escolaridade_canonica === esc && d.genero_inferido === "feminino");
     return r ? r.num_matriculas : 0;
   });
 
   const masc = escolaridades.map((esc) => {
-    const r = dados.find(
-      (d) => d.escolaridade_canonica === esc && d.genero_inferido === "masculino"
-    );
+    const r = dados.find((d) => d.escolaridade_canonica === esc && d.genero_inferido === "masculino");
     return r ? r.num_matriculas : 0;
   });
 
@@ -572,61 +441,30 @@ function renderizarBlocoGeneroEscolaridade() {
     data: {
       labels: escolaridades,
       datasets: [
-        {
-          label: "Feminino",
-          data: fem,
-          backgroundColor: CORES.funcao,
-          borderRadius: 4,
-          borderSkipped: false,
-        },
-        {
-          label: "Masculino",
-          data: masc,
-          backgroundColor: CORES.azulClaro,
-          borderRadius: 4,
-          borderSkipped: false,
-        },
+        { label: "Feminino", data: fem, backgroundColor: CORES.funcao, borderRadius: 4, borderSkipped: false },
+        { label: "Masculino", data: masc, backgroundColor: CORES.azulClaro, borderRadius: 4, borderSkipped: false },
       ],
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "bottom",
-          labels: { font: { size: 11 }, boxWidth: 12 },
-        },
-        tooltip: {
-          callbacks: {
-            label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.y)}`,
-          },
-        },
+        legend: { position: "bottom", labels: { font: { size: 11 }, boxWidth: 12 } },
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.y)}` } },
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: false },
-        },
-        y: {
-          beginAtZero: true,
-          grid: { color: CORES.cinzaBorda },
-          ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) },
-        },
+        x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: false } },
+        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } },
       },
     },
   });
 }
 
-/* =========================================================================
-Unidades por tipo — Fase 1a
-========================================================================= */
 function renderizarUnidades(unidadeTipo, unidadeTop20) {
   if (unidadeTipo && unidadeTipo.length) {
     renderizarKPIsUnidades(unidadeTipo);
     renderizarGraficosUnidades(unidadeTipo);
     renderizarTabelaUnidadeTipo(unidadeTipo);
   }
-
   if (unidadeTop20 && unidadeTop20.length) {
     renderizarTabelaUnidadeTop20(unidadeTop20);
   }
@@ -634,7 +472,6 @@ function renderizarUnidades(unidadeTipo, unidadeTop20) {
 
 function renderizarKPIsUnidades(dados) {
   const get = (tipo) => dados.find((d) => d.tipo_unidade === tipo) || {};
-
   const fisica = get("unidade_fisica");
   const setor = get("setor_operacional");
   const categoria = get("categoria_administrativa");
@@ -655,10 +492,7 @@ function renderizarKPIsUnidades(dados) {
 
 function renderizarGraficosUnidades(dados) {
   const ordem = ["unidade_fisica", "setor_operacional", "categoria_administrativa", "outros"];
-
-  const filtrado = ordem
-    .map((t) => dados.find((d) => d.tipo_unidade === t))
-    .filter((d) => d && d.efetivo > 0);
+  const filtrado = ordem.map((t) => dados.find((d) => d.tipo_unidade === t)).filter((d) => d && d.efetivo > 0);
 
   const labels = filtrado.map((d) => ROTULOS_TIPO_UNIDADE[d.tipo_unidade]);
   const efetivo = filtrado.map((d) => d.efetivo);
@@ -668,41 +502,16 @@ function renderizarGraficosUnidades(dados) {
   const ctx1 = document.getElementById("grafico-unidade-tipo");
   if (ctx1) {
     if (estadoQuadro.graficos.unidEfetivo) estadoQuadro.graficos.unidEfetivo.destroy();
-
     estadoQuadro.graficos.unidEfetivo = new Chart(ctx1, {
       type: "bar",
-      data: {
-        labels,
-        datasets: [{
-          label: "Efetivo",
-          data: efetivo,
-          backgroundColor: cores,
-          borderRadius: 6,
-          borderSkipped: false,
-        }],
-      },
+      data: { labels, datasets: [{ label: "Efetivo", data: efetivo, backgroundColor: cores, borderRadius: 6, borderSkipped: false }] },
       options: {
         indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (item) => item.parsed.x.toLocaleString("pt-BR") + " matrículas",
-            },
-          },
-        },
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (item) => item.parsed.x.toLocaleString("pt-BR") + " matrículas" } } },
         scales: {
-          x: {
-            beginAtZero: true,
-            grid: { color: CORES.cinzaBorda },
-            ticks: { color: CORES.cinzaTexto },
-          },
-          y: {
-            grid: { display: false },
-            ticks: { color: CORES.cinzaTexto },
-          },
+          x: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto } },
+          y: { grid: { display: false }, ticks: { color: CORES.cinzaTexto } },
         },
       },
     });
@@ -711,49 +520,27 @@ function renderizarGraficosUnidades(dados) {
   const ctx2 = document.getElementById("grafico-unidade-folha");
   if (ctx2) {
     if (estadoQuadro.graficos.unidFolha) estadoQuadro.graficos.unidFolha.destroy();
-
     estadoQuadro.graficos.unidFolha = new Chart(ctx2, {
       type: "bar",
-      data: {
-        labels,
-        datasets: [{
-          label: "Folha total",
-          data: folha,
-          backgroundColor: cores,
-          borderRadius: 6,
-          borderSkipped: false,
-        }],
-      },
+      data: { labels, datasets: [{ label: "Folha total", data: folha, backgroundColor: cores, borderRadius: 6, borderSkipped: false }] },
       options: {
         indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (item) => fmtBRL.format(item.parsed.x),
-            },
-          },
-        },
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (item) => fmtBRL.format(item.parsed.x) } } },
         scales: {
           x: {
-            beginAtZero: true,
-            grid: { color: CORES.cinzaBorda },
+            beginAtZero: true, grid: { color: CORES.cinzaBorda },
             ticks: {
               color: CORES.cinzaTexto,
               callback: (v) => {
-                if (v >= 1_000_000_000) return "R$ " + (v / 1_000_000_000).toFixed(1) + " bi";
-                if (v >= 1_000_000) return "R$ " + (v / 1_000_000).toFixed(0) + " mi";
-                if (v >= 1_000) return "R$ " + (v / 1_000).toFixed(0) + " mil";
+                if (v >= 1e9) return "R$ " + (v / 1e9).toFixed(1) + " bi";
+                if (v >= 1e6) return "R$ " + (v / 1e6).toFixed(0) + " mi";
+                if (v >= 1e3) return "R$ " + (v / 1e3).toFixed(0) + " mil";
                 return "R$ " + v;
               },
             },
           },
-          y: {
-            grid: { display: false },
-            ticks: { color: CORES.cinzaTexto },
-          },
+          y: { grid: { display: false }, ticks: { color: CORES.cinzaTexto } },
         },
       },
     });
@@ -765,10 +552,7 @@ function renderizarTabelaUnidadeTipo(dados) {
   if (!tbody) return;
 
   const ordem = ["unidade_fisica", "setor_operacional", "categoria_administrativa", "outros"];
-
-  const ordenado = ordem
-    .map((t) => dados.find((d) => d.tipo_unidade === t))
-    .filter((d) => d);
+  const ordenado = ordem.map((t) => dados.find((d) => d.tipo_unidade === t)).filter((d) => d);
 
   if (ordenado.length === 0) {
     tbody.innerHTML = '<tr><td colspan="5" class="carregando">Nenhum registro.</td></tr>';
@@ -805,9 +589,6 @@ function renderizarTabelaUnidadeTop20(dados) {
   </tr>`).join("");
 }
 
-/* =========================================================================
-Unidades nominais — Fase 2.3
-========================================================================= */
 const TOP_UNIDADES = 10;
 
 function renderizarUnidadesNominais(dados) {
@@ -834,9 +615,7 @@ function renderizarTopUnidades(dados, filtroTipo = "") {
     { chave: "Outros", rotulo: "Outros" },
   ];
 
-  const tiposFiltrados = filtroTipo
-    ? tipos.filter((t) => t.chave === filtroTipo)
-    : tipos;
+  const tiposFiltrados = filtroTipo ? tipos.filter((t) => t.chave === filtroTipo) : tipos;
 
   if (!tiposFiltrados.length) {
     container.innerHTML = `<div class="aviso-metodologico">Nenhum bloco de Top ${TOP_UNIDADES} para o tipo selecionado.</div>`;
@@ -844,11 +623,7 @@ function renderizarTopUnidades(dados, filtroTipo = "") {
   }
 
   container.innerHTML = tiposFiltrados.map(({ chave, rotulo }) => {
-    const subset = dados
-      .filter((d) => d.tipo === chave)
-      .sort((a, b) => b.efetivo - a.efetivo)
-      .slice(0, TOP_UNIDADES);
-
+    const subset = dados.filter((d) => d.tipo === chave).sort((a, b) => b.efetivo - a.efetivo).slice(0, TOP_UNIDADES);
     if (!subset.length) return "";
 
     const total = dados.filter((d) => d.tipo === chave).length;
@@ -857,9 +632,7 @@ function renderizarTopUnidades(dados, filtroTipo = "") {
       <div style="margin-bottom: 2rem;">
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">
           Top ${TOP_UNIDADES} — ${rotulo}
-          <small style="font-weight: 400; color: var(--cinza-texto);">
-            (${total} no total)
-          </small>
+          <small style="font-weight: 400; color: var(--cinza-texto);">(${total} no total)</small>
         </h3>
         <div class="grade-2" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
           ${subset.map((u) => `
@@ -889,9 +662,7 @@ function renderizarTabelaUnidades(dados, filtroTipo = "", termoBusca = "") {
 
   let filtrado = dados;
 
-  if (filtroTipo) {
-    filtrado = filtrado.filter((d) => d.tipo === filtroTipo);
-  }
+  if (filtroTipo) filtrado = filtrado.filter((d) => d.tipo === filtroTipo);
 
   if (termoBusca) {
     const t = termoBusca.toLowerCase();
@@ -947,7 +718,4 @@ function configurarFiltrosUnidades(dados) {
   }
 }
 
-/* -------------------------------------------------------------------------
-Inicializacao
-------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);
