@@ -1,5 +1,9 @@
 /* ============================================================
-pagina_sobre.js — versao corrigida definitiva
+pagina_sobre.js — versão corrigida definitiva
+CORREÇÕES:
+- Parser CSV com BOM removal e delimiter auto-detect
+- Selo dinâmico (calcula pendências reais)
+- Nomes de colunas corretos (regime_subgrupo, secretaria_crua)
 ============================================================ */
 (function () {
   "use strict";
@@ -74,11 +78,12 @@ pagina_sobre.js — versao corrigida definitiva
     return resp.json();
   }
 
-  // CORRIGIDO: remove BOM, auto-detect delimiter, normaliza headers
+  // ✅ CORREÇÃO: parser CSV robusto com BOM removal e delimiter auto-detect
   async function carregarCSV(caminho) {
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
     let texto = await resp.text();
 
+    // Remove BOM
     if (texto.charCodeAt(0) === 0xFEFF) {
       texto = texto.slice(1);
     }
@@ -86,7 +91,7 @@ pagina_sobre.js — versao corrigida definitiva
     return new Promise((resolve, reject) => {
       Papa.parse(texto, {
         header: true,
-        delimiter: "",  // AUTO-DETECTA ; ou ,
+        delimiter: "",  // ✅ AUTO-DETECTA ; ou ,
         skipEmptyLines: true,
         dynamicTyping: false,
         transformHeader: (h) => String(h).replace(/^\uFEFF/, "").trim(),
@@ -144,7 +149,7 @@ pagina_sobre.js — versao corrigida definitiva
       "Nenhum registro encontrado. " + link + "</td></tr>";
   }
 
-  // CORRIGIDO: calcula status dinamicamente
+  // ✅ CORREÇÃO: selo dinâmico que calcula pendências reais
   async function renderizarSelo() {
     const alvo = $("#selo-conteudo");
     if (!alvo) return;
@@ -161,7 +166,6 @@ pagina_sobre.js — versao corrigida definitiva
       const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
       const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
       const totalPendencias = regNc.length + secNc.length + escNc.length;
-
       const status = totalPendencias === 0 ? "Auditoria em dia" : "Pendências de classificação";
 
       const itens = [
@@ -176,10 +180,21 @@ pagina_sobre.js — versao corrigida definitiva
         ["Status", status],
       ];
 
+      let blocoAlertas = "";
+      if (totalPendencias === 0) {
+        blocoAlertas = '<div class="ok"><strong>Auditoria em dia.</strong> Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. Nenhuma pendência de classificação.</div>';
+      } else {
+        const detalhes = [];
+        if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
+        if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
+        if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
+        blocoAlertas = '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' + escaparHTML(detalhes.join(", ")) + ". Consulte os mapas públicos abaixo para detalhes.</div>";
+      }
+
       alvo.innerHTML = itens.map(function (par) {
         return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
-      }).join("");
+      }).join("") + blocoAlertas;
     } catch (e) {
       console.error("[sobre] Erro ao carregar auditoria:", e);
       alvo.innerHTML =
@@ -200,9 +215,10 @@ pagina_sobre.js — versao corrigida definitiva
       const tot = d.totais || {};
 
       const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
-      const mesesTexto = per.meses_cobertos != null
-        ? formatarNumero(per.meses_cobertos) + " meses"
-        : "—";
+      const mesesTexto =
+        per.meses_cobertos != null
+          ? formatarNumero(per.meses_cobertos) + " meses"
+          : "—";
 
       const itens = [
         ["Período coberto", periodoTexto],
@@ -248,7 +264,7 @@ pagina_sobre.js — versao corrigida definitiva
       const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
 
       const itens = [
-        ["Matrículas totais no último mês", formatarNumero(total)],
+        ["Matrículas totais no período", formatarNumero(total)],
         ["Classificadas como F/M", formatarNumero(definidos)],
         ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
         ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],
@@ -283,7 +299,7 @@ pagina_sobre.js — versao corrigida definitiva
     }
   }
 
-  // CORRIGIDO: r.regime_subgrupo
+  // ✅ CORREÇÃO: usa r.regime_subgrupo (não r.subgrupo)
   let regimesDados = [];
   async function carregarRegimes() {
     const tbody = $("#tabela-regimes tbody");
@@ -309,7 +325,7 @@ pagina_sobre.js — versao corrigida definitiva
     tbody.innerHTML = lista.map(function (r) {
       const cru = r.regime_cru || r.regime || r.codigo || "";
       const base = r.regime_base || r.base || "";
-      const sub = r.regime_subgrupo || r.subgrupo || "";  // CORRIGIDO
+      const sub = r.regime_subgrupo || r.subgrupo || "";  // ✅ CORRIGIDO
       const fund = r.fundamentacao || r.fundamento || "";
       const obs = r.observacao || r.obs || "";
 
@@ -336,7 +352,7 @@ pagina_sobre.js — versao corrigida definitiva
     });
   }
 
-  // CORRIGIDO: r.secretaria_crua
+  // ✅ CORREÇÃO: usa r.secretaria_crua (não r.secretaria_cru)
   let secretariasDados = [];
   async function carregarSecretarias() {
     const tbody = $("#tabela-secretarias-mapa tbody");
@@ -360,7 +376,7 @@ pagina_sobre.js — versao corrigida definitiva
     if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/secretaria_map.csv");
 
     tbody.innerHTML = lista.map(function (r) {
-      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || "";  // CORRIGIDO
+      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || "";  // ✅ CORRIGIDO
       const canon = r.secretaria_canonica || r.nome_canonico || "";
       const sigla = r.sigla || "";
 
