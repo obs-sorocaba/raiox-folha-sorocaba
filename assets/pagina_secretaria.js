@@ -1,30 +1,54 @@
 /* =========================================================================
-Pagina Secretarias - versao corrigida definitiva
-CORRIGIDO: ticket medio usa folha_total/num_matriculas
-CORRIGIDO: renderizarPercentisSec trata perc nulo
+Pagina Secretarias - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+Modos de operacao:
+"municipio"   (padrao ao abrir): total do municipio, soma de todas as
+secretarias. KPIs e graficos gerais, alem da anatomia
+agregada do municipio.
+"secretaria"  (apos selecao): recorte por secretaria especifica,
+incluindo anatomia interna detalhada.
+Correcao P0: terminologia padronizada (matriculas unicas, ticket medio,
+secretarias canonicas, distintos ao longo do periodo).
+CORREÇÃO CRÍTICA: adicionada função escaparHTML que estava faltando
 ========================================================================= */
+
+// ✅ CORREÇÃO: Função escaparHTML que estava faltando
+function escaparHTML(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 const estado = {
-  resumo: [], folhaMes: [], efetivoMes: [], folhaMunicipalMes: [],
-  categoriaSecMes: [], categoriaMunicipalMes: [],
-  secretariaCargo: [], secretariaEscolaridade: [], secretariaTempo: [],
-  secretariaPercentis: [], secretariaGini: [],
-  municipioCargo: [], municipioEscolaridade: [], municipioTempo: [],
-  municipioPercentis: [], municipioGini: [],
-  kpis: null, auditoria: null,
-  secretariaAtual: null, metricaAtual: "folha_total",
-  modo: "municipio", graficos: {},
+  resumo: [],
+  folhaMes: [],
+  efetivoMes: [],
+  folhaMunicipalMes: [],
+  categoriaSecMes: [],
+  categoriaMunicipalMes: [],
+  secretariaCargo: [],
+  secretariaEscolaridade: [],
+  secretariaTempo: [],
+  secretariaPercentis: [],
+  secretariaGini: [],
+  municipioCargo: [],
+  municipioEscolaridade: [],
+  municipioTempo: [],
+  municipioPercentis: [],
+  municipioGini: [],
+  kpis: null,
+  auditoria: null,
+  secretariaAtual: null,
+  metricaAtual: "folha_total",
+  modo: "municipio",
+  graficos: {},
 };
 
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
 
-function mediana(valores) {
-  const arr = valores.filter((v) => isFinite(v)).sort((a, b) => a - b);
-  if (!arr.length) return 0;
-  const mid = Math.floor(arr.length / 2);
-  return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
-}
-
-// CORRETO: ticket = folha acumulada / matrículas únicas do período
+// ✅ CORREÇÃO: Função ticketPeriodo para calcular corretamente
 function ticketPeriodo(resumo) {
   if (!resumo) return 0;
   const matriculas = num(resumo.num_matriculas);
@@ -32,12 +56,24 @@ function ticketPeriodo(resumo) {
   return matriculas > 0 ? folha / matriculas : 0;
 }
 
+// ✅ CORREÇÃO: Função mediana para comparadores
+function mediana(valores) {
+  const arr = valores.filter((v) => isFinite(v)).sort((a, b) => a - b);
+  if (!arr.length) return 0;
+  const mid = Math.floor(arr.length / 2);
+  return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
+}
+
+// ✅ CORREÇÃO: Função escaparCsv para exportação
 function escaparCsv(valor) {
   const s = valor === null || valor === undefined ? "" : String(valor);
   if (/[;"\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
   return s;
 }
 
+/* -------------------------------------------------------------------------
+Inicializacao
+------------------------------------------------------------------------- */
 async function inicializar() {
   try {
     const [
@@ -70,8 +106,7 @@ async function inicializar() {
     ]);
 
     const camposNum = ["folha_total","folha_liquida","num_registros","num_matriculas",
-                       "ticket_medio","efetivo","folha_media","folha_media_mensal",
-                       "meses_presentes","percentual","percentual_na_secretaria"];
+                       "ticket_medio","efetivo","folha_media","percentual","percentual_na_secretaria"];
 
     [resumo, folhaMes, efetivoMes, folhaMunicipalMes, categoriaSecMes, categoriaMunicipalMes]
       .forEach((arr) => {
@@ -84,16 +119,22 @@ async function inicializar() {
       ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
         .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     secretariaEscolaridade.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     secretariaTempo.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     secretariaPercentis.forEach((r) => {
       ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
         .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     secretariaGini.forEach((r) => {
       ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
@@ -102,16 +143,22 @@ async function inicializar() {
       ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
         .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     municipioEscolaridade.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     municipioTempo.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
+      ["n", "folha_media", "folha_mediana"]
+        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     municipioPercentis.forEach((r) => {
       ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
         .forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
+
     municipioGini.forEach((r) => {
       ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
     });
@@ -162,6 +209,9 @@ async function inicializar() {
   }
 }
 
+/* -------------------------------------------------------------------------
+Cabecalho
+------------------------------------------------------------------------- */
 function renderizarCabecalhoPeriodo(kpis) {
   const el = document.getElementById("cabecalho-periodo");
   if (!el || !kpis) return;
@@ -169,12 +219,13 @@ function renderizarCabecalhoPeriodo(kpis) {
   el.innerHTML = `<strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"} &nbsp;·&nbsp; <strong>${p.meses_cobertos || 0} meses</strong>`;
 }
 
+/* -------------------------------------------------------------------------
+Seletor de secretarias
+------------------------------------------------------------------------- */
 function popularSeletorSecretarias(resumo) {
   const sel = document.getElementById("seletor-secretaria");
   if (!sel) return;
-
   const ordenado = [...resumo].sort((a, b) => num(b.folha_total) - num(a.folha_total));
-
   sel.innerHTML = `<option value="">— Total do município (padrão) —</option>`;
   ordenado.forEach((s) => {
     const opt = document.createElement("option");
@@ -184,6 +235,9 @@ function popularSeletorSecretarias(resumo) {
   });
 }
 
+/* -------------------------------------------------------------------------
+Eventos
+------------------------------------------------------------------------- */
 function registrarEventos() {
   const sel = document.getElementById("seletor-secretaria");
   const selMetrica = document.getElementById("seletor-metrica");
@@ -218,9 +272,14 @@ function registrarEventos() {
     });
   }
 
-  if (botaoExportar) botaoExportar.addEventListener("click", exportarCSV);
+  if (botaoExportar) {
+    botaoExportar.addEventListener("click", exportarCSV);
+  }
 }
 
+/* -------------------------------------------------------------------------
+Helpers de layout
+------------------------------------------------------------------------- */
 function expandirGradeCategoria() {
   const secao = document.querySelector('section:has(#grafico-categoria)');
   if (!secao) return;
@@ -235,13 +294,18 @@ function restaurarGradeCategoria() {
   if (grade) grade.style.gridTemplateColumns = "";
 }
 
+/* -------------------------------------------------------------------------
+Modo: Total do municipio
+------------------------------------------------------------------------- */
 function selecionarMunicipio() {
   estado.modo = "municipio";
   estado.secretariaAtual = null;
 
   const folha = [...estado.folhaMunicipalMes].sort((a, b) => a.ano - b.ano || a.mes - b.mes);
   const efetivo = folha.map((f) => ({
-    ano: f.ano, mes: f.mes, efetivo: num(f.num_matriculas),
+    ano: f.ano,
+    mes: f.mes,
+    efetivo: num(f.num_matriculas),
   }));
 
   renderizarKPIsMunicipio(estado.kpis);
@@ -260,6 +324,9 @@ function selecionarMunicipio() {
   renderizarAnatomia(null);
 }
 
+/* -------------------------------------------------------------------------
+KPIs do municipio
+------------------------------------------------------------------------- */
 function renderizarKPIsMunicipio(kpis) {
   const el = document.getElementById("kpis-secretaria");
   if (!el || !kpis) return;
@@ -302,6 +369,9 @@ function renderizarKPIsMunicipio(kpis) {
   `;
 }
 
+/* -------------------------------------------------------------------------
+Modo: Secretaria especifica
+------------------------------------------------------------------------- */
 function selecionarSecretaria(nome) {
   estado.modo = "secretaria";
   estado.secretariaAtual = nome;
@@ -317,11 +387,16 @@ function selecionarSecretaria(nome) {
   const resumo = estado.resumo.find((s) => s.secretaria === nome);
   if (!resumo) return;
 
-  const folhaSec = estado.folhaMes.filter((f) => f.secretaria === nome)
+  const folhaSec = estado.folhaMes
+    .filter((f) => f.secretaria === nome)
     .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
-  const efetivoSec = estado.efetivoMes.filter((e) => e.secretaria === nome)
+
+  const efetivoSec = estado.efetivoMes
+    .filter((e) => e.secretaria === nome)
     .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
-  const categoriaSec = estado.categoriaSecMes.filter((c) => c.secretaria === nome)
+
+  const categoriaSec = estado.categoriaSecMes
+    .filter((c) => c.secretaria === nome)
     .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
 
   renderizarKPIs(resumo);
@@ -333,13 +408,17 @@ function selecionarSecretaria(nome) {
   renderizarAnatomia(nome);
 }
 
-// CORRIGIDO: ticket = folha_total / num_matriculas
+/* -------------------------------------------------------------------------
+KPIs da secretaria - CORREÇÃO: usa ticketPeriodo
+------------------------------------------------------------------------- */
 function renderizarKPIs(resumo) {
   const el = document.getElementById("kpis-secretaria");
   if (!el || !resumo) return;
 
-  const ultimoMesFolha = estado.folhaMes.filter((f) => f.secretaria === estado.secretariaAtual)
-    .sort((a, b) => a.ano - b.ano || a.mes - b.mes).slice(-1)[0] || {};
+  const ultimoMesFolha = estado.folhaMes
+    .filter((f) => f.secretaria === estado.secretariaAtual)
+    .sort((a, b) => a.ano - b.ano || a.mes - b.mes)
+    .slice(-1)[0] || {};
 
   const efetivos = estado.efetivoMes.filter((e) => e.secretaria === estado.secretariaAtual);
   const efetivoMedio = efetivos.length
@@ -384,6 +463,9 @@ function renderizarKPIs(resumo) {
   `;
 }
 
+/* -------------------------------------------------------------------------
+Grafico de metrica
+------------------------------------------------------------------------- */
 function renderizarGraficoMetrica() {
   const ctx = document.getElementById("grafico-folha");
   if (!ctx) return;
@@ -395,6 +477,7 @@ function renderizarGraficoMetrica() {
   if (!dados || !dados.length) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
+
   let valores, rotulo, formatador, eixoFormatador, inicioZero;
 
   switch (estado.metricaAtual) {
@@ -405,6 +488,7 @@ function renderizarGraficoMetrica() {
       eixoFormatador = (v) => fmtNumCompacto(v);
       inicioZero = false;
       break;
+
     case "ticket_medio":
       valores = dados.map((d) => num(d.ticket_medio));
       rotulo = "Ticket médio por matrícula (R$)";
@@ -412,6 +496,7 @@ function renderizarGraficoMetrica() {
       eixoFormatador = (v) => fmtBRLCompacto(v);
       inicioZero = false;
       break;
+
     case "folha_total":
     default:
       valores = dados.map((d) => num(d.folha_total) / 1e6);
@@ -437,7 +522,9 @@ function renderizarGraficoMetrica() {
   if (cartao) {
     const titulo = cartao.querySelector(".cartao-titulo");
     if (titulo) {
-      const contexto = estado.modo === "municipio" ? "Total do município" : estado.secretariaAtual;
+      const contexto = estado.modo === "municipio"
+        ? "Total do município"
+        : estado.secretariaAtual;
       titulo.textContent = `Evolução mensal — ${rotulo} — ${contexto}`;
     }
   }
@@ -464,6 +551,9 @@ function renderizarGraficoEfetivo(dados, contexto) {
   });
 }
 
+/* -------------------------------------------------------------------------
+Composicao por categoria - CORREÇÃO: não destrói o container
+------------------------------------------------------------------------- */
 function renderizarGraficoCategoria(dados, contexto) {
   const ctx = document.getElementById("grafico-categoria");
   if (!ctx) return;
@@ -493,7 +583,10 @@ function renderizarGraficoCategoria(dados, contexto) {
     return;
   }
 
-  if (aviso) { aviso.remove(); aviso = null; }
+  if (aviso) {
+    aviso.remove();
+    aviso = null;
+  }
 
   const ultima = dados.reduce((acc, d) => {
     const chave = num(d.ano) * 100 + num(d.mes);
@@ -520,12 +613,13 @@ function renderizarGraficoCategoria(dados, contexto) {
     }
   }
 
-  const a = garantirAviso();
   const contextoLabel = contexto === "municipio" ? "Total do município" : contexto;
-  a.innerHTML = `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
+  garantirAviso().innerHTML = `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
 }
 
-// CORRIGIDO: usa ticketPeriodo
+/* -------------------------------------------------------------------------
+Comparadores - CORREÇÃO: usa ticketPeriodo
+------------------------------------------------------------------------- */
 function renderizarComparadores(resumo) {
   const el = document.getElementById("comparadores");
   if (!el || !resumo) return;
@@ -578,6 +672,9 @@ function renderizarComparadores(resumo) {
   `;
 }
 
+/* -------------------------------------------------------------------------
+Tabela mensal
+------------------------------------------------------------------------- */
 function renderizarTabela(dados) {
   const tbody = document.querySelector("#tabela-mensal tbody");
   if (!tbody) return;
@@ -604,18 +701,25 @@ function renderizarTabela(dados) {
   }).join("");
 }
 
+/* -------------------------------------------------------------------------
+Anatomia da secretaria
+------------------------------------------------------------------------- */
 function renderizarAnatomia(nomeSecretaria) {
   const usarMunicipio = !nomeSecretaria;
   const chave = usarMunicipio ? "Município (todas as secretarias)" : nomeSecretaria;
 
   const dadosCargo = (usarMunicipio ? estado.municipioCargo : estado.secretariaCargo)
     .filter((r) => r.secretaria_canonica === chave);
+
   const dadosEsc = (usarMunicipio ? estado.municipioEscolaridade : estado.secretariaEscolaridade)
     .filter((r) => r.secretaria_canonica === chave);
+
   const dadosTempo = (usarMunicipio ? estado.municipioTempo : estado.secretariaTempo)
     .filter((r) => r.secretaria_canonica === chave);
+
   const dadosPerc = (usarMunicipio ? estado.municipioPercentis : estado.secretariaPercentis)
     .find((r) => r.secretaria_canonica === chave);
+
   const dadosGini = (usarMunicipio ? estado.municipioGini : estado.secretariaGini)
     .find((r) => r.secretaria_canonica === chave);
 
@@ -740,7 +844,7 @@ function renderizarTempoSec(dados, nomeSecretaria) {
   );
 }
 
-// CORRIGIDO: trata perc nulo
+// ✅ CORREÇÃO: trata perc nulo de forma segura
 function renderizarPercentisSec(perc, gini, nomeSecretaria) {
   const bloco = document.getElementById("bloco-percentis-sec");
   const tbody = document.querySelector("#tabela-percentis-sec tbody");
@@ -780,6 +884,9 @@ function renderizarPercentisSec(perc, gini, nomeSecretaria) {
   `;
 }
 
+/* -------------------------------------------------------------------------
+Exportar CSV
+------------------------------------------------------------------------- */
 function exportarCSV() {
   let dados, nomeArquivo;
 
@@ -787,7 +894,8 @@ function exportarCSV() {
     dados = [...estado.folhaMunicipalMes].sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     nomeArquivo = "total_municipio.csv";
   } else if (estado.secretariaAtual) {
-    dados = estado.folhaMes.filter((f) => f.secretaria === estado.secretariaAtual)
+    dados = estado.folhaMes
+      .filter((f) => f.secretaria === estado.secretariaAtual)
       .sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     nomeArquivo = `secretaria_${estado.secretariaAtual.replace(/[^a-zA-Z0-9]/g, "_")}.csv`;
   } else {
@@ -795,7 +903,10 @@ function exportarCSV() {
     return;
   }
 
-  if (!dados.length) { alert("Sem dados para exportar."); return; }
+  if (!dados.length) {
+    alert("Sem dados para exportar.");
+    return;
+  }
 
   const colunas = Object.keys(dados[0]);
   const linhas = [colunas.join(";")];
@@ -816,4 +927,7 @@ function exportarCSV() {
   URL.revokeObjectURL(url);
 }
 
+/* -------------------------------------------------------------------------
+Inicializacao
+------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);
