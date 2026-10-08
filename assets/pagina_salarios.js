@@ -1,6 +1,11 @@
 /* =========================================================================
 Pagina Salarios - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-CORREÇÕES: nome da função, espaços em strings, CORES.cinzaBorda
+VERSÃO CORRIGIDA (v2)
+- renderizarGraficoSalarioTempo: chamada sem espaço (antes dava ReferenceError)
+- Chaves das faixas salariais sem espaço (antes o histograma ficava VAZIO)
+- CORES.cinzaBorda / color: sem espaços internos (antes SyntaxError)
+- Strings Chart.js, seletores e paths CSV sem espaços artefatuais
+- Rampa de percentil em verde OSB; faixas do histograma mantidas qualitativas
 ========================================================================= */
 const estadoSal = {
   distribuicao: [], gini: [], histograma: [], salariosPerfil: [],
@@ -18,19 +23,16 @@ async function inicializar() {
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
-
     distribuicao.forEach((r) => ["ano","mes","n","media","p10","p25","p50","p75","p90","p95","p99"].forEach((c) => { if (c in r) r[c] = num(r[c]); }));
     gini.forEach((r) => ["ano","mes","n","gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); }));
     histograma.forEach((r) => ["n","folha","ano","mes"].forEach((c) => { if (c in r) r[c] = num(r[c]); }));
     salariosPerfil.forEach((r) => ["n","folha_media","folha_mediana"].forEach((c) => { if (c in r) r[c] = num(r[c]); }));
-
     estadoSal.distribuicao = distribuicao.sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     estadoSal.gini = gini.sort((a, b) => a.ano - b.ano || a.mes - b.mes);
     estadoSal.histograma = histograma;
     estadoSal.salariosPerfil = salariosPerfil;
     estadoSal.kpis = kpis;
     estadoSal.auditoria = auditoria;
-
     renderizarCabecalho(kpis);
     renderizarPanorama();
     renderizarGraficoPercentis();
@@ -60,14 +62,7 @@ function renderizarPanorama() {
   if (!dist.length || !gin.length) return;
   const ultDist = dist[dist.length - 1], ultGini = gin[gin.length - 1];
   const mesRef = rotuloPeriodo(ultDist.ano, ultDist.mes);
-  el.innerHTML = `
-    <div class="kpi"><div class="rotulo">Matrículas c/ Pagamento Mensal</div><div class="valor">${fmtNum.format(ultDist.n)}</div><div class="detalhe">${mesRef}</div></div>
-    <div class="kpi"><div class="rotulo">p10 (base 10%)</div><div class="valor">${fmtBRL.format(ultDist.p10)}</div><div class="detalhe">10% ganham abaixo deste valor</div></div>
-    <div class="kpi destaque"><div class="rotulo">Mediana (p50)</div><div class="valor">${fmtBRL.format(ultDist.p50)}</div><div class="detalhe">Metade ganha até aqui</div></div>
-    <div class="kpi"><div class="rotulo">Média</div><div class="valor">${fmtBRL.format(ultDist.media)}</div><div class="detalhe">Soma dividida pelo número de matrículas</div></div>
-    <div class="kpi"><div class="rotulo">p90 (topo 10%)</div><div class="valor">${fmtBRL.format(ultDist.p90)}</div><div class="detalhe">Valor mínimo recebido pelos 10% mais bem remunerados</div></div>
-    <div class="kpi positivo"><div class="rotulo">Gini do mês</div><div class="valor">${ultGini.gini.toFixed(3).replace(".", ",")}</div><div class="detalhe">0 = igual; 1 = concentrado</div></div>
-  `;
+  el.innerHTML = `<div class="kpi"><div class="rotulo">Matrículas c/ Pagamento Mensal</div><div class="valor">${fmtNum.format(ultDist.n)}</div><div class="detalhe">${mesRef}</div></div><div class="kpi"><div class="rotulo">p10 (base 10%)</div><div class="valor">${fmtBRL.format(ultDist.p10)}</div><div class="detalhe">10% ganham abaixo deste valor</div></div><div class="kpi destaque"><div class="rotulo">Mediana (p50)</div><div class="valor">${fmtBRL.format(ultDist.p50)}</div><div class="detalhe">Metade ganha até aqui</div></div><div class="kpi"><div class="rotulo">Média</div><div class="valor">${fmtBRL.format(ultDist.media)}</div><div class="detalhe">Soma dividida pelo número de matrículas</div></div><div class="kpi"><div class="rotulo">p90 (topo 10%)</div><div class="valor">${fmtBRL.format(ultDist.p90)}</div><div class="detalhe">Valor mínimo recebido pelos 10% mais bem remunerados</div></div><div class="kpi positivo"><div class="rotulo">Gini do mês</div><div class="valor">${ultGini.gini.toFixed(3).replace(".", ",")}</div><div class="detalhe">0 = igual; 1 = concentrado</div></div>`;
 }
 
 function renderizarGraficoPercentis() {
@@ -82,23 +77,23 @@ function renderizarGraficoPercentis() {
     data: {
       labels,
       datasets: [
-        { label: "p90 (topo 10%)", data: dist.map((d) => d.p90), borderColor: CORES.azulClaro, backgroundColor: "rgba(0,113,206,0.08)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
-        { label: "Mediana (p50)", data: dist.map((d) => d.p50), borderColor: CORES.verdeClaro, backgroundColor: "rgba(122,182,72,0.10)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
-        { label: "p10 (base 10%)", data: dist.map((d) => d.p10), borderColor: CORES.azulEscuro, backgroundColor: "rgba(0,58,112,0.08)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
-      ]
+        { label: "p90 (topo 10%)", data: dist.map((d) => d.p90), borderColor: CORES.azulClaro, backgroundColor: "rgba(78,140,58,0.10)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
+        { label: "Mediana (p50)", data: dist.map((d) => d.p50), borderColor: CORES.verdeClaro, backgroundColor: "rgba(122,182,72,0.12)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
+        { label: "p10 (base 10%)", data: dist.map((d) => d.p10), borderColor: CORES.azulEscuro, backgroundColor: "rgba(29,64,35,0.10)", borderWidth: 2, fill: false, tension: 0.25, pointRadius: 0, pointHoverRadius: 5 },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { position: "bottom", labels: { color: CORES.pretoSuave, font: { size: 11 }, boxWidth: 12, padding: 10 } },
-        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtBRL.format(item.parsed.y)}` } }
+        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtBRL.format(item.parsed.y)}` } },
       },
       scales: {
         x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 } },
-        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtBRLCompacto(v) } }
-      }
-    }
+        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtBRLCompacto(v) } },
+      },
+    },
   });
 }
 
@@ -113,20 +108,24 @@ function renderizarGraficoGini() {
     type: "line",
     data: {
       labels,
-      datasets: [{ label: "Gini", data: gin.map((d) => d.gini), borderColor: CORES.azulClaro, backgroundColor: "rgba(0,113,206,0.08)", borderWidth: 2, fill: true, tension: 0.25, pointRadius: 2, pointHoverRadius: 5 }]
+      datasets: [{ label: "Gini", data: gin.map((d) => d.gini), borderColor: CORES.azulClaro, backgroundColor: "rgba(78,140,58,0.10)", borderWidth: 2, fill: true, tension: 0.25, pointRadius: 2, pointHoverRadius: 5 }],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (item) => `Gini: ${item.parsed.y.toFixed(3).replace(".", ",")}` } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (item) => `Gini: ${item.parsed.y.toFixed(3).replace(".", ",")}` } },
+      },
       scales: {
         x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 } },
-        y: { beginAtZero: true, max: 1, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v.toFixed(2).replace(".", ",") } }
-      }
-    }
+        y: { beginAtZero: true, max: 1, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v.toFixed(2).replace(".", ",") } },
+      },
+    },
   });
 }
 
+// ✅ usa o ÚLTIMO mês disponível (reduce p/ máx. ano*100+mes), não o primeiro
 function renderizarHistograma() {
   const ctx = document.getElementById("grafico-histograma");
   if (!ctx) return;
@@ -144,13 +143,35 @@ function renderizarHistograma() {
   const titulo = document.getElementById("titulo-histograma");
   if (titulo) titulo.textContent = `Servidores por faixa de remuneração mensal — ${rotuloPeriodo(anoRef, mesRef)}`;
 
+  // ⚠️ Chaves SEM espaço: casam exatamente com a coluna "faixa" do CSV.
+  //    Qualquer espaço aqui faz o .find() falhar e o histograma ficar vazio.
   const ORDEM_FAIXAS = ["ate_2k","2k_4k","4k_6k","6k_8k","8k_10k","10k_15k","15k_20k","20k_30k","acima_30k"];
-  const ROTULOS_FAIXA = { ate_2k: "Até R$ 2 mil", "2k_4k": "R$ 2-4 mil", "4k_6k": "R$ 4-6 mil", "6k_8k": "R$ 6-8 mil", "8k_10k": "R$ 8-10 mil", "10k_15k": "R$ 10-15 mil", "15k_20k": "R$ 15-20 mil", "20k_30k": "R$ 20-30 mil", acima_30k: "Acima de R$ 30 mil" };
-  const CORES_FAIXA = { ate_2k: "#2a788e", "2k_4k": "#2a788e", "4k_6k": "#2a788e", "6k_8k": "#5c9c2a", "8k_10k": "#5c9c2a", "10k_15k": "#414487", "15k_20k": "#414487", "20k_30k": "#d4a900", acima_30k: "#cc0000" };
+  const ROTULOS_FAIXA = {
+    "ate_2k": "Até R$ 2 mil",
+    "2k_4k": "R$ 2-4 mil",
+    "4k_6k": "R$ 4-6 mil",
+    "6k_8k": "R$ 6-8 mil",
+    "8k_10k": "R$ 8-10 mil",
+    "10k_15k": "R$ 10-15 mil",
+    "15k_20k": "R$ 15-20 mil",
+    "20k_30k": "R$ 20-30 mil",
+    "acima_30k": "Acima de R$ 30 mil",
+  };
+  // Cores QUALITATIVAS (degrau de renda) — mantidas de propósito, não viram verde.
+  const CORES_FAIXA = {
+    "ate_2k": "#2a788e",
+    "2k_4k": "#2a788e",
+    "4k_6k": "#2a788e",
+    "6k_8k": "#5c9c2a",
+    "8k_10k": "#5c9c2a",
+    "10k_15k": "#414487",
+    "15k_20k": "#414487",
+    "20k_30k": "#d4a900",
+    "acima_30k": "#cc0000",
+  };
 
   const ordenadas = ORDEM_FAIXAS.map((fx) => dadosMes.find((d) => d.faixa === fx)).filter(Boolean);
   dadosMes.forEach((d) => { if (!ORDEM_FAIXAS.includes(d.faixa)) ordenadas.push(d); });
-
   const labels = ordenadas.map((d) => ROTULOS_FAIXA[d.faixa] || d.faixa);
   const valores = ordenadas.map((d) => num(d.n));
   const cores = ordenadas.map((d) => CORES_FAIXA[d.faixa] || CORES.cinzaTexto);
@@ -159,7 +180,10 @@ function renderizarHistograma() {
   if (estadoSal.graficos.histograma) estadoSal.graficos.histograma.destroy();
   estadoSal.graficos.histograma = new Chart(ctx, {
     type: "bar",
-    data: { labels, datasets: [{ label: "Servidores", data: valores, backgroundColor: cores, borderColor: "rgba(26,26,26,0.35)", borderWidth: 1, borderRadius: 4, borderSkipped: false }] },
+    data: {
+      labels,
+      datasets: [{ label: "Servidores", data: valores, backgroundColor: cores, borderColor: "rgba(26,26,26,0.35)", borderWidth: 1, borderRadius: 4, borderSkipped: false }],
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -171,15 +195,15 @@ function renderizarHistograma() {
               const d = ordenadas[item.dataIndex];
               const pct = totalFaixa > 0 ? ((num(d.n) / totalFaixa) * 100).toFixed(1).replace(".", ",") : "0,0";
               return `${fmtNum.format(d.n)} servidores (${pct}%) — ${fmtBRLCompacto(d.folha)}`;
-            }
-          }
-        }
+            },
+          },
+        },
       },
       scales: {
         x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, maxRotation: 45, autoSkip: false, font: { size: 11 } } },
-        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } }
-      }
-    }
+        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } },
+      },
+    },
   });
 }
 
@@ -187,7 +211,7 @@ function renderizarSalariosPerfil() {
   const dados = estadoSal.salariosPerfil || [];
   if (!dados.length) return;
   renderizarGraficoSalarioEscolaridade(dados);
-  renderizarGraficoSalarioTempo(dados);
+  renderizarGraficoSalarioTempo(dados);   // ✅ sem espaço no nome (antes ReferenceError)
   renderizarTabelaSalarioPerfil(dados);
 }
 
@@ -202,7 +226,7 @@ function renderizarGraficoSalarioEscolaridade(dados) {
     horizontal: true,
     cor: CORES.azulClaro,
     formatador: (v) => fmtBRL.format(v),
-    eixoFormatador: (v) => fmtBRLCompacto(v)
+    eixoFormatador: (v) => fmtBRLCompacto(v),
   });
 }
 
@@ -215,7 +239,7 @@ function renderizarGraficoSalarioTempo(dados) {
   estadoSal.graficos.salTempo = graficoBarras(ctx, tempo.map((d) => d.categoria), tempo.map((d) => d.folha_media), {
     label: "Folha média",
     cor: CORES.verdeClaro,
-    formatador: (v) => fmtBRL.format(v)
+    formatador: (v) => fmtBRL.format(v),
   });
 }
 

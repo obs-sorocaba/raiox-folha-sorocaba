@@ -1,13 +1,18 @@
 /* =========================================================================
 Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
 Helpers compartilhados por todas as paginas
-CORREÇÕES: delimiter "", arrow functions, strings sem espaços
+IDENTIDADE VERDE OSB (v3) — sintaxe limpa + CORES casando com style.css
 ========================================================================= */
+
+/* -------------------------------------------------------------------------
+Formatadores
+------------------------------------------------------------------------- */
 const fmtBRL = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
   maximumFractionDigits: 0,
 });
+
 const fmtBRLCompacto = (v) => {
   if (v == null || isNaN(v)) return "-";
   if (Math.abs(v) >= 1e9) return "R$ " + (v / 1e9).toFixed(2).replace(".", ",") + " bi";
@@ -15,46 +20,57 @@ const fmtBRLCompacto = (v) => {
   if (Math.abs(v) >= 1e3) return "R$ " + (v / 1e3).toFixed(0).replace(".", ",") + " mil";
   return fmtBRL.format(v);
 };
+
 const fmtNum = new Intl.NumberFormat("pt-BR");
+
 const fmtPct = (v) => (v == null || isNaN(v) ? "-" : v.toFixed(2).replace(".", ",") + "%");
+
 const fmtNumCompacto = (v) => {
   if (v == null || isNaN(v)) return "-";
   if (v >= 1e6) return (v / 1e6).toFixed(1).replace(".", ",") + " mi";
   if (v >= 1e3) return (v / 1e3).toFixed(1).replace(".", ",") + " mil";
   return fmtNum.format(v);
 };
+
 const nomeMes = ["jan", "fev", "mar", "abr", "mai", "jun",
                  "jul", "ago", "set", "out", "nov", "dez"];
 const rotuloPeriodo = (ano, mes) => `${nomeMes[mes - 1]}/${ano}`;
 
+/* -------------------------------------------------------------------------
+Cores institucionais — VERDE OSB (espelha as variaveis do style.css v3)
+Os nomes das chaves NAO mudam (azulEscuro, azulClaro...) para nenhum outro
+arquivo precisar de alteracao; apenas os VALORES sao verdes.
+------------------------------------------------------------------------- */
 const CORES = {
-  azulEscuro:    "#003a70",
-  azulClaro:     "#0071ce",
-  verdeEscuro:   "#00612f",
-  verdeClaro:    "#7ab648",
-  amarelo:       "#ffd200",
+  azulEscuro:     "#1d4023",  /* verde-floresta  (era #003a70) */
+  azulClaro:      "#4e8c3a",  /* verde-folha     (era #0071ce) */
+  verdeEscuro:    "#1d4023",  /* (era #00612f) */
+  verdeClaro:     "#7ab648",
+  amarelo:        "#ffd200",
   amareloGrafico: "#d4a900",
-  branco:        "#ffffff",
-  cinzaFundo:    "#f5f7fa",
-  cinzaBorda:    "#e0e4ea",
-  cinzaTexto:    "#555c66",
-  pretoSuave:    "#1a1a1a",
+  branco:         "#ffffff",
+  cinzaFundo:     "#f4f7f2",  /* (era #f5f7fa) */
+  cinzaBorda:     "#dfe6da",  /* (era #e0e4ea) */
+  cinzaTexto:     "#4f5a50",  /* (era #555c66) */
+  pretoSuave:     "#1a1a1a",
   efetivos:       "#2a788e",
-  funcao:         "#5c9c2a",
+  funcao:         "#2e7d32",  /* escurecido p/ distinguir da serie principal (era #5c9c2a) */
   comissionados:  "#d4a900",
   flexiveis:      "#414487",
   inativos:       "#6b6b6b",
   nc:             "#cc0000",
   viridis: ["#440154", "#414487", "#2a788e", "#22a884", "#7ad151", "#fde725"],
 };
+
 const CORES_GRUPO = {
-  efetivos:        CORES.efetivos,
-  funcao_confianca:CORES.funcao,
-  comissionados:   CORES.comissionados,
-  flexiveis:       CORES.flexiveis,
-  inativos:        CORES.inativos,
-  nao_classificado:CORES.nc,
+  efetivos:         CORES.efetivos,
+  funcao_confianca: CORES.funcao,
+  comissionados:    CORES.comissionados,
+  flexiveis:        CORES.flexiveis,
+  inativos:         CORES.inativos,
+  nao_classificado: CORES.nc,
 };
+
 window.ROTULOS_GRUPO = {
   efetivos:         "Efetivos e empregados públicos",
   funcao_confianca: "Efetivos em função de confiança",
@@ -64,6 +80,10 @@ window.ROTULOS_GRUPO = {
   nao_classificado: "Não classificado",
 };
 
+/* -------------------------------------------------------------------------
+Carregamento de dados
+CORRIGIDO: delimiter "" (vazio, auto-detecta ; ou ,), remove BOM, normaliza headers
+------------------------------------------------------------------------- */
 async function carregarJSON(caminho) {
   const r = await fetch(caminho, { cache: "no-store" });
   if (!r.ok) throw new Error(`Falha ao carregar ${caminho} (HTTP ${r.status})`);
@@ -95,6 +115,9 @@ async function carregarCSV(caminho) {
   });
 }
 
+/* -------------------------------------------------------------------------
+Badge "atualizado em"
+------------------------------------------------------------------------- */
 async function atualizarBadgeAtualizacao() {
   const el = document.getElementById("badge-atualizacao");
   if (!el) return;
@@ -107,7 +130,7 @@ async function atualizarBadgeAtualizacao() {
       return;
     }
     const dataFormatada = data.toLocaleDateString("pt-BR", {
-      day: "2-digit", month: "2-digit", year: "numeric"
+      day: "2-digit", month: "2-digit", year: "numeric",
     });
     el.textContent = `Atualizado em ${dataFormatada}`;
     el.title = `Última extração do pipeline: ${data.toLocaleString("pt-BR")}`;
@@ -118,6 +141,9 @@ async function atualizarBadgeAtualizacao() {
   }
 }
 
+/* -------------------------------------------------------------------------
+Menu de navegacao + drawer
+------------------------------------------------------------------------- */
 function inicializarMenu() {
   const paginaAtual = (location.pathname.split("/").pop() || "index.html");
   document.querySelectorAll(".menu a, .drawer-nav a").forEach((a) => {
@@ -126,6 +152,7 @@ function inicializarMenu() {
       a.classList.add("ativo");
     }
   });
+
   const botaoHamburguer = document.querySelector(".menu-hamburguer");
   if (botaoHamburguer) {
     botaoHamburguer.addEventListener("click", () => {
@@ -134,10 +161,12 @@ function inicializarMenu() {
       document.querySelectorAll(".menu a").forEach((a) => a.classList.toggle("visivel"));
     });
   }
+
   const botaoLateral = document.querySelector(".botao-lateral");
   const drawer = document.querySelector(".drawer");
   const backdrop = document.querySelector(".backdrop");
   const fechar = document.querySelector(".drawer-fechar");
+
   function abrirDrawer() {
     if (drawer) drawer.classList.add("aberto");
     if (backdrop) backdrop.classList.add("aberto");
@@ -148,6 +177,7 @@ function inicializarMenu() {
     if (backdrop) backdrop.classList.remove("aberto");
     if (drawer) drawer.setAttribute("aria-hidden", "true");
   }
+
   if (botaoLateral) botaoLateral.addEventListener("click", abrirDrawer);
   if (fechar) fechar.addEventListener("click", fecharDrawer);
   if (backdrop) backdrop.addEventListener("click", fecharDrawer);
@@ -156,6 +186,9 @@ function inicializarMenu() {
   });
 }
 
+/* -------------------------------------------------------------------------
+Breadcrumb
+------------------------------------------------------------------------- */
 function inicializarBreadcrumb() {
   const el = document.getElementById("breadcrumb");
   if (!el) return;
@@ -188,6 +221,9 @@ function inicializarBreadcrumb() {
   el.style.display = "";
 }
 
+/* -------------------------------------------------------------------------
+Renderizacao de estados
+------------------------------------------------------------------------- */
 function mostrarErro(container, mensagem) {
   if (!container) return;
   container.innerHTML = `<div class="erro" role="alert"><strong>Erro ao carregar dados.</strong><br>${mensagem}</div>`;
@@ -197,6 +233,9 @@ function mostrarCarregando(container) {
   container.innerHTML = `<div class="carregando">Carregando dados</div>`;
 }
 
+/* -------------------------------------------------------------------------
+Graficos padrao (Chart.js)
+------------------------------------------------------------------------- */
 function graficoLinha(ctx, labels, dados, opcoes = {}) {
   return new Chart(ctx, {
     type: "line",
@@ -206,7 +245,7 @@ function graficoLinha(ctx, labels, dados, opcoes = {}) {
         label: opcoes.label || "Valor",
         data: dados,
         borderColor: opcoes.cor || CORES.azulClaro,
-        backgroundColor: opcoes.corFundo || "rgba(0,113,206,0.08)",
+        backgroundColor: opcoes.corFundo || "rgba(78,140,58,0.10)",
         borderWidth: 2,
         fill: true,
         tension: 0.25,
@@ -264,7 +303,7 @@ function graficoBarras(ctx, labels, dados, opcoes = {}) {
     ticks: {
       color: CORES.cinzaTexto,
       autoSkip: false,
-      callback: function(value) {
+      callback: function (value) {
         return this.getLabelForValue(value);
       },
     },
@@ -339,6 +378,10 @@ function graficoRosca(ctx, labels, dados, cores) {
   });
 }
 
+/* -------------------------------------------------------------------------
+Renderizacao do selo de auditoria
+CORRIGIDO: calcula pendencias reais a partir de auditoria.json
+------------------------------------------------------------------------- */
 function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const el = document.querySelector(seletor);
   if (!el || !selo) return;
@@ -362,22 +405,36 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const dataFormatada = selo.gerado_em
     ? new Date(selo.gerado_em).toLocaleString("pt-BR", {
         day: "2-digit", month: "2-digit", year: "numeric",
-        hour: "2-digit", minute: "2-digit"
+        hour: "2-digit", minute: "2-digit",
       })
     : "-";
+
   let blocoAlertas;
   if (semAlerta) {
-    blocoAlertas = `<div class="ok"> <strong>Auditoria em dia.</strong> Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. Nenhuma pendência de classificação. </div>`;
+    blocoAlertas = `<div class="ok"><strong>Auditoria em dia.</strong> Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. Nenhuma pendência de classificação.</div>`;
   } else {
     const detalhes = [];
     if (regNc.length) detalhes.push(`${regNc.length} código(s) de regime`);
     if (secNc.length) detalhes.push(`${secNc.length} secretaria(s)`);
     if (escNc.length) detalhes.push(`${escNc.length} escolaridade(s)`);
-    blocoAlertas = `<div class="alerta"> <strong>Atenção:</strong> foram detectadas pendências de classificação em ${detalhes.join(", ")}. Consulte os mapas públicos na página Sobre para detalhes. </div>`;
+    blocoAlertas = `<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ${detalhes.join(", ")}. Consulte os mapas públicos na página Sobre para detalhes.</div>`;
   }
-  el.innerHTML = `<dt>Fonte</dt> <dd>${fonte}</dd> <dt>Período coberto</dt> <dd>${per.inicio || "-"} a ${per.fim || "-"} · ${per.total_meses || 0} meses</dd> <dt>Registros brutos</dt> <dd>${fmtNum.format(registrosBrutos)}</dd> <dt>Múltiplos vínculos por mês</dt> <dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)}) · ${fmtBRLCompacto(valorMultivinculo)} (${fmtPct(percentualValorMultivinculo)})</dd> <dt>Registros únicos por mês</dt> <dd>${fmtNum.format(registrosLiquidos)}</dd> <dt>Servidores únicos</dt> <dd>${fmtNum.format(matriculasUnicas)}</dd> <dt>Secretarias</dt> <dd>${secretarias}</dd> <dt>Última atualização</dt> <dd>${dataFormatada}</dd> ${blocoAlertas}`;
+
+  el.innerHTML =
+    `<dt>Fonte</dt><dd>${fonte}</dd>` +
+    `<dt>Período coberto</dt><dd>${per.inicio || "-"} a ${per.fim || "-"} · ${per.total_meses || 0} meses</dd>` +
+    `<dt>Registros brutos</dt><dd>${fmtNum.format(registrosBrutos)}</dd>` +
+    `<dt>Múltiplos vínculos por mês</dt><dd>${fmtNum.format(registrosMultivinculo)} (${fmtPct(percentualMultivinculo)}) · ${fmtBRLCompacto(valorMultivinculo)} (${fmtPct(percentualValorMultivinculo)})</dd>` +
+    `<dt>Registros únicos por mês</dt><dd>${fmtNum.format(registrosLiquidos)}</dd>` +
+    `<dt>Servidores únicos</dt><dd>${fmtNum.format(matriculasUnicas)}</dd>` +
+    `<dt>Secretarias</dt><dd>${secretarias}</dd>` +
+    `<dt>Última atualização</dt><dd>${dataFormatada}</dd>` +
+    blocoAlertas;
 }
 
+/* -------------------------------------------------------------------------
+Inicializacao comum
+------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
   inicializarBreadcrumb();

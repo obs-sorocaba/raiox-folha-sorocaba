@@ -1,11 +1,14 @@
-/* ============================================================
-pagina_sobre.js — versão corrigida definitiva
-CORREÇÕES:
-- Parser CSV com BOM removal e delimiter auto-detect
-- Selo dinâmico (calcula pendências reais)
-- Nomes de colunas corretos (regime_subgrupo, secretaria_crua)
-- escaparHTML funcional
-============================================================ */
+/* =========================================================================
+pagina_sobre.js — Observatório Social do Brasil — Sorocaba
+VERSÃO CORRIGIDA DEFINITIVA
+- escaparHTML funcional (antes trocava & por " & ", sem escapar de verdade)
+- NOVO: renderizarCabecalhoPeriodo() — conserta o "Carregando período…" travado
+- parser CSV com BOM removal + delimiter "" (auto-detect ; ou ,)
+- selo dinâmico calcula pendências reais de classificação
+- colunas corretas: regime_subgrupo, secretaria_crua
+- rótulos de gênero padronizados para "no período (2022–2026)"
+- todos os espaços artefatuais removidos (seletores, strings, fallbacks)
+========================================================================= */
 (function () {
   "use strict";
 
@@ -80,20 +83,17 @@ CORREÇÕES:
     return resp.json();
   }
 
-  // ✅ CORREÇÃO: parser CSV robusto com BOM removal e delimiter auto-detect
+  // ✅ parser CSV robusto: BOM removal + delimiter "" (auto-detect)
   async function carregarCSV(caminho) {
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
     let texto = await resp.text();
-
-    // Remove BOM
     if (texto.charCodeAt(0) === 0xFEFF) {
       texto = texto.slice(1);
     }
-
     return new Promise((resolve, reject) => {
       Papa.parse(texto, {
         header: true,
-        delimiter: "",  // ✅ AUTO-DETECTA ; ou ,
+        delimiter: "",
         skipEmptyLines: true,
         dynamicTyping: false,
         transformHeader: (h) => String(h).replace(/^\uFEFF/, "").trim(),
@@ -151,19 +151,32 @@ CORREÇÕES:
       "Nenhum registro encontrado. " + link + "</td></tr>";
   }
 
-  // ✅ CORREÇÃO: selo dinâmico que calcula pendências reais
+  // ✅ NOVO: preenche o #cabecalho-periodo (antes ficava travado em "Carregando…")
+  async function renderizarCabecalhoPeriodo() {
+    const el = document.getElementById("cabecalho-periodo");
+    if (!el) return;
+    try {
+      const k = await carregarJSON("dados/kpis.json");
+      const d = k.dados || k;
+      const p = d.periodo || {};
+      el.innerHTML =
+        "<strong>Período:</strong> " + (p.inicio || "—") + " a " + (p.fim || "—") +
+        " · <strong>" + (p.meses_cobertos || 0) + " meses</strong>";
+    } catch (e) {
+      el.innerHTML = "<strong>Período:</strong> —";
+    }
+  }
+
+  // ✅ selo dinâmico: calcula pendências reais a partir de auditoria.json
   async function renderizarSelo() {
     const alvo = $("#selo-conteudo");
     if (!alvo) return;
-
     try {
       const aud = await carregarJSON("dados/auditoria.json");
       const d = aud.dados || aud;
-
       const per = d.periodo_coberto || {};
       const q = d.qualidade || {};
       const al = d.alertas || {};
-
       const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
       const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
       const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
@@ -190,7 +203,8 @@ CORREÇÕES:
         if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
         if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
         if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
-        blocoAlertas = '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' + escaparHTML(detalhes.join(", ")) + ". Consulte os mapas públicos abaixo para detalhes.</div>";
+        blocoAlertas = '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' +
+          escaparHTML(detalhes.join(", ")) + ". Consulte os mapas públicos abaixo para detalhes.</div>";
       }
 
       alvo.innerHTML = itens.map(function (par) {
@@ -208,20 +222,15 @@ CORREÇÕES:
   async function renderizarFonte() {
     const alvo = $("#fonte-dados");
     if (!alvo) return;
-
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
-
       const per = d.periodo || {};
       const tot = d.totais || {};
-
       const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
-      const mesesTexto =
-        per.meses_cobertos != null
-          ? formatarNumero(per.meses_cobertos) + " meses"
-          : "—";
-
+      const mesesTexto = per.meses_cobertos != null
+        ? formatarNumero(per.meses_cobertos) + " meses"
+        : "—";
       const itens = [
         ["Período coberto", periodoTexto],
         ["Última atualização", formatarData(d.gerado_em)],
@@ -230,7 +239,6 @@ CORREÇÕES:
         ["Matrículas únicas", formatarNumero(tot.matriculas_unicas)],
         ["Fonte", "Portal da Transparência de Sorocaba"],
       ];
-
       alvo.innerHTML = itens.map(function (par) {
         return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
@@ -246,34 +254,27 @@ CORREÇÕES:
   async function renderizarCoberturaGenero() {
     const alvo = $("#cobertura-genero");
     if (!alvo) return;
-
     try {
       const geral = await carregarCSV("dados/genero_geral.csv");
-
       let total = 0, definidos = 0, indefinidos = 0, fem = 0, masc = 0;
-
       geral.forEach((r) => {
         const g = (r.genero_inferido || "").trim().toLowerCase();
         const n = Number(r.num_matriculas) || 0;
         total += n;
-
         if (g === "feminino") { fem += n; definidos += n; }
         else if (g === "masculino") { masc += n; definidos += n; }
         else if (g === "indefinido") { indefinidos += n; }
       });
-
       const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
       const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
-
       const itens = [
-        ["Matrículas únicas no período (2022–2026)", formatarNumero(total)],
+        ["Matrículas no período (2022–2026)", formatarNumero(total)],
         ["Classificadas como F/M", formatarNumero(definidos)],
         ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
         ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],
         ["Feminino", formatarNumero(fem)],
         ["Masculino", formatarNumero(masc)],
       ];
-
       alvo.innerHTML = itens.map(function (par) {
         return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
@@ -283,7 +284,6 @@ CORREÇÕES:
       if (pai) {
         const existente = pai.querySelector(".aviso-metodologico.cobertura-nota");
         if (existente) existente.remove();
-
         const nota = document.createElement("div");
         nota.className = "aviso-metodologico cobertura-nota";
         nota.style.marginTop = "1rem";
@@ -301,13 +301,12 @@ CORREÇÕES:
     }
   }
 
-  // ✅ CORREÇÃO: usa r.regime_subgrupo (não r.subgrupo)
+  // ✅ usa r.regime_subgrupo (não r.subgrupo)
   let regimesDados = [];
   async function carregarRegimes() {
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
     mostrarCarregando(tbody);
-
     try {
       const dados = await carregarCSV("dados/regime_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/regime_map.csv");
@@ -323,14 +322,12 @@ CORREÇÕES:
     const tbody = $("#tabela-regimes tbody");
     if (!tbody) return;
     if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/regime_map.csv");
-
     tbody.innerHTML = lista.map(function (r) {
       const cru = r.regime_cru || r.regime || r.codigo || "";
       const base = r.regime_base || r.base || "";
-      const sub = r.regime_subgrupo || r.subgrupo || "";  // ✅ CORRIGIDO
+      const sub = r.regime_subgrupo || r.subgrupo || "";
       const fund = r.fundamentacao || r.fundamento || "";
       const obs = r.observacao || r.obs || "";
-
       return "<tr>" +
         "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(base)) + "</td>" +
@@ -354,13 +351,12 @@ CORREÇÕES:
     });
   }
 
-  // ✅ CORREÇÃO: usa r.secretaria_crua (não r.secretaria_cru)
+  // ✅ usa r.secretaria_crua (não r.secretaria_cru)
   let secretariasDados = [];
   async function carregarSecretarias() {
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
     mostrarCarregando(tbody);
-
     try {
       const dados = await carregarCSV("dados/secretaria_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/secretaria_map.csv");
@@ -376,12 +372,10 @@ CORREÇÕES:
     const tbody = $("#tabela-secretarias-mapa tbody");
     if (!tbody) return;
     if (!lista || lista.length === 0) return mostrarVazio(tbody, "dados/secretaria_map.csv");
-
     tbody.innerHTML = lista.map(function (r) {
-      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || "";  // ✅ CORRIGIDO
+      const cru = r.secretaria_crua || r.secretaria_cru || r.nome_cru || "";
       const canon = r.secretaria_canonica || r.nome_canonico || "";
       const sigla = r.sigla || "";
-
       return "<tr>" +
         "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
         "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
@@ -407,22 +401,18 @@ CORREÇÕES:
     const tbody = $("#tabela-escolaridades tbody");
     if (!tbody) return;
     mostrarCarregando(tbody);
-
     try {
       const dados = await carregarCSV("dados/escolaridade_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/escolaridade_map.csv");
-
       dados.sort(function (a, b) {
         const oa = Number(a.ordem || a.order || 0);
         const ob = Number(b.ordem || b.order || 0);
         return oa - ob;
       });
-
       tbody.innerHTML = dados.map(function (r) {
         const cru = r.escolaridade_crua || r.escolaridade_cru || "";
         const canon = r.escolaridade_canonica || r.canonico || "";
         const ordem = r.ordem || r.order || "";
-
         return "<tr>" +
           "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
           "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
@@ -448,6 +438,7 @@ CORREÇÕES:
   }
 
   function init() {
+    renderizarCabecalhoPeriodo();
     renderizarSelo();
     renderizarFonte();
     renderizarCoberturaGenero();
