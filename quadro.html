@@ -1,443 +1,322 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="no-js">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil das Unidades — Raio-X do Quadro de Pessoal</title>
-  <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
-  <meta name="description" content="Perfil das unidades e do quadro de pessoal da Prefeitura de Sorocaba: escolaridade, tempo de casa, composição por categoria e unidades municipais.">
-
-  <meta property="og:title" content="Perfil das Unidades — Sorocaba">
-  <meta property="og:description" content="Perfil demográfico do quadro e infraestrutura das unidades municipais de Sorocaba.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
-  <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
-  <meta property="og:locale" content="pt_BR">
-  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
-  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/img/og-image.png">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Perfil das Unidades — Sorocaba">
-  <meta name="twitter:description" content="Perfil demográfico do quadro e unidades municipais.">
-
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" href="favicon.ico">
-  <link rel="stylesheet" href="assets/style.css">
-  <script>
-    document.documentElement.classList.remove("no-js");
-    document.documentElement.classList.add("js");
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="assets/app.js?v=3" defer></script>
-  <script src="assets/pagina_quadro.js?v=3" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil das Unidades — Raio-X do Quadro de Pessoal</title>
+<meta name="description" content="Perfil demográfico do quadro e infraestrutura das unidades municipais de Sorocaba.">
+<meta property="og:title" content="Perfil das Unidades — Raio-X do Quadro de Pessoal">
+<meta property="og:description" content="Perfil demográfico do quadro e infraestrutura das unidades municipais de Sorocaba.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
+<meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/imagens/og-image.png">
+<link rel="stylesheet" href="assets/style.css?v=4">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+<script src="assets/app.js?v=4" defer></script>
+<script src="assets/pagina_quadro.js?v=4" defer></script>
 </head>
 <body>
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
 
-  <noscript>
-    <div class="erro" role="alert">
-      <strong>Este painel requer JavaScript.</strong>
-      Ative o JavaScript no seu navegador para visualizar os gráficos e tabelas.
-    </div>
-  </noscript>
-
-  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
-
-  <header class="cabecalho">
-    <div class="cabecalho-conteudo">
-      <div class="cabecalho-identidade">
-        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
-        <div class="cabecalho-titulo">
-          <h1>Raio-X do Quadro de Pessoal</h1>
-          <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
-        </div>
-      </div>
-      <div class="cabecalho-meta">
-        <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
-        <div class="cabecalho-periodo" id="cabecalho-periodo">
-          <span>Carregando período…</span>
-        </div>
+<header class="cabecalho">
+  <div class="cabecalho-conteudo">
+    <div class="cabecalho-identidade">
+      <div class="cabecalho-logo">OSB</div>
+      <div class="cabecalho-titulo">
+        <h1>Raio-X do Quadro de Pessoal</h1>
+        <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
       </div>
     </div>
-  </header>
-
-  <nav class="menu" aria-label="Menu principal">
-    <div class="menu-conteudo">
-      <a href="index.html">Início</a>
-      <a href="secretarias.html">Secretarias</a>
-      <a href="quadro.html" aria-current="page">Perfil das Unidades</a>
-      <a href="genero.html">Gênero</a>
-      <a href="salarios.html">Salários</a>
-      <a href="sobre.html">Sobre</a>
-      <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <div class="cabecalho-meta">
+      <div class="badge-atualizacao" id="badge-atualizacao">ATUALIZADO EM 21/09/2026</div>
+      <div class="cabecalho-periodo" id="cabecalho-periodo"></div>
     </div>
+  </div>
+</header>
+
+<nav class="menu" aria-label="Navegação principal">
+  <div class="menu-conteudo">
+    <a href="index.html">Início</a>
+    <a href="secretarias.html">Secretarias</a>
+    <a href="quadro.html" class="ativo">Perfil das Unidades</a>
+    <a href="genero.html">Gênero</a>
+    <a href="salarios.html">Salários</a>
+    <a href="sobre.html">Sobre</a>
+    <button class="menu-hamburguer" aria-expanded="false" aria-label="Abrir menu">☰</button>
+  </div>
+</nav>
+
+<nav class="breadcrumb" id="breadcrumb" aria-label="Localização"></nav>
+
+<main id="main">
+
+  <section class="secao">
+    <h2 class="secao-titulo">Perfil do quadro e das unidades</h2>
+    <p>Esta página reúne o <strong>perfil demográfico do quadro</strong> (escolaridade, tempo de casa, categoria e gênero) e a <strong>infraestrutura das unidades municipais</strong> (escolas, UBSs, setores operacionais). Os valores de <em>remuneração média por perfil</em> estão na página Salários.</p>
+    
+    <div class="filtros">
+      <div class="filtro-item">
+        <label for="seletor-ano">Ano de referência</label>
+        <select id="seletor-ano"></select>
+      </div>
+      <div class="filtro-item">
+        <label for="seletor-secretaria-quadro">Secretaria</label>
+        <select id="seletor-secretaria-quadro"></select>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Nível de instrução do quadro</h2>
+    <p id="narrativa-escolaridade" class="aviso-metodologico"></p>
+    <div class="grade-2">
+      <div class="cartao">
+        <div class="grafico-container baixo">
+          <canvas id="grafico-escolaridade-contagem"></canvas>
+        </div>
+      </div>
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-escolaridade">
+            <thead>
+              <tr>
+                <th>Nível de instrução</th>
+                <th class="numerico">Servidores</th>
+                <th class="numerico">% do total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
+    <p id="narrativa-tempo" class="aviso-metodologico"></p>
+    <div class="grade-2">
+      <div class="cartao">
+        <div class="grafico-container baixo">
+          <canvas id="grafico-tempo-contagem"></canvas>
+        </div>
+      </div>
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-tempo">
+            <thead>
+              <tr>
+                <th>Faixa</th>
+                <th class="numerico">Servidores</th>
+                <th class="numerico">% do total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Nível de instrução por categoria</h2>
+    <p id="narrativa-escolaridade-categoria" class="aviso-metodologico"></p>
+    <div class="cartao">
+      <div class="grafico-container">
+        <canvas id="grafico-escolaridade-categoria"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Gênero por nível de instrução</h2>
+    <div class="cartao">
+      <div class="grafico-container">
+        <canvas id="grafico-genero-escolaridade"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Unidades municipais por tipo</h2>
+    <p><strong>Unidades físicas</strong> (escolas, UBSs, UPAs, hospitais), <strong>setores operacionais</strong> (divisões, departamentos, SAMU, Zoonoses) e <strong>categorias administrativas</strong> (eventuais, estágios, inativos). O detalhamento por unidade nominal está mais abaixo.</p>
+    
+    <div class="grade-4">
+      <div class="kpi">
+        <div class="rotulo">Unidades físicas</div>
+        <div class="valor" id="kpi-unidades-fisicas">—</div>
+      </div>
+      <div class="kpi">
+        <div class="rotulo">Setores operacionais</div>
+        <div class="valor" id="kpi-setores">—</div>
+      </div>
+      <div class="kpi">
+        <div class="rotulo">Categorias admin.</div>
+        <div class="valor" id="kpi-categorias">—</div>
+      </div>
+      <div class="kpi destaque">
+        <div class="rotulo">Efetivo total</div>
+        <div class="valor" id="kpi-efetivo-total">—</div>
+      </div>
+    </div>
+
+    <div class="grade-2">
+      <div class="cartao">
+        <div class="tabela-wrap">
+          <table id="tabela-unidade-tipo">
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th class="numerico">Unidades</th>
+                <th class="numerico">Efetivo</th>
+                <th class="numerico">Folha total</th>
+                <th class="numerico">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="cartao">
+        <h3 class="cartao-titulo">Top 20 unidades físicas por efetivo</h3>
+        <div class="tabela-wrap">
+          <table id="tabela-unidade-top20">
+            <thead>
+              <tr>
+                <th>Unidade</th>
+                <th>Tipo</th>
+                <th class="numerico">Efetivo</th>
+                <th class="numerico">Folha total</th>
+                <th class="numerico">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Unidades nominais</h2>
+    <p><strong id="total-unidades">0</strong> unidades municipais por tipo, com efetivo e folha. Cada nome é canonizado pelo <a href="dados/local_map.csv"><code>local_map.csv</code></a>. Use os filtros para explorar todas as unidades.</p>
+    
+    <div class="filtros">
+      <div class="filtro-item">
+        <label for="filtro-tipo-unidade">Tipo de unidade</label>
+        <select id="filtro-tipo-unidade">
+          <option value="">Todos os tipos</option>
+          <option value="Escola">Escola</option>
+          <option value="UBS">UBS</option>
+          <option value="PA">PA</option>
+          <option value="Setor">Setor</option>
+          <option value="Categoria">Categoria</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="filtro-item" style="flex: 2;">
+        <label for="busca-unidade">Buscar unidade</label>
+        <input type="search" id="busca-unidade" placeholder="Digite o nome da unidade...">
+      </div>
+      <button class="botao secundario" id="botao-limpar-filtros-unidade">Limpar</button>
+    </div>
+
+    <p style="font-size: 0.85rem; color: var(--cinza-texto); margin-bottom: 0.5rem;">
+      Exibindo <strong id="contador-unidades-filtradas">0</strong> unidades.
+    </p>
+    
+    <div class="cartao">
+      <div class="tabela-wrap">
+        <table id="tabela-unidades">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Unidade</th>
+              <th class="numerico">Efetivo</th>
+              <th class="numerico">Folha total</th>
+              <th class="numerico">Folha média</th>
+              <th class="numerico">Ticket médio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="6" class="carregando">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2 class="secao-titulo">Selo de auditoria</h2>
+    <dl class="selo" id="selo-conteudo">
+      <dt>Carregando selo…</dt>
+    </dl>
+  </section>
+
+</main>
+
+<button class="botao-lateral" aria-label="Abrir menu lateral">☰</button>
+
+<aside class="drawer" aria-hidden="true">
+  <div class="drawer-cabecalho">
+    <h2>Raio-X da Folha</h2>
+    <p>Prefeitura de Sorocaba</p>
+    <button class="drawer-fechar" aria-label="Fechar menu">✕</button>
+  </div>
+  <nav class="drawer-nav">
+    <a href="index.html">Início</a>
+    <a href="secretarias.html">Secretarias</a>
+    <a href="quadro.html">Perfil das Unidades</a>
+    <a href="genero.html">Gênero</a>
+    <a href="salarios.html">Salários</a>
+    <a href="sobre.html">Sobre</a>
   </nav>
+  <div class="drawer-rodape">
+    <strong>Observatório Social do Brasil — Sorocaba</strong><br>
+    Dados públicos · CC-BY 4.0
+  </div>
+</aside>
+<div class="backdrop"></div>
 
-  <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
-  <div class="backdrop" aria-hidden="true"></div>
-  <aside class="drawer" aria-hidden="true">
-    <div class="drawer-cabecalho">
-      <h2>Navegação</h2>
-      <p>Raio-X do Quadro de Pessoal</p>
-      <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+<footer class="rodape">
+  <div class="rodape-conteudo">
+    <div>
+      <h3>Sobre o projeto</h3>
+      <p>Painel público da folha de pessoal da Prefeitura de Sorocaba, mantido pelo Observatório Social do Brasil — Sorocaba.</p>
     </div>
-    <nav class="drawer-nav" aria-label="Menu lateral">
-      <a href="index.html">Início</a>
-      <a href="secretarias.html">Secretarias</a>
-      <a href="quadro.html" aria-current="page">Perfil das Unidades</a>
-      <a href="genero.html">Gênero</a>
-      <a href="salarios.html">Salários</a>
-      <a href="sobre.html">Sobre</a>
-    </nav>
-    <div class="drawer-rodape">
-      <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
-      Dados públicos, organizados pelo OSB Sorocaba.
+    <div>
+      <h3>Navegação</h3>
+      <p><a href="index.html">Início</a></p>
+      <p><a href="secretarias.html">Secretarias</a></p>
+      <p><a href="quadro.html">Perfil das Unidades</a></p>
+      <p><a href="genero.html">Gênero</a></p>
+      <p><a href="salarios.html">Salários</a></p>
+      <p><a href="sobre.html">Sobre</a></p>
     </div>
-  </aside>
-
-  <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
-
-  <main id="conteudo-principal" aria-live="polite">
-
-    <section class="secao" id="apresentacao">
-      <h2 class="secao-titulo">Perfil do quadro e das unidades</h2>
-      <p style="color: var(--cinza-texto); margin-bottom: 1.25rem; max-width: 780px;">
-        Esta página reúne o <strong>perfil demográfico do quadro</strong> (escolaridade,
-        tempo de casa, categoria e gênero) e a <strong>infraestrutura das unidades
-        municipais</strong> (escolas, UBSs, setores operacionais). Os valores de
-        <em>remuneração média por perfil</em> estão na página
-        <a href="salarios.html">Salários</a>.
-      </p>
-      <div class="filtros">
-        <div class="filtro-item">
-          <label for="seletor-ano">Ano</label>
-          <select id="seletor-ano">
-            <option value="todos">Todos os anos (acumulado)</option>
-          </select>
-        </div>
-        <div class="filtro-item">
-          <label for="seletor-secretaria-quadro">Secretaria (opcional)</label>
-          <select id="seletor-secretaria-quadro">
-            <option value="todas">Todas as secretarias</option>
-          </select>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="escolaridade">
-      <h2 class="secao-titulo">Nível de instrução do quadro</h2>
-      <div class="aviso-metodologico" id="narrativa-escolaridade">Carregando…</div>
-
-      <!-- P1-AUDITORIA -->
-      <div class="aviso-metodologico" style="margin-bottom: 1rem;">
-        <strong>Nota de reconciliação:</strong> as somas por dimensão podem exceder o total
-        de servidores únicos no período (26.377), porque um mesmo servidor pode ter mudado
-        de escolaridade ou de tempo de casa ao longo dos 56 meses; cada linha representa
-        uma <em>matrícula-perfil</em>, não necessariamente uma pessoa; e servidores com
-        múltiplos vínculos aparecem em mais de uma categoria.
-      </div>
-      <div class="cartao">
-        <div class="cartao-titulo">Servidores por nível de instrução</div>
-        <div class="grafico-container">
-          <canvas id="grafico-escolaridade-contagem" aria-label="Gráfico de barras horizontais mostrando a quantidade de servidores em cada nível de instrução"></canvas>
-        </div>
-      </div>
-      <div class="cartao">
-        <div class="tabela-wrap">
-          <table id="tabela-escolaridade" aria-describedby="descricao-tabela-escolaridade">
-            <caption id="descricao-tabela-escolaridade">
-              Servidores por nível de instrução no período de janeiro de 2022 a agosto de 2026.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Nível de instrução</th>
-                <th scope="col" class="numerico">Servidores</th>
-                <th scope="col" class="numerico">% do total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="tempo-servico">
-      <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
-      <div class="aviso-metodologico" id="narrativa-tempo">Carregando…</div>
-
-      <!-- P1-AUDITORIA -->
-      <div class="aviso-metodologico" style="margin-bottom: 1rem;">
-        <strong>Nota de reconciliação:</strong> as somas por dimensão podem exceder o total
-        de servidores únicos no período (26.377), porque um mesmo servidor pode ter mudado
-        de escolaridade ou de tempo de casa ao longo dos 56 meses; cada linha representa
-        uma <em>matrícula-perfil</em>, não necessariamente uma pessoa; e servidores com
-        múltiplos vínculos aparecem em mais de uma categoria.
-      </div>
-      <div class="cartao">
-        <div class="cartao-titulo">Servidores por faixa de tempo de casa</div>
-        <div class="grafico-container">
-          <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras verticais mostrando a distribuição de servidores por faixa de tempo de casa"></canvas>
-        </div>
-      </div>
-      <div class="cartao">
-        <div class="tabela-wrap">
-          <table id="tabela-tempo" aria-describedby="descricao-tabela-tempo">
-            <caption id="descricao-tabela-tempo">
-              Servidores por faixa de tempo de casa no período de janeiro de 2022 a agosto de 2026.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Faixa</th>
-                <th scope="col" class="numerico">Servidores</th>
-                <th scope="col" class="numerico">% do total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="3" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="escolaridade-categoria">
-      <h2 class="secao-titulo">Nível de instrução por categoria</h2>
-      <div class="aviso-metodologico" id="narrativa-escolaridade-categoria">Carregando…</div>
-      <div class="cartao">
-        <div class="grafico-container">
-          <canvas id="grafico-escolaridade-categoria" aria-label="Gráfico de barras empilhadas mostrando como cada nível de instrução se reparte entre as categorias de vínculo"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="genero-escolaridade">
-      <h2 class="secao-titulo">Gênero por nível de instrução</h2>
-      <div class="aviso-metodologico" id="narrativa-genero-escolaridade">
-        Comparação entre servidores e servidoras em cada nível de instrução.
-      </div>
-      <div class="cartao">
-        <div class="grafico-container">
-          <canvas id="grafico-genero-escolaridade" aria-label="Gráfico de barras agrupadas comparando homens e mulheres em cada nível de instrução"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- Unidades por tipo — Fase 1a                                   -->
-    <!-- ============================================================ -->
-    <section class="secao" id="unidades">
-      <h2 class="secao-titulo">Unidades municipais por tipo</h2>
-      <div class="aviso-metodologico" id="narrativa-unidades">
-        As unidades estão agrupadas em <strong>unidades físicas</strong> (escolas, UBSs, UPAs, hospitais),
-        <strong>setores operacionais</strong> (divisões, departamentos, SAMU, Zoonoses) e
-        <strong>categorias administrativas</strong> (eventuais, estágios, inativos).
-        O detalhamento por unidade nominal está mais abaixo.
-      </div>
-
-      <div class="grade-4" style="margin-top: 1rem;">
-        <div class="kpi">
-          <div class="rotulo">Unidades físicas</div>
-          <div class="valor" id="kpi-unidades-fisicas">—</div>
-          <div class="detalhe">Escolas, UBSs, UPAs, hospitais</div>
-        </div>
-        <div class="kpi">
-          <div class="rotulo">Setores operacionais</div>
-          <div class="valor" id="kpi-setores">—</div>
-          <div class="detalhe">Divisões, departamentos, SAMU</div>
-        </div>
-        <div class="kpi">
-          <div class="rotulo">Categorias administrativas</div>
-          <div class="valor" id="kpi-categorias">—</div>
-          <div class="detalhe">Eventuais, estágios, inativos</div>
-        </div>
-        <div class="kpi">
-          <div class="rotulo">Efetivo total</div>
-          <div class="valor" id="kpi-efetivo-total">—</div>
-          <div class="detalhe">Matrículas únicas no último mês</div>
-        </div>
-      </div>
-
-      <div class="grade-2" style="margin-top: 1.5rem;">
-        <div class="cartao">
-          <div class="cartao-titulo">Efetivo por tipo de unidade</div>
-          <div class="grafico-container">
-            <canvas id="grafico-unidade-tipo" aria-label="Gráfico de barras horizontais mostrando o efetivo por tipo de unidade municipal"></canvas>
-          </div>
-        </div>
-        <div class="cartao">
-          <div class="cartao-titulo">Folha por tipo de unidade</div>
-          <div class="grafico-container">
-            <canvas id="grafico-unidade-folha" aria-label="Gráfico de barras horizontais mostrando a folha total por tipo de unidade municipal"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <div class="cartao" style="margin-top: 1.5rem;">
-        <div class="tabela-wrap">
-          <table id="tabela-unidade-tipo" aria-describedby="descricao-tabela-unidade-tipo">
-            <caption id="descricao-tabela-unidade-tipo">
-              Unidades municipais por tipo. Efetivo = matrículas únicas no último mês.
-              Folha considera apenas Pagamento Mensal com valor bruto maior que zero.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col" class="numerico">Unidades</th>
-                <th scope="col" class="numerico">Efetivo</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Ticket médio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <h3 style="margin-top: 2rem; font-size: 1.1rem; color: var(--azul-escuro);">Top 20 unidades físicas por efetivo</h3>
-      <div class="cartao" style="margin-top: 1rem;">
-        <div class="tabela-wrap">
-          <table id="tabela-unidade-top20" aria-describedby="descricao-tabela-unidade-top20">
-            <caption id="descricao-tabela-unidade-top20">
-              As 20 unidades físicas com maior efetivo no último mês.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Unidade</th>
-                <th scope="col">Tipo</th>
-                <th scope="col" class="numerico">Efetivo</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Ticket médio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- Unidades nominais — Fase 2.3                                 -->
-    <!-- ============================================================ -->
-    <section class="secao" id="unidades-nominais">
-      <h2 class="secao-titulo">Unidades nominais</h2>
-      <div class="aviso-metodologico">
-        As <strong id="total-unidades">—</strong> unidades municipais por tipo,
-        com efetivo e folha. Cada nome é canonizado pelo <a href="dados/local_map.csv"><code>local_map.csv</code></a>.
-        Use os filtros para explorar todas as unidades.
-      </div>
-
-      <div class="filtros" style="margin-top: 1rem;">
-        <div class="filtro-item">
-          <label for="filtro-tipo-unidade">Tipo de unidade</label>
-          <select id="filtro-tipo-unidade">
-            <option value="">Todos os tipos</option>
-            <option value="Escola">Escolas</option>
-            <option value="UBS">UBSs</option>
-            <option value="PA">PAs</option>
-            <option value="Setor">Setores operacionais</option>
-            <option value="Categoria">Categorias administrativas</option>
-            <option value="Outros">Outros</option>
-          </select>
-        </div>
-        <div class="filtro-item">
-          <label for="busca-unidade">Buscar unidade</label>
-          <input type="text" id="busca-unidade" placeholder="Ex: CEI 89, UBS Wanel Ville...">
-        </div>
-        <div class="filtro-item" style="min-width: 140px; flex: 0 0 auto;">
-          <label>&nbsp;</label>
-          <button class="botao secundario" id="botao-limpar-filtros-unidade">Limpar filtros</button>
-        </div>
-      </div>
-
-      <div id="top-unidades-container" style="margin-top: 1.5rem;"></div>
-
-      <div class="cartao" style="margin-top: 2rem;">
-        <div class="cartao-titulo">
-          Todas as unidades (<span id="contador-unidades-filtradas">—</span>)
-        </div>
-        <div class="tabela-wrap" style="max-height: 600px; overflow-y: auto;">
-          <table id="tabela-unidades">
-            <caption>Unidades nominais do município no último mês.</caption>
-            <thead>
-              <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Unidade</th>
-                <th scope="col" class="numerico">Efetivo</th>
-                <th scope="col" class="numerico">Folha total</th>
-                <th scope="col" class="numerico">Folha média</th>
-                <th scope="col" class="numerico">Ticket médio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="6" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section class="secao" id="selo">
-      <h2 class="secao-titulo">Selo de auditoria</h2>
-      <dl class="selo" id="selo-conteudo">
-        <div class="carregando">Carregando selo…</div>
-      </dl>
-    </section>
-
-  </main>
-
-  <footer class="rodape">
-    <div class="rodape-conteudo">
-      <div>
-        <h3>Sobre este painel</h3>
-        <p>
-          Painel público, histórico e comparável da folha de pessoal da Prefeitura de
-          Sorocaba. Os dados são extraídos do Portal da Transparência e organizados pelo
-          Observatório Social do Brasil — Sorocaba. Nenhum dado sensível é publicado:
-          apenas agregados.
-        </p>
-      </div>
-      <div>
-        <h3>Fontes</h3>
-        <p>
-          <a href="https://transparencia.sorocaba.sp.gov.br/" target="_blank" rel="noopener">Portal da Transparência de Sorocaba</a><br>
-          <a href="https://brasil.io/dataset/genero-nomes/nomes/" target="_blank" rel="noopener">Brasil.IO — Gênero de Nomes</a>
-        </p>
-      </div>
-      <div>
-        <h3>Encontrou um erro?</h3>
-        <p>
-          <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">
-            Envie um e-mail
-          </a><br>
-          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">
-            Abra uma issue no GitHub
-          </a>
-        </p>
-      </div>
-      <div>
-        <h3>Navegação</h3>
-        <p>
-          <a href="index.html">Início</a><br>
-          <a href="secretarias.html">Secretarias</a><br>
-          <a href="quadro.html">Perfil das Unidades</a><br>
-          <a href="genero.html">Gênero</a><br>
-          <a href="salarios.html">Salários</a><br>
-          <a href="sobre.html">Sobre</a>
-        </p>
-      </div>
+    <div>
+      <h3>Dados abertos</h3>
+      <p><a href="sobre.html#dados-abertos">Ver todos os CSVs</a></p>
+      <p><a href="dados/excel/">Pasta Excel (.xlsx)</a></p>
     </div>
-    <div class="rodape-final">
-      Observatório Social do Brasil — Sorocaba · Dados públicos organizados para controle social
+    <div>
+      <h3>Contato</h3>
+      <p><a href="https://osbsorocaba.org.br" target="_blank" rel="noopener">OSB Sorocaba</a></p>
     </div>
-  </footer>
+  </div>
+  <div class="rodape-final">
+    <span id="rodape-atualizacao">Atualizado em: —</span><br>
+    © 2026 Observatório Social do Brasil — Sorocaba · Dados sob CC-BY 4.0
+  </div>
+</footer>
 
 </body>
 </html>

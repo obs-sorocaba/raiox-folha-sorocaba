@@ -4,6 +4,7 @@ CORREÇÕES:
 - Parser CSV com BOM removal e delimiter auto-detect
 - Selo dinâmico (calcula pendências reais)
 - Nomes de colunas corretos (regime_subgrupo, secretaria_crua)
+- escaparHTML funcional
 ============================================================ */
 (function () {
   "use strict";
@@ -40,6 +41,7 @@ CORREÇÕES:
     return String(v);
   }
 
+  // ✅ CORREÇÃO CRÍTICA: escaparHTML agora faz escape de verdade
   function escaparHTML(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -264,7 +266,7 @@ CORREÇÕES:
       const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
 
       const itens = [
-        ["Matrículas totais no período", formatarNumero(total)],
+        ["Matrículas únicas no período (2022–2026)", formatarNumero(total)],
         ["Classificadas como F/M", formatarNumero(definidos)],
         ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
         ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],

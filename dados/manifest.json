@@ -1,10 +1,10 @@
 {
-  "gerado_em": "2026-09-24T14:46:36",
+  "gerado_em": "2026-10-03T17:10:34",
   "fonte": "Portal da Transparencia de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "publicado_por": "Observatorio Social do Brasil - Sorocaba",
   "total_arquivos": 50,
-  "tamanho_total_kb": 966.9,
+  "tamanho_total_kb": 966.8,
   "arquivos": [
     {
       "arquivo": "auditoria.json",
@@ -297,14 +297,14 @@
     {
       "arquivo": "unidade_tipo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 253,
+      "tamanho_bytes": 239,
       "tamanho_kb": 0.2
     },
     {
       "arquivo": "unidade_top20.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1226,
-      "tamanho_kb": 1.2
+      "tamanho_bytes": 1167,
+      "tamanho_kb": 1.1
     }
   ]
 }
