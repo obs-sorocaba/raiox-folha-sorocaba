@@ -1,18 +1,36 @@
-dimensao,categoria,n,folha_media,folha_mediana
-escolaridade,Sem escolaridade formal registrada,11,4286.16,3745.37
-escolaridade,Fundamental incompleto,71,5781.82,5316.73
-escolaridade,Fundamental completo,280,5371.49,4614.73
-escolaridade,Medio incompleto,19,6769.56,5543.02
-escolaridade,Medio completo,3592,5858.13,5194.78
-escolaridade,Superior incompleto,934,2182.01,1084.8
-escolaridade,Superior completo,6887,8604.52,7478.65
-escolaridade,Pos-graduacao,1898,15811.58,14133.37
-escolaridade,Mestrado,110,21657.42,17931.19
-escolaridade,Doutorado,27,22573.96,21133.89
-tempo_casa,0-5 anos,5410,5812.81,4599.99
-tempo_casa,6-10 anos,1894,7176.19,5579.04
-tempo_casa,11-15 anos,3284,9289.63,7602.6
-tempo_casa,16-20 anos,1858,12754.86,11819.19
-tempo_casa,21-25 anos,760,13261.67,12999.53
-tempo_casa,26-30 anos,181,15488.92,15685.39
-tempo_casa,30+ anos,378,13764.24,11123.51
+﻿escolaridade_canonica;faixa_tempo;n;folha_media;folha_mediana
+Sem escolaridade formal registrada;5 a 10 anos;2;3495.325;3495.325
+Sem escolaridade formal registrada;10 a 20 anos;2;3671.31;3671.31
+Sem escolaridade formal registrada;20+ anos;7;4679.9171428571435;4200.96
+Fundamental incompleto;5 a 10 anos;6;4695.7266666666665;5082.969999999999
+Fundamental incompleto;10 a 20 anos;12;5240.609166666666;5053.3150000000005
+Fundamental incompleto;20+ anos;49;6089.755714285715;5825.63
+Fundamental completo;1 a 5 anos;88;4102.129545454546;3725.13
+Fundamental completo;5 a 10 anos;32;4808.2053125;4565.26
+Fundamental completo;10 a 20 anos;63;5239.949206349206;5167.26
+Fundamental completo;20+ anos;97;6545.758969072165;5554.17
+Medio incompleto;10 a 20 anos;8;6330.077499999999;5252.6
+Medio incompleto;20+ anos;10;8399.478;8206.775
+Medio completo;1 a 5 anos;1803;5112.002201885746;4760.41
+Medio completo;5 a 10 anos;430;4858.009651162791;4539.3099999999995
+Medio completo;10 a 20 anos;1063;6105.019426152399;5482.39
+Medio completo;20+ anos;327;10662.173394495414;9589.8
+Superior incompleto;1 a 5 anos;361;1192.82243767313;1084.8
+Superior incompleto;5 a 10 anos;204;1832.4675490196078;1084.8
+Superior incompleto;10 a 20 anos;352;3508.779403409091;2796.0
+Superior incompleto;20+ anos;36;7872.676388888888;6794.03
+Superior completo;1 a 5 anos;2798;6084.0979914224445;4876.53
+Superior completo;5 a 10 anos;1238;8464.364789983845;8010.13
+Superior completo;10 a 20 anos;2674;10116.016357516828;8892.555
+Superior completo;20+ anos;590;13696.638966101695;11987.83
+Pos-graduacao;1 a 5 anos;51;7755.433921568628;6759.66
+Pos-graduacao;5 a 10 anos;141;10652.581063829786;10646.81
+Pos-graduacao;10 a 20 anos;1378;15481.475507982583;13837.580000000002
+Pos-graduacao;20+ anos;364;18805.45445054945;19257.29
+Mestrado;1 a 5 anos;2;11310.91;11310.91
+Mestrado;5 a 10 anos;11;15384.878181818181;15641.92
+Mestrado;10 a 20 anos;76;20736.32447368421;17849.425000000003
+Mestrado;20+ anos;18;23476.620555555553;20776.165
+Doutorado;5 a 10 anos;3;17899.633333333335;16261.0
+Doutorado;10 a 20 anos;16;21444.655;20599.324999999997
+Doutorado;20+ anos;8;26676.661249999997;29674.82

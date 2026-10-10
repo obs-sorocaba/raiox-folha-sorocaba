@@ -1,52 +1,52 @@
 {
-  "gerado_em": "2026-10-03T17:10:34",
+  "gerado_em": "2026-10-10T14:52:03",
   "fonte": "Portal da Transparencia de Sorocaba",
   "url_fonte": "https://transparencia.sorocaba.sp.gov.br",
   "publicado_por": "Observatorio Social do Brasil - Sorocaba",
   "total_arquivos": 50,
-  "tamanho_total_kb": 966.8,
+  "tamanho_total_kb": 956.1,
   "arquivos": [
     {
       "arquivo": "auditoria.json",
       "origem": "agregados",
-      "tamanho_bytes": 2708,
-      "tamanho_kb": 2.6
+      "tamanho_bytes": 6550,
+      "tamanho_kb": 6.4
     },
     {
       "arquivo": "cargo_map.csv",
       "origem": "agregados",
-      "tamanho_bytes": 39296,
-      "tamanho_kb": 38.4
+      "tamanho_bytes": 20832,
+      "tamanho_kb": 20.3
     },
     {
       "arquivo": "composicao_categoria_mes.csv",
       "origem": "agregados",
-      "tamanho_bytes": 25315,
-      "tamanho_kb": 24.7
+      "tamanho_bytes": 25648,
+      "tamanho_kb": 25.0
     },
     {
       "arquivo": "composicao_categoria_secretaria_mes.csv",
       "origem": "agregados",
-      "tamanho_bytes": 387756,
-      "tamanho_kb": 378.7
+      "tamanho_bytes": 389238,
+      "tamanho_kb": 380.1
     },
     {
       "arquivo": "composicao_regime_mes.csv",
       "origem": "agregados",
-      "tamanho_bytes": 113052,
-      "tamanho_kb": 110.4
+      "tamanho_bytes": 113983,
+      "tamanho_kb": 111.3
     },
     {
       "arquivo": "distribuicao_salarial.csv",
       "origem": "agregados",
-      "tamanho_bytes": 4528,
-      "tamanho_kb": 4.4
+      "tamanho_bytes": 4609,
+      "tamanho_kb": 4.5
     },
     {
       "arquivo": "efetivo_por_secretaria_mes.csv",
       "origem": "agregados",
-      "tamanho_bytes": 63386,
-      "tamanho_kb": 61.9
+      "tamanho_bytes": 64721,
+      "tamanho_kb": 63.2
     },
     {
       "arquivo": "escolaridade_map.csv",
@@ -57,85 +57,85 @@
     {
       "arquivo": "folha_mensal.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3023,
+      "tamanho_bytes": 3073,
       "tamanho_kb": 3.0
     },
     {
       "arquivo": "folha_mensal_ipca.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3274,
-      "tamanho_kb": 3.2
+      "tamanho_bytes": 2940,
+      "tamanho_kb": 2.9
     },
     {
       "arquivo": "folha_mensal_recorrente.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3006,
-      "tamanho_kb": 2.9
+      "tamanho_bytes": 3052,
+      "tamanho_kb": 3.0
     },
     {
       "arquivo": "folha_por_secretaria_mes.csv",
       "origem": "agregados",
-      "tamanho_bytes": 108324,
-      "tamanho_kb": 105.8
+      "tamanho_bytes": 109502,
+      "tamanho_kb": 106.9
     },
     {
       "arquivo": "genero_evolucao_mensal.csv",
       "origem": "agregados",
-      "tamanho_bytes": 2444,
+      "tamanho_bytes": 2487,
       "tamanho_kb": 2.4
     },
     {
       "arquivo": "genero_faixa_salarial.csv",
       "origem": "agregados",
-      "tamanho_bytes": 686,
+      "tamanho_bytes": 683,
       "tamanho_kb": 0.7
     },
     {
       "arquivo": "genero_gap_salarial.csv",
       "origem": "agregados",
-      "tamanho_bytes": 4247,
-      "tamanho_kb": 4.1
+      "tamanho_bytes": 4315,
+      "tamanho_kb": 4.2
     },
     {
       "arquivo": "genero_geral.csv",
       "origem": "agregados",
-      "tamanho_bytes": 346,
+      "tamanho_bytes": 345,
       "tamanho_kb": 0.3
     },
     {
       "arquivo": "genero_lideranca.csv",
       "origem": "agregados",
-      "tamanho_bytes": 125,
+      "tamanho_bytes": 126,
       "tamanho_kb": 0.1
     },
     {
       "arquivo": "genero_por_categoria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1261,
+      "tamanho_bytes": 1257,
       "tamanho_kb": 1.2
     },
     {
       "arquivo": "genero_por_escolaridade.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1436,
+      "tamanho_bytes": 1434,
       "tamanho_kb": 1.4
     },
     {
       "arquivo": "genero_por_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 7820,
-      "tamanho_kb": 7.6
+      "tamanho_bytes": 7874,
+      "tamanho_kb": 7.7
     },
     {
       "arquivo": "gini_mensal.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1195,
+      "tamanho_bytes": 1214,
       "tamanho_kb": 1.2
     },
     {
       "arquivo": "histograma_salarial.csv",
       "origem": "agregados",
-      "tamanho_bytes": 310,
+      "tamanho_bytes": 311,
       "tamanho_kb": 0.3
     },
     {
@@ -147,13 +147,13 @@
     {
       "arquivo": "local_map.csv",
       "origem": "agregados",
-      "tamanho_bytes": 40809,
+      "tamanho_bytes": 40837,
       "tamanho_kb": 39.9
     },
     {
       "arquivo": "municipio_cargo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1886,
+      "tamanho_bytes": 1885,
       "tamanho_kb": 1.8
     },
     {
@@ -165,50 +165,50 @@
     {
       "arquivo": "municipio_gini.csv",
       "origem": "agregados",
-      "tamanho_bytes": 76,
+      "tamanho_bytes": 74,
       "tamanho_kb": 0.1
     },
     {
       "arquivo": "municipio_percentis.csv",
       "origem": "agregados",
-      "tamanho_bytes": 152,
+      "tamanho_bytes": 151,
       "tamanho_kb": 0.1
     },
     {
       "arquivo": "municipio_tempo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 529,
+      "tamanho_bytes": 530,
       "tamanho_kb": 0.5
     },
     {
       "arquivo": "quadro_escolaridade.csv",
       "origem": "agregados",
-      "tamanho_bytes": 784,
+      "tamanho_bytes": 773,
       "tamanho_kb": 0.8
     },
     {
       "arquivo": "quadro_escolaridade_categoria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 2691,
+      "tamanho_bytes": 2685,
       "tamanho_kb": 2.6
     },
     {
       "arquivo": "quadro_escolaridade_categoria_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 32684,
-      "tamanho_kb": 31.9
+      "tamanho_bytes": 32756,
+      "tamanho_kb": 32.0
     },
     {
       "arquivo": "quadro_escolaridade_por_ano.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3246,
+      "tamanho_bytes": 3256,
       "tamanho_kb": 3.2
     },
     {
       "arquivo": "quadro_escolaridade_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 18458,
-      "tamanho_kb": 18.0
+      "tamanho_bytes": 18518,
+      "tamanho_kb": 18.1
     },
     {
       "arquivo": "quadro_tempo_servico.csv",
@@ -219,14 +219,14 @@
     {
       "arquivo": "quadro_tempo_servico_por_ano.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1920,
+      "tamanho_bytes": 1919,
       "tamanho_kb": 1.9
     },
     {
       "arquivo": "quadro_tempo_servico_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 13599,
-      "tamanho_kb": 13.3
+      "tamanho_bytes": 13740,
+      "tamanho_kb": 13.4
     },
     {
       "arquivo": "regime_map.csv",
@@ -237,31 +237,31 @@
     {
       "arquivo": "resumo_secretaria.csv",
       "origem": "agregados",
-      "tamanho_bytes": 3011,
-      "tamanho_kb": 2.9
+      "tamanho_bytes": 2801,
+      "tamanho_kb": 2.7
     },
     {
       "arquivo": "salarios_por_perfil.csv",
       "origem": "agregados",
-      "tamanho_bytes": 881,
-      "tamanho_kb": 0.9
+      "tamanho_bytes": 2181,
+      "tamanho_kb": 2.1
     },
     {
       "arquivo": "secretaria_cargo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 13979,
-      "tamanho_kb": 13.7
+      "tamanho_bytes": 13851,
+      "tamanho_kb": 13.5
     },
     {
       "arquivo": "secretaria_escolaridade.csv",
       "origem": "agregados",
-      "tamanho_bytes": 10890,
-      "tamanho_kb": 10.6
+      "tamanho_bytes": 10948,
+      "tamanho_kb": 10.7
     },
     {
       "arquivo": "secretaria_gini.csv",
       "origem": "agregados",
-      "tamanho_bytes": 805,
+      "tamanho_bytes": 806,
       "tamanho_kb": 0.8
     },
     {
@@ -273,38 +273,38 @@
     {
       "arquivo": "secretaria_percentis.csv",
       "origem": "agregados",
-      "tamanho_bytes": 2097,
+      "tamanho_bytes": 2096,
       "tamanho_kb": 2.0
     },
     {
       "arquivo": "secretaria_tempo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 9739,
-      "tamanho_kb": 9.5
+      "tamanho_bytes": 9929,
+      "tamanho_kb": 9.7
     },
     {
       "arquivo": "top_secretarias.csv",
       "origem": "agregados",
-      "tamanho_bytes": 2646,
-      "tamanho_kb": 2.6
+      "tamanho_bytes": 2437,
+      "tamanho_kb": 2.4
     },
     {
       "arquivo": "unidade_detalhe.csv",
       "origem": "agregados",
-      "tamanho_bytes": 38069,
-      "tamanho_kb": 37.2
+      "tamanho_bytes": 34555,
+      "tamanho_kb": 33.7
     },
     {
       "arquivo": "unidade_tipo.csv",
       "origem": "agregados",
-      "tamanho_bytes": 239,
-      "tamanho_kb": 0.2
+      "tamanho_bytes": 413,
+      "tamanho_kb": 0.4
     },
     {
       "arquivo": "unidade_top20.csv",
       "origem": "agregados",
-      "tamanho_bytes": 1167,
-      "tamanho_kb": 1.1
+      "tamanho_bytes": 1706,
+      "tamanho_kb": 1.7
     }
   ]
 }

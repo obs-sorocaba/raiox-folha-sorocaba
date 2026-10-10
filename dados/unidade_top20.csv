@@ -1,21 +1,21 @@
-local_trabalho,tipo,efetivo,folha_total,ticket_medio
-Sedu - Cei 89 (zilda P Aguil),Escola,78,638535.53,8186.35
-Sedu - Cei 78 (ettore Marang),Escola,68,476973.11,7014.31
-Sedu - em Ary de o Seabra,Escola,64,704097.51,11001.52
-Sedu - em Renice Seraphim,Escola,64,596833.2,9325.52
-Sedu - Cei 90 (helio D C Jr),Escola,62,392495.37,6330.57
-Sedu - Cei 109 (benedicto Pagl,Escola,59,433834.98,7353.14
-Sedu - em Tereza C Gianini,Escola,59,666666.37,11299.43
-Sedu - em Ines R Cesarotti,Escola,58,605454.51,10438.87
-Sedu - em Achilles Almeida,Escola,57,716123.58,12563.57
-Sedu - Cei 107 (arminda da Con,Escola,57,375942.67,6595.49
-Sedu - em Norma Justa D Ara,Escola,57,566987.02,9947.14
-Sedu - Cei 72 (sueli Gaz Camp),Escola,57,374958.68,6578.22
-Ses - Ubs Wanel Ville,UBS,56,521883.63,9319.35
-Ses - Ubs Aparecidinha,UBS,56,435901.65,7783.96
-Sedu - Cei 82 (bened M Didi),Escola,56,378898.6,6766.05
-Sedu - Cei 73 (matilde Gavin),Escola,55,366387.57,6661.59
-Ses - Ubs Ulysses Guimaraes,UBS,55,451602.23,8210.95
-Ses - Ubs Rodrigo,UBS,54,494687.13,9160.87
-Sedu - Cei 94 (ana L Pazini),Escola,54,356479.43,6601.47
-Ses - Ubs Marcia Mendes,UBS,53,617758.7,11655.82
+﻿unidade_canonica;tipo_unidade;efetivo;folha_total;folha_media;ticket_medio
+Prof. Eventuais;Categoria;2746;5784035.99;2106.3495957756736;2106.3495957756736
+GCM — Guarda Civil Municipal;Setor;514;5281522.29;10275.33519455253;10275.33519455253
+Estágios — Formação Cidadã;Categoria;253;257016.08;1015.8738339920948;1015.8738339920948
+Gabinete;Setor;238;4124757.37;17330.91331932773;17330.91331932773
+Zoonoses (CCZ);Setor;175;1290539.33;7374.510457142857;7374.510457142857
+Aposentados e Pensionistas (AAPMS);Categoria;151;952499.63;6307.944569536424;6307.944569536424
+Divisão de Proteção Social Básica;Setor;100;834015.22;8340.1522;8340.1522
+Policlínica — Médicos;Setor;82;1549850.05;18900.61036585366;18900.61036585366
+CEI 89 — Zilda P. Aguil;Escola;76;628316.62;8267.32394736842;8267.32394736842
+SAMU — Enfermagem;Setor;74;833620.0;11265.135135135135;11265.135135135135
+EM Renice Seraphim;Escola;67;615881.55;9192.261940298507;9192.261940298507
+CEI 78 — Ettore Marang;Escola;66;463864.96;7028.25696969697;7028.25696969697
+Divisão de Proteção Social Especial;Setor;64;537994.33;8406.16140625;8406.16140625
+EM Ary de O Seabra;Escola;63;685382.74;10879.09111111111;10879.09111111111
+Transporte de Pacientes — Motoristas;Setor;61;398525.97;6533.212622950819;6533.212622950819
+CEI 90 — Helio D. C. Jr.;Escola;61;444511.48;7287.07344262295;7287.07344262295
+EM Ines R. Cesarotti;Escola;60;623472.0;10391.2;10391.2
+CEI 109 — Benedicto Pagl;Escola;60;429708.27999999997;7161.804666666666;7161.804666666666
+EM Tereza C. Gianini;Escola;59;660700.65;11198.316101694916;11198.316101694916
+EM Achilles Almeida;Escola;57;680971.87;11946.874912280702;11946.874912280702

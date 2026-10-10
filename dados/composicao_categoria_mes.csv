@@ -1,9 +1,9 @@
-﻿ano;mes;regime_grupo;regime_subgrupo;folha_total;num_registros;num_matriculas;percentual
+ano;mes;regime_grupo;regime_subgrupo;folha_total;num_registros;num_matriculas;percentual
 2022;1;Efetivos e empregados publicos (carreira);efetivos;60393496.14;12945;8427;85.94
 2022;1;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;4915889.02;578;488;7.0
 2022;1;Temporarios, estagiarios e eventuais;flexiveis;2822171.55;2331;2013;4.02
 2022;1;Inativos e pensionistas;inativos;1094560.85;287;287;1.56
-2022;1;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1048574.7799999999;87;75;1.49
+2022;1;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1048574.78;87;75;1.49
 2022;2;Efetivos e empregados publicos (carreira);efetivos;49583618.86;8703;8126;83.51
 2022;2;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;5873807.24;693;558;9.89
 2022;2;Temporarios, estagiarios e eventuais;flexiveis;1639955.37;706;671;2.76
@@ -12,7 +12,7 @@
 2022;3;Efetivos e empregados publicos (carreira);efetivos;57279522.14;8865;8128;83.18
 2022;3;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6093179.29;663;570;8.85
 2022;3;Temporarios, estagiarios e eventuais;flexiveis;3234979.61;2331;2266;4.7
-2022;3;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1191034.0799999998;95;90;1.73
+2022;3;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1191034.08;95;90;1.73
 2022;3;Inativos e pensionistas;inativos;1066607.72;283;283;1.55
 2022;4;Efetivos e empregados publicos (carreira);efetivos;59368991.9;8774;8115;81.93
 2022;4;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6230179.13;650;567;8.6
@@ -27,7 +27,7 @@
 2022;6;Efetivos e empregados publicos (carreira);efetivos;61873303.02;9023;8427;82.65
 2022;6;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6390688.81;619;553;8.54
 2022;6;Temporarios, estagiarios e eventuais;flexiveis;4230676.56;2702;2569;5.65
-2022;6;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1211743.3800000001;94;89;1.62
+2022;6;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1211743.38;94;89;1.62
 2022;6;Inativos e pensionistas;inativos;1152925.4;277;277;1.54
 2022;7;Efetivos e empregados publicos (carreira);efetivos;63064469.43;9310;8458;83.04
 2022;7;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6683616.93;705;569;8.8
@@ -36,18 +36,18 @@
 2022;7;Inativos e pensionistas;inativos;1161672.62;276;276;1.53
 2022;8;Efetivos e empregados publicos (carreira);efetivos;61096962.61;8858;8414;83.56
 2022;8;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6299861.26;651;567;8.62
-2022;8;Temporarios, estagiarios e eventuais;flexiveis;3348849.1999999997;2543;2493;4.58
+2022;8;Temporarios, estagiarios e eventuais;flexiveis;3348849.2;2543;2493;4.58
 2022;8;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1284865.08;95;89;1.76
 2022;8;Inativos e pensionistas;inativos;1091282.17;273;273;1.49
 2022;9;Efetivos e empregados publicos (carreira);efetivos;62393869.1;9453;8394;82.24
 2022;9;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6749389.23;696;574;8.9
 2022;9;Temporarios, estagiarios e eventuais;flexiveis;4272257.82;2718;2699;5.63
-2022;9;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1366039.8900000001;102;89;1.8
+2022;9;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1366039.89;102;89;1.8
 2022;9;Inativos e pensionistas;inativos;1089654.55;278;272;1.44
 2022;10;Efetivos e empregados publicos (carreira);efetivos;65295323.77;10399;8431;83.21
 2022;10;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;6466189.58;650;568;8.24
 2022;10;Temporarios, estagiarios e eventuais;flexiveis;4233211.39;2651;2591;5.39
-2022;10;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1243288.6300000001;91;85;1.58
+2022;10;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1243288.63;91;85;1.58
 2022;10;Inativos e pensionistas;inativos;1227949.42;333;270;1.56
 2022;11;Efetivos e empregados publicos (carreira);efetivos;85753505.28;8894;8386;83.03
 2022;11;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9416946.72;647;567;9.12
@@ -91,12 +91,12 @@
 2023;6;Inativos e pensionistas;inativos;1098702.99;258;258;1.31
 2023;7;Efetivos e empregados publicos (carreira);efetivos;71966795.23;9745;8844;82.44
 2023;7;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;7542830.13;696;550;8.64
-2023;7;Temporarios, estagiarios e eventuais;flexiveis;4884926.9799999995;2849;2775;5.6
+2023;7;Temporarios, estagiarios e eventuais;flexiveis;4884926.98;2849;2775;5.6
 2023;7;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1746607.07;134;116;2.0
 2023;7;Inativos e pensionistas;inativos;1152274.68;255;255;1.32
 2023;8;Efetivos e empregados publicos (carreira);efetivos;75571652.94;9779;8974;84.22
 2023;8;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;7120411.06;640;541;7.94
-2023;8;Temporarios, estagiarios e eventuais;flexiveis;4041038.7199999997;2588;2558;4.5
+2023;8;Temporarios, estagiarios e eventuais;flexiveis;4041038.72;2588;2558;4.5
 2023;8;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;1832752.57;130;121;2.04
 2023;8;Inativos e pensionistas;inativos;1161938.56;254;254;1.29
 2023;9;Efetivos e empregados publicos (carreira);efetivos;74534817.33;9640;8939;83.17
@@ -112,7 +112,7 @@
 2023;11;Efetivos e empregados publicos (carreira);efetivos;98363183.73;9792;9007;81.81
 2023;11;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9953868.72;626;540;8.28
 2023;11;Temporarios, estagiarios e eventuais;flexiveis;7794857.18;2821;2771;6.48
-2023;11;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2471506.2199999997;125;119;2.06
+2023;11;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2471506.22;125;119;2.06
 2023;11;Inativos e pensionistas;inativos;1656643.98;249;248;1.38
 2023;12;Efetivos e empregados publicos (carreira);efetivos;145237583.88;27115;8992;85.76
 2023;12;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;14015353.19;1747;541;8.28
@@ -177,7 +177,7 @@
 2024;12;Efetivos e empregados publicos (carreira);efetivos;149284881.01;18912;9015;85.46
 2024;12;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;14467348.99;1202;538;8.28
 2024;12;Temporarios, estagiarios e eventuais;flexiveis;5901344.88;3244;3140;3.38
-2024;12;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2869304.6999999997;257;130;1.64
+2024;12;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2869304.7;257;130;1.64
 2024;12;Inativos e pensionistas;inativos;2164432.86;429;228;1.24
 2025;1;Efetivos e empregados publicos (carreira);efetivos;91311379.18;13822;9000;87.03
 2025;1;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;7426327.51;601;534;7.08
@@ -192,7 +192,7 @@
 2025;3;Efetivos e empregados publicos (carreira);efetivos;104417473.85;18772;9252;85.3
 2025;3;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9221470.96;1169;552;7.53
 2025;3;Temporarios, estagiarios e eventuais;flexiveis;4650725.38;3247;3217;3.8
-2025;3;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2927687.4000000004;314;176;2.39
+2025;3;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;2927687.4;314;176;2.39
 2025;3;Inativos e pensionistas;inativos;1196757.42;419;223;0.98
 2025;4;Efetivos e empregados publicos (carreira);efetivos;89510033.21;10053;9210;83.63
 2025;4;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;8834549.86;650;559;8.25
@@ -238,7 +238,7 @@
 2025;12;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;16348302.5;1227;564;8.36
 2025;12;Temporarios, estagiarios e eventuais;flexiveis;6571871.9;3476;3294;3.36
 2025;12;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;5187789.88;353;171;2.65
-2025;12;Inativos e pensionistas;inativos;2176084.2600000002;376;188;1.11
+2025;12;Inativos e pensionistas;inativos;2176084.26;376;188;1.11
 2026;1;Efetivos e empregados publicos (carreira);efetivos;102124675.23;14047;9167;85.39
 2026;1;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9020714.8;666;564;7.54
 2026;1;Temporarios, estagiarios e eventuais;flexiveis;4153904.73;2854;2836;3.47
@@ -246,7 +246,7 @@
 2026;1;Inativos e pensionistas;inativos;1098289.23;188;188;0.92
 2026;2;Efetivos e empregados publicos (carreira);efetivos;88678656.13;9898;9147;85.59
 2026;2;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9387958.16;668;564;9.06
-2026;2;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3236545.2800000003;198;183;3.12
+2026;2;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3236545.28;198;183;3.12
 2026;2;Temporarios, estagiarios e eventuais;flexiveis;1217749.71;899;819;1.18
 2026;2;Inativos e pensionistas;inativos;1086874.99;187;187;1.05
 2026;3;Efetivos e empregados publicos (carreira);efetivos;111408031.77;10126;9330;85.47
@@ -257,7 +257,7 @@
 2026;4;Efetivos e empregados publicos (carreira);efetivos;98468486.06;10315;9436;83.49
 2026;4;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;8915797.78;607;525;7.56
 2026;4;Temporarios, estagiarios e eventuais;flexiveis;6213484.65;3349;3313;5.27
-2026;4;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3226745.5500000003;219;202;2.74
+2026;4;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3226745.55;219;202;2.74
 2026;4;Inativos e pensionistas;inativos;1114212.4;184;184;0.94
 2026;5;Efetivos e empregados publicos (carreira);efetivos;99890777.22;10483;9531;83.19
 2026;5;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9948062.43;627;553;8.29
@@ -279,3 +279,8 @@
 2026;8;Temporarios, estagiarios e eventuais;flexiveis;4003173.29;2911;2885;3.21
 2026;8;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3329784.06;193;184;2.67
 2026;8;Inativos e pensionistas;inativos;1097987.4;179;179;0.88
+2026;9;Efetivos e empregados publicos (carreira);efetivos;109147551.35;10882;10202;83.98
+2026;9;Efetivos em funcao de confianca (sobre vinculo de carreira);funcao_confianca;9911529.31;640;564;7.63
+2026;9;Temporarios, estagiarios e eventuais;flexiveis;6702137.88;3356;3353;5.16
+2026;9;Comissionados e agentes politicos (sem vinculo de carreira);comissionados;3136223.22;201;174;2.41
+2026;9;Inativos e pensionistas;inativos;1073778.06;176;176;0.83
