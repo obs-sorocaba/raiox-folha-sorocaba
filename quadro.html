@@ -10,52 +10,98 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
 <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/imagens/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/quadro.html">
+<link rel="icon" type="image/png" sizes="32x32" href="imagens/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="imagens/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="imagens/apple-touch-icon.png">
+<link rel="icon" href="imagens/favicon.ico">
 <link rel="stylesheet" href="assets/style.css?v=5">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-<script src="assets/app.js?v=5" defer></script>
-<script src="assets/pagina_quadro.js?v=5" defer></script>
 </head>
 <body>
-<a href="#main" class="skip-link">Pular para o conteúdo</a>
+<a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+<!-- =====================================================================
+     CABEÇALHO UNIFICADO
+     ===================================================================== -->
 <header class="cabecalho">
-  <img class="cabecalho-lupa" src="imagens/lupa-folha.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
   <div class="cabecalho-conteudo">
     <div class="cabecalho-identidade">
-      <div class="cabecalho-logo">OSB</div>
+      <div class="cabecalho-logo-completo">
+        <img src="imagens/logo-obs-brasil.png" alt="Observatório Social do Brasil - Sorocaba">
+      </div>
       <div class="cabecalho-titulo">
         <h1>Raio-X do Quadro de Pessoal</h1>
         <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
       </div>
     </div>
     <div class="cabecalho-meta">
-      <div class="badge-atualizacao" id="badge-atualizacao">ATUALIZADO EM 21/09/2026</div>
-      <div class="cabecalho-periodo" id="cabecalho-periodo"></div>
+      <img class="cabecalho-lupa" src="imagens/lupa-mapa.png" alt="Ícone de análise" aria-hidden="true">
+      <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
+      <div class="cabecalho-periodo" id="cabecalho-periodo">
+        <span>Carregando período…</span>
+      </div>
     </div>
   </div>
 </header>
 
+<!-- =====================================================================
+     MENU
+     ===================================================================== -->
 <nav class="menu" aria-label="Navegação principal">
   <div class="menu-conteudo">
     <a href="index.html">Início</a>
     <a href="secretarias.html">Secretarias</a>
-    <a href="quadro.html" class="ativo">Perfil das Unidades</a>
+    <a href="quadro.html" class="ativo" aria-current="page">Perfil das Unidades</a>
     <a href="genero.html">Gênero</a>
     <a href="salarios.html">Salários</a>
     <a href="sobre.html">Sobre</a>
-    <button class="menu-hamburguer" aria-expanded="false" aria-label="Abrir menu">☰</button>
+    <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
   </div>
 </nav>
 
-<nav class="breadcrumb" id="breadcrumb" aria-label="Localização"></nav>
+<!-- =====================================================================
+     DRAWER (menu lateral mobile)
+     ===================================================================== -->
+<button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
+<div class="backdrop" aria-hidden="true"></div>
+<aside class="drawer" aria-hidden="true">
+  <div class="drawer-cabecalho">
+    <h2>Navegação</h2>
+    <p>Raio-X do Quadro de Pessoal</p>
+    <button class="drawer-fechar" aria-label="Fechar menu">×</button>
+  </div>
+  <nav class="drawer-nav" aria-label="Menu lateral">
+    <a href="index.html">Início</a>
+    <a href="secretarias.html">Secretarias</a>
+    <a href="quadro.html" aria-current="page">Perfil das Unidades</a>
+    <a href="genero.html">Gênero</a>
+    <a href="salarios.html">Salários</a>
+    <a href="sobre.html">Sobre</a>
+  </nav>
+  <div class="drawer-rodape">
+    <strong>Fonte:</strong> Portal da Transparência de Sorocaba<br>
+    Dados públicos, organizados pelo OSB Sorocaba.
+  </div>
+</aside>
 
-<main id="main">
+<nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
 
+<!-- =====================================================================
+     CONTEÚDO PRINCIPAL
+     ===================================================================== -->
+<main id="conteudo-principal">
+
+  <!-- Introdução + filtros -->
   <section class="secao">
     <h2 class="secao-titulo">Perfil do quadro e das unidades</h2>
-    <p>Esta página reúne o <strong>perfil demográfico do quadro</strong> (escolaridade, tempo de casa, categoria e gênero) e a <strong>infraestrutura das unidades municipais</strong> (escolas, UBSs, setores operacionais). Os valores de <em>remuneração média por perfil</em> estão na página Salários.</p>
-    
+    <p>
+      Esta página reúne o <strong>perfil demográfico do quadro</strong> (escolaridade,
+      tempo de casa, categoria e gênero) e a <strong>infraestrutura das unidades
+      municipais</strong> (escolas, UBSs, setores operacionais). Os valores de
+      <em>remuneração média por perfil</em> estão na página Salários.
+    </p>
+
     <div class="filtros">
       <div class="filtro-item">
         <label for="seletor-ano">Ano de referência</label>
@@ -68,13 +114,14 @@
     </div>
   </section>
 
+  <!-- Nível de instrução -->
   <section class="secao">
     <h2 class="secao-titulo">Nível de instrução do quadro</h2>
     <p id="narrativa-escolaridade" class="aviso-metodologico"></p>
     <div class="grade-2">
       <div class="cartao">
         <div class="grafico-container baixo">
-          <canvas id="grafico-escolaridade-contagem"></canvas>
+          <canvas id="grafico-escolaridade-contagem" aria-label="Gráfico de barras horizontais com servidores por nível de instrução"></canvas>
         </div>
       </div>
       <div class="cartao">
@@ -82,9 +129,9 @@
           <table id="tabela-escolaridade">
             <thead>
               <tr>
-                <th>Nível de instrução</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">% do total</th>
+                <th scope="col">Nível de instrução</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">% do total</th>
               </tr>
             </thead>
             <tbody>
@@ -96,13 +143,14 @@
     </div>
   </section>
 
+  <!-- Tempo de casa -->
   <section class="secao">
     <h2 class="secao-titulo">Distribuição por tempo de casa</h2>
     <p id="narrativa-tempo" class="aviso-metodologico"></p>
     <div class="grade-2">
       <div class="cartao">
         <div class="grafico-container baixo">
-          <canvas id="grafico-tempo-contagem"></canvas>
+          <canvas id="grafico-tempo-contagem" aria-label="Gráfico de barras com servidores por faixa de tempo de casa"></canvas>
         </div>
       </div>
       <div class="cartao">
@@ -110,9 +158,9 @@
           <table id="tabela-tempo">
             <thead>
               <tr>
-                <th>Faixa</th>
-                <th class="numerico">Servidores</th>
-                <th class="numerico">% do total</th>
+                <th scope="col">Faixa</th>
+                <th scope="col" class="numerico">Servidores</th>
+                <th scope="col" class="numerico">% do total</th>
               </tr>
             </thead>
             <tbody>
@@ -124,29 +172,37 @@
     </div>
   </section>
 
+  <!-- Escolaridade por categoria -->
   <section class="secao">
     <h2 class="secao-titulo">Nível de instrução por categoria</h2>
     <p id="narrativa-escolaridade-categoria" class="aviso-metodologico"></p>
     <div class="cartao">
       <div class="grafico-container">
-        <canvas id="grafico-escolaridade-categoria"></canvas>
+        <canvas id="grafico-escolaridade-categoria" aria-label="Gráfico de barras empilhadas mostrando escolaridade por categoria de vínculo"></canvas>
       </div>
     </div>
   </section>
 
+  <!-- Gênero por escolaridade -->
   <section class="secao">
     <h2 class="secao-titulo">Gênero por nível de instrução</h2>
     <div class="cartao">
       <div class="grafico-container">
-        <canvas id="grafico-genero-escolaridade"></canvas>
+        <canvas id="grafico-genero-escolaridade" aria-label="Gráfico de barras comparando servidores por gênero em cada nível de instrução"></canvas>
       </div>
     </div>
   </section>
 
+  <!-- Unidades por tipo -->
   <section class="secao">
     <h2 class="secao-titulo">Unidades municipais por tipo</h2>
-    <p><strong>Unidades físicas</strong> (escolas, UBSs, UPAs, hospitais), <strong>setores operacionais</strong> (divisões, departamentos, SAMU, Zoonoses) e <strong>categorias administrativas</strong> (eventuais, estágios, inativos). O detalhamento por unidade nominal está mais abaixo.</p>
-    
+    <p>
+      <strong>Unidades físicas</strong> (escolas, UBSs, UPAs, hospitais),
+      <strong>setores operacionais</strong> (divisões, departamentos, SAMU,
+      Zoonoses) e <strong>categorias administrativas</strong> (eventuais,
+      estágios, inativos).
+    </p>
+
     <div class="grade-4">
       <div class="kpi">
         <div class="rotulo">Unidades físicas</div>
@@ -166,51 +222,75 @@
       </div>
     </div>
 
-    <div class="grade-2">
+    <!-- Gráficos por tipo de unidade (efetivo + folha) -->
+    <div class="grade-2" style="margin-top: 1.5rem;">
       <div class="cartao">
-        <div class="tabela-wrap">
-          <table id="tabela-unidade-tipo">
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th class="numerico">Unidades</th>
-                <th class="numerico">Efetivo</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Ticket médio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
+        <h3 class="cartao-titulo">Efetivo por tipo de unidade</h3>
+        <div class="grafico-container">
+          <canvas id="grafico-unidade-tipo" aria-label="Gráfico de barras horizontais com efetivo por tipo de unidade"></canvas>
         </div>
       </div>
       <div class="cartao">
-        <h3 class="cartao-titulo">Top 20 unidades físicas por efetivo</h3>
-        <div class="tabela-wrap">
-          <table id="tabela-unidade-top20">
-            <thead>
-              <tr>
-                <th>Unidade</th>
-                <th>Tipo</th>
-                <th class="numerico">Efetivo</th>
-                <th class="numerico">Folha total</th>
-                <th class="numerico">Ticket médio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="5" class="carregando">Carregando…</td></tr>
-            </tbody>
-          </table>
+        <h3 class="cartao-titulo">Folha total por tipo de unidade</h3>
+        <div class="grafico-container">
+          <canvas id="grafico-unidade-folha" aria-label="Gráfico de barras horizontais com folha total por tipo de unidade"></canvas>
         </div>
+      </div>
+    </div>
+
+    <!-- Tabela agregada por tipo -->
+    <div class="cartao" style="margin-top: 1.5rem;">
+      <h3 class="cartao-titulo">Resumo por tipo de unidade</h3>
+      <div class="tabela-wrap">
+        <table id="tabela-unidade-tipo">
+          <thead>
+            <tr>
+              <th scope="col">Tipo</th>
+              <th scope="col" class="numerico">Unidades</th>
+              <th scope="col" class="numerico">Efetivo</th>
+              <th scope="col" class="numerico">Folha total</th>
+              <th scope="col" class="numerico">Ticket médio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Top 20 unidades físicas -->
+    <div class="cartao" style="margin-top: 1.5rem;">
+      <h3 class="cartao-titulo">Top 20 unidades físicas por efetivo</h3>
+      <div class="tabela-wrap">
+        <table id="tabela-unidade-top20">
+          <thead>
+            <tr>
+              <th scope="col">Unidade</th>
+              <th scope="col">Tipo</th>
+              <th scope="col" class="numerico">Efetivo</th>
+              <th scope="col" class="numerico">Folha total</th>
+              <th scope="col" class="numerico">Ticket médio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="carregando">Carregando…</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
+  <!-- Unidades nominais -->
   <section class="secao">
     <h2 class="secao-titulo">Unidades nominais</h2>
-    <p><strong id="total-unidades">0</strong> unidades municipais por tipo, com efetivo e folha. Cada nome é canonizado pelo <a href="dados/local_map.csv"><code>local_map.csv</code></a>. Use os filtros para explorar todas as unidades.</p>
-    
+    <p>
+      <strong id="total-unidades">0</strong> unidades municipais por tipo, com efetivo
+      e folha. Cada nome é canonizado pelo
+      <a href="dados/local_map.csv"><code>local_map.csv</code></a>. Use os filtros
+      para explorar todas as unidades.
+    </p>
+
     <div class="filtros">
       <div class="filtro-item">
         <label for="filtro-tipo-unidade">Tipo de unidade</label>
@@ -228,24 +308,30 @@
         <label for="busca-unidade">Buscar unidade</label>
         <input type="search" id="busca-unidade" placeholder="Digite o nome da unidade...">
       </div>
-      <button class="botao secundario" id="botao-limpar-filtros-unidade">Limpar</button>
+      <div class="filtro-item" style="flex: 0 0 auto; min-width: auto; justify-content: flex-end;">
+        <label>&nbsp;</label>
+        <button class="secundario" id="botao-limpar-filtros-unidade" type="button">Limpar</button>
+      </div>
     </div>
 
     <p style="font-size: 0.85rem; color: var(--cinza-texto); margin-bottom: 0.5rem;">
       Exibindo <strong id="contador-unidades-filtradas">0</strong> unidades.
     </p>
-    
+
+    <!-- Container dos cards Top N por tipo (preenchido por JS) -->
+    <div id="top-unidades-container"></div>
+
     <div class="cartao">
       <div class="tabela-wrap">
         <table id="tabela-unidades">
           <thead>
             <tr>
-              <th>Tipo</th>
-              <th>Unidade</th>
-              <th class="numerico">Efetivo</th>
-              <th class="numerico">Folha total</th>
-              <th class="numerico">Folha média</th>
-              <th class="numerico">Ticket médio</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Unidade</th>
+              <th scope="col" class="numerico">Efetivo</th>
+              <th scope="col" class="numerico">Folha total</th>
+              <th scope="col" class="numerico">Folha média</th>
+              <th scope="col" class="numerico">Ticket médio</th>
             </tr>
           </thead>
           <tbody>
@@ -256,38 +342,19 @@
     </div>
   </section>
 
+  <!-- Selo de auditoria -->
   <section class="secao">
     <h2 class="secao-titulo">Selo de auditoria</h2>
     <dl class="selo" id="selo-conteudo">
-      <dt>Carregando selo…</dt>
+      <div class="carregando">Carregando selo…</div>
     </dl>
   </section>
 
 </main>
 
-<button class="botao-lateral" aria-label="Abrir menu lateral">☰</button>
-
-<aside class="drawer" aria-hidden="true">
-  <div class="drawer-cabecalho">
-    <h2>Raio-X da Folha</h2>
-    <p>Prefeitura de Sorocaba</p>
-    <button class="drawer-fechar" aria-label="Fechar menu">✕</button>
-  </div>
-  <nav class="drawer-nav">
-    <a href="index.html">Início</a>
-    <a href="secretarias.html">Secretarias</a>
-    <a href="quadro.html">Perfil das Unidades</a>
-    <a href="genero.html">Gênero</a>
-    <a href="salarios.html">Salários</a>
-    <a href="sobre.html">Sobre</a>
-  </nav>
-  <div class="drawer-rodape">
-    <strong>Observatório Social do Brasil — Sorocaba</strong><br>
-    Dados públicos · CC-BY 4.0
-  </div>
-</aside>
-<div class="backdrop"></div>
-
+<!-- =====================================================================
+     RODAPÉ
+     ===================================================================== -->
 <footer class="rodape">
   <div class="rodape-conteudo">
     <div>
@@ -296,12 +363,14 @@
     </div>
     <div>
       <h3>Navegação</h3>
-      <p><a href="index.html">Início</a></p>
-      <p><a href="secretarias.html">Secretarias</a></p>
-      <p><a href="quadro.html">Perfil das Unidades</a></p>
-      <p><a href="genero.html">Gênero</a></p>
-      <p><a href="salarios.html">Salários</a></p>
-      <p><a href="sobre.html">Sobre</a></p>
+      <p>
+        <a href="index.html">Início</a><br>
+        <a href="secretarias.html">Secretarias</a><br>
+        <a href="quadro.html">Perfil das Unidades</a><br>
+        <a href="genero.html">Gênero</a><br>
+        <a href="salarios.html">Salários</a><br>
+        <a href="sobre.html">Sobre</a>
+      </p>
     </div>
     <div>
       <h3>Dados abertos</h3>
@@ -311,6 +380,7 @@
     <div>
       <h3>Contato</h3>
       <p><a href="https://osbsorocaba.org.br" target="_blank" rel="noopener">OSB Sorocaba</a></p>
+      <p><a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">Reportar problema no GitHub</a></p>
     </div>
   </div>
   <div class="rodape-final">
@@ -319,5 +389,16 @@
   </div>
 </footer>
 
+<noscript>
+  <div class="aviso-metodologico" style="margin: 2rem auto; max-width: 800px;">
+    <strong>Este painel usa JavaScript para carregar os arquivos CSV/JSON e renderizar gráficos.</strong>
+    Sem JavaScript, os dados brutos continuam disponíveis na pasta <a href="dados/">dados/</a>.
+  </div>
+</noscript>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+<script src="assets/app.js?v=5" defer></script>
+<script src="assets/pagina_quadro.js?v=5" defer></script>
 </body>
 </html>

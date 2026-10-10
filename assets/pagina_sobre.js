@@ -1,13 +1,20 @@
 /* =========================================================================
-pagina_sobre.js — Observatório Social do Brasil — Sorocaba
-VERSÃO CORRIGIDA DEFINITIVA
-- escaparHTML funcional (antes trocava & por " & ", sem escapar de verdade)
-- NOVO: renderizarCabecalhoPeriodo() — conserta o "Carregando período…" travado
-- parser CSV com BOM removal + delimiter "" (auto-detect ; ou ,)
-- selo dinâmico calcula pendências reais de classificação
-- colunas corretas: regime_subgrupo, secretaria_crua
-- rótulos de gênero padronizados para "no período (2022–2026)"
-- todos os espaços artefatuais removidos (seletores, strings, fallbacks)
+Pagina Sobre — Observatório Social do Brasil — Sorocaba
+v5
+
+Compatível com:
+  - sobre.html (cabeçalho unificado, IDs atualizados)
+  - app.js v5 (helpers, badge-atualizacao, breadcrumb, drawer)
+
+Estrutura: IIFE (evita poluir o escopo global)
+
+Cobre:
+  - Período no cabeçalho
+  - Selo de auditoria dinâmico (calcula pendências reais)
+  - Fonte dos dados (kpis.json)
+  - Cobertura da análise de gênero (genero_geral.csv)
+  - Mapas públicos: regimes, secretarias, escolaridades
+  - Rodapé com data de atualização
 ========================================================================= */
 (function () {
   "use strict";
@@ -16,10 +23,11 @@ VERSÃO CORRIGIDA DEFINITIVA
   const TENTATIVAS = 2;
 
   const $ = (sel, ctx) => (ctx || document).querySelector(sel);
-  function $$(sel, ctx) {
-    return Array.from((ctx || document).querySelectorAll(sel));
-  }
+  const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 
+  /* -------------------------------------------------------------------------
+  Formatadores locais
+  ------------------------------------------------------------------------- */
   function formatarNumero(n) {
     if (n === null || n === undefined || n === "" || isNaN(n)) return "—";
     return Number(n).toLocaleString("pt-BR");
@@ -44,7 +52,6 @@ VERSÃO CORRIGIDA DEFINITIVA
     return String(v);
   }
 
-  // ✅ CORREÇÃO CRÍTICA: escaparHTML agora faz escape de verdade
   function escaparHTML(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -54,6 +61,9 @@ VERSÃO CORRIGIDA DEFINITIVA
       .replace(/'/g, "&#39;");
   }
 
+  /* -------------------------------------------------------------------------
+  Fetch com timeout + retry
+  ------------------------------------------------------------------------- */
   function fetchComTimeout(url, opts) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -83,7 +93,6 @@ VERSÃO CORRIGIDA DEFINITIVA
     return resp.json();
   }
 
-  // ✅ parser CSV robusto: BOM removal + delimiter "" (auto-detect)
   async function carregarCSV(caminho) {
     const resp = await fetchComRetry(caminho, { cache: "no-store" });
     let texto = await resp.text();
@@ -115,6 +124,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     });
   }
 
+  /* -------------------------------------------------------------------------
+  Helpers de tabela
+  ------------------------------------------------------------------------- */
   function colspanDe(tbody) {
     const tabela = tbody.closest("table");
     if (!tabela) return 1;
@@ -151,7 +163,9 @@ VERSÃO CORRIGIDA DEFINITIVA
       "Nenhum registro encontrado. " + link + "</td></tr>";
   }
 
-  // ✅ NOVO: preenche o #cabecalho-periodo (antes ficava travado em "Carregando…")
+  /* -------------------------------------------------------------------------
+  Cabeçalho — período
+  ------------------------------------------------------------------------- */
   async function renderizarCabecalhoPeriodo() {
     const el = document.getElementById("cabecalho-periodo");
     if (!el) return;
@@ -167,7 +181,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     }
   }
 
-  // ✅ selo dinâmico: calcula pendências reais a partir de auditoria.json
+  /* -------------------------------------------------------------------------
+  Selo de auditoria (dinâmico)
+  ------------------------------------------------------------------------- */
   async function renderizarSelo() {
     const alvo = $("#selo-conteudo");
     if (!alvo) return;
@@ -177,6 +193,7 @@ VERSÃO CORRIGIDA DEFINITIVA
       const per = d.periodo_coberto || {};
       const q = d.qualidade || {};
       const al = d.alertas || {};
+
       const regNc = Array.isArray(al.codigos_regime_nao_mapeados) ? al.codigos_regime_nao_mapeados : [];
       const secNc = Array.isArray(al.secretarias_nao_mapeadas) ? al.secretarias_nao_mapeadas : [];
       const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
@@ -197,18 +214,23 @@ VERSÃO CORRIGIDA DEFINITIVA
 
       let blocoAlertas = "";
       if (totalPendencias === 0) {
-        blocoAlertas = '<div class="ok"><strong>Auditoria em dia.</strong> Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. Nenhuma pendência de classificação.</div>';
+        blocoAlertas =
+          '<div class="ok"><strong>Auditoria em dia.</strong> ' +
+          "Todos os códigos de regime, secretarias e escolaridades do portal foram mapeados. " +
+          "Nenhuma pendência de classificação.</div>";
       } else {
         const detalhes = [];
         if (regNc.length) detalhes.push(regNc.length + " código(s) de regime");
         if (secNc.length) detalhes.push(secNc.length + " secretaria(s)");
         if (escNc.length) detalhes.push(escNc.length + " escolaridade(s)");
-        blocoAlertas = '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' +
-          escaparHTML(detalhes.join(", ")) + ". Consulte os mapas públicos abaixo para detalhes.</div>";
+        blocoAlertas =
+          '<div class="alerta"><strong>Atenção:</strong> foram detectadas pendências de classificação em ' +
+          escaparHTML(detalhes.join(", ")) +
+          ". Consulte os mapas públicos abaixo para detalhes.</div>";
       }
 
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+        return "<div><dt>" + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
       }).join("") + blocoAlertas;
     } catch (e) {
@@ -219,6 +241,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     }
   }
 
+  /* -------------------------------------------------------------------------
+  Fonte dos dados (kpis.json)
+  ------------------------------------------------------------------------- */
   async function renderizarFonte() {
     const alvo = $("#fonte-dados");
     if (!alvo) return;
@@ -227,10 +252,12 @@ VERSÃO CORRIGIDA DEFINITIVA
       const d = kpis.dados || kpis;
       const per = d.periodo || {};
       const tot = d.totais || {};
+
       const periodoTexto = (per.inicio || "—") + " a " + (per.fim || "—");
       const mesesTexto = per.meses_cobertos != null
         ? formatarNumero(per.meses_cobertos) + " meses"
         : "—";
+
       const itens = [
         ["Período coberto", periodoTexto],
         ["Última atualização", formatarData(d.gerado_em)],
@@ -239,8 +266,9 @@ VERSÃO CORRIGIDA DEFINITIVA
         ["Matrículas únicas", formatarNumero(tot.matriculas_unicas)],
         ["Fonte", "Portal da Transparência de Sorocaba"],
       ];
+
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+        return "<div><dt>" + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
       }).join("");
     } catch (e) {
@@ -251,39 +279,48 @@ VERSÃO CORRIGIDA DEFINITIVA
     }
   }
 
+  /* -------------------------------------------------------------------------
+  Cobertura da análise de gênero
+  ------------------------------------------------------------------------- */
   async function renderizarCoberturaGenero() {
     const alvo = $("#cobertura-genero");
     if (!alvo) return;
     try {
       const geral = await carregarCSV("dados/genero_geral.csv");
+
       let total = 0, definidos = 0, indefinidos = 0, fem = 0, masc = 0;
       geral.forEach((r) => {
-        const g = (r.genero_inferido || "").trim().toLowerCase();
+        const g = String(r.genero_inferido || "").trim().toLowerCase();
         const n = Number(r.num_matriculas) || 0;
         total += n;
         if (g === "feminino") { fem += n; definidos += n; }
         else if (g === "masculino") { masc += n; definidos += n; }
         else if (g === "indefinido") { indefinidos += n; }
       });
-      const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
-      const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
+
+      const cobertura = total > 0 ? (definidos / total) * 100 : 0;
+      const pctIndef = total > 0 ? (indefinidos / total) * 100 : 0;
+
       const itens = [
-        ["Matrículas no período (2022–2026)", formatarNumero(total)],
+        ["Matrículas no período", formatarNumero(total)],
         ["Classificadas como F/M", formatarNumero(definidos)],
         ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
         ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],
         ["Feminino", formatarNumero(fem)],
         ["Masculino", formatarNumero(masc)],
       ];
+
       alvo.innerHTML = itens.map(function (par) {
-        return '<div><dt>' + escaparHTML(par[0]) + "</dt><dd>" +
+        return "<div><dt>" + escaparHTML(par[0]) + "</dt><dd>" +
           escaparHTML(textoCelula(par[1])) + "</dd></div>";
       }).join("");
 
+      // Nota abaixo
       const pai = alvo.parentElement;
       if (pai) {
         const existente = pai.querySelector(".aviso-metodologico.cobertura-nota");
         if (existente) existente.remove();
+
         const nota = document.createElement("div");
         nota.className = "aviso-metodologico cobertura-nota";
         nota.style.marginTop = "1rem";
@@ -301,7 +338,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     }
   }
 
-  // ✅ usa r.regime_subgrupo (não r.subgrupo)
+  /* -------------------------------------------------------------------------
+  Mapa de regimes
+  ------------------------------------------------------------------------- */
   let regimesDados = [];
   async function carregarRegimes() {
     const tbody = $("#tabela-regimes tbody");
@@ -351,7 +390,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     });
   }
 
-  // ✅ usa r.secretaria_crua (não r.secretaria_cru)
+  /* -------------------------------------------------------------------------
+  Mapa de secretarias
+  ------------------------------------------------------------------------- */
   let secretariasDados = [];
   async function carregarSecretarias() {
     const tbody = $("#tabela-secretarias-mapa tbody");
@@ -397,6 +438,9 @@ VERSÃO CORRIGIDA DEFINITIVA
     });
   }
 
+  /* -------------------------------------------------------------------------
+  Mapa de escolaridades
+  ------------------------------------------------------------------------- */
   async function carregarEscolaridades() {
     const tbody = $("#tabela-escolaridades tbody");
     if (!tbody) return;
@@ -404,11 +448,13 @@ VERSÃO CORRIGIDA DEFINITIVA
     try {
       const dados = await carregarCSV("dados/escolaridade_map.csv");
       if (!dados.length) return mostrarVazio(tbody, "dados/escolaridade_map.csv");
+
       dados.sort(function (a, b) {
         const oa = Number(a.ordem || a.order || 0);
         const ob = Number(b.ordem || b.order || 0);
         return oa - ob;
       });
+
       tbody.innerHTML = dados.map(function (r) {
         const cru = r.escolaridade_crua || r.escolaridade_cru || "";
         const canon = r.escolaridade_canonica || r.canonico || "";
@@ -416,7 +462,7 @@ VERSÃO CORRIGIDA DEFINITIVA
         return "<tr>" +
           "<td>" + escaparHTML(textoCelula(cru)) + "</td>" +
           "<td>" + escaparHTML(textoCelula(canon)) + "</td>" +
-          '<td class="numero">' + escaparHTML(textoCelula(ordem)) + "</td>" +
+          '<td class="numerico">' + escaparHTML(textoCelula(ordem)) + "</td>" +
           "</tr>";
       }).join("");
     } catch (e) {
@@ -425,18 +471,24 @@ VERSÃO CORRIGIDA DEFINITIVA
     }
   }
 
+  /* -------------------------------------------------------------------------
+  Rodapé
+  ------------------------------------------------------------------------- */
   async function atualizarRodape() {
     const alvo = document.querySelector("#rodape-atualizacao");
     if (!alvo) return;
     try {
       const kpis = await carregarJSON("dados/kpis.json");
       const d = kpis.dados || kpis;
-      alvo.textContent = formatarData(d.gerado_em);
+      alvo.textContent = "Atualizado em: " + formatarData(d.gerado_em);
     } catch (e) {
       alvo.textContent = "—";
     }
   }
 
+  /* -------------------------------------------------------------------------
+  Bootstrap
+  ------------------------------------------------------------------------- */
   function init() {
     renderizarCabecalhoPeriodo();
     renderizarSelo();

@@ -1,17 +1,24 @@
 /* =========================================================================
-Pagina Secretarias - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-Modos de operacao:
-"municipio"   (padrao ao abrir): total do municipio, soma de todas as
-secretarias. KPIs e graficos gerais, alem da anatomia
-agregada do municipio.
-"secretaria"  (apos selecao): recorte por secretaria especifica,
-incluindo anatomia interna detalhada.
-Correcao P0: terminologia padronizada (matriculas unicas, ticket medio,
-secretarias canonicas, distintos ao longo do periodo).
-CORREÇÃO CRÍTICA: adicionada função escaparHTML que estava faltando
+Pagina Secretarias — Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+v5
+
+Modos de operação:
+  "municipio"   (padrão ao abrir): total do município, soma de todas as
+                secretarias. KPIs e gráficos gerais + anatomia agregada.
+  "secretaria"  (após seleção): recorte por secretaria específica, incluindo
+                anatomia interna detalhada.
+
+Correções v5:
+  - renderizarCabecalhoPeriodo preenche #cabecalho-periodo E #periodo-texto
+  - todas as leituras numéricas passam por num() (NaN-safe)
+  - guarda para estado.folhaMunicipalMes vazio
+  - removidas funções de layout que não surtiam efeito (expandirGrade)
+  - títulos de cartão mostram contexto correto
 ========================================================================= */
 
-// ✅ CORREÇÃO: Função escaparHTML que estava faltando
+/* -------------------------------------------------------------------------
+Helpers locais
+------------------------------------------------------------------------- */
 function escaparHTML(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -21,6 +28,31 @@ function escaparHTML(s) {
     .replace(/'/g, "&#39;");
 }
 
+function escaparCsv(valor) {
+  const s = valor === null || valor === undefined ? "" : String(valor);
+  if (/[;"\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+
+const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
+
+function ticketPeriodo(resumo) {
+  if (!resumo) return 0;
+  const matriculas = num(resumo.num_matriculas);
+  const folha = num(resumo.folha_total);
+  return matriculas > 0 ? folha / matriculas : 0;
+}
+
+function mediana(valores) {
+  const arr = valores.filter((v) => isFinite(v)).sort((a, b) => a - b);
+  if (!arr.length) return 0;
+  const mid = Math.floor(arr.length / 2);
+  return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
+}
+
+/* -------------------------------------------------------------------------
+Estado
+------------------------------------------------------------------------- */
 const estado = {
   resumo: [],
   folhaMes: [],
@@ -46,33 +78,8 @@ const estado = {
   graficos: {},
 };
 
-const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
-
-// ✅ CORREÇÃO: Função ticketPeriodo para calcular corretamente
-function ticketPeriodo(resumo) {
-  if (!resumo) return 0;
-  const matriculas = num(resumo.num_matriculas);
-  const folha = num(resumo.folha_total);
-  return matriculas > 0 ? folha / matriculas : 0;
-}
-
-// ✅ CORREÇÃO: Função mediana para comparadores
-function mediana(valores) {
-  const arr = valores.filter((v) => isFinite(v)).sort((a, b) => a - b);
-  if (!arr.length) return 0;
-  const mid = Math.floor(arr.length / 2);
-  return arr.length % 2 !== 0 ? arr[mid] : (arr[mid - 1] + arr[mid]) / 2;
-}
-
-// ✅ CORREÇÃO: Função escaparCsv para exportação
-function escaparCsv(valor) {
-  const s = valor === null || valor === undefined ? "" : String(valor);
-  if (/[;"\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
-  return s;
-}
-
 /* -------------------------------------------------------------------------
-Inicializacao
+Inicialização
 ------------------------------------------------------------------------- */
 async function inicializar() {
   try {
@@ -105,8 +112,11 @@ async function inicializar() {
       carregarJSON("dados/auditoria.json"),
     ]);
 
-    const camposNum = ["folha_total","folha_liquida","num_registros","num_matriculas",
-                       "ticket_medio","efetivo","folha_media","percentual","percentual_na_secretaria"];
+    const camposNum = [
+      "folha_total", "folha_liquida", "num_registros", "num_matriculas",
+      "ticket_medio", "efetivo", "folha_media", "percentual",
+      "percentual_na_secretaria",
+    ];
 
     [resumo, folhaMes, efetivoMes, folhaMunicipalMes, categoriaSecMes, categoriaMunicipalMes]
       .forEach((arr) => {
@@ -115,53 +125,20 @@ async function inicializar() {
         });
       });
 
-    secretariaCargo.forEach((r) => {
-      ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
+    const normalizar = (arr, campos) => arr.forEach((r) =>
+      campos.forEach((c) => { if (c in r) r[c] = num(r[c]); })
+    );
 
-    secretariaEscolaridade.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    secretariaTempo.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    secretariaPercentis.forEach((r) => {
-      ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    secretariaGini.forEach((r) => {
-      ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    municipioCargo.forEach((r) => {
-      ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    municipioEscolaridade.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    municipioTempo.forEach((r) => {
-      ["n", "folha_media", "folha_mediana"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    municipioPercentis.forEach((r) => {
-      ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]
-        .forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
-
-    municipioGini.forEach((r) => {
-      ["n", "gini"].forEach((c) => { if (c in r) r[c] = num(r[c]); });
-    });
+    normalizar(secretariaCargo, ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]);
+    normalizar(secretariaEscolaridade, ["n", "folha_media", "folha_mediana"]);
+    normalizar(secretariaTempo, ["n", "folha_media", "folha_mediana"]);
+    normalizar(secretariaPercentis, ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]);
+    normalizar(secretariaGini, ["n", "gini"]);
+    normalizar(municipioCargo, ["n", "folha_total", "folha_media", "folha_mediana", "pct_feminino"]);
+    normalizar(municipioEscolaridade, ["n", "folha_media", "folha_mediana"]);
+    normalizar(municipioTempo, ["n", "folha_media", "folha_mediana"]);
+    normalizar(municipioPercentis, ["n", "media", "p10", "p25", "p50", "p75", "p90", "p99"]);
+    normalizar(municipioGini, ["n", "gini"]);
 
     estado.resumo = resumo;
     estado.folhaMes = folhaMes;
@@ -187,6 +164,7 @@ async function inicializar() {
     renderizarSelo(auditoria);
     registrarEventos();
 
+    // URL pode trazer ?secretaria=... (link direto)
     const params = new URLSearchParams(location.search);
     const secInicial = params.get("secretaria");
 
@@ -198,7 +176,7 @@ async function inicializar() {
       selecionarMunicipio();
     }
   } catch (e) {
-    console.error(e);
+    console.error("[secretaria] Erro ao carregar:", e);
     const main = document.querySelector("main");
     if (main) {
       main.innerHTML = `<div class="erro" role="alert">
@@ -210,13 +188,24 @@ async function inicializar() {
 }
 
 /* -------------------------------------------------------------------------
-Cabecalho
+Cabeçalho e período
 ------------------------------------------------------------------------- */
 function renderizarCabecalhoPeriodo(kpis) {
-  const el = document.getElementById("cabecalho-periodo");
-  if (!el || !kpis) return;
+  if (!kpis) return;
   const p = kpis.periodo || {};
-  el.innerHTML = `<strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"} &nbsp;·&nbsp; <strong>${p.meses_cobertos || 0} meses</strong>`;
+  const inicio = p.inicio || "-";
+  const fim = p.fim || "-";
+  const meses = p.meses_cobertos || 0;
+
+  const elCab = document.getElementById("cabecalho-periodo");
+  if (elCab) {
+    elCab.innerHTML = `<strong>Período:</strong> ${inicio} a ${fim} &nbsp;·&nbsp; <strong>${meses} meses</strong>`;
+  }
+
+  const elPer = document.getElementById("periodo-texto");
+  if (elPer) {
+    elPer.textContent = `${inicio} a ${fim} · ${meses} meses`;
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -246,15 +235,14 @@ function registrarEventos() {
   if (sel) {
     sel.addEventListener("change", (e) => {
       const nome = e.target.value;
+      const url = new URL(location.href);
       if (!nome) {
-        const url = new URL(location.href);
         url.searchParams.delete("secretaria");
         history.replaceState(null, "", url.toString());
         selecionarMunicipio();
         return;
       }
       selecionarSecretaria(nome);
-      const url = new URL(location.href);
       url.searchParams.set("secretaria", nome);
       history.replaceState(null, "", url.toString());
     });
@@ -266,7 +254,8 @@ function registrarEventos() {
       if (estado.modo === "municipio") {
         renderizarKPIsMunicipio(estado.kpis);
       } else if (estado.secretariaAtual) {
-        renderizarKPIs(estado.resumo.find((s) => s.secretaria === estado.secretariaAtual));
+        const r = estado.resumo.find((s) => s.secretaria === estado.secretariaAtual);
+        if (r) renderizarKPIs(r);
       }
       renderizarGraficoMetrica();
     });
@@ -278,28 +267,15 @@ function registrarEventos() {
 }
 
 /* -------------------------------------------------------------------------
-Helpers de layout
-------------------------------------------------------------------------- */
-function expandirGradeCategoria() {
-  const secao = document.querySelector('section:has(#grafico-categoria)');
-  if (!secao) return;
-  const grade = secao.querySelector(".grade-2");
-  if (grade) grade.style.gridTemplateColumns = "1fr";
-}
-
-function restaurarGradeCategoria() {
-  const secao = document.querySelector('section:has(#grafico-categoria)');
-  if (!secao) return;
-  const grade = secao.querySelector(".grade-2");
-  if (grade) grade.style.gridTemplateColumns = "";
-}
-
-/* -------------------------------------------------------------------------
-Modo: Total do municipio
+Modo: Total do município
 ------------------------------------------------------------------------- */
 function selecionarMunicipio() {
   estado.modo = "municipio";
   estado.secretariaAtual = null;
+
+  if (!estado.folhaMunicipalMes || !estado.folhaMunicipalMes.length) {
+    console.warn("[secretaria] folhaMunicipalMes vazio — nada a renderizar no modo município.");
+  }
 
   const folha = [...estado.folhaMunicipalMes].sort((a, b) => a.ano - b.ano || a.mes - b.mes);
   const efetivo = folha.map((f) => ({
@@ -314,18 +290,18 @@ function selecionarMunicipio() {
   renderizarGraficoCategoria(estado.categoriaMunicipalMes, "municipio");
   renderizarTabela(folha);
 
+  // Esconde comparadores (não fazem sentido no modo município)
   const comparadores = document.getElementById("comparadores");
   if (comparadores) {
     const cartao = comparadores.closest(".cartao");
     if (cartao) cartao.style.display = "none";
   }
 
-  expandirGradeCategoria();
   renderizarAnatomia(null);
 }
 
 /* -------------------------------------------------------------------------
-KPIs do municipio
+KPIs do município
 ------------------------------------------------------------------------- */
 function renderizarKPIsMunicipio(kpis) {
   const el = document.getElementById("kpis-secretaria");
@@ -349,7 +325,7 @@ function renderizarKPIsMunicipio(kpis) {
     <div class="kpi">
       <div class="rotulo">Matrículas únicas (último mês)</div>
       <div class="valor">${fmtNum.format(num(ult.matriculas))}</div>
-      <div class="detalhe">Identificadores distintos de servidor/vínculo no mês</div>
+      <div class="detalhe">Identificadores distintos no mês</div>
     </div>
     <div class="kpi">
       <div class="rotulo">Ticket médio por matrícula</div>
@@ -370,22 +346,24 @@ function renderizarKPIsMunicipio(kpis) {
 }
 
 /* -------------------------------------------------------------------------
-Modo: Secretaria especifica
+Modo: Secretaria específica
 ------------------------------------------------------------------------- */
 function selecionarSecretaria(nome) {
   estado.modo = "secretaria";
   estado.secretariaAtual = nome;
 
+  // Mostra comparadores
   const comparadores = document.getElementById("comparadores");
   if (comparadores) {
     const cartao = comparadores.closest(".cartao");
     if (cartao) cartao.style.display = "";
   }
 
-  restaurarGradeCategoria();
-
   const resumo = estado.resumo.find((s) => s.secretaria === nome);
-  if (!resumo) return;
+  if (!resumo) {
+    console.warn("[secretaria] Secretaria não encontrada em resumo:", nome);
+    return;
+  }
 
   const folhaSec = estado.folhaMes
     .filter((f) => f.secretaria === nome)
@@ -409,7 +387,7 @@ function selecionarSecretaria(nome) {
 }
 
 /* -------------------------------------------------------------------------
-KPIs da secretaria - CORREÇÃO: usa ticketPeriodo
+KPIs da secretaria
 ------------------------------------------------------------------------- */
 function renderizarKPIs(resumo) {
   const el = document.getElementById("kpis-secretaria");
@@ -426,7 +404,9 @@ function renderizarKPIs(resumo) {
     : 0;
 
   const totalMunicipal = estado.resumo.reduce((s, r) => s + num(r.folha_total), 0);
-  const pctMunicipal = totalMunicipal > 0 ? (num(resumo.folha_total) / totalMunicipal * 100) : 0;
+  const pctMunicipal = totalMunicipal > 0
+    ? (num(resumo.folha_total) / totalMunicipal * 100)
+    : 0;
   const ticket = ticketPeriodo(resumo);
 
   el.innerHTML = `
@@ -452,7 +432,7 @@ function renderizarKPIs(resumo) {
     </div>
     <div class="kpi positivo">
       <div class="rotulo">% do total municipal</div>
-      <div class="valor">${fmtPct(pctMunicipal)}</div>
+      <div class="valor">${isFinite(pctMunicipal) ? fmtPct(pctMunicipal) : "—"}</div>
       <div class="detalhe">Participação na folha total</div>
     </div>
     <div class="kpi">
@@ -464,7 +444,7 @@ function renderizarKPIs(resumo) {
 }
 
 /* -------------------------------------------------------------------------
-Grafico de metrica
+Gráfico de métrica (folha / efetivo / ticket)
 ------------------------------------------------------------------------- */
 function renderizarGraficoMetrica() {
   const ctx = document.getElementById("grafico-folha");
@@ -512,7 +492,7 @@ function renderizarGraficoMetrica() {
   estado.graficos.folha = graficoLinha(ctx, labels, valores, {
     label: rotulo,
     cor: CORES.azulClaro,
-    corFundo: "rgba(0,113,206,0.08)",
+    corFundo: "rgba(78,140,58,0.10)",
     formatador: formatador,
     eixoYFormatador: eixoFormatador,
     inicioZero: inicioZero,
@@ -530,11 +510,12 @@ function renderizarGraficoMetrica() {
   }
 }
 
+/* -------------------------------------------------------------------------
+Gráfico de efetivo
+------------------------------------------------------------------------- */
 function renderizarGraficoEfetivo(dados, contexto) {
   const ctx = document.getElementById("grafico-efetivo");
-  if (!ctx) return;
-
-  if (!dados || !dados.length) return;
+  if (!ctx || !dados || !dados.length) return;
 
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
   const valores = dados.map((d) => num(d.efetivo));
@@ -552,7 +533,7 @@ function renderizarGraficoEfetivo(dados, contexto) {
 }
 
 /* -------------------------------------------------------------------------
-Composicao por categoria - CORREÇÃO: não destrói o container
+Composição por categoria — rosca
 ------------------------------------------------------------------------- */
 function renderizarGraficoCategoria(dados, contexto) {
   const ctx = document.getElementById("grafico-categoria");
@@ -614,11 +595,12 @@ function renderizarGraficoCategoria(dados, contexto) {
   }
 
   const contextoLabel = contexto === "municipio" ? "Total do município" : contexto;
-  garantirAviso().innerHTML = `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
+  garantirAviso().innerHTML =
+    `Composição da folha de <strong>${rotuloPeriodo(ultima.ano, ultima.mes)}</strong> — ${escaparHTML(contextoLabel)}.`;
 }
 
 /* -------------------------------------------------------------------------
-Comparadores - CORREÇÃO: usa ticketPeriodo
+Comparadores vs mediana municipal
 ------------------------------------------------------------------------- */
 function renderizarComparadores(resumo) {
   const el = document.getElementById("comparadores");
@@ -635,7 +617,10 @@ function renderizarComparadores(resumo) {
   const posicao = ranking.findIndex((s) => s.secretaria === resumo.secretaria) + 1;
 
   const comparar = (valor, referencia) => {
-    const pct = referencia > 0 ? ((valor - referencia) / referencia) * 100 : 0;
+    if (!isFinite(valor) || !isFinite(referencia) || referencia <= 0) {
+      return `<span class="badge">—</span>`;
+    }
+    const pct = ((valor - referencia) / referencia) * 100;
     const acima = valor > referencia;
     const classe = acima ? "positivo" : "alerta";
     const sinal = acima ? "+" : "";
@@ -687,7 +672,8 @@ function renderizarTabela(dados) {
   const ordenado = [...dados].sort((a, b) => b.ano - a.ano || b.mes - a.mes);
 
   tbody.innerHTML = ordenado.map((d) => {
-    const ticket = num(d.ticket_medio) || (num(d.num_matriculas) > 0 ? num(d.folha_total) / num(d.num_matriculas) : 0);
+    const ticket = num(d.ticket_medio) ||
+      (num(d.num_matriculas) > 0 ? num(d.folha_total) / num(d.num_matriculas) : 0);
     return `
       <tr>
         <td>${rotuloPeriodo(d.ano, d.mes)}</td>
@@ -702,7 +688,7 @@ function renderizarTabela(dados) {
 }
 
 /* -------------------------------------------------------------------------
-Anatomia da secretaria
+Anatomia da secretaria (ou município)
 ------------------------------------------------------------------------- */
 function renderizarAnatomia(nomeSecretaria) {
   const usarMunicipio = !nomeSecretaria;
@@ -739,6 +725,9 @@ function renderizarAnatomia(nomeSecretaria) {
   }
 }
 
+/* -------------------------------------------------------------------------
+Top cargos
+------------------------------------------------------------------------- */
 function renderizarTopCargos(dados, nomeSecretaria) {
   const ctx = document.getElementById("grafico-top-cargos");
   const tbody = document.querySelector("#tabela-top-cargos tbody");
@@ -784,6 +773,9 @@ function renderizarTopCargos(dados, nomeSecretaria) {
   }
 }
 
+/* -------------------------------------------------------------------------
+Escolaridade da secretaria
+------------------------------------------------------------------------- */
 const ORDEM_ESC_SEC = [
   "Sem escolaridade formal registrada", "Fundamental incompleto", "Fundamental completo",
   "Médio incompleto", "Medio incompleto", "Médio completo", "Medio completo",
@@ -796,8 +788,12 @@ function renderizarEscolaridadeSec(dados, nomeSecretaria) {
   if (!ctx || !dados || dados.length === 0) return;
 
   const ordenado = [...dados].sort((a, b) => {
-    const ia = ORDEM_ESC_SEC.findIndex(o => a.escolaridade_canonica.toLowerCase().includes(o.toLowerCase()));
-    const ib = ORDEM_ESC_SEC.findIndex(o => b.escolaridade_canonica.toLowerCase().includes(o.toLowerCase()));
+    const ia = ORDEM_ESC_SEC.findIndex(
+      (o) => a.escolaridade_canonica.toLowerCase().includes(o.toLowerCase())
+    );
+    const ib = ORDEM_ESC_SEC.findIndex(
+      (o) => b.escolaridade_canonica.toLowerCase().includes(o.toLowerCase())
+    );
     return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
   });
 
@@ -817,7 +813,13 @@ function renderizarEscolaridadeSec(dados, nomeSecretaria) {
   );
 }
 
-const ORDEM_TEMPO_SEC = ["0-5 anos", "6-10 anos", "11-15 anos", "16-20 anos", "21-25 anos", "26-30 anos", "30+ anos"];
+/* -------------------------------------------------------------------------
+Tempo de casa
+------------------------------------------------------------------------- */
+const ORDEM_TEMPO_SEC = [
+  "0-5 anos", "6-10 anos", "11-15 anos", "16-20 anos",
+  "21-25 anos", "26-30 anos", "30+ anos",
+];
 
 function renderizarTempoSec(dados, nomeSecretaria) {
   const ctx = document.getElementById("grafico-tempo-sec");
@@ -844,7 +846,9 @@ function renderizarTempoSec(dados, nomeSecretaria) {
   );
 }
 
-// ✅ CORREÇÃO: trata perc nulo de forma segura
+/* -------------------------------------------------------------------------
+Percentis e Gini
+------------------------------------------------------------------------- */
 function renderizarPercentisSec(perc, gini, nomeSecretaria) {
   const bloco = document.getElementById("bloco-percentis-sec");
   const tbody = document.querySelector("#tabela-percentis-sec tbody");
@@ -865,7 +869,7 @@ function renderizarPercentisSec(perc, gini, nomeSecretaria) {
   if (aviso) aviso.style.display = "none";
 
   const n = perc ? num(perc.n) : (gini ? num(gini.n) : 0);
-  const fmtPerc = (campo) => perc && perc[campo] != null ? fmtBRL.format(num(perc[campo])) : "—";
+  const fmtPerc = (campo) => (perc && perc[campo] != null ? fmtBRL.format(num(perc[campo])) : "—");
   const giniValor = gini ? num(gini.gini).toFixed(3).replace(".", ",") : "—";
   const giniNota = gini ? "" : ' <small style="color: var(--cinza-texto);">(n &lt; 50)</small>';
 
@@ -928,6 +932,6 @@ function exportarCSV() {
 }
 
 /* -------------------------------------------------------------------------
-Inicializacao
+Bootstrap
 ------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);

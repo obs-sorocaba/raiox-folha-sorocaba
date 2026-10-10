@@ -1,6 +1,7 @@
 /* ==========================================================================
    Raio-X do Quadro de Pessoal — Sorocaba
    Design System e Estilos Globais
+   v5 — Cabeçalho unificado com logo completo + lupa
    ========================================================================== */
 
 /* ==========================================================================
@@ -44,14 +45,16 @@ body {
   --amarelo-osb-escuro: #e6bd00;
   --verde-osb: #00612f;
   --verde-osb-claro: #00875a;
-  
+  --verde-cabecalho-1: #71c14a;
+  --verde-cabecalho-2: #4a8f2c;
+
   /* Paleta de Dados — Viridis (acessível para daltônicos) */
   --viridis-1: #440154;
   --viridis-2: #31688e;
   --viridis-3: #35b779;
   --viridis-4: #fde725;
   --viridis-5: #440154;
-  
+
   /* Grupos Auditáveis — Cores Canônicas */
   --cor-efetivos: #2a788e;
   --cor-funcao: #7ad151;
@@ -59,13 +62,13 @@ body {
   --cor-flexiveis: #414487;
   --cor-inativos: #999999;
   --cor-nc: #cc0000;
-  
+
   /* Semáforo de Status */
   --cor-sucesso: #28a745;
   --cor-aviso: #ffc107;
   --cor-erro: #dc3545;
   --cor-info: #17a2b8;
-  
+
   /* Neutros */
   --branco: #ffffff;
   --cinza-50: #f8f9fa;
@@ -78,7 +81,7 @@ body {
   --cinza-700: #343a40;
   --cinza-800: #212529;
   --preto: #000000;
-  
+
   /* Semânticas */
   --fundo-base: var(--branco);
   --fundo-card: var(--branco);
@@ -90,7 +93,7 @@ body {
   --borda-foco: var(--azul-osb-claro);
   --sombra: rgba(0, 0, 0, 0.1);
   --sombra-hover: rgba(0, 0, 0, 0.15);
-  
+
   /* Tipografia */
   --fonte-base: 1rem;
   --fonte-sm: 0.875rem;
@@ -99,7 +102,7 @@ body {
   --fonte-2xl: 1.5rem;
   --fonte-3xl: 1.875rem;
   --fonte-4xl: 2.25rem;
-  
+
   /* Espaçamentos */
   --espaco-xs: 0.25rem;
   --espaco-sm: 0.5rem;
@@ -108,19 +111,19 @@ body {
   --espaco-xl: 2rem;
   --espaco-2xl: 3rem;
   --espaco-3xl: 4rem;
-  
+
   /* Border Radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-full: 9999px;
-  
+
   /* Transições */
   --transicao-rapida: 150ms ease-in-out;
   --transicao-normal: 250ms ease-in-out;
   --transicao-lenta: 350ms ease-in-out;
-  
+
   /* Z-index */
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -201,30 +204,109 @@ code {
 }
 
 /* ==========================================================================
-   4. LAYOUT — HEADER E NAVEGAÇÃO
+   4. LAYOUT — CABEÇALHO UNIFICADO
    ========================================================================== */
 
-header {
-  background-color: var(--fundo-header);
-  color: var(--texto-inverso);
-  padding: var(--espaco-lg) var(--espaco-xl);
+.cabecalho {
+  background: linear-gradient(to right, var(--verde-cabecalho-1), var(--verde-cabecalho-2));
+  color: var(--branco);
+  padding: var(--espaco-md) var(--espaco-xl);
   box-shadow: 0 2px 4px var(--sombra);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
 }
 
-header h1 {
-  color: var(--texto-inverso);
-  margin-bottom: var(--espaco-xs);
-  font-size: var(--fonte-2xl);
+.cabecalho-conteudo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: var(--espaco-md);
 }
 
-header p {
-  color: rgba(255, 255, 255, 0.9);
+/* Identidade (Lado Esquerdo) */
+.cabecalho-identidade {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-md);
+  min-width: 0;
+}
+
+.cabecalho-logo-completo {
+  flex-shrink: 0;
+}
+
+.cabecalho-logo-completo img {
+  height: 60px;
+  width: auto;
+  display: block;
+}
+
+.cabecalho-titulo {
+  min-width: 0;
+}
+
+.cabecalho-titulo h1 {
+  font-size: var(--fonte-lg);
+  margin: 0;
+  font-weight: 600;
+  color: var(--branco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cabecalho-titulo p {
   font-size: var(--fonte-sm);
   margin: 0;
+  color: var(--branco);
+  opacity: 0.9;
 }
+
+/* Metadados e Lupa (Lado Direito) */
+.cabecalho-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--espaco-xs);
+  flex-shrink: 0;
+}
+
+.cabecalho-lupa {
+  height: 50px;
+  width: auto;
+  display: block;
+  margin-bottom: var(--espaco-xs);
+}
+
+.badge-atualizacao {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--branco);
+  padding: var(--espaco-xs) var(--espaco-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-atualizacao.indisponivel {
+  background-color: rgba(220, 53, 69, 0.5);
+}
+
+.cabecalho-periodo {
+  font-size: 0.8rem;
+  color: var(--branco);
+  opacity: 0.95;
+  text-align: right;
+}
+
+/* ==========================================================================
+   5. NAVEGAÇÃO
+   ========================================================================== */
 
 .menu {
   background-color: var(--branco);
@@ -291,7 +373,8 @@ header p {
   left: 0;
 }
 
-.drawer-header {
+.drawer-header,
+.drawer-cabecalho {
   background-color: var(--azul-osb);
   color: var(--texto-inverso);
   padding: var(--espaco-lg);
@@ -314,7 +397,8 @@ header p {
   background-color: var(--cinza-50);
 }
 
-.drawer-backdrop {
+.drawer-backdrop,
+.backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -327,13 +411,14 @@ header p {
   transition: opacity var(--transicao-normal);
 }
 
-.drawer-backdrop.visivel {
+.drawer-backdrop.visivel,
+.backdrop.aberto {
   opacity: 1;
   pointer-events: auto;
 }
 
 /* ==========================================================================
-   5. LAYOUT — MAIN E CONTAINER
+   6. LAYOUT — MAIN E CONTAINER
    ========================================================================== */
 
 main {
@@ -374,7 +459,7 @@ main {
 }
 
 /* ==========================================================================
-   6. COMPONENTES — CARDS E KPIS
+   7. COMPONENTES — CARDS E KPIS
    ========================================================================== */
 
 .cartao {
@@ -401,7 +486,7 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--espaco-lg);
-  margin-bottom: var(--espoco-xl);
+  margin-bottom: var(--espaco-xl);
 }
 
 .kpi {
@@ -418,7 +503,8 @@ main {
   background-color: rgba(255, 210, 0, 0.05);
 }
 
-.kpi.alerta {
+.kpi.alerta,
+.kpi.positivo {
   border-left-color: var(--cor-erro);
   background-color: rgba(220, 53, 69, 0.05);
 }
@@ -445,7 +531,7 @@ main {
 }
 
 /* ==========================================================================
-   7. COMPONENTES — TABELAS
+   8. COMPONENTES — TABELAS
    ========================================================================== */
 
 .tabela-wrap {
@@ -494,13 +580,15 @@ tbody tr:hover {
   background-color: var(--cinza-50);
 }
 
-td.numerico {
+td.numerico,
+th.numerico,
+td.numero {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
 /* ==========================================================================
-   8. COMPONENTES — GRÁFICOS
+   9. COMPONENTES — GRÁFICOS
    ========================================================================== */
 
 .grafico-container {
@@ -510,13 +598,17 @@ td.numerico {
   margin: var(--espaco-lg) 0;
 }
 
+.grafico-container.baixo {
+  min-height: 220px;
+}
+
 canvas {
   max-width: 100%;
   height: auto;
 }
 
 /* ==========================================================================
-   9. COMPONENTES — FILTROS E FORMULÁRIOS
+   10. COMPONENTES — FILTROS E FORMULÁRIOS
    ========================================================================== */
 
 .filtros {
@@ -529,13 +621,17 @@ canvas {
   border-radius: var(--radius-md);
 }
 
-.filtro-grupo {
+.filtro-grupo,
+.filtro-item {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-xs);
+  flex: 1;
+  min-width: 180px;
 }
 
-.filtro-grupo label {
+.filtro-grupo label,
+.filtro-item label {
   font-size: var(--fonte-sm);
   font-weight: 500;
   color: var(--texto-secundario);
@@ -571,31 +667,51 @@ button {
   transition: all var(--transicao-rapida);
 }
 
-button.primario {
+button.primario,
+.toggle-btn.primario {
   background-color: var(--azul-osb);
   color: var(--texto-inverso);
 }
 
-button.primario:hover {
+button.primario:hover,
+.toggle-btn.primario:hover {
   background-color: var(--azul-osb-escuro);
 }
 
-button.secundario {
+button.secundario,
+.toggle-btn.secundario {
   background-color: var(--cinza-200);
   color: var(--texto-principal);
 }
 
-button.secundario:hover {
+button.secundario:hover,
+.toggle-btn.secundario:hover {
   background-color: var(--cinza-300);
 }
 
-button:focus-visible {
+.toggle-btn {
+  border: none;
+  padding: var(--espaco-sm) var(--espaco-lg);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--fonte-sm);
+  font-weight: 500;
+  transition: all var(--transicao-rapida);
+}
+
+.toggle-btn.ativo {
+  background-color: var(--azul-osb);
+  color: var(--texto-inverso);
+}
+
+button:focus-visible,
+.toggle-btn:focus-visible {
   outline: 2px solid var(--borda-foco);
   outline-offset: 2px;
 }
 
 /* ==========================================================================
-   10. COMPONENTES — BADGES E TAGS
+   11. COMPONENTES — BADGES E TAGS
    ========================================================================== */
 
 .badge {
@@ -633,13 +749,19 @@ button:focus-visible {
   color: var(--branco);
 }
 
-.badge.nc {
+.badge.nc,
+.badge.positivo {
   background-color: var(--cor-nc);
   color: var(--branco);
 }
 
+.badge.alerta {
+  background-color: var(--cor-aviso);
+  color: var(--cinza-800);
+}
+
 /* ==========================================================================
-   11. COMPONENTES — SELO DE AUDITORIA
+   12. COMPONENTES — SELO DE AUDITORIA
    ========================================================================== */
 
 .selo {
@@ -705,8 +827,41 @@ button:focus-visible {
   color: var(--texto-principal);
 }
 
+.selo dt {
+  font-size: var(--fonte-sm);
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: var(--espaco-sm);
+}
+
+.selo dd {
+  font-size: var(--fonte-base);
+  font-weight: 600;
+  color: var(--texto-principal);
+  margin-bottom: var(--espaco-xs);
+}
+
+.selo .ok {
+  background-color: rgba(40, 167, 69, 0.1);
+  border-left: 4px solid var(--cor-sucesso);
+  padding: var(--espaco-md);
+  border-radius: var(--radius-sm);
+  margin-top: var(--espaco-md);
+  font-size: var(--fonte-sm);
+}
+
+.selo .alerta {
+  background-color: rgba(255, 193, 7, 0.15);
+  border-left: 4px solid var(--cor-aviso);
+  padding: var(--espaco-md);
+  border-radius: var(--radius-sm);
+  margin-top: var(--espaco-md);
+  font-size: var(--fonte-sm);
+}
+
 /* ==========================================================================
-   12. COMPONENTES — AVISOS E NOTAS METODOLÓGICAS
+   13. COMPONENTES — AVISOS E NOTAS METODOLÓGICAS
    ========================================================================== */
 
 .aviso-metodologico {
@@ -732,26 +887,59 @@ button:focus-visible {
   color: var(--texto-principal);
 }
 
+.aviso-erro {
+  color: var(--cor-erro);
+  background-color: rgba(220, 53, 69, 0.05);
+  padding: var(--espaco-md);
+  text-align: center;
+}
+
+.aviso-vazio {
+  color: var(--texto-secundario);
+  background-color: var(--cinza-50);
+  padding: var(--espaco-md);
+  text-align: center;
+}
+
+.aviso-noscript {
+  background-color: rgba(255, 193, 7, 0.15);
+  border-left: 4px solid var(--cor-aviso);
+  padding: var(--espaco-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--fonte-sm);
+}
+
+.carregando {
+  display: inline-block;
+  padding: var(--espaco-md);
+  color: var(--texto-secundario);
+  font-style: italic;
+}
+
 /* ==========================================================================
-   13. FOOTER
+   14. FOOTER
    ========================================================================== */
 
-footer {
+footer,
+.rodape {
   background-color: var(--cinza-800);
   color: var(--texto-inverso);
   padding: var(--espaco-2xl) var(--espaco-xl);
   margin-top: auto;
 }
 
-footer a {
+footer a,
+.rodape a {
   color: var(--amarelo-osb);
 }
 
-footer a:hover {
+footer a:hover,
+.rodape a:hover {
   color: var(--branco);
 }
 
-.footer-conteudo {
+.footer-conteudo,
+.rodape-conteudo {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
@@ -759,7 +947,8 @@ footer a:hover {
   gap: var(--espaco-xl);
 }
 
-.footer-secao h3 {
+.footer-secao h3,
+.rodape h3 {
   color: var(--amarelo-osb);
   font-size: var(--fonte-lg);
   margin-bottom: var(--espaco-md);
@@ -773,7 +962,8 @@ footer a:hover {
   margin-bottom: var(--espaco-sm);
 }
 
-.footer-creditos {
+.footer-creditos,
+.rodape-final {
   text-align: center;
   margin-top: var(--espaco-xl);
   padding-top: var(--espaco-xl);
@@ -783,7 +973,7 @@ footer a:hover {
 }
 
 /* ==========================================================================
-   14. UTILITÁRIOS
+   15. UTILITÁRIOS
    ========================================================================== */
 
 .texto-centro {
@@ -818,98 +1008,6 @@ footer a:hover {
   border: 0;
 }
 
-/* ==========================================================================
-   15. RESPONSIVIDADE
-   ========================================================================== */
-
-@media (max-width: 768px) {
-  :root {
-    --fonte-4xl: 1.75rem;
-    --fonte-3xl: 1.5rem;
-    --fonte-2xl: 1.25rem;
-  }
-  
-  header {
-    padding: var(--espaco-md);
-  }
-  
-  header h1 {
-    font-size: var(--fonte-xl);
-  }
-  
-  .menu-conteudo {
-    flex-direction: column;
-    gap: var(--espaco-sm);
-  }
-  
-  .menu-hamburguer {
-    display: block;
-    align-self: flex-end;
-  }
-  
-  .menu-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .menu-links.aberto {
-    display: flex;
-  }
-  
-  main {
-    padding: var(--espaco-md);
-  }
-  
-  .grade-2,
-  .grade-3,
-  .grade-4 {
-    grid-template-columns: 1fr;
-  }
-  
-  .kpis {
-    grid-template-columns: 1fr;
-  }
-  
-  table {
-    font-size: 0.75rem;
-  }
-  
-  th,
-  td {
-    padding: var(--espaco-sm);
-  }
-}
-
-@media (max-width: 480px) {
-  .filtros {
-    flex-direction: column;
-  }
-  
-  .selo-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ==========================================================================
-   16. ACESSIBILIDADE
-   ========================================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-:focus-visible {
-  outline: 2px solid var(--borda-foco);
-  outline-offset: 2px;
-}
-
 /* Skip link */
 .skip-link {
   position: absolute;
@@ -927,30 +1025,151 @@ footer a:hover {
 }
 
 /* ==========================================================================
-   17. IMPRESSÃO
+   16. RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --fonte-4xl: 1.75rem;
+    --fonte-3xl: 1.5rem;
+    --fonte-2xl: 1.25rem;
+  }
+
+  .cabecalho {
+    padding: var(--espaco-md);
+  }
+
+  .cabecalho-conteudo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cabecalho-identidade {
+    width: 100%;
+  }
+
+  .cabecalho-logo-completo img {
+    height: 45px;
+  }
+
+  .cabecalho-titulo h1 {
+    font-size: var(--fonte-base);
+    white-space: normal;
+  }
+
+  .cabecalho-titulo p {
+    font-size: 0.75rem;
+  }
+
+  .cabecalho-meta {
+    align-items: flex-start;
+    width: 100%;
+    margin-top: var(--espaco-sm);
+  }
+
+  .cabecalho-lupa {
+    height: 40px;
+  }
+
+  .menu-conteudo {
+    flex-direction: column;
+    gap: var(--espaco-sm);
+  }
+
+  .menu-hamburguer {
+    display: block;
+    align-self: flex-end;
+  }
+
+  .menu-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-links.aberto {
+    display: flex;
+  }
+
+  main {
+    padding: var(--espaco-md);
+  }
+
+  .grade-2,
+  .grade-3,
+  .grade-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .kpis {
+    grid-template-columns: 1fr;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  th,
+  td {
+    padding: var(--espaco-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .filtros {
+    flex-direction: column;
+  }
+
+  .selo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   17. ACESSIBILIDADE
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--borda-foco);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   18. IMPRESSÃO
    ========================================================================== */
 
 @media print {
-  header,
+  .cabecalho,
   .menu,
   footer,
+  .rodape,
   .filtros,
   button {
     display: none;
   }
-  
+
   body {
     font-size: 12pt;
     color: var(--preto);
     background: var(--branco);
   }
-  
+
   .cartao {
     box-shadow: none;
     border: 1px solid var(--cinza-300);
     page-break-inside: avoid;
   }
-  
+
   table {
     page-break-inside: avoid;
   }

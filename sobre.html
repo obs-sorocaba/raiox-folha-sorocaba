@@ -12,53 +12,44 @@
   <meta property="og:url" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
   <meta property="og:site_name" content="Observatório Social do Brasil — Sorocaba">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/og-image.png">
+  <meta property="og:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/imagens/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sobre — Raio-X do Quadro de Pessoal">
   <meta name="twitter:description" content="Metodologia, base legal e mapas públicos do painel de Sorocaba.">
-  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/assets/og-image.png">
+  <meta name="twitter:image" content="https://obs-sorocaba.github.io/raiox-folha-sorocaba/imagens/og-image.png">
   <link rel="canonical" href="https://obs-sorocaba.github.io/raiox-folha-sorocaba/sobre.html">
 
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="imagens/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="imagens/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="imagens/apple-touch-icon.png">
+  <link rel="icon" href="imagens/favicon.ico">
   <link rel="stylesheet" href="assets/style.css?v=5">
 
   <script>
     document.documentElement.classList.remove("no-js");
     document.documentElement.classList.add("js");
   </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="assets/app.js?v=5" defer></script>
-  <script src="assets/pagina_sobre.js?v=5" defer></script>
 </head>
 <body>
 
-  <noscript>
-    <div class="erro" role="alert">
-      <strong>Este painel requer JavaScript.</strong>
-      Ative o JavaScript no seu navegador para visualizar os gráficos interativos.
-      Os mapas de metodologia e os dados abertos continuam acessíveis abaixo,
-      com links diretos para download dos arquivos CSV.
-    </div>
-  </noscript>
-
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+  <!-- =====================================================================
+       CABEÇALHO UNIFICADO
+       ===================================================================== -->
   <header class="cabecalho">
-  <img class="cabecalho-lupa" src="imagens/lupa-folha.svg" alt="" aria-hidden="true" onerror="this.style.display='none'">
     <div class="cabecalho-conteudo">
       <div class="cabecalho-identidade">
-        <div class="cabecalho-logo" aria-hidden="true">OSB</div>
+        <div class="cabecalho-logo-completo">
+          <img src="imagens/logo-obs-brasil.png" alt="Observatório Social do Brasil - Sorocaba">
+        </div>
         <div class="cabecalho-titulo">
           <h1>Raio-X do Quadro de Pessoal</h1>
           <p>Prefeitura de Sorocaba — Observatório Social do Brasil</p>
         </div>
       </div>
       <div class="cabecalho-meta">
+        <img class="cabecalho-lupa" src="imagens/lupa-mapa.png" alt="Ícone de análise" aria-hidden="true">
         <span class="badge-atualizacao" id="badge-atualizacao">Carregando…</span>
         <div class="cabecalho-periodo" id="cabecalho-periodo">
           <span>Carregando período…</span>
@@ -67,6 +58,9 @@
     </div>
   </header>
 
+  <!-- =====================================================================
+       MENU
+       ===================================================================== -->
   <nav class="menu" aria-label="Menu principal">
     <div class="menu-conteudo">
       <a href="index.html">Início</a>
@@ -74,11 +68,14 @@
       <a href="quadro.html">Perfil das Unidades</a>
       <a href="genero.html">Gênero</a>
       <a href="salarios.html">Salários</a>
-      <a href="sobre.html" aria-current="page">Sobre</a>
+      <a href="sobre.html" class="ativo" aria-current="page">Sobre</a>
       <button class="menu-hamburguer" aria-label="Abrir menu" aria-expanded="false">☰</button>
     </div>
   </nav>
 
+  <!-- =====================================================================
+       DRAWER (menu lateral mobile)
+       ===================================================================== -->
   <button class="botao-lateral" aria-label="Abrir menu lateral" title="Menu lateral">☰</button>
   <div class="backdrop" aria-hidden="true"></div>
   <aside class="drawer" aria-hidden="true">
@@ -103,11 +100,12 @@
 
   <nav class="breadcrumb" id="breadcrumb" aria-label="Você está em"></nav>
 
+  <!-- =====================================================================
+       CONTEÚDO PRINCIPAL
+       ===================================================================== -->
   <main id="conteudo-principal">
 
-    <!-- ============================================================ -->
-    <!-- Missão                                                         -->
-    <!-- ============================================================ -->
+    <!-- Missão -->
     <section class="secao" id="missao">
       <h2 class="secao-titulo">Missão do projeto</h2>
       <div class="cartao">
@@ -132,9 +130,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Como usar                                                      -->
-    <!-- ============================================================ -->
+    <!-- Como usar -->
     <section class="secao" id="como-usar">
       <h2 class="secao-titulo">Como usar este painel</h2>
       <div class="cartao">
@@ -149,9 +145,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Fonte dos dados                                                -->
-    <!-- ============================================================ -->
+    <!-- Fonte dos dados -->
     <section class="secao" id="fonte">
       <h2 class="secao-titulo">Fonte dos dados</h2>
       <div class="cartao">
@@ -172,9 +166,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Metodologia                                                    -->
-    <!-- ============================================================ -->
+    <!-- Metodologia -->
     <section class="secao" id="metodologia">
       <h2 class="secao-titulo">Metodologia</h2>
       <div class="cartao">
@@ -207,14 +199,12 @@
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
           <li>Alguns meses podem estar ausentes do Portal da Transparência no momento da extração.</li>
           <li>Se o portal publica valores <strong>já abatidos do teto constitucional</strong>, a análise de distribuição salarial (Gini, percentis) pode <strong>subestimar</strong> a desigualdade real no topo. Veja a seção sobre o teto remuneratório abaixo.</li>
-          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal 2022-2026</strong> para as séries quantitativas.</li>
+          <li><strong>Arquivos anuais:</strong> os arquivos anuais publicados pelo Portal da Transparência <strong>não são comparáveis</strong> à base mensal consolidada. Eles configuram uma <em>relação anual de vínculos</em>, com remuneração de referência e rubricas eventuais (13º), e não a folha mensal. Por isso, o painel usa exclusivamente a <strong>base mensal</strong> para as séries quantitativas.</li>
         </ul>
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Glossário — NOVO P0                                            -->
-    <!-- ============================================================ -->
+    <!-- Glossário -->
     <section class="secao" id="glossario">
       <h2 class="secao-titulo">Glossário</h2>
       <div class="cartao">
@@ -224,7 +214,7 @@
         </p>
 
         <dl class="selo" style="display: block;">
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Registro bruto</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Linha publicada no Portal da Transparência. Um mesmo servidor pode
@@ -233,7 +223,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Matrícula única</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Identificador distinto de servidor ou vínculo em um mês específico.
@@ -241,15 +231,15 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Servidor único no período</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Pessoa distinta considerando todas as matrículas ao longo de todo
-              o período (2022-2026). Não é a soma das matrículas mensais.
+              o período. Não é a soma das matrículas mensais.
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Efetivo do mês</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Matrículas únicas no mês. É o número usado em gráficos de evolução
@@ -257,7 +247,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Folha bruta</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Soma dos pagamentos brutos do mês, incluindo todos os tipos de folha
@@ -265,7 +255,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Folha recorrente</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Subconjunto da folha bruta que exclui 13º, férias, rescisões e
@@ -273,7 +263,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro); margin-bottom: 0.5rem;">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Ticket médio (ou custo médio por matrícula)</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Folha bruta do mês ÷ matrículas únicas do mês. Mede o custo médio
@@ -282,7 +272,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-claro);">
+          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro);">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Pagamento mensal</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Rubrica recorrente, excluídos 13º, férias, adiantamentos e rescisões.
@@ -293,9 +283,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Cobertura e supressão — NOVO P0                                -->
-    <!-- ============================================================ -->
+    <!-- Cobertura e supressão -->
     <section class="secao" id="cobertura-supressao">
       <h2 class="secao-titulo">Cobertura e supressão estatística</h2>
       <div class="cartao">
@@ -314,48 +302,50 @@
           Para evitar reidentificação e conclusões estatisticamente frágeis em
           amostras pequenas, o painel aplica as seguintes regras:
         </p>
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead>
-            <tr style="background: var(--azul-escuro); color: var(--branco);">
-              <th style="text-align: left; padding: 0.5rem 0.75rem;">Análise</th>
-              <th style="text-align: left; padding: 0.5rem 0.75rem;">n mínimo</th>
-              <th style="text-align: left; padding: 0.5rem 0.75rem;">Comportamento</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--cinza-borda);">
-              <td style="padding: 0.5rem 0.75rem;">Cargo individual</td>
-              <td style="padding: 0.5rem 0.75rem;">10</td>
-              <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 10 são agrupados em "Outros"</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--cinza-borda); background: #fafbfd;">
-              <td style="padding: 0.5rem 0.75rem;">Gap salarial por cargo</td>
-              <td style="padding: 0.5rem 0.75rem;">20 por gênero</td>
-              <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 20 em um dos gêneros são omitidos</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--cinza-borda);">
-              <td style="padding: 0.5rem 0.75rem;">Percentis por secretaria</td>
-              <td style="padding: 0.5rem 0.75rem;">30</td>
-              <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 30 não exibem percentis</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--cinza-borda); background: #fafbfd;">
-              <td style="padding: 0.5rem 0.75rem;">Índice de Gini por secretaria</td>
-              <td style="padding: 0.5rem 0.75rem;">50</td>
-              <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 50 não exibem Gini</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.5rem 0.75rem;">Local de trabalho</td>
-              <td style="padding: 0.5rem 0.75rem;">10</td>
-              <td style="padding: 0.5rem 0.75rem;">Unidades com n &lt; 10 são agrupadas em "Outros"</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="tabela-wrap">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+            <thead>
+              <tr>
+                <th style="text-align: left; padding: 0.5rem 0.75rem;">Análise</th>
+                <th style="text-align: left; padding: 0.5rem 0.75rem;">n mínimo</th>
+                <th style="text-align: left; padding: 0.5rem 0.75rem;">Comportamento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--borda);">
+                <td style="padding: 0.5rem 0.75rem;">Cargo individual</td>
+                <td style="padding: 0.5rem 0.75rem;">10</td>
+                <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 10 são agrupados em "Outros"</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--borda); background: var(--cinza-50);">
+                <td style="padding: 0.5rem 0.75rem;">Gap salarial por cargo</td>
+                <td style="padding: 0.5rem 0.75rem;">20 por gênero</td>
+                <td style="padding: 0.5rem 0.75rem;">Cargos com n &lt; 20 em um dos gêneros são omitidos</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--borda);">
+                <td style="padding: 0.5rem 0.75rem;">Percentis por secretaria</td>
+                <td style="padding: 0.5rem 0.75rem;">30</td>
+                <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 30 não exibem percentis</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--borda); background: var(--cinza-50);">
+                <td style="padding: 0.5rem 0.75rem;">Índice de Gini por secretaria</td>
+                <td style="padding: 0.5rem 0.75rem;">50</td>
+                <td style="padding: 0.5rem 0.75rem;">Secretarias com n &lt; 50 não exibem Gini</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem 0.75rem;">Local de trabalho</td>
+                <td style="padding: 0.5rem 0.75rem;">10</td>
+                <td style="padding: 0.5rem 0.75rem;">Unidades com n &lt; 10 são agrupadas em "Outros"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="aviso-metodologico" style="margin-top: 1.25rem;">
           <strong>Nota de reconciliação:</strong> as somas por dimensão (escolaridade, tempo de casa)
           podem exceder o total de servidores únicos no período, porque:
           <ul style="margin-top: 0.5rem; padding-left: 1.25rem;">
-            <li>um mesmo servidor pode ter mudado de escolaridade ao longo dos 56 meses;</li>
+            <li>um mesmo servidor pode ter mudado de escolaridade ao longo do período;</li>
             <li>cada linha representa uma <strong>matrícula-perfil</strong>, não necessariamente uma pessoa;</li>
             <li>servidores com múltiplos vínculos aparecem em mais de uma categoria.</li>
           </ul>
@@ -363,9 +353,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Definição de liderança — NOVO P0                               -->
-    <!-- ============================================================ -->
+    <!-- Definição de liderança -->
     <section class="secao" id="lideranca">
       <h2 class="secao-titulo">Definição de liderança</h2>
       <div class="cartao">
@@ -392,9 +380,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Mapas públicos de metodologia                                  -->
-    <!-- ============================================================ -->
+    <!-- Mapas públicos -->
     <section class="secao" id="mapas">
       <h2 class="secao-titulo">Mapas públicos de metodologia</h2>
       <div class="cartao">
@@ -424,15 +410,6 @@
             </thead>
             <tbody>
               <tr class="linha-carregando"><td colspan="5" class="carregando">Carregando…</td></tr>
-              <noscript>
-                <tr>
-                  <td colspan="5" class="aviso-noscript">
-                    ⚠️ Ative o JavaScript para visualizar o mapa de regimes.
-                    Enquanto isso, baixe o arquivo diretamente:
-                    <a href="dados/excel/regime_map.xlsx" download>regime_map.xlsx</a>.
-                  </td>
-                </tr>
-              </noscript>
             </tbody>
           </table>
         </div>
@@ -455,15 +432,6 @@
             </thead>
             <tbody>
               <tr class="linha-carregando"><td colspan="3" class="carregando">Carregando…</td></tr>
-              <noscript>
-                <tr>
-                  <td colspan="3" class="aviso-noscript">
-                    ⚠️ Ative o JavaScript para visualizar o mapa de secretarias.
-                    Enquanto isso, baixe o arquivo diretamente:
-                    <a href="dados/excel/secretaria_map.xlsx" download>secretaria_map.xlsx</a>.
-                  </td>
-                </tr>
-              </noscript>
             </tbody>
           </table>
         </div>
@@ -475,29 +443,27 @@
               <tr>
                 <th scope="col">Escolaridade (crua)</th>
                 <th scope="col">Escolaridade canônica</th>
-                <th scope="col">Ordem</th>
+                <th scope="col" class="numerico">Ordem</th>
               </tr>
             </thead>
             <tbody>
               <tr class="linha-carregando"><td colspan="3" class="carregando">Carregando…</td></tr>
-              <noscript>
-                <tr>
-                  <td colspan="3" class="aviso-noscript">
-                    ⚠️ Ative o JavaScript para visualizar o mapa de escolaridades.
-                    Enquanto isso, baixe o arquivo diretamente:
-                    <a href="dados/excel/escolaridade_map.xlsx" download>escolaridade_map.xlsx</a>.
-                  </td>
-                </tr>
-              </noscript>
             </tbody>
           </table>
         </div>
+
+        <noscript>
+          <div class="aviso-noscript" style="margin-top: 1rem;">
+            Para ver os mapas, baixe diretamente os arquivos:
+            <a href="dados/excel/regime_map.xlsx" download>regime_map.xlsx</a>,
+            <a href="dados/excel/secretaria_map.xlsx" download>secretaria_map.xlsx</a>,
+            <a href="dados/excel/escolaridade_map.xlsx" download>escolaridade_map.xlsx</a>.
+          </div>
+        </noscript>
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Teto remuneratório                                             -->
-    <!-- ============================================================ -->
+    <!-- Teto remuneratório -->
     <section class="secao" id="teto-remuneratorio">
       <h2 class="secao-titulo">Teto remuneratório</h2>
       <div class="cartao">
@@ -560,9 +526,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Selo de auditoria                                              -->
-    <!-- ============================================================ -->
+    <!-- Selo de auditoria -->
     <section class="secao" id="selo">
       <h2 class="secao-titulo">Selo de auditoria</h2>
       <div class="cartao">
@@ -582,9 +546,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Base legal e limites                                           -->
-    <!-- ============================================================ -->
+    <!-- Base legal e limites -->
     <section class="secao" id="base-legal">
       <h2 class="secao-titulo">Base legal e limites</h2>
       <div class="cartao">
@@ -622,9 +584,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Dados abertos — ATUALIZADO P0                                  -->
-    <!-- ============================================================ -->
+    <!-- Dados abertos -->
     <section class="secao" id="dados-abertos">
       <h2 class="secao-titulo">Dados abertos</h2>
       <div class="cartao">
@@ -640,7 +600,7 @@
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Série histórica da folha</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/excel/folha_mensal.xlsx" download>folha_mensal.xlsx</a> — folha bruta mensal (56 meses)</li>
+          <li><a href="dados/excel/folha_mensal.xlsx" download>folha_mensal.xlsx</a> — folha bruta mensal</li>
           <li><a href="dados/excel/folha_mensal_recorrente.xlsx" download>folha_mensal_recorrente.xlsx</a> — folha recorrente mensal</li>
           <li><a href="dados/excel/folha_mensal_ipca.xlsx" download>folha_mensal_ipca.xlsx</a> — folha nominal × real (corrigida pelo IPCA)</li>
           <li><a href="dados/excel/composicao_categoria_mes.xlsx" download>composicao_categoria_mes.xlsx</a> — composição por categoria de vínculo</li>
@@ -650,13 +610,13 @@
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Secretarias</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/excel/top_secretarias.xlsx" download>top_secretarias.xlsx</a> — ranking de secretarias por folha acumulada</li>
-          <li><a href="dados/excel/resumo_secretaria.xlsx" download>resumo_secretaria.xlsx</a> — resumo por secretaria (média mensal, meses reais)</li>
+          <li><a href="dados/excel/resumo_secretaria.xlsx" download>resumo_secretaria.xlsx</a> — resumo por secretaria</li>
           <li><a href="dados/excel/folha_por_secretaria_mes.xlsx" download>folha_por_secretaria_mes.xlsx</a> — folha mensal por secretaria</li>
           <li><a href="dados/excel/efetivo_por_secretaria_mes.xlsx" download>efetivo_por_secretaria_mes.xlsx</a> — efetivo mensal por secretaria</li>
-            <li><a href="dados/excel/composicao_categoria_secretaria_mes.xlsx">composicao_categoria_secretaria_mes.xlsx</a> — composição por categoria de vínculo, desagregada por secretaria e mês</li>
+          <li><a href="dados/excel/composicao_categoria_secretaria_mes.xlsx" download>composicao_categoria_secretaria_mes.xlsx</a> — composição por categoria, por secretaria e mês</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Anatomia da secretaria (Fase 1c)</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Anatomia da secretaria</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/excel/secretaria_cargo.xlsx" download>secretaria_cargo.xlsx</a> — top cargos por secretaria</li>
           <li><a href="dados/excel/secretaria_escolaridade.xlsx" download>secretaria_escolaridade.xlsx</a> — escolaridade por secretaria</li>
@@ -670,26 +630,22 @@
           <li><a href="dados/excel/municipio_gini.xlsx" download>municipio_gini.xlsx</a> — Gini do município</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Unidades municipais (Fase 1a)</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Unidades municipais</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/excel/unidade_tipo.xlsx" download>unidade_tipo.xlsx</a> — agregado por tipo de unidade</li>
           <li><a href="dados/excel/unidade_top20.xlsx" download>unidade_top20.xlsx</a> — top 20 unidades físicas por efetivo</li>
+          <li><a href="dados/excel/unidade_detalhe.xlsx" download>unidade_detalhe.xlsx</a> — unidades nominais com efetivo e folha</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Salários por perfil (Fase 1b)</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Salários por perfil</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/excel/salarios_por_perfil.xlsx" download>salarios_por_perfil.xlsx</a> — folha média e mediana por escolaridade e tempo de casa</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapas canônicos (Fase 2)</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Mapas canônicos</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/excel/local_map.xlsx" download>local_map.xlsx</a> — mapa canônico dos 471 locais de trabalho</li>
-          <li><a href="dados/excel/cargo_map.xlsx" download>cargo_map.xlsx</a> — mapa canônico dos 269 cargos (família, escolaridade real, hierarquia)</li>
-        </ul>
-
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Drill-down por unidade (Fase 2.3)</h3>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/excel/unidade_detalhe.xlsx" download>unidade_detalhe.xlsx</a> — 460 unidades nominais com efetivo e folha</li>
+          <li><a href="dados/excel/local_map.xlsx" download>local_map.xlsx</a> — mapa canônico dos locais de trabalho</li>
+          <li><a href="dados/excel/cargo_map.xlsx" download>cargo_map.xlsx</a> — mapa canônico dos cargos (família, escolaridade, hierarquia)</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
@@ -727,33 +683,27 @@
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
           <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
-          <li><a href="dados/manifest.json" download>manifest.json</a> — manifesto de proveniência</li>
         </ul>
-      </div>
-    </section>
 
-    <!-- ============================================================ -->
-    <!-- Roadmap — ATUALIZADO P0                                        -->
-    <!-- ============================================================ -->
-    <section class="secao" id="roadmap">
-      
-        <h3>Formato Excel (.xlsx)</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Formato Excel (.xlsx)</h3>
         <p>
           Os mesmos dados também estão disponíveis em formato Excel na pasta
           <code>dados/excel/</code>, para facilitar a abertura em planilhas
           sem configuração de separador ou codificação.
         </p>
-        <ul>
-          <li>
-            <a href="dados/excel/">Abrir pasta <code>dados/excel/</code></a>
-            — lista completa dos arquivos <code>.xlsx</code>
-          </li>
+        <ul style="line-height: 1.9; padding-left: 1.25rem;">
+          <li><a href="dados/excel/">Abrir pasta <code>dados/excel/</code></a> — lista completa dos arquivos <code>.xlsx</code></li>
         </ul>
         <p>
           <strong>Nota:</strong> os arquivos <code>.xlsx</code> são derivados dos mesmos dados.
           Em caso de divergência, os arquivos <code>.csv</code> são a fonte canônica.
         </p>
-<h2 class="secao-titulo">Roadmap público</h2>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="secao" id="roadmap">
+      <h2 class="secao-titulo">Roadmap público</h2>
       <div class="cartao">
         <p style="margin-bottom: 1.25rem; color: var(--cinza-texto);">
           O painel está em construção permanente. Abaixo, o que já foi entregue e o que
@@ -761,8 +711,8 @@
         </p>
 
         <div style="display: grid; gap: 1rem;">
-          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
-            <strong style="color: var(--verde-escuro);">Onda 1 — Concluída</strong>
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-osb-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-osb);">Onda 1 — Concluída</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Série histórica da folha (56 meses)</li>
               <li>Ranking de secretarias</li>
@@ -773,8 +723,8 @@
             </ul>
           </div>
 
-          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
-            <strong style="color: var(--verde-escuro);">Onda 2 — Concluída</strong>
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-osb-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-osb);">Onda 2 — Concluída</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Distribuição salarial (percentis e índice de Gini)</li>
               <li>Evolução nominal vs. corrigida pelo IPCA</li>
@@ -784,17 +734,17 @@
             </ul>
           </div>
 
-          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-claro); border-radius: 6px;">
-            <strong style="color: var(--verde-escuro);">Onda 3 — Concluída</strong>
+          <div style="padding: 1rem; background: #eaf7ea; border-left: 4px solid var(--verde-osb-claro); border-radius: 6px;">
+            <strong style="color: var(--verde-osb);">Onda 3 — Concluída</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Unidades municipais por tipo (unidade física, setor, categoria)</li>
-              <li>Canonização de 471 locais de trabalho (local_map.csv)</li>
-              <li>Canonização de 269 cargos com escolaridade real (cargo_map.csv)</li>
-              <li>Drill-down por unidade nominal (460 unidades)</li>
+              <li>Canonização de locais de trabalho (local_map.csv)</li>
+              <li>Canonização de cargos com escolaridade real (cargo_map.csv)</li>
+              <li>Drill-down por unidade nominal</li>
             </ul>
           </div>
 
-          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-claro); border-radius: 6px;">
+          <div style="padding: 1rem; background: #eef4fb; border-left: 4px solid var(--azul-osb-claro); border-radius: 6px;">
             <strong style="color: var(--azul-escuro);">Onda 4 — Em andamento</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Índice HHI de concentração por secretaria</li>
@@ -804,7 +754,7 @@
             </ul>
           </div>
 
-          <div style="padding: 1rem; background: #fff8dc; border-left: 4px solid var(--amarelo); border-radius: 6px;">
+          <div style="padding: 1rem; background: #fff8dc; border-left: 4px solid var(--amarelo-osb); border-radius: 6px;">
             <strong style="color: #6b5300;">Onda 5 — Longo prazo</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Folha per capita (IBGE)</li>
@@ -818,9 +768,7 @@
       </div>
     </section>
 
-    <!-- ============================================================ -->
-    <!-- Créditos e licenças                                            -->
-    <!-- ============================================================ -->
+    <!-- Créditos e licenças -->
     <section class="secao" id="creditos">
       <h2 class="secao-titulo">Créditos e licenças</h2>
       <div class="cartao">
@@ -868,6 +816,9 @@
 
   </main>
 
+  <!-- =====================================================================
+       RODAPÉ
+       ===================================================================== -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <div>
@@ -889,12 +840,8 @@
       <div>
         <h3>Encontrou um erro?</h3>
         <p>
-          <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">
-            Envie um e-mail
-          </a><br>
-          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">
-            Abra uma issue no GitHub
-          </a>
+          <a href="mailto:sorocaba@osbrasil.org.br?subject=Erro%20no%20Raio-X%20da%20Folha">Envie um e-mail</a><br>
+          <a href="https://github.com/obs-sorocaba/raiox-folha-sorocaba/issues" target="_blank" rel="noopener">Abra uma issue no GitHub</a>
         </p>
       </div>
       <div>
@@ -914,5 +861,16 @@
     </div>
   </footer>
 
+  <noscript>
+    <div class="aviso-metodologico" style="margin: 2rem auto; max-width: 800px;">
+      <strong>Este painel usa JavaScript para carregar os arquivos CSV/JSON e renderizar gráficos.</strong>
+      Sem JavaScript, os dados brutos continuam disponíveis na pasta <a href="dados/">dados/</a>.
+    </div>
+  </noscript>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="assets/app.js?v=5" defer></script>
+  <script src="assets/pagina_sobre.js?v=5" defer></script>
 </body>
 </html>

@@ -1,24 +1,36 @@
 /* =========================================================================
-Pagina Genero - Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-VERSÃO CORRIGIDA DEFINITIVA (v2)
-- Sintaxe limpa: arrow functions, &&, >= e strings Chart.js sem espaços
-- Rótulos de gênero padronizados para "período 2022–2026" (não "último mês")
-- NOVO: cores de gênero contrastantes (fem=verde, masc=índigo) — o patch
-  verde do app.js tornaria azulClaro indistinguível de funcao na rosca
-- Carga morta removida: genero_por_escolaridade.csv não é mais lido aqui
-  (o cruzamento gênero×escolaridade vive em pagina_quadro.js)
-- Regra de supressão mantida: gráfico n>=20 por gênero, tabela n>=10
+Pagina Genero — Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
+v5
+
+Compatível com:
+  - genero.html (cabeçalho unificado, IDs atualizados)
+  - app.js v5 (helpers fmtBRL, fmtNum, graficoLinha, graficoRosca, etc.)
+
+Regras de supressão mantidas:
+  - gráfico gap: n>=20 por gênero
+  - tabela gap: n>=10 por gênero
+
+Cores de gênero:
+  - feminino = verde OSB
+  - masculino = índigo
+  (independentes do CORES global, que agora é verde)
 ========================================================================= */
+
 const estadoGen = {
-  geral: [], porCategoria: [], porSecretaria: [],
-  faixaSalarial: [], lideranca: [], evolucao: [], gap: [],
-  kpis: null, auditoria: null, graficos: {},
+  geral: [],
+  porCategoria: [],
+  porSecretaria: [],
+  faixaSalarial: [],
+  lideranca: [],
+  evolucao: [],
+  gap: [],
+  kpis: null,
+  auditoria: null,
+  graficos: {},
 };
+
 const num = (v) => (v === null || v === undefined || v === "" ? 0 : Number(v));
-function formatarNumero(n) {
-  if (n === null || n === undefined || n === "" || isNaN(n)) return "—";
-  return Number(n).toLocaleString("pt-BR");
-}
+
 const ROTULOS_GRUPO_GENERO = {
   efetivos: "Efetivos e empregados públicos",
   funcao_confianca: "Efetivos em função de confiança",
@@ -26,16 +38,19 @@ const ROTULOS_GRUPO_GENERO = {
   flexiveis: "Temporários, estagiários e eventuais",
   inativos: "Inativos e pensionistas",
 };
-/* Cores de gênero — independentes do CORES global (que agora é verde),
-   garantindo contraste legível nas comparações feminino×masculino. */
-const COR_GENERO_FEM = "#2e7d32";  /* verde OSB  */
-const COR_GENERO_MASC = "#414487"; /* índigo     */
 
+const COR_GENERO_FEM = "#2e7d32";  /* verde OSB */
+const COR_GENERO_MASC = "#414487"; /* índigo    */
+
+/* -------------------------------------------------------------------------
+Inicialização
+------------------------------------------------------------------------- */
 async function inicializar() {
   try {
     const [
       geral, porCategoria, porSecretaria,
-      faixaSalarial, lideranca, evolucao, gap, kpis, auditoria,
+      faixaSalarial, lideranca, evolucao, gap,
+      kpis, auditoria,
     ] = await Promise.all([
       carregarCSV("dados/genero_geral.csv"),
       carregarCSV("dados/genero_por_categoria.csv"),
@@ -47,6 +62,8 @@ async function inicializar() {
       carregarJSON("dados/kpis.json"),
       carregarJSON("dados/auditoria.json"),
     ]);
+
+    // --- Normalização numérica ---
     geral.forEach((r) => {
       r.num_matriculas = num(r.num_matriculas);
       r.num_registros = num(r.num_registros);
@@ -95,6 +112,7 @@ async function inicializar() {
       r.gap_absoluto = num(r.gap_absoluto);
       r.gap_percentual = num(r.gap_percentual);
     });
+
     estadoGen.geral = geral;
     estadoGen.porCategoria = porCategoria;
     estadoGen.porSecretaria = porSecretaria;
@@ -104,7 +122,8 @@ async function inicializar() {
     estadoGen.gap = gap;
     estadoGen.kpis = kpis;
     estadoGen.auditoria = auditoria;
-    renderizarCabecalho(kpis);
+
+    renderizarCabecalhoPeriodo(kpis);
     renderizarCoberturaGenero();
     renderizarInsights();
     renderizarGraficoGeral();
@@ -117,55 +136,72 @@ async function inicializar() {
     renderizarFaixaSalarial();
     renderizarSelo(auditoria);
   } catch (e) {
-    console.error(e);
+    console.error("[genero] Erro ao carregar:", e);
     const main = document.querySelector("main");
     if (main) {
-      main.innerHTML = `<div class="erro"><strong>Não foi possível carregar os dados de gênero.</strong><br><small>${e.message}</small></div>`;
+      main.innerHTML = `<div class="erro" role="alert">
+        <strong>Não foi possível carregar os dados de gênero.</strong><br>
+        <small>${e.message}</small>
+      </div>`;
     }
   }
 }
 
-function renderizarCabecalho(kpis) {
+/* -------------------------------------------------------------------------
+Cabeçalho de período
+------------------------------------------------------------------------- */
+function renderizarCabecalhoPeriodo(kpis) {
   const el = document.getElementById("cabecalho-periodo");
   if (!el || !kpis) return;
   const p = kpis.periodo || {};
   el.innerHTML = `<strong>Período:</strong> ${p.inicio || "-"} a ${p.fim || "-"} &nbsp;·&nbsp; <strong>${p.meses_cobertos || 0} meses</strong>`;
 }
 
+/* -------------------------------------------------------------------------
+Cobertura da análise de gênero
+------------------------------------------------------------------------- */
 function renderizarCoberturaGenero() {
   const alvo = document.getElementById("cobertura-genero-conteudo");
   if (!alvo) return;
+
   try {
     let total = 0, definidos = 0, indefinidos = 0, fem = 0, masc = 0;
+
     estadoGen.geral.forEach((r) => {
-      const g = (r.genero_inferido || "").trim().toLowerCase();
+      const g = String(r.genero_inferido || "").trim().toLowerCase();
       const n = num(r.num_matriculas);
       total += n;
       if (g === "feminino") { fem += n; definidos += n; }
       else if (g === "masculino") { masc += n; definidos += n; }
       else if (g === "indefinido") { indefinidos += n; }
     });
-    const cobertura = total > 0 ? ((definidos / total) * 100) : 0;
-    const pctIndef = total > 0 ? ((indefinidos / total) * 100) : 0;
+
+    const cobertura = total > 0 ? (definidos / total) * 100 : 0;
+    const pctIndef = total > 0 ? (indefinidos / total) * 100 : 0;
+
     const itens = [
-      ["Matrículas únicas no período (2022–2026)", formatarNumero(total)],
-      ["Classificadas como F/M", formatarNumero(definidos)],
-      ["Indefinidas (excluídas)", formatarNumero(indefinidos)],
+      ["Matrículas únicas no período", fmtNum.format(total)],
+      ["Classificadas como F/M", fmtNum.format(definidos)],
+      ["Indefinidas (excluídas)", fmtNum.format(indefinidos)],
       ["Cobertura da análise", cobertura.toFixed(1).replace(".", ",") + "%"],
-      ["Feminino", formatarNumero(fem)],
-      ["Masculino", formatarNumero(masc)],
+      ["Feminino", fmtNum.format(fem)],
+      ["Masculino", fmtNum.format(masc)],
     ];
-    alvo.innerHTML = itens.map(function (par) {
-      return '<div><dt>' + par[0] + "</dt><dd>" + par[1] + "</dd></div>";
-    }).join("");
-    const nota = document.createElement("div");
-    nota.className = "aviso-metodologico";
-    nota.style.marginTop = "1rem";
+
+    alvo.innerHTML = itens.map((par) => `<div><dt>${par[0]}</dt><dd>${par[1]}</dd></div>`).join("");
+
+    // Nota abaixo do bloco
+    let nota = alvo.parentElement.querySelector(".aviso-metodologico.cobertura-nota");
+    if (!nota) {
+      nota = document.createElement("div");
+      nota.className = "aviso-metodologico cobertura-nota";
+      nota.style.marginTop = "1rem";
+      alvo.parentElement.appendChild(nota);
+    }
     nota.innerHTML =
-      "<strong>Nota:</strong> " + pctIndef.toFixed(1).replace(".", ",") +
-      "% das matrículas ficaram como indefinidas. Essas matrículas <strong>não entram</strong> nos cruzamentos. " +
-      "A análise cobre " + cobertura.toFixed(1).replace(".", ",") + "% do total.";
-    alvo.parentElement.appendChild(nota);
+      `<strong>Nota:</strong> ${pctIndef.toFixed(1).replace(".", ",")}% das matrículas ` +
+      `ficaram como indefinidas. Essas matrículas <strong>não entram</strong> nos cruzamentos. ` +
+      `A análise cobre ${cobertura.toFixed(1).replace(".", ",")}% do total.`;
   } catch (e) {
     console.error("[genero] Erro ao carregar cobertura:", e);
     alvo.innerHTML = '<div class="carregando">Não foi possível carregar a cobertura. ' +
@@ -173,20 +209,27 @@ function renderizarCoberturaGenero() {
   }
 }
 
+/* -------------------------------------------------------------------------
+Achados principais (insights textuais)
+------------------------------------------------------------------------- */
 function renderizarInsights() {
   const el = document.getElementById("insights");
   if (!el) return;
+
   const f = estadoGen.geral.find((x) => x.genero_inferido === "feminino") || {};
   const pctFemGeral = num(f.percentual_matriculas);
+
   const lidLid = estadoGen.lideranca.find((x) => x.categoria === "lideranca") || {};
   const lidNao = estadoGen.lideranca.find((x) => x.categoria === "nao_lideranca") || {};
   const pctLid = num(lidLid.pct_feminino);
   const pctNaoLid = num(lidNao.pct_feminino);
   const gapLid = (pctNaoLid - pctLid).toFixed(1).replace(".", ",");
+
   const comissionados = estadoGen.porCategoria.find((x) => x.regime_subgrupo === "comissionados") || {};
   const flexiveis = estadoGen.porCategoria.find((x) => x.regime_subgrupo === "flexiveis") || {};
   const pctComFem = num(comissionados.pct_feminino);
   const pctFlexFem = num(flexiveis.pct_feminino);
+
   const gaps = estadoGen.gap.filter((x) =>
     x.gap_percentual > 0 &&
     x.num_matriculas_feminino >= 10 &&
@@ -195,33 +238,84 @@ function renderizarInsights() {
   const gapMedio = gaps.length
     ? (gaps.reduce((s, x) => s + x.gap_percentual, 0) / gaps.length).toFixed(1).replace(".", ",")
     : "-";
-  el.innerHTML = `<div class="kpi destaque"><div class="rotulo">Base do quadro</div><div class="valor">${pctFemGeral.toFixed(1).replace(".", ",")}%</div><div class="detalhe">das matrículas no período são de mulheres</div></div> <div class="kpi alerta"><div class="rotulo">Liderança</div><div class="valor">${pctLid.toFixed(1).replace(".", ",")}%</div><div class="detalhe">das chefias são mulheres. Na base não-liderança são ${pctNaoLid.toFixed(1).replace(".", ",")}%</div></div> <div class="kpi alerta"><div class="rotulo">Cargos em comissão</div><div class="valor">${pctComFem.toFixed(1).replace(".", ",")}%</div><div class="detalhe">das nomeações políticas são mulheres</div></div> <div class="kpi alerta"><div class="rotulo">Vínculos precários</div><div class="valor">${pctFlexFem.toFixed(1).replace(".", ",")}%</div><div class="detalhe">dos temporários, estagiários e eventuais são mulheres</div></div> <div class="kpi alerta"><div class="rotulo">Gap salarial médio</div><div class="valor">${gapMedio}%</div><div class="detalhe">diferença entre homens e mulheres no mesmo cargo</div></div>`;
+
+  el.innerHTML = `
+    <div class="kpi destaque">
+      <div class="rotulo">Base do quadro</div>
+      <div class="valor">${pctFemGeral.toFixed(1).replace(".", ",")}%</div>
+      <div class="detalhe">das matrículas no período são de mulheres</div>
+    </div>
+    <div class="kpi alerta">
+      <div class="rotulo">Liderança</div>
+      <div class="valor">${pctLid.toFixed(1).replace(".", ",")}%</div>
+      <div class="detalhe">das chefias são mulheres. Na base não-liderança são ${pctNaoLid.toFixed(1).replace(".", ",")}%</div>
+    </div>
+    <div class="kpi alerta">
+      <div class="rotulo">Cargos em comissão</div>
+      <div class="valor">${pctComFem.toFixed(1).replace(".", ",")}%</div>
+      <div class="detalhe">das nomeações políticas são mulheres</div>
+    </div>
+    <div class="kpi alerta">
+      <div class="rotulo">Vínculos precários</div>
+      <div class="valor">${pctFlexFem.toFixed(1).replace(".", ",")}%</div>
+      <div class="detalhe">dos temporários, estagiários e eventuais são mulheres</div>
+    </div>
+    <div class="kpi alerta">
+      <div class="rotulo">Gap salarial médio</div>
+      <div class="valor">${gapMedio}%</div>
+      <div class="detalhe">diferença entre homens e mulheres no mesmo cargo</div>
+    </div>
+  `;
+
   const elLid = document.getElementById("insight-lideranca");
   if (elLid) {
-    elLid.innerHTML = `As mulheres são <strong>${pctNaoLid.toFixed(1).replace(".", ",")}%</strong> dos servidores em funções não-liderança, mas ocupam apenas <strong>${pctLid.toFixed(1).replace(".", ",")}%</strong> dos cargos de liderança — uma diferença de <strong>${gapLid} pontos percentuais</strong>.`;
+    elLid.innerHTML =
+      `As mulheres são <strong>${pctNaoLid.toFixed(1).replace(".", ",")}%</strong> dos servidores ` +
+      `em funções não-liderança, mas ocupam apenas <strong>${pctLid.toFixed(1).replace(".", ",")}%</strong> ` +
+      `dos cargos de liderança — uma diferença de <strong>${gapLid} pontos percentuais</strong>.`;
   }
+
   const elGap = document.getElementById("insight-gap");
   if (elGap) {
-    elGap.innerHTML = `Análise restrita a <strong>${gaps.length}</strong> cargos com pelo menos 10 servidores de cada gênero no período. A diferença salarial média é de <strong>${gapMedio}%</strong> a favor dos homens.`;
+    elGap.innerHTML =
+      `Análise restrita a <strong>${gaps.length}</strong> cargos com pelo menos 10 servidores ` +
+      `de cada gênero no período. A diferença salarial média é de <strong>${gapMedio}%</strong> ` +
+      `a favor dos homens.`;
   }
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 1 — Distribuição por gênero (rosca)
+------------------------------------------------------------------------- */
 function renderizarGraficoGeral() {
   const ctx = document.getElementById("grafico-geral");
   if (!ctx) return;
+
   const dados = estadoGen.geral.filter((x) => x.genero_inferido !== "indefinido");
-  const labels = dados.map((x) => x.genero_inferido === "feminino" ? "Feminino" : "Masculino");
+  const labels = dados.map((x) =>
+    x.genero_inferido === "feminino" ? "Feminino" : "Masculino"
+  );
   const valores = dados.map((x) => x.num_matriculas);
-  const cores = dados.map((x) => x.genero_inferido === "feminino" ? COR_GENERO_FEM : COR_GENERO_MASC);
+  const cores = dados.map((x) =>
+    x.genero_inferido === "feminino" ? COR_GENERO_FEM : COR_GENERO_MASC
+  );
+
+  if (estadoGen.graficos.geral) estadoGen.graficos.geral.destroy();
   estadoGen.graficos.geral = graficoRosca(ctx, labels, valores, cores);
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 2 — Evolução da participação feminina
+------------------------------------------------------------------------- */
 function renderizarGraficoEvolucao() {
   const ctx = document.getElementById("grafico-evolucao");
   if (!ctx) return;
+
   const dados = [...estadoGen.evolucao].sort((a, b) => a.ano - b.ano || a.mes - b.mes);
   const labels = dados.map((d) => rotuloPeriodo(d.ano, d.mes));
   const valores = dados.map((d) => d.pct_feminino);
+
+  if (estadoGen.graficos.evolucao) estadoGen.graficos.evolucao.destroy();
   estadoGen.graficos.evolucao = graficoLinha(ctx, labels, valores, {
     label: "% feminino",
     cor: COR_GENERO_FEM,
@@ -232,28 +326,50 @@ function renderizarGraficoEvolucao() {
   });
 }
 
+/* -------------------------------------------------------------------------
+Tabela 1 — Composição por gênero (acumulado)
+------------------------------------------------------------------------- */
 function renderizarTabelaGeral() {
   const tbody = document.querySelector("#tabela-geral tbody");
   if (!tbody) return;
+
   const dados = [...estadoGen.geral].sort((a, b) => b.num_matriculas - a.num_matriculas);
+
   tbody.innerHTML = dados.map((d) => {
-    const rotulo = d.genero_inferido === "feminino" ? "Feminino"
-      : d.genero_inferido === "masculino" ? "Masculino" : "Indefinido";
-    return `<tr><td>${rotulo}</td><td class="numerico">${fmtNum.format(d.num_matriculas)}</td><td class="numerico">${fmtPct(d.percentual_matriculas)}</td><td class="numerico">${fmtBRL.format(d.folha_total)}</td><td class="numerico">${fmtPct(d.percentual_folha)}</td><td class="numerico">${fmtBRL.format(d.folha_media)}</td></tr>`;
+    const rotulo =
+      d.genero_inferido === "feminino" ? "Feminino"
+      : d.genero_inferido === "masculino" ? "Masculino"
+      : "Indefinido";
+    return `<tr>
+      <td>${rotulo}</td>
+      <td class="numerico">${fmtNum.format(d.num_matriculas)}</td>
+      <td class="numerico">${fmtPct(d.percentual_matriculas)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_total)}</td>
+      <td class="numerico">${fmtPct(d.percentual_folha)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media)}</td>
+    </tr>`;
   }).join("");
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 3 — Representação em liderança
+------------------------------------------------------------------------- */
 function renderizarLideranca() {
   const ctx = document.getElementById("grafico-lideranca");
   if (!ctx) return;
+
   const rotulos = { geral: "Base geral", nao_lideranca: "Não-liderança", lideranca: "Liderança" };
-  const dados = estadoGen.lideranca.filter((x) => rotulos[x.categoria])
+  const dados = estadoGen.lideranca
+    .filter((x) => rotulos[x.categoria])
     .sort((a, b) => {
       const ord = { geral: 0, nao_lideranca: 1, lideranca: 2 };
       return ord[a.categoria] - ord[b.categoria];
     });
+
   const labels = dados.map((x) => rotulos[x.categoria]);
   const valores = dados.map((x) => x.pct_feminino);
+
+  if (estadoGen.graficos.lideranca) estadoGen.graficos.lideranca.destroy();
   estadoGen.graficos.lideranca = new Chart(ctx, {
     type: "bar",
     data: {
@@ -271,19 +387,31 @@ function renderizarLideranca() {
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: (item) => `${item.parsed.y.toFixed(1).replace(".", ",")}% feminino` } },
+        tooltip: {
+          callbacks: {
+            label: (item) => `${item.parsed.y.toFixed(1).replace(".", ",")}% feminino`,
+          },
+        },
       },
       scales: {
-        y: { beginAtZero: true, max: 100, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" } },
+        y: {
+          beginAtZero: true, max: 100,
+          grid: { color: CORES.cinzaBorda },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" },
+        },
         x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto } },
       },
     },
   });
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 4 — Composição por categoria de vínculo
+------------------------------------------------------------------------- */
 function renderizarCategoria() {
   const ctx = document.getElementById("grafico-categoria");
   if (!ctx) return;
+
   const agrupado = {};
   estadoGen.porCategoria.forEach((r) => {
     const k = r.regime_subgrupo;
@@ -301,11 +429,15 @@ function renderizarCategoria() {
     if (r.genero_inferido === "feminino") agrupado[k].folha_media_fem = num(r.folha_media);
     if (r.genero_inferido === "masculino") agrupado[k].folha_media_masc = num(r.folha_media);
   });
+
   const dados = Object.values(agrupado)
     .filter((x) => ROTULOS_GRUPO_GENERO[x.regime_subgrupo])
     .sort((a, b) => b.pct_feminino - a.pct_feminino);
+
   const labels = dados.map((x) => ROTULOS_GRUPO_GENERO[x.regime_subgrupo]);
   const valores = dados.map((x) => x.pct_feminino);
+
+  if (estadoGen.graficos.categoria) estadoGen.graficos.categoria.destroy();
   estadoGen.graficos.categoria = new Chart(ctx, {
     type: "bar",
     data: {
@@ -313,7 +445,7 @@ function renderizarCategoria() {
       datasets: [{
         label: "% feminino",
         data: valores,
-        backgroundColor: dados.map((x) => x.pct_feminino < 50 ? CORES.nc : COR_GENERO_FEM),
+        backgroundColor: dados.map((x) => (x.pct_feminino < 50 ? CORES.nc : COR_GENERO_FEM)),
         borderRadius: 6,
         borderSkipped: false,
       }],
@@ -324,23 +456,44 @@ function renderizarCategoria() {
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: (item) => `${item.parsed.x.toFixed(1).replace(".", ",")}% feminino` } },
+        tooltip: {
+          callbacks: {
+            label: (item) => `${item.parsed.x.toFixed(1).replace(".", ",")}% feminino`,
+          },
+        },
       },
       scales: {
-        x: { beginAtZero: true, max: 100, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" } },
+        x: {
+          beginAtZero: true, max: 100,
+          grid: { color: CORES.cinzaBorda },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" },
+        },
         y: { grid: { display: false }, ticks: { color: CORES.cinzaTexto } },
       },
     },
   });
+
+  // Tabela
   const tbody = document.querySelector("#tabela-categoria tbody");
   if (tbody) {
-    tbody.innerHTML = dados.map((d) => `<tr><td>${ROTULOS_GRUPO_GENERO[d.regime_subgrupo]}</td><td class="numerico">${fmtNum.format(d.total_matriculas)}</td><td class="numerico">${fmtPct(d.pct_feminino)}</td><td class="numerico">${fmtBRLCompacto(d.folha_total)}</td><td class="numerico">${fmtBRL.format(d.folha_media_fem)}</td><td class="numerico">${fmtBRL.format(d.folha_media_masc)}</td></tr>`).join("");
+    tbody.innerHTML = dados.map((d) => `<tr>
+      <td>${ROTULOS_GRUPO_GENERO[d.regime_subgrupo]}</td>
+      <td class="numerico">${fmtNum.format(d.total_matriculas)}</td>
+      <td class="numerico">${fmtPct(d.pct_feminino)}</td>
+      <td class="numerico">${fmtBRLCompacto(d.folha_total)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media_fem)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media_masc)}</td>
+    </tr>`).join("");
   }
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 5 — Participação feminina por secretaria
+------------------------------------------------------------------------- */
 function renderizarSecretaria() {
   const ctx = document.getElementById("grafico-secretaria");
   if (!ctx) return;
+
   const porSec = {};
   estadoGen.porSecretaria.forEach((r) => {
     if (!porSec[r.secretaria]) porSec[r.secretaria] = { total: 0, fem: 0 };
@@ -348,16 +501,20 @@ function renderizarSecretaria() {
     if (r.genero_inferido === "feminino") porSec[r.secretaria].fem += n;
     porSec[r.secretaria].total += n;
   });
+
   const dados = Object.entries(porSec)
     .map(([sec, v]) => ({
       secretaria: sec,
-      pct: v.total > 0 ? (v.fem / v.total * 100) : 0,
+      pct: v.total > 0 ? (v.fem / v.total) * 100 : 0,
       total: v.total,
     }))
     .filter((x) => x.total >= 20)
     .sort((a, b) => b.pct - a.pct);
+
   const labels = dados.map((x) => x.secretaria);
   const valores = dados.map((x) => x.pct);
+
+  if (estadoGen.graficos.secretaria) estadoGen.graficos.secretaria.destroy();
   estadoGen.graficos.secretaria = new Chart(ctx, {
     type: "bar",
     data: {
@@ -365,7 +522,9 @@ function renderizarSecretaria() {
       datasets: [{
         label: "% feminino",
         data: valores,
-        backgroundColor: dados.map((x) => x.pct < 30 ? CORES.nc : x.pct < 60 ? CORES.amarelo : COR_GENERO_FEM),
+        backgroundColor: dados.map((x) =>
+          x.pct < 30 ? CORES.nc : x.pct < 60 ? CORES.amarelo : COR_GENERO_FEM
+        ),
         borderRadius: 4,
         borderSkipped: false,
       }],
@@ -386,24 +545,37 @@ function renderizarSecretaria() {
         },
       },
       scales: {
-        x: { beginAtZero: true, max: 100, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" } },
+        x: {
+          beginAtZero: true, max: 100,
+          grid: { color: CORES.cinzaBorda },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" },
+        },
         y: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, font: { size: 10 } } },
       },
     },
   });
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 6 — Gap salarial por cargo
+------------------------------------------------------------------------- */
 function renderizarGap() {
   const ctx = document.getElementById("grafico-gap");
   if (!ctx) return;
+
   const dados = estadoGen.gap
-    .filter((x) => x.gap_percentual > 0
-      && x.num_matriculas_feminino >= 20
-      && x.num_matriculas_masculino >= 20)
+    .filter((x) =>
+      x.gap_percentual > 0 &&
+      x.num_matriculas_feminino >= 20 &&
+      x.num_matriculas_masculino >= 20
+    )
     .sort((a, b) => b.gap_percentual - a.gap_percentual)
     .slice(0, 25);
+
   const labels = dados.map((x) => x.cargo);
   const valores = dados.map((x) => x.gap_percentual);
+
+  if (estadoGen.graficos.gap) estadoGen.graficos.gap.destroy();
   estadoGen.graficos.gap = new Chart(ctx, {
     type: "bar",
     data: {
@@ -411,7 +583,9 @@ function renderizarGap() {
       datasets: [{
         label: "Gap %",
         data: valores,
-        backgroundColor: valores.map((v) => v >= 20 ? CORES.nc : v >= 10 ? CORES.amarelo : COR_GENERO_FEM),
+        backgroundColor: valores.map((v) =>
+          v >= 20 ? CORES.nc : v >= 10 ? CORES.amarelo : COR_GENERO_FEM
+        ),
         borderRadius: 4,
         borderSkipped: false,
       }],
@@ -426,17 +600,24 @@ function renderizarGap() {
           callbacks: {
             label: (item) => {
               const d = dados[item.dataIndex];
-              return `Gap: ${d.gap_percentual.toFixed(1).replace(".", ",")}% (F: ${fmtBRL.format(d.folha_media_feminino)} | M: ${fmtBRL.format(d.folha_media_masculino)})`;
+              return `Gap: ${d.gap_percentual.toFixed(1).replace(".", ",")}% ` +
+                     `(F: ${fmtBRL.format(d.folha_media_feminino)} | M: ${fmtBRL.format(d.folha_media_masculino)})`;
             },
           },
         },
       },
       scales: {
-        x: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" } },
+        x: {
+          beginAtZero: true,
+          grid: { color: CORES.cinzaBorda },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => v + "%" },
+        },
         y: { grid: { display: false }, ticks: { color: CORES.cinzaTexto, font: { size: 10 } } },
       },
     },
   });
+
+  // Tabela (com threshold de n>=10)
   const tbody = document.querySelector("#tabela-gap tbody");
   if (tbody) {
     const todos = [...estadoGen.gap]
@@ -446,13 +627,25 @@ function renderizarGap() {
         x.num_matriculas_masculino >= 10
       )
       .sort((a, b) => b.gap_percentual - a.gap_percentual);
-    tbody.innerHTML = todos.map((d) => `<tr><td>${d.cargo}</td><td class="numerico">${fmtNum.format(d.num_matriculas_feminino)}</td><td class="numerico">${fmtNum.format(d.num_matriculas_masculino)}</td><td class="numerico">${fmtBRL.format(d.folha_media_feminino)}</td><td class="numerico">${fmtBRL.format(d.folha_media_masculino)}</td><td class="numerico"><strong>${fmtPct(d.gap_percentual)}</strong></td></tr>`).join("");
+
+    tbody.innerHTML = todos.map((d) => `<tr>
+      <td>${d.cargo}</td>
+      <td class="numerico">${fmtNum.format(d.num_matriculas_feminino)}</td>
+      <td class="numerico">${fmtNum.format(d.num_matriculas_masculino)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media_feminino)}</td>
+      <td class="numerico">${fmtBRL.format(d.folha_media_masculino)}</td>
+      <td class="numerico"><strong>${fmtPct(d.gap_percentual)}</strong></td>
+    </tr>`).join("");
   }
 }
 
+/* -------------------------------------------------------------------------
+Gráfico 7 — Distribuição por faixa salarial
+------------------------------------------------------------------------- */
 function renderizarFaixaSalarial() {
   const ctx = document.getElementById("grafico-faixa");
   if (!ctx) return;
+
   const rotulos = {
     ate_2k: "Até R$ 2 mil",
     "2k_5k": "R$ 2-5 mil",
@@ -461,14 +654,21 @@ function renderizarFaixaSalarial() {
     acima_20k: "Acima de R$ 20 mil",
   };
   const ordem = ["ate_2k", "2k_5k", "5k_10k", "10k_20k", "acima_20k"];
+
   const fem = ordem.map((f) => {
-    const r = estadoGen.faixaSalarial.find((x) => x.faixa_salarial === f && x.genero_inferido === "feminino");
+    const r = estadoGen.faixaSalarial.find(
+      (x) => x.faixa_salarial === f && x.genero_inferido === "feminino"
+    );
     return r ? num(r.num_matriculas) : 0;
   });
   const masc = ordem.map((f) => {
-    const r = estadoGen.faixaSalarial.find((x) => x.faixa_salarial === f && x.genero_inferido === "masculino");
+    const r = estadoGen.faixaSalarial.find(
+      (x) => x.faixa_salarial === f && x.genero_inferido === "masculino"
+    );
     return r ? num(r.num_matriculas) : 0;
   });
+
+  if (estadoGen.graficos.faixa) estadoGen.graficos.faixa.destroy();
   estadoGen.graficos.faixa = new Chart(ctx, {
     type: "bar",
     data: {
@@ -483,14 +683,25 @@ function renderizarFaixaSalarial() {
       maintainAspectRatio: false,
       plugins: {
         legend: { position: "bottom", labels: { font: { size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.y)}` } },
+        tooltip: {
+          callbacks: {
+            label: (item) => `${item.dataset.label}: ${fmtNum.format(item.parsed.y)}`,
+          },
+        },
       },
       scales: {
         x: { grid: { display: false }, ticks: { color: CORES.cinzaTexto } },
-        y: { beginAtZero: true, grid: { color: CORES.cinzaBorda }, ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) } },
+        y: {
+          beginAtZero: true,
+          grid: { color: CORES.cinzaBorda },
+          ticks: { color: CORES.cinzaTexto, callback: (v) => fmtNumCompacto(v) },
+        },
       },
     },
   });
 }
 
+/* -------------------------------------------------------------------------
+Bootstrap
+------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", inicializar);

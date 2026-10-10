@@ -1,7 +1,7 @@
 /* =========================================================================
 Raio-X do Quadro de Pessoal da Prefeitura de Sorocaba
-Helpers compartilhados por todas as paginas
-IDENTIDADE VERDE OSB (v3) — sintaxe limpa + CORES casando com style.css
+Helpers compartilhados por todas as páginas
+IDENTIDADE VERDE OSB (v4) — leitura compatível com auditoria.dados
 ========================================================================= */
 
 /* -------------------------------------------------------------------------
@@ -37,24 +37,24 @@ const nomeMes = ["jan", "fev", "mar", "abr", "mai", "jun",
 const rotuloPeriodo = (ano, mes) => `${nomeMes[mes - 1]}/${ano}`;
 
 /* -------------------------------------------------------------------------
-Cores institucionais — VERDE OSB (espelha as variaveis do style.css v3)
-Os nomes das chaves NAO mudam (azulEscuro, azulClaro...) para nenhum outro
-arquivo precisar de alteracao; apenas os VALORES sao verdes.
+Cores institucionais — VERDE OSB (espelha as variáveis do style.css)
+Os nomes das chaves NÃO mudam (azulEscuro, azulClaro...) para nenhum outro
+arquivo precisar de alteração; apenas os VALORES são verdes.
 ------------------------------------------------------------------------- */
 const CORES = {
-  azulEscuro:     "#1d4023",  /* verde-floresta  (era #003a70) */
-  azulClaro:      "#4e8c3a",  /* verde-folha     (era #0071ce) */
-  verdeEscuro:    "#1d4023",  /* (era #00612f) */
+  azulEscuro:     "#1d4023",
+  azulClaro:      "#4e8c3a",
+  verdeEscuro:    "#1d4023",
   verdeClaro:     "#7ab648",
   amarelo:        "#ffd200",
   amareloGrafico: "#d4a900",
   branco:         "#ffffff",
-  cinzaFundo:     "#f4f7f2",  /* (era #f5f7fa) */
-  cinzaBorda:     "#dfe6da",  /* (era #e0e4ea) */
-  cinzaTexto:     "#4f5a50",  /* (era #555c66) */
+  cinzaFundo:     "#f4f7f2",
+  cinzaBorda:     "#dfe6da",
+  cinzaTexto:     "#4f5a50",
   pretoSuave:     "#1a1a1a",
   efetivos:       "#2a788e",
-  funcao:         "#2e7d32",  /* escurecido p/ distinguir da serie principal (era #5c9c2a) */
+  funcao:         "#2e7d32",
   comissionados:  "#d4a900",
   flexiveis:      "#414487",
   inativos:       "#6b6b6b",
@@ -117,13 +117,15 @@ async function carregarCSV(caminho) {
 
 /* -------------------------------------------------------------------------
 Badge "atualizado em"
+CORRIGIDO: aceita auditoria.dados || auditoria (compatível com JSON real)
 ------------------------------------------------------------------------- */
 async function atualizarBadgeAtualizacao() {
   const el = document.getElementById("badge-atualizacao");
   if (!el) return;
   try {
     const auditoria = await carregarJSON("dados/auditoria.json");
-    const data = auditoria.gerado_em ? new Date(auditoria.gerado_em) : null;
+    const d = auditoria.dados || auditoria;
+    const data = d.gerado_em ? new Date(d.gerado_em) : null;
     if (!data || isNaN(data.getTime())) {
       el.textContent = "Atualização pendente";
       el.classList.add("indisponivel");
@@ -142,7 +144,7 @@ async function atualizarBadgeAtualizacao() {
 }
 
 /* -------------------------------------------------------------------------
-Menu de navegacao + drawer
+Menu de navegação + drawer
 ------------------------------------------------------------------------- */
 function inicializarMenu() {
   const paginaAtual = (location.pathname.split("/").pop() || "index.html");
@@ -222,7 +224,7 @@ function inicializarBreadcrumb() {
 }
 
 /* -------------------------------------------------------------------------
-Renderizacao de estados
+Renderização de estados
 ------------------------------------------------------------------------- */
 function mostrarErro(container, mensagem) {
   if (!container) return;
@@ -234,7 +236,7 @@ function mostrarCarregando(container) {
 }
 
 /* -------------------------------------------------------------------------
-Graficos padrao (Chart.js)
+Gráficos padrão (Chart.js)
 ------------------------------------------------------------------------- */
 function graficoLinha(ctx, labels, dados, opcoes = {}) {
   return new Chart(ctx, {
@@ -379,16 +381,18 @@ function graficoRosca(ctx, labels, dados, cores) {
 }
 
 /* -------------------------------------------------------------------------
-Renderizacao do selo de auditoria
-CORRIGIDO: calcula pendencias reais a partir de auditoria.json
+Renderização do selo de auditoria
+CORRIGIDO: aceita selo.dados || selo
 ------------------------------------------------------------------------- */
 function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const el = document.querySelector(seletor);
   if (!el || !selo) return;
-  const fonte = selo.fonte || "-";
-  const per = selo.periodo_coberto || {};
-  const q = selo.qualidade || {};
-  const al = selo.alertas || {};
+
+  const d = selo.dados || selo;
+  const fonte = d.fonte || "-";
+  const per = d.periodo_coberto || {};
+  const q = d.qualidade || {};
+  const al = d.alertas || {};
   const registrosBrutos = q.registros_brutos ?? q.registros_totais ?? 0;
   const registrosMultivinculo = q.registros_multivinculo ?? q.registros_duplicados ?? 0;
   const registrosLiquidos = q.registros_liquidos ?? 0;
@@ -402,12 +406,17 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
   const escNc = Array.isArray(al.escolaridades_nao_mapeadas) ? al.escolaridades_nao_mapeadas : [];
   const totalPendencias = regNc.length + secNc.length + escNc.length;
   const semAlerta = totalPendencias === 0;
-  const dataFormatada = selo.gerado_em
-    ? new Date(selo.gerado_em).toLocaleString("pt-BR", {
+
+  let dataFormatada = "-";
+  if (d.gerado_em) {
+    const dt = new Date(d.gerado_em);
+    if (!isNaN(dt.getTime())) {
+      dataFormatada = dt.toLocaleString("pt-BR", {
         day: "2-digit", month: "2-digit", year: "numeric",
         hour: "2-digit", minute: "2-digit",
-      })
-    : "-";
+      });
+    }
+  }
 
   let blocoAlertas;
   if (semAlerta) {
@@ -433,7 +442,7 @@ function renderizarSelo(selo, seletor = "#selo-conteudo") {
 }
 
 /* -------------------------------------------------------------------------
-Inicializacao comum
+Inicialização comum
 ------------------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
   inicializarMenu();
