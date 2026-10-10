@@ -13,3 +13,6 @@ desktop.ini
 *.tmp
 *.bak
 *.log
+# Pastas de backup do projeto
+.bkp_*/
+.autofix_backup_*/
