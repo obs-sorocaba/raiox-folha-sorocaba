@@ -23,7 +23,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="imagens/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="imagens/apple-touch-icon.png">
   <link rel="icon" href="imagens/favicon.ico">
-  <link rel="stylesheet" href="assets/style.css?v=5">
+  <link rel="stylesheet" href="assets/style.css?v=6">
 
   <script>
     document.documentElement.classList.remove("no-js");
@@ -123,7 +123,7 @@
           para consulta.
         </p>
         <p>
-          Todos os dados são abertos e podem ser baixados no formato CSV. O código-fonte
+          Todos os dados são abertos e podem ser baixados em formato XLSX. O código-fonte
           do pipeline também é aberto e está disponível para outros observatórios e
           pesquisadores.
         </p>
@@ -140,7 +140,7 @@
           <li>Quer entender <strong>quem são os servidores</strong> (escolaridade, tempo de casa) e <strong>onde trabalham</strong>? Vá em <a href="quadro.html">Perfil das Unidades</a>.</li>
           <li>Quer saber sobre <strong>gênero, liderança e gap salarial</strong>? Vá em <a href="genero.html">Gênero</a>.</li>
           <li>Quer ver <strong>como os salários se distribuem</strong> (percentis, Gini) e a <strong>remuneração por perfil</strong>? Vá em <a href="salarios.html">Salários</a>.</li>
-          <li>Quer baixar os dados abertos? Todos os arquivos CSV estão em <code>dados/</code> e podem ser acessados diretamente.</li>
+          <li>Quer baixar os dados abertos? Todos os arquivos XLSX estão em <code>dados/excel/</code> e podem ser acessados diretamente.</li>
         </ul>
       </div>
     </section>
@@ -157,12 +157,6 @@
         <dl class="selo" id="fonte-dados">
           <div class="carregando">Carregando…</div>
         </dl>
-        <noscript>
-          <div class="aviso-noscript">
-            Para ver os metadados da fonte, baixe diretamente o arquivo
-            <a href="dados/kpis.json" download>kpis.json</a>.
-          </div>
-        </noscript>
       </div>
     </section>
 
@@ -172,11 +166,11 @@
       <div class="cartao">
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.75rem;">Tratamento dos dados</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><strong>Regimes:</strong> os 43 códigos de regime usados pelo portal são agrupados em 5 categorias auditáveis (Efetivos, Função de confiança, Comissionados, Flexíveis, Inativos). O mapeamento está em <code>regime_map.csv</code>.</li>
-          <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.csv</code>.</li>
-          <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.csv</code>.</li>
-          <li><strong>Locais de trabalho:</strong> os 471 locais brutos do portal são agrupados em 3 categorias (unidades físicas, setores operacionais, categorias administrativas). O mapeamento está em <code>local_map.csv</code>.</li>
-          <li><strong>Cargos:</strong> os 269 cargos distintos são classificados em família (Docência, Saúde, Segurança, Fiscalização, Infraestrutura, TI, Apoio, Liderança, Administrativo, Temporário), escolaridade predominante (calculada dos dados reais) e hierarquia. O mapeamento está em <code>cargo_map.csv</code>.</li>
+          <li><strong>Regimes:</strong> os 43 códigos de regime usados pelo portal são agrupados em 5 categorias auditáveis (Efetivos, Função de confiança, Comissionados, Flexíveis, Inativos). O mapeamento está em <code>regime_map.xlsx</code>.</li>
+          <li><strong>Secretarias:</strong> os 47 nomes de secretaria do portal são agrupados em 29 nomes canônicos, eliminando variações como prefixos <code>I-</code> e grafias alternativas. O mapeamento está em <code>secretaria_map.xlsx</code>.</li>
+          <li><strong>Escolaridade:</strong> os 12 níveis de escolaridade do portal são agrupados em 10 níveis canônicos. O mapeamento está em <code>escolaridade_map.xlsx</code>.</li>
+          <li><strong>Locais de trabalho:</strong> os 471 locais brutos do portal são agrupados em 3 categorias (unidades físicas, setores operacionais, categorias administrativas). O mapeamento está em <code>local_map.xlsx</code>.</li>
+          <li><strong>Cargos:</strong> os 269 cargos distintos são classificados em família (Docência, Saúde, Segurança, Fiscalização, Infraestrutura, TI, Apoio, Liderança, Administrativo, Temporário), escolaridade predominante (calculada dos dados reais) e hierarquia. O mapeamento está em <code>cargo_map.xlsx</code>.</li>
           <li><strong>Gênero:</strong> inferido a partir do primeiro nome, usando a base do IBGE/Censo 2010 tratada por Álvaro Justen/Brasil.IO (licença CC-BY-SA). Nomes ambíguos ficam como <em>"indefinido"</em> e não entram nos cruzamentos.</li>
           <li>
             <strong>Correção pelo IPCA:</strong> a folha real é calculada convertendo cada mês para o poder de compra de
@@ -193,7 +187,7 @@
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.75rem;">Limitações conhecidas</h3>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li>Os valores da série principal são <strong>nominais</strong>, sem correção pelo IPCA. A série corrigida está disponível em <code>folha_mensal_ipca.csv</code>.</li>
+          <li>Os valores da série principal são <strong>nominais</strong>, sem correção pelo IPCA. A série corrigida está disponível em <code>folha_mensal_ipca.xlsx</code>.</li>
           <li>Registros com <strong>múltiplos vínculos</strong> no mesmo mês (férias, 13º, rescisão) aparecem como linhas separadas por matrícula. Não são erros.</li>
           <li>A classificação de gênero é <strong>inferida por nome</strong> e pode errar em nomes ambíguos, estrangeiros ou compostos. Nomes ambíguos ficam de fora dos cruzamentos.</li>
           <li>O rótulo <strong>"Sem escolaridade formal registrada"</strong> corresponde ao valor "Analfabeto" usado pelo portal. A maioria dos 24 casos são servidores admitidos antes da exigência de escolaridade mínima em concursos, hoje inativos ou pensionistas. Não indica erro de classificação.</li>
@@ -214,7 +208,7 @@
         </p>
 
         <dl class="selo" style="display: block;">
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Registro bruto</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Linha publicada no Portal da Transparência. Um mesmo servidor pode
@@ -223,7 +217,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Matrícula única</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Identificador distinto de servidor ou vínculo em um mês específico.
@@ -231,7 +225,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Servidor único no período</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Pessoa distinta considerando todas as matrículas ao longo de todo
@@ -239,7 +233,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Efetivo do mês</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Matrículas únicas no mês. É o número usado em gráficos de evolução
@@ -247,7 +241,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Folha bruta</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Soma dos pagamentos brutos do mês, incluindo todos os tipos de folha
@@ -255,7 +249,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Folha recorrente</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Subconjunto da folha bruta que exclui 13º, férias, rescisões e
@@ -263,7 +257,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro); margin-bottom: 0.5rem;">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Ticket médio (ou custo médio por matrícula)</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Folha bruta do mês ÷ matrículas únicas do mês. Mede o custo médio
@@ -272,7 +266,7 @@
             </dd>
           </div>
 
-          <div style="background: var(--azul-suave, #eef4fb); padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro);">
+          <div style="background: #eef4fb; padding: 0.75rem 1rem; border-radius: 4px; border-left: 3px solid var(--azul-osb-claro);">
             <dt style="font-weight: 600; color: var(--azul-escuro);">Pagamento mensal</dt>
             <dd style="margin: 0; color: var(--cinza-texto);">
               Rubrica recorrente, excluídos 13º, férias, adiantamentos e rescisões.
@@ -375,7 +369,7 @@
           <strong>Limitação:</strong> a classificação é feita por análise do nome do cargo
           (regex), não por estrutura organizacional formal. Um cargo pode ter nomenclatura
           de chefia sem exercer liderança efetiva, e vice-versa. A classificação completa
-          está documentada em <code>cargo_map.csv</code> (coluna <code>hierarquia</code>).
+          está documentada em <code>cargo_map.xlsx</code> (coluna <code>hierarquia</code>).
         </div>
       </div>
     </section>
@@ -590,7 +584,7 @@
       <div class="cartao">
         <p style="margin-bottom: 1.25rem;">
           Todos os dados usados por este painel estão disponíveis publicamente em formato
-          CSV e JSON. Você pode baixá-los, reutilizá-los e auditá-los livremente.
+          <strong>XLSX</strong> (Excel). Você pode baixá-los, reutilizá-los e auditá-los livremente.
         </p>
         <div class="aviso-metodologico" style="margin-bottom: 1.25rem;">
           <strong>Licença:</strong> os dados são de origem pública e estão disponíveis sob
@@ -646,6 +640,9 @@
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/excel/local_map.xlsx" download>local_map.xlsx</a> — mapa canônico dos locais de trabalho</li>
           <li><a href="dados/excel/cargo_map.xlsx" download>cargo_map.xlsx</a> — mapa canônico dos cargos (família, escolaridade, hierarquia)</li>
+          <li><a href="dados/excel/regime_map.xlsx" download>regime_map.xlsx</a> — mapa canônico dos códigos de regime</li>
+          <li><a href="dados/excel/secretaria_map.xlsx" download>secretaria_map.xlsx</a> — mapa canônico das secretarias</li>
+          <li><a href="dados/excel/escolaridade_map.xlsx" download>escolaridade_map.xlsx</a> — mapa canônico das escolaridades</li>
         </ul>
 
         <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Distribuição salarial</h3>
@@ -679,25 +676,21 @@
           <li><a href="dados/excel/genero_gap_salarial.xlsx" download>genero_gap_salarial.xlsx</a> — gap salarial por cargo</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados e auditoria</h3>
+        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Metadados</h3>
+        <p style="color: var(--cinza-texto); font-size: 0.9rem; margin-bottom: 0.5rem;">
+          Os metadados do painel (indicadores gerais e selo de auditoria) são publicados em
+          JSON, formato nativo para leitura por máquina.
+        </p>
         <ul style="line-height: 1.9; padding-left: 1.25rem;">
           <li><a href="dados/kpis.json" download>kpis.json</a> — indicadores gerais do painel</li>
           <li><a href="dados/auditoria.json" download>auditoria.json</a> — selo de auditoria e qualidade dos dados</li>
         </ul>
 
-        <h3 style="font-size: 1rem; color: var(--azul-escuro); margin: 1.5rem 0 0.5rem;">Formato Excel (.xlsx)</h3>
-        <p>
-          Os mesmos dados também estão disponíveis em formato Excel na pasta
-          <code>dados/excel/</code>, para facilitar a abertura em planilhas
-          sem configuração de separador ou codificação.
-        </p>
-        <ul style="line-height: 1.9; padding-left: 1.25rem;">
-          <li><a href="dados/excel/">Abrir pasta <code>dados/excel/</code></a> — lista completa dos arquivos <code>.xlsx</code></li>
-        </ul>
-        <p>
-          <strong>Nota:</strong> os arquivos <code>.xlsx</code> são derivados dos mesmos dados.
-          Em caso de divergência, os arquivos <code>.csv</code> são a fonte canônica.
-        </p>
+        <div class="aviso-metodologico" style="margin-top: 1.5rem;">
+          <strong>Nota:</strong> os arquivos em <code>dados/excel/</code> são derivados da base
+          canônica do pipeline. Dúvidas ou pedidos de conjuntos específicos: consulte a
+          <a href="#creditos">seção de créditos</a>.
+        </div>
       </div>
     </section>
 
@@ -738,8 +731,8 @@
             <strong style="color: var(--verde-osb);">Onda 3 — Concluída</strong>
             <ul style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
               <li>Unidades municipais por tipo (unidade física, setor, categoria)</li>
-              <li>Canonização de locais de trabalho (local_map.csv)</li>
-              <li>Canonização de cargos com escolaridade real (cargo_map.csv)</li>
+              <li>Canonização de locais de trabalho</li>
+              <li>Canonização de cargos com escolaridade real</li>
               <li>Drill-down por unidade nominal</li>
             </ul>
           </div>
@@ -863,14 +856,15 @@
 
   <noscript>
     <div class="aviso-metodologico" style="margin: 2rem auto; max-width: 800px;">
-      <strong>Este painel usa JavaScript para carregar os arquivos CSV/JSON e renderizar gráficos.</strong>
-      Sem JavaScript, os dados brutos continuam disponíveis na pasta <a href="dados/">dados/</a>.
+      <strong>Este painel usa JavaScript para carregar os dados e renderizar gráficos.</strong>
+      Sem JavaScript, os dados brutos continuam disponíveis na pasta
+      <a href="dados/excel/">dados/excel/</a> (formato XLSX).
     </div>
   </noscript>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-  <script src="assets/app.js?v=5" defer></script>
-  <script src="assets/pagina_sobre.js?v=5" defer></script>
+  <script src="assets/app.js?v=6" defer></script>
+  <script src="assets/pagina_sobre.js?v=6" defer></script>
 </body>
 </html>
